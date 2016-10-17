@@ -1,0 +1,48 @@
+package cz.muni.fi.pa165.hountedhouses.dao;
+
+import cz.muni.fi.pa165.hountedhouses.entity.House;
+import java.util.List;
+
+/**
+ * Created by Ondro on 17-Oct-16.
+ */
+public interface HouseDao {
+
+    /**
+     * Save new house to DB
+     *
+     * @param house entity to be persisted
+     */
+    void create(House house);
+
+    /**
+     * Update already saved House in DB
+     *
+     * @param house to be updated
+     * @return updated haouse
+     */
+    House update(House house);
+
+    /**
+     * Removes house from DB
+     *
+     * @param house to be removed
+     */
+    void remove(House house);
+
+    /**
+     * search for House by its specific id
+     *
+     * @param id of house to be look for
+     * @return specific house
+     */
+    House findById(Long id);
+
+    /**
+     * gives you all houses stored in DB
+     *
+     * @return all houses
+     */
+    List<House> findAll();
+
+}
