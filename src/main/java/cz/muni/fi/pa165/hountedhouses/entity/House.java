@@ -2,12 +2,14 @@ package cz.muni.fi.pa165.hountedhouses.entity;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Created by Ondro on 17-Oct-16.
  */
 @Entity
-@Table(name = "Users")
+@Table(name = "Houses")
 public class House {
 
     @Id
@@ -18,7 +20,11 @@ public class House {
     private String address;
 
     @NotNull
+    @Column(nullable = false, unique = true)
     private String name;
+
+    @ManyToMany
+    private Set<Monster> monsters = new HashSet<>();
 
     public House(){
     }
@@ -49,5 +55,48 @@ public class House {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Set<Monster> getMonsters() {
+        return monsters;
+    }
+
+    public void setMonsters(Set<Monster> monsters) {
+        this.monsters = monsters;
+    }
+
+    public void addMonster(Monster monster){
+        this.monsters.add(monster);
+        //monster.addHouse(this);
+    }
+
+    public void removeMonster(Monster monster){
+        this.monsters.remove(monster);
+    }
+
+    @Override
+    public boolean equals(Object obj){
+        if(this == obj)
+            return true;
+        if(obj == null)
+            return false;
+        if(!(obj instanceof House))
+            return false;
+
+        House house = (House) obj;
+        if(name == null){
+            if(house.name != null)
+                return false;
+        }
+        else{
+            if(name.equals(house.name))
+                return true;
+        }
+        return false;
+    }
+
+    @Override
+    public int hashCode(){
+        return name != null ? name.hashCode() : 0;
     }
 }

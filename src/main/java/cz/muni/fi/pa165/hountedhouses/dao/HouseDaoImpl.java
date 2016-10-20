@@ -3,9 +3,7 @@ package cz.muni.fi.pa165.hountedhouses.dao;
 import cz.muni.fi.pa165.hountedhouses.entity.House;
 import org.springframework.stereotype.Repository;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.TypedQuery;
+import javax.persistence.*;
 import javax.validation.ConstraintViolationException;
 import java.util.List;
 
@@ -45,5 +43,16 @@ public class HouseDaoImpl implements HouseDao {
     public List<House> findAll() {
         TypedQuery<House> query = entityManager.createQuery("SELECT h FROM House h", House.class);
         return query.getResultList();
+    }
+
+    @Override
+    public House findByName(String name){
+        try {
+            TypedQuery<House> q = entityManager.createQuery("SELECT h FROM House h WHERE h.name = :givenName",
+                    House.class).setParameter("givenName", name);
+            return q.getSingleResult();
+        } catch (NoResultException e) {
+            return null;
+        }
     }
 }

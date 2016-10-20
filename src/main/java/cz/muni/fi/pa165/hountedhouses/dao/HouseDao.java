@@ -45,4 +45,11 @@ public interface HouseDao {
      */
     List<House> findAll();
 
+    /**
+     * find specific house by it's name
+     *
+     * @param name given name
+     * @return specific house, is found
+     */
+    public House findByName(String name);
 }
