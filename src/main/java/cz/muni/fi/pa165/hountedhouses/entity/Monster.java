@@ -75,16 +75,15 @@ public class Monster {
     }
 
     public void setHauntedIntervalEnd(Date hauntedIntervalEnd) {
-        if (!hauntedIntervalEnd.after(this.hauntedIntervalStart)
-                || this.hauntedIntervalStart == null) {
-            return;
+        if (!hauntedIntervalEnd.after(this.hauntedIntervalStart)){
+            throw new IllegalArgumentException("end of hauntedInterval si before start");
         }
         this.hauntedIntervalEnd = hauntedIntervalEnd;
     }
 
     public void setHauntedIntervalStart(Date hauntedIntervalStart) {
         if (!hauntedIntervalStart.before(hauntedIntervalEnd)) {
-            return;
+            throw new IllegalArgumentException("start of hauntedInterval si after end");
         }
 
         this.hauntedIntervalStart = hauntedIntervalStart;
