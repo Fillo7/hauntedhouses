@@ -14,8 +14,10 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 /**
- *
+ * Ability of a monster.
+ * ID and name forms a primary key.
  * @author Kristýna Loukotová
+ * @version 21.10.2016
  */
 @Entity
 @Table(name = "Abilities")
@@ -57,7 +59,6 @@ public class Ability {
     public int hashCode() {
         int hash = 3;
         hash = 67 * hash + Objects.hashCode(this.id);
-        hash = 67 * hash + Objects.hashCode(this.name);
         return hash;
     }
 
@@ -74,13 +75,7 @@ public class Ability {
         }
 
         final Ability other = (Ability) obj;
-        if (this.getId() == null || !Objects.equals(this.getId(), other.getId())) {
-            return false;
-        }
-        if (!Objects.equals(this.getName(), other.getName())) {
-            return false;
-        }
-        
-        return true;
+        return this.getId() != null 
+                && !Objects.equals(this.getId(), other.getId());
     }
 }
