@@ -17,16 +17,16 @@ public interface CursedObjectDao {
     /**
      * Updates existing cursed object.
      * @param cursedObject Cursed object to be updated.
-     * @throws IllegalArgumentException when cursedObject is null or id is null.
+     * @throws IllegalArgumentException when cursedObject is null.
      */
     void updateCursedObject(CursedObject cursedObject);
     
     /**
      * Deletes existing cursed object.
-     * @param id Id of a cursed object to be deleted.
-     * @throws IllegalArgumentException when id is null.
+     * @param cursedObject Cursed object to be deleted.
+     * @throws IllegalArgumentException when cursed object is null.
      */
-    void deleteCursedObject(Long id);
+    void deleteCursedObject(CursedObject cursedObject);
     
     /**
      * Returns existing cursed object with given id.

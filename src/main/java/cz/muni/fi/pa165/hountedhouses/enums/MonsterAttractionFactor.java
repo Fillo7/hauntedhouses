@@ -1,4 +1,4 @@
-package cz.muni.fi.pa165.hountedhouses;
+package cz.muni.fi.pa165.hountedhouses.enums;
 
 /**
  * @author Filip Petrovic (422334)

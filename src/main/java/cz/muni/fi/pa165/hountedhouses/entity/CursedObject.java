@@ -1,16 +1,20 @@
 package cz.muni.fi.pa165.hountedhouses.entity;
 
-import cz.muni.fi.pa165.hountedhouses.MonsterAttractionFactor;
+import cz.muni.fi.pa165.hountedhouses.enums.MonsterAttractionFactor;
 import java.util.Objects;
+import javax.persistence.Entity;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 /**
  * @author Filip Petrovic (422334)
  */
+@Entity
+@Table(name = "CursedObject")
 public class CursedObject {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,11 +27,18 @@ public class CursedObject {
     private String description;
     
     @Enumerated
+    @NotNull
     private MonsterAttractionFactor monsterAttractionFactor;
 
     public CursedObject() {}
 
-    public CursedObject(Long id) { this.id = id; }
+    public CursedObject(Long id, String name, String description,
+                        MonsterAttractionFactor monsterAttractionFactor) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.monsterAttractionFactor = monsterAttractionFactor;
+    }
 
     public Long getId() { return id; }
 
@@ -41,7 +52,9 @@ public class CursedObject {
 
     public void setDescription(String description) { this.description = description; }
     
-    public MonsterAttractionFactor getMonsterAttractionFactor() { return monsterAttractionFactor; }
+    public MonsterAttractionFactor getMonsterAttractionFactor() {
+        return monsterAttractionFactor;
+    }
 
     public void setMonsterAttractionFactor(MonsterAttractionFactor monsterAttractionFactor) {
         this.monsterAttractionFactor = monsterAttractionFactor;
@@ -49,8 +62,7 @@ public class CursedObject {
 
     @Override
     public boolean equals(Object other) {
-        if(!(other instanceof CursedObject))
-        {
+        if(!(other instanceof CursedObject)) {
             return false;
         }
         
