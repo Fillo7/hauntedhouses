@@ -1,6 +1,6 @@
-package cz.muni.fi.pa165.hountedhouses.dao;
+package cz.muni.fi.pa165.hauntedhouses.dao;
 
-import cz.muni.fi.pa165.hountedhouses.entity.House;
+import cz.muni.fi.pa165.hauntedhouses.entity.House;
 import java.util.List;
 
 /**

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package cz.muni.fi.pa165.hountedhouses.entity;
+package cz.muni.fi.pa165.hauntedhouses.entity;
 
 import java.util.Objects;
 import javax.persistence.Entity;

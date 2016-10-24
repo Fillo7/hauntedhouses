@@ -1,9 +1,10 @@
-package cz.muni.fi.pa165.hountedhouses.dao;
+package cz.muni.fi.pa165.hauntedhouses.dao;
 
-import cz.muni.fi.pa165.hountedhouses.entity.House;
+import cz.muni.fi.pa165.hauntedhouses.entity.House;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.*;
+import javax.transaction.Transactional;
 import javax.validation.ConstraintViolationException;
 import java.util.List;
 
@@ -11,6 +12,7 @@ import java.util.List;
  * Created by User on 17-Oct-16.
  */
 @Repository
+@Transactional
 public class HouseDaoImpl implements HouseDao {
 
     @PersistenceContext

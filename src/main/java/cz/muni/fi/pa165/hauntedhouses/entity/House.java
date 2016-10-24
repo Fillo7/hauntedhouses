@@ -1,4 +1,4 @@
-package cz.muni.fi.pa165.hountedhouses.entity;
+package cz.muni.fi.pa165.hauntedhouses.entity;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;

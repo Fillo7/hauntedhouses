@@ -1,4 +1,4 @@
-package cz.muni.fi.pa165.hountedhouses;
+package cz.muni.fi.pa165.hauntedhouses;
 
 import javax.persistence.EntityManagerFactory;
 	

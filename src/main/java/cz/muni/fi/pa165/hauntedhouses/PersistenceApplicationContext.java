@@ -1,5 +1,6 @@
-package cz.muni.fi.pa165.hountedhouses;
+package cz.muni.fi.pa165.hauntedhouses;
 
+import cz.muni.fi.pa165.hauntedhouses.dao.MonsterDao;
 import org.hibernate.jpa.HibernatePersistenceProvider;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;

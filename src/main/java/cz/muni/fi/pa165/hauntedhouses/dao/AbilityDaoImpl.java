@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package cz.muni.fi.pa165.hountedhouses.dao;
+package cz.muni.fi.pa165.hauntedhouses.dao;
 
-import cz.muni.fi.pa165.hountedhouses.entity.Ability;
+import cz.muni.fi.pa165.hauntedhouses.entity.Ability;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
