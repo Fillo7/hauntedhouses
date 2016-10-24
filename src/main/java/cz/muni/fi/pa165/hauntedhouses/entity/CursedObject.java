@@ -7,6 +7,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
@@ -29,15 +30,20 @@ public class CursedObject {
     @Enumerated
     @NotNull
     private MonsterAttractionFactor monsterAttractionFactor;
-
+    
+    @ManyToOne(optional=false)
+    @NotNull
+    private House house;
+    
     public CursedObject() {}
 
     public CursedObject(Long id, String name, String description,
-                        MonsterAttractionFactor monsterAttractionFactor) {
+                        MonsterAttractionFactor monsterAttractionFactor, House house) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.monsterAttractionFactor = monsterAttractionFactor;
+        this.house = house;
     }
 
     public Long getId() { return id; }
@@ -59,6 +65,10 @@ public class CursedObject {
     public void setMonsterAttractionFactor(MonsterAttractionFactor monsterAttractionFactor) {
         this.monsterAttractionFactor = monsterAttractionFactor;
     }
+    
+    public House getHouse() { return house; }
+
+    public void setHouse(House house) { this.house = house; }
 
     @Override
     public boolean equals(Object other) {
