@@ -8,10 +8,15 @@ package cz.muni.fi.pa165.hauntedhouses.entity;
 import java.util.Date;
 import java.util.Objects;
 import javax.persistence.Entity;
+import java.util.HashSet;
+import java.util.Set;
+import javax.persistence.Column;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -30,6 +35,7 @@ public class Monster {
     private Long id;
     
     @NotNull
+    @Column(unique = true)
     private String name;
     
     @NotNull
@@ -43,6 +49,13 @@ public class Monster {
     @Temporal(TemporalType.TIME)
     private Date hauntedIntervalEnd;
 
+    
+    @ManyToOne
+    private House house;
+    
+    @ManyToMany
+    private Set<Ability> abilities = new HashSet<>(); 
+    
     public Monster() {
     }
     
@@ -75,22 +88,39 @@ public class Monster {
     }
 
     public void setHauntedIntervalEnd(Date hauntedIntervalEnd) {
-        if(this.hauntedIntervalStart != null){
             if (!hauntedIntervalEnd.after(this.hauntedIntervalStart)){
                 throw new IllegalArgumentException("end of hauntedInterval si before start");
             }
-        }
         this.hauntedIntervalEnd = hauntedIntervalEnd;
     }
 
     public void setHauntedIntervalStart(Date hauntedIntervalStart) {
-        if(this.hauntedIntervalEnd != null){
-            if (!hauntedIntervalStart.before(hauntedIntervalEnd)) {
+        if (!hauntedIntervalStart.before(hauntedIntervalEnd)) {
                 throw new IllegalArgumentException("start of hauntedInterval si after end");
             }
-        }
         this.hauntedIntervalStart = hauntedIntervalStart;
     }
+
+    public House getHouse() {
+        return house;
+    }
+
+    public void addHouse(House house) {
+        if(this.house != null){
+            return;
+        }
+        this.house = house;
+        house.addMonster(this);
+    }
+
+    public Set<Ability> getAbilities() {
+        return abilities;
+    }
+
+    public void addAbility(Ability ability) {
+        this.abilities.add(ability);
+    }
+    
     
     @Override
     public boolean equals(Object obj) {
