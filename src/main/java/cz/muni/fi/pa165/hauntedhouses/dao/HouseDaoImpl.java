@@ -19,12 +19,12 @@ public class HouseDaoImpl implements HouseDao {
     private EntityManager entityManager;
 
     @Override
-    public void create(House house) throws ConstraintViolationException {
+    public void create(House house) {
         entityManager.persist(house);
     }
 
     @Override
-    public House update(House house) throws ConstraintViolationException {
+    public House update(House house) {
         return entityManager.merge(house);
     }
 
