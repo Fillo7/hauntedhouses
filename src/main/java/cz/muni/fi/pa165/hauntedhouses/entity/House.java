@@ -61,13 +61,8 @@ public class House {
         return monsters;
     }
 
-    public void setMonsters(Set<Monster> monsters) {
-        this.monsters = monsters;
-    }
-
     public void addMonster(Monster monster){
         this.monsters.add(monster);
-        //monster.addHouse(this);
     }
 
     public void removeMonster(Monster monster){
