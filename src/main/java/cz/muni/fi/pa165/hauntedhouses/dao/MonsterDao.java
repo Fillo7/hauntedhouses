@@ -21,7 +21,7 @@ public interface MonsterDao {
     *
     * @param monster to be updated
     */
-    public void update(Monster monster);
+    public Monster update(Monster monster);
     /*
     * delete monster from DB
     *

@@ -6,7 +6,6 @@
 package cz.muni.fi.pa165.hauntedhouses.entity;
 
 import java.time.LocalTime;
-import java.util.Date;
 import java.util.Objects;
 import javax.persistence.Entity;
 import java.util.HashSet;
@@ -19,8 +18,6 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -43,14 +40,11 @@ public class Monster {
     private String description;
     
     @NotNull
-    @Temporal(TemporalType.TIME)
     private LocalTime hauntedIntervalStart;
-    
+
     @NotNull
-    @Temporal(TemporalType.TIME)
     private LocalTime hauntedIntervalEnd;
 
-    
     @ManyToOne
     private House house;
     
@@ -90,7 +84,7 @@ public class Monster {
 
     public void setHauntedIntervalEnd(LocalTime hauntedIntervalEnd) {
         if(this.hauntedIntervalStart != null){
-            if (!hauntedIntervalEnd.isBefore(this.hauntedIntervalStart)){
+            if (hauntedIntervalEnd.isBefore(this.hauntedIntervalStart)){
                 throw new IllegalArgumentException("end of hauntedInterval si before start");
             }
         }
@@ -99,7 +93,7 @@ public class Monster {
 
     public void setHauntedIntervalStart(LocalTime hauntedIntervalStart) {
         if(this.hauntedIntervalEnd != null){
-            if (!hauntedIntervalStart.isBefore(hauntedIntervalEnd)) {
+            if (hauntedIntervalStart.isAfter(hauntedIntervalEnd)) {
                 throw new IllegalArgumentException("start of hauntedInterval si after end");
             }
         }
