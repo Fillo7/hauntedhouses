@@ -3,7 +3,6 @@ package cz.muni.fi.pa165.hauntedhouses.dao;
 import cz.muni.fi.pa165.hauntedhouses.PersistenceApplicationContext;
 import cz.muni.fi.pa165.hauntedhouses.entity.House;
 import cz.muni.fi.pa165.hauntedhouses.entity.Monster;
-import org.springframework.dao.DataAccessException;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
@@ -12,14 +11,8 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import javax.inject.Inject;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.transaction.Transactional;
 import javax.validation.ValidationException;
-import javax.validation.constraints.NotNull;
 import java.time.LocalTime;
-import java.util.Calendar;
-import java.util.Date;
 
 /**
  * Created by Ondro on 20-Oct-16.
@@ -45,36 +38,26 @@ public class MonsterDaoTest extends AbstractTestNGSpringContextTests {
         h1.setName("Vila u Vila Rozborila");
         h1.setAddress("Koliba, Bratislava");
 
-        Calendar startCalCat = Calendar.getInstance();
-        startCalCat.set(Calendar.HOUR_OF_DAY, 10);
-        startCalCat.set(Calendar.MINUTE, 15);
-
-        Calendar endCalCat = Calendar.getInstance();
-        endCalCat.set(Calendar.HOUR_OF_DAY, 15);
-        endCalCat.set(Calendar.MINUTE, 45);
+        LocalTime startCat = LocalTime.of(10, 15, 24);
+        LocalTime endCat = LocalTime.of(15, 24, 2);
 
         cat = new Monster();
-        cat.setHauntedIntervalStart(startCalCat.getTime());
-        cat.setHauntedIntervalEnd(endCalCat.getTime());
+        cat.setHauntedIntervalStart(startCat);
+        cat.setHauntedIntervalEnd(endCat);
         cat.setName("Cicka");
         cat.setDescription("Cicka Micka zlatunka");
 
-        Calendar startCaldogWithNullName = Calendar.getInstance();
-        startCaldogWithNullName.set(Calendar.HOUR_OF_DAY, 17);
-        startCaldogWithNullName.set(Calendar.MINUTE, 41);
-
-        Calendar endCaldogWithNullName = Calendar.getInstance();
-        endCaldogWithNullName.set(Calendar.HOUR_OF_DAY, 19);
-        endCaldogWithNullName.set(Calendar.MINUTE, 18);
+        LocalTime startDogNullName = LocalTime.of(17, 41, 0);
+        LocalTime endDogNullName = LocalTime.of(19, 18, 2);
 
         dogWithNullName = new Monster();
-        dogWithNullName.setHauntedIntervalStart(startCalCat.getTime());
-        dogWithNullName.setHauntedIntervalEnd(endCalCat.getTime());
+        dogWithNullName.setHauntedIntervalStart(startDogNullName);
+        dogWithNullName.setHauntedIntervalEnd(endDogNullName);
         dogWithNullName.setDescription("k nohe psisko");
 
         dogWithNullDesc= new Monster();
-        dogWithNullDesc.setHauntedIntervalStart(startCalCat.getTime());
-        dogWithNullDesc.setHauntedIntervalEnd(endCalCat.getTime());
+        dogWithNullDesc.setHauntedIntervalStart(startCat);
+        dogWithNullDesc.setHauntedIntervalEnd(endCat);
         dogWithNullDesc.setName("Hafko");
 
     }
