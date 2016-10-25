@@ -25,8 +25,8 @@ public class MonsterDaoImpl implements MonsterDao {
     }
 
     @Override
-    public void update(Monster monster) {
-        em.merge(monster);
+    public Monster update(Monster monster) {
+        return em.merge(monster);
     }
 
     @Override

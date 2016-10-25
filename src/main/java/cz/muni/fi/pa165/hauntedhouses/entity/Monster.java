@@ -5,7 +5,7 @@
  */
 package cz.muni.fi.pa165.hauntedhouses.entity;
 
-import java.util.Date;
+import java.time.LocalTime;
 import java.util.Objects;
 import javax.persistence.Entity;
 import java.util.HashSet;
@@ -18,8 +18,6 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -42,14 +40,11 @@ public class Monster {
     private String description;
     
     @NotNull
-    @Temporal(TemporalType.TIME)
-    private Date hauntedIntervalStart;
-    
-    @NotNull
-    @Temporal(TemporalType.TIME)
-    private Date hauntedIntervalEnd;
+    private LocalTime hauntedIntervalStart;
 
-    
+    @NotNull
+    private LocalTime hauntedIntervalEnd;
+
     @ManyToOne
     private House house;
     
@@ -71,11 +66,11 @@ public class Monster {
         return description;
     }
 
-    public Date getHauntedIntervalEnd() {
+    public LocalTime getHauntedIntervalEnd() {
         return hauntedIntervalEnd;
     }
 
-    public Date getHauntedIntervalStart() {
+    public LocalTime getHauntedIntervalStart() {
         return hauntedIntervalStart;
     }
 
@@ -87,18 +82,18 @@ public class Monster {
         this.description = description;
     }
 
-    public void setHauntedIntervalEnd(Date hauntedIntervalEnd) {
+    public void setHauntedIntervalEnd(LocalTime hauntedIntervalEnd) {
         if(this.hauntedIntervalStart != null){
-            if (!hauntedIntervalEnd.after(this.hauntedIntervalStart)){
+            if (hauntedIntervalEnd.isBefore(this.hauntedIntervalStart)){
                 throw new IllegalArgumentException("end of hauntedInterval si before start");
             }
         }
         this.hauntedIntervalEnd = hauntedIntervalEnd;
     }
 
-    public void setHauntedIntervalStart(Date hauntedIntervalStart) {
+    public void setHauntedIntervalStart(LocalTime hauntedIntervalStart) {
         if(this.hauntedIntervalEnd != null){
-            if (!hauntedIntervalStart.before(hauntedIntervalEnd)) {
+            if (hauntedIntervalStart.isAfter(hauntedIntervalEnd)) {
                 throw new IllegalArgumentException("start of hauntedInterval si after end");
             }
         }
@@ -109,12 +104,8 @@ public class Monster {
         return house;
     }
 
-    public void addHouse(House house) {
-        if(this.house != null){
-            return;
-        }
+    public void setHouse(House house) {
         this.house = house;
-        house.addMonster(this);
     }
 
     public Set<Ability> getAbilities() {
@@ -148,7 +139,7 @@ public class Monster {
     @Override
     public int hashCode() {
         int hash = 5;
-        hash = 29 * hash + Objects.hashCode(this.id);
+        hash = 29 * hash + Objects.hashCode(this.name);
         return hash;
     }
 }
