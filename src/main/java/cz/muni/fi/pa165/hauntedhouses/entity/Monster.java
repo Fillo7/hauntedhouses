@@ -145,7 +145,7 @@ public class Monster {
     @Override
     public int hashCode() {
         int hash = 5;
-        hash = 29 * hash + Objects.hashCode(this.getName());
+        hash = 29 * hash + Objects.hashCode(this.name);
         return hash;
     }
 }
