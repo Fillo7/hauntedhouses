@@ -1,7 +1,6 @@
 package cz.muni.fi.pa165.hauntedhouses.entity;
 
 import cz.muni.fi.pa165.hauntedhouses.enums.MonsterAttractionFactor;
-import java.util.Objects;
 import javax.persistence.Entity;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
@@ -82,7 +81,7 @@ public class CursedObject {
     @Override
     public int hashCode() {
         int hash = 3;
-        hash = 53 * hash + Objects.hashCode(this.id);
+        hash = 53 * hash + ((name == null) ? 0 : name.hashCode());
         return hash;
     }
 }
