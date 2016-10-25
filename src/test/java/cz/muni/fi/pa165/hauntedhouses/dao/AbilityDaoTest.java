@@ -3,27 +3,25 @@ package cz.muni.fi.pa165.hauntedhouses.dao;
 import cz.muni.fi.pa165.hauntedhouses.PersistenceApplicationContext;
 import cz.muni.fi.pa165.hauntedhouses.entity.Ability;
 import java.util.List;
+import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.transaction.Transactional;
 import org.junit.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
-import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
 import org.testng.Assert;
 
 /**
  * @author Filip Petrovic (422334)
  */
 @ContextConfiguration(classes=PersistenceApplicationContext.class)
-@TestExecutionListeners(TransactionalTestExecutionListener.class)
-@Transactional
 public class AbilityDaoTest extends AbstractTestNGSpringContextTests {
-    @Autowired
+    @Inject
     private AbilityDao abilityDao;
-	
+    
+    @Inject
+    private MonsterDao monsterDao;
+    
     @PersistenceContext 
     private EntityManager entityManager;
     

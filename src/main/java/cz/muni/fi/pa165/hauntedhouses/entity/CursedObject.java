@@ -36,15 +36,6 @@ public class CursedObject {
     
     public CursedObject() {}
 
-    public CursedObject(Long id, String name, String description,
-                        MonsterAttractionFactor monsterAttractionFactor, House house) {
-        this.id = id;
-        this.name = name;
-        this.description = description;
-        this.monsterAttractionFactor = monsterAttractionFactor;
-        this.house = house;
-    }
-
     public Long getId() { return id; }
 
     public void setId(Long id) { this.id = id; }
@@ -75,7 +66,11 @@ public class CursedObject {
             return false;
         }
         
-        return id.equals(((CursedObject)other).id);
+        if(name == null && ((CursedObject)other).getName() != null) {
+            return false;
+        }
+        
+        return name.equals(((CursedObject)other).getName());
     }
 
     @Override

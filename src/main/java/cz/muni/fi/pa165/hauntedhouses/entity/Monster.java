@@ -6,6 +6,7 @@
 package cz.muni.fi.pa165.hauntedhouses.entity;
 
 import java.time.LocalTime;
+import java.util.Collections;
 import java.util.Objects;
 import javax.persistence.Entity;
 import java.util.HashSet;
@@ -45,10 +46,10 @@ public class Monster {
     @NotNull
     private LocalTime hauntedIntervalEnd;
 
-    @ManyToOne
+    @ManyToOne(optional=false)
     private House house;
     
-    @ManyToMany
+    @ManyToMany(mappedBy="monsters")
     private Set<Ability> abilities = new HashSet<>(); 
     
     public Monster() {
@@ -109,13 +110,16 @@ public class Monster {
     }
 
     public Set<Ability> getAbilities() {
-        return abilities;
+        return Collections.unmodifiableSet(abilities);
     }
 
     public void addAbility(Ability ability) {
         this.abilities.add(ability);
     }
     
+    public void removeAbility(Ability ability){
+        this.abilities.remove(ability);
+    }
     
     @Override
     public boolean equals(Object obj) {

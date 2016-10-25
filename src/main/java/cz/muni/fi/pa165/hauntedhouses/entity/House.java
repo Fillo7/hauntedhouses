@@ -1,5 +1,6 @@
 package cz.muni.fi.pa165.hauntedhouses.entity;
 
+import java.util.Collections;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.HashSet;
@@ -23,8 +24,11 @@ public class House {
     @Column(nullable = false, unique = true)
     private String name;
 
-    @ManyToMany
+    @OneToMany(mappedBy="house")
     private Set<Monster> monsters = new HashSet<>();
+    
+    @OneToMany(mappedBy="house")
+    private Set<CursedObject> cursedObjects = new HashSet<>();
 
     public House(){
     }
@@ -58,7 +62,7 @@ public class House {
     }
 
     public Set<Monster> getMonsters() {
-        return monsters;
+        return Collections.unmodifiableSet(monsters);
     }
 
     public void addMonster(Monster monster){
@@ -67,6 +71,18 @@ public class House {
 
     public void removeMonster(Monster monster){
         this.monsters.remove(monster);
+    }
+    
+    public Set<CursedObject> getCursedObjects() {
+        return Collections.unmodifiableSet(cursedObjects);
+    }
+
+    public void addCursedObject(CursedObject cursedObject){
+        this.cursedObjects.add(cursedObject);
+    }
+
+    public void removeCursedObject(CursedObject cursedObject){
+        this.cursedObjects.remove(cursedObject);
     }
 
     @Override

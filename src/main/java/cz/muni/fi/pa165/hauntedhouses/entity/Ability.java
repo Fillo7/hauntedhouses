@@ -5,11 +5,15 @@
  */
 package cz.muni.fi.pa165.hauntedhouses.entity;
 
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
@@ -31,7 +35,9 @@ public class Ability {
     private String name;
     
     private String description;
-
+    
+    @ManyToMany
+    private Set<Monster> monsters = new HashSet<>(); 
     /*** Getters and setters ***/
     
     public Long getId() {
@@ -51,6 +57,18 @@ public class Ability {
     }
     public void setDescription(String description) {
         this.description = description;
+    }
+    
+    public Set<Monster> getMonsters() {
+        return Collections.unmodifiableSet(monsters);
+    }
+
+    public void addMonster(Monster monster) {
+        this.monsters.add(monster);
+    }
+    
+    public void removeMonster(Monster monster){
+        this.monsters.remove(monster);
     }
     
     /*** Equals and hash code ***/
