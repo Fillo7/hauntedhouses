@@ -15,7 +15,9 @@ import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
+import javax.validation.ValidationException;
 import javax.validation.constraints.NotNull;
+import java.time.LocalTime;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -34,14 +36,14 @@ public class MonsterDaoTest extends AbstractTestNGSpringContextTests {
 
     private House h1;
     private Monster cat;
-    private Monster dog;
+    private Monster dogWithNullName;
+    private Monster dogWithNullDesc;
 
     @BeforeMethod
     public void setMonsters(){
         h1 = new House();
         h1.setName("Vila u Vila Rozborila");
         h1.setAddress("Koliba, Bratislava");
-//        houseDao.create(h1);
 
         Calendar startCalCat = Calendar.getInstance();
         startCalCat.set(Calendar.HOUR_OF_DAY, 10);
@@ -56,39 +58,64 @@ public class MonsterDaoTest extends AbstractTestNGSpringContextTests {
         cat.setHauntedIntervalEnd(endCalCat.getTime());
         cat.setName("Cicka");
         cat.setDescription("Cicka Micka zlatunka");
-//        monsterDao.create(cat);
 
-        Calendar startCalDog = Calendar.getInstance();
-        startCalDog.set(Calendar.HOUR_OF_DAY, 17);
-        startCalDog.set(Calendar.MINUTE, 41);
+        Calendar startCaldogWithNullName = Calendar.getInstance();
+        startCaldogWithNullName.set(Calendar.HOUR_OF_DAY, 17);
+        startCaldogWithNullName.set(Calendar.MINUTE, 41);
 
-        Calendar endCalDog = Calendar.getInstance();
-        endCalDog.set(Calendar.HOUR_OF_DAY, 19);
-        endCalDog.set(Calendar.MINUTE, 18);
+        Calendar endCaldogWithNullName = Calendar.getInstance();
+        endCaldogWithNullName.set(Calendar.HOUR_OF_DAY, 19);
+        endCaldogWithNullName.set(Calendar.MINUTE, 18);
 
-        dog = new Monster();
-        dog.setHauntedIntervalStart(startCalCat.getTime());
-        dog.setHauntedIntervalEnd(endCalCat.getTime());
-        dog.setName("Porsche");
-        dog.setDescription("k nohe psisko");
-//        monsterDao.create(dog);
+        dogWithNullName = new Monster();
+        dogWithNullName.setHauntedIntervalStart(startCalCat.getTime());
+        dogWithNullName.setHauntedIntervalEnd(endCalCat.getTime());
+        dogWithNullName.setDescription("k nohe psisko");
+
+        dogWithNullDesc= new Monster();
+        dogWithNullDesc.setHauntedIntervalStart(startCalCat.getTime());
+        dogWithNullDesc.setHauntedIntervalEnd(endCalCat.getTime());
+        dogWithNullDesc.setName("Hafko");
+
     }
 
-//    @BeforeMethod
-//    public void setRelations(){
-//        House myHouse = houseDao.findAll().get(0);
-//        myHouse.addMonster(monsterDao.findAll().get(0));
-//        houseDao.update(myHouse);
-//    }
-
     @Test
-    public void testCreateMonster() {
+    public void createMonsterTest() {
         monsterDao.create(cat);
     }
 
-    @Test(expectedExceptions = DataAccessException.class)
-    public void testCreateMonsterNull(){
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void createMonsterNullTest(){
         monsterDao.create(null);
     }
 
+    @Test(expectedExceptions = ValidationException.class)
+    public void createMonsterNameNullTest(){
+        monsterDao.create(dogWithNullName);
+    }
+
+    @Test(expectedExceptions = ValidationException.class)
+    public void createMonsterDescriptionNullTest(){
+        monsterDao.create(dogWithNullDesc);
+    }
+
+    @Test
+    public void testUpdateName(){
+        monsterDao.create(cat);
+        cat.setName("NovaCica");
+        Monster updated = monsterDao.update(cat);
+        Assert.assertEquals(updated.getName(), "NovaCica");
+        assertDeepEquals(updated, cat);
+    }
+
+    private void assertDeepEquals(Monster m1, Monster m2){
+        Assert.assertEquals(m1, m2);
+        Assert.assertEquals(m1.getId(), m2.getId());
+        Assert.assertEquals(m1.getName(), m2.getName());
+        Assert.assertEquals(m1.getDescription(), m2.getDescription());
+        Assert.assertEquals(m1.getHauntedIntervalEnd(), m2.getHauntedIntervalEnd());
+        Assert.assertEquals(m1.getHauntedIntervalStart(), m2.getHauntedIntervalStart());
+        Assert.assertEquals(m1.getHouse(), m2.getHouse());
+        Assert.assertEquals(m1.getAbilities(), m2.getAbilities());
+    }
 }
