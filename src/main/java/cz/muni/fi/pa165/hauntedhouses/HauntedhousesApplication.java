@@ -11,6 +11,6 @@ public class HauntedhousesApplication {
         // Start in-memory database
         new AnnotationConfigApplicationContext(PersistenceApplicationContext.class);
         
-        emf = Persistence.createEntityManagerFactory("cz.muni.fi.pa165.hountedhouses_hauntedhouses_jar_1.0-SNAPSHOTPU");
+        emf = Persistence.createEntityManagerFactory("cz.muni.fi.pa165.hountedhouses");
     }
 }

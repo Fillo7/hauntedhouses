@@ -4,12 +4,14 @@ import cz.muni.fi.pa165.hauntedhouses.entity.CursedObject;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.transaction.Transactional;
 import org.springframework.stereotype.Repository;
 
 /**
  * @author Filip Petrovic (422334)
  */
 @Repository
+@Transactional
 public class CursedObjectDaoImpl implements CursedObjectDao {
     @PersistenceContext
     private EntityManager entityManager;

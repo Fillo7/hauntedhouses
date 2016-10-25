@@ -70,8 +70,8 @@ public class AbilityDaoTest extends AbstractTestNGSpringContextTests {
         Assert.assertTrue(abilities.contains(assertSecond));	
     }
 	
-    @Test()
-    public void delete() {
+    @Test
+    public void testDelete() {
         Ability ability = new Ability();
         ability.setName("Freeze brain");
         ability.setDescription("Freezes brain.");
