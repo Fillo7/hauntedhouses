@@ -8,8 +8,6 @@ public class HauntedhousesApplication {
     private static EntityManagerFactory emf;
 
     public static void main(String[] args) {
-        // To do
-        
         // Start in-memory database
         new AnnotationConfigApplicationContext(PersistenceApplicationContext.class);
         
