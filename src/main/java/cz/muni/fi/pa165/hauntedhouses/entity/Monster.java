@@ -88,16 +88,20 @@ public class Monster {
     }
 
     public void setHauntedIntervalEnd(Date hauntedIntervalEnd) {
+        if(this.hauntedIntervalStart != null){
             if (!hauntedIntervalEnd.after(this.hauntedIntervalStart)){
                 throw new IllegalArgumentException("end of hauntedInterval si before start");
             }
+        }
         this.hauntedIntervalEnd = hauntedIntervalEnd;
     }
 
     public void setHauntedIntervalStart(Date hauntedIntervalStart) {
-        if (!hauntedIntervalStart.before(hauntedIntervalEnd)) {
+        if(this.hauntedIntervalEnd != null){
+            if (!hauntedIntervalStart.before(hauntedIntervalEnd)) {
                 throw new IllegalArgumentException("start of hauntedInterval si after end");
             }
+        }
         this.hauntedIntervalStart = hauntedIntervalStart;
     }
 
