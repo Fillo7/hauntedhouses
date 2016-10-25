@@ -5,6 +5,7 @@
  */
 package cz.muni.fi.pa165.hauntedhouses.entity;
 
+import java.time.LocalTime;
 import java.util.Date;
 import java.util.Objects;
 import javax.persistence.Entity;
@@ -43,11 +44,11 @@ public class Monster {
     
     @NotNull
     @Temporal(TemporalType.TIME)
-    private Date hauntedIntervalStart;
+    private LocalTime hauntedIntervalStart;
     
     @NotNull
     @Temporal(TemporalType.TIME)
-    private Date hauntedIntervalEnd;
+    private LocalTime hauntedIntervalEnd;
 
     
     @ManyToOne
@@ -71,11 +72,11 @@ public class Monster {
         return description;
     }
 
-    public Date getHauntedIntervalEnd() {
+    public LocalTime getHauntedIntervalEnd() {
         return hauntedIntervalEnd;
     }
 
-    public Date getHauntedIntervalStart() {
+    public LocalTime getHauntedIntervalStart() {
         return hauntedIntervalStart;
     }
 
@@ -87,18 +88,18 @@ public class Monster {
         this.description = description;
     }
 
-    public void setHauntedIntervalEnd(Date hauntedIntervalEnd) {
+    public void setHauntedIntervalEnd(LocalTime hauntedIntervalEnd) {
         if(this.hauntedIntervalStart != null){
-            if (!hauntedIntervalEnd.after(this.hauntedIntervalStart)){
+            if (!hauntedIntervalEnd.isBefore(this.hauntedIntervalStart)){
                 throw new IllegalArgumentException("end of hauntedInterval si before start");
             }
         }
         this.hauntedIntervalEnd = hauntedIntervalEnd;
     }
 
-    public void setHauntedIntervalStart(Date hauntedIntervalStart) {
+    public void setHauntedIntervalStart(LocalTime hauntedIntervalStart) {
         if(this.hauntedIntervalEnd != null){
-            if (!hauntedIntervalStart.before(hauntedIntervalEnd)) {
+            if (!hauntedIntervalStart.isBefore(hauntedIntervalEnd)) {
                 throw new IllegalArgumentException("start of hauntedInterval si after end");
             }
         }
@@ -109,12 +110,8 @@ public class Monster {
         return house;
     }
 
-    public void addHouse(House house) {
-        if(this.house != null){
-            return;
-        }
+    public void setHouse(House house) {
         this.house = house;
-        house.addMonster(this);
     }
 
     public Set<Ability> getAbilities() {
@@ -148,7 +145,7 @@ public class Monster {
     @Override
     public int hashCode() {
         int hash = 5;
-        hash = 29 * hash + Objects.hashCode(this.id);
+        hash = 29 * hash + Objects.hashCode(this.name);
         return hash;
     }
 }
