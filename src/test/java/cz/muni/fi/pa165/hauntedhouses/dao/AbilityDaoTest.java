@@ -27,7 +27,7 @@ public class AbilityDaoTest {
     }
     
     @Test(expected = IllegalArgumentException.class)
-    public void testAddNullAbility() {
+    public void testCreateNullAbility() {
         abilityDao.create(null);
     }
 }
