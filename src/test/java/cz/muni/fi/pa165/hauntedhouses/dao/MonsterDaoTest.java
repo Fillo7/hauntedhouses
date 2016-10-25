@@ -31,6 +31,8 @@ public class MonsterDaoTest extends AbstractTestNGSpringContextTests {
     private Monster cat;
     private Monster dogWithNullName;
     private Monster dogWithNullDesc;
+    private Monster dogWithNullStartTime;
+    private Monster dogWithNullEndTime;
 
     @BeforeMethod
     public void setMonsters(){
@@ -38,28 +40,31 @@ public class MonsterDaoTest extends AbstractTestNGSpringContextTests {
         h1.setName("Vila u Vila Rozborila");
         h1.setAddress("Koliba, Bratislava");
 
-        LocalTime startCat = LocalTime.of(10, 15, 24);
-        LocalTime endCat = LocalTime.of(15, 24, 2);
-
         cat = new Monster();
-        cat.setHauntedIntervalStart(startCat);
-        cat.setHauntedIntervalEnd(endCat);
+        cat.setHauntedIntervalStart(LocalTime.of(10, 15, 24));
+        cat.setHauntedIntervalEnd(LocalTime.of(15, 24, 2));
         cat.setName("Cicka");
         cat.setDescription("Cicka Micka zlatunka");
 
-        LocalTime startDogNullName = LocalTime.of(17, 41, 0);
-        LocalTime endDogNullName = LocalTime.of(19, 18, 2);
-
         dogWithNullName = new Monster();
-        dogWithNullName.setHauntedIntervalStart(startDogNullName);
-        dogWithNullName.setHauntedIntervalEnd(endDogNullName);
+        dogWithNullName.setHauntedIntervalStart(LocalTime.of(17, 41, 0));
+        dogWithNullName.setHauntedIntervalEnd(LocalTime.of(19, 18, 2));
         dogWithNullName.setDescription("k nohe psisko");
 
         dogWithNullDesc= new Monster();
-        dogWithNullDesc.setHauntedIntervalStart(startCat);
-        dogWithNullDesc.setHauntedIntervalEnd(endCat);
+        dogWithNullDesc.setHauntedIntervalStart(LocalTime.of(10, 15, 24));
+        dogWithNullDesc.setHauntedIntervalEnd(LocalTime.of(15, 24, 2));
         dogWithNullDesc.setName("Hafko");
 
+        dogWithNullStartTime= new Monster();
+        dogWithNullStartTime.setHauntedIntervalEnd(LocalTime.of(15, 24, 2));
+        dogWithNullStartTime.setName("Porsche");
+        dogWithNullStartTime.setDescription("tichy psik");
+
+        dogWithNullEndTime= new Monster();
+        dogWithNullEndTime.setHauntedIntervalStart(LocalTime.of(15, 24, 2));
+        dogWithNullEndTime.setName("Mazda");
+        dogWithNullEndTime.setDescription("hlucny psik");
     }
 
     @Test
@@ -72,6 +77,16 @@ public class MonsterDaoTest extends AbstractTestNGSpringContextTests {
         monsterDao.create(null);
     }
 
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void updateMonsterNullTest(){
+        monsterDao.update(null);
+    }
+
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void removeMonsterNullTest(){
+        monsterDao.delete(null);
+    }
+
     @Test(expectedExceptions = ValidationException.class)
     public void createMonsterNameNullTest(){
         monsterDao.create(dogWithNullName);
@@ -80,6 +95,16 @@ public class MonsterDaoTest extends AbstractTestNGSpringContextTests {
     @Test(expectedExceptions = ValidationException.class)
     public void createMonsterDescriptionNullTest(){
         monsterDao.create(dogWithNullDesc);
+    }
+
+    @Test(expectedExceptions = ValidationException.class)
+    public void createMonsterStartTimeNullTest(){
+        monsterDao.create(dogWithNullStartTime);
+    }
+
+    @Test(expectedExceptions = ValidationException.class)
+    public void createMonsterEndTimeNullTest(){
+        monsterDao.create(dogWithNullEndTime);
     }
 
     @Test
