@@ -21,10 +21,10 @@ import javax.sql.DataSource;
  */
 @Configuration
 @EnableTransactionManagement
-@EnableJpaRepositories
+@EnableJpaRepositories("cz.muni.fi.pa165.hauntedhouses.dao")
 @ComponentScan("cz.muni.fi.pa165.hauntedhouses.dao")
 public class PersistenceApplicationContext {
-
+    
     @Bean
     public JpaTransactionManager transactionManager() {
         return new JpaTransactionManager(entityManagerFactory().getObject());
@@ -54,5 +54,4 @@ public class PersistenceApplicationContext {
         EmbeddedDatabaseBuilder builder = new EmbeddedDatabaseBuilder();
         return builder.setType(EmbeddedDatabaseType.DERBY).build();
     }
-
 }

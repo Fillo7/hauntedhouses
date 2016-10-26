@@ -12,5 +12,6 @@ public class HauntedhousesApplication {
         new AnnotationConfigApplicationContext(PersistenceApplicationContext.class);
         
         emf = Persistence.createEntityManagerFactory("cz.muni.fi.pa165.hountedhouses");
+        emf.close();
     }
 }
