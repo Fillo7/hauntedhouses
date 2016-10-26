@@ -108,6 +108,6 @@ public class House {
 
     @Override
     public int hashCode(){
-        return name != null ? name.hashCode() : 0;
+        return address != null ? address.hashCode() : 0;
     }
 }

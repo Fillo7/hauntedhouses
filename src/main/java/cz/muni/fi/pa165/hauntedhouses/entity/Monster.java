@@ -46,11 +46,11 @@ public class Monster {
     @NotNull
     private LocalTime hauntedIntervalEnd;
 
-    @ManyToOne(optional=false)
+    @ManyToOne
     private House house;
     
     @ManyToMany(mappedBy="monsters")
-    private Set<Ability> abilities = new HashSet<>(); 
+    private Set<Ability> abilities = new HashSet<>();
     
     public Monster() {
     }
