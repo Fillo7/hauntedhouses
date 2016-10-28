@@ -3,7 +3,9 @@ package cz.muni.fi.pa165.hauntedhouses.dao;
 import cz.muni.fi.pa165.hauntedhouses.entity.Monster;
 import java.util.List;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 
 import org.springframework.stereotype.Repository;
@@ -45,6 +47,17 @@ public class MonsterDaoImpl implements MonsterDao {
     @Override
     public List<Monster> findAll() {
         return em.createQuery("SELECT m FROM Monster m", Monster.class).getResultList();
+    }
+
+    @Override
+    public Monster findByName(String name) {
+        try{
+            TypedQuery<Monster> query = em.createQuery("SELECT m FROM Monster m WHERE m.name = :name",
+                    Monster.class).setParameter("name", name);
+            return query.getSingleResult();
+        } catch(NoResultException e){
+            return null;
+        }
     }
     
 }

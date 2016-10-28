@@ -69,7 +69,7 @@ public class AbilityDaoImpl implements AbilityDao {
     public Ability findByName(String name) {
         try {
             TypedQuery<Ability> query = entityManager
-                    .createQuery("SELECT a FROM Abilities a WHERE a.name = :givenName", Ability.class)
+                    .createQuery("SELECT a FROM Ability a WHERE a.name = :givenName", Ability.class)
                     .setParameter("givenName", name);
             return query.getSingleResult();
         } catch (NoResultException e) {
@@ -80,7 +80,7 @@ public class AbilityDaoImpl implements AbilityDao {
     @Override
     public List<Ability> findAll() {
         try {
-            TypedQuery<Ability> query = entityManager.createQuery("SELECT a FROM Abilities a", Ability.class);
+            TypedQuery<Ability> query = entityManager.createQuery("SELECT a FROM Ability a", Ability.class);
             return query.getResultList();
         } catch (NoResultException e) {
             return null;

@@ -1,6 +1,7 @@
 package cz.muni.fi.pa165.hauntedhouses.dao;
 
 import cz.muni.fi.pa165.hauntedhouses.PersistenceApplicationContext;
+import cz.muni.fi.pa165.hauntedhouses.entity.Ability;
 import cz.muni.fi.pa165.hauntedhouses.entity.House;
 import cz.muni.fi.pa165.hauntedhouses.entity.Monster;
 import org.springframework.test.annotation.DirtiesContext;
@@ -19,6 +20,7 @@ import javax.transaction.Transactional;
 import javax.validation.ConstraintViolationException;
 import javax.validation.ValidationException;
 import java.time.LocalTime;
+import java.util.*;
 
 /**
  * Created by Ondro on 20-Oct-16.
@@ -37,56 +39,44 @@ public class MonsterDaoTest extends AbstractTestNGSpringContextTests {
     @Inject
     private MonsterDao monsterDao;
 
+    @Inject
+    private AbilityDao abilityDao;
+
     private House h1;
+    private Ability a1;
     private Monster cat;
     private Monster horse;
-    private Monster dogWithNullName;
-    private Monster dogWithNullDesc;
-    private Monster dogWithNullStartTime;
-    private Monster dogWithNullEndTime;
 
     @BeforeMethod
     public void setMonsters(){
         h1 = new House();
         h1.setName("Vila u Vila Rozborila");
         h1.setAddress("Koliba, Bratislava");
+        houseDao.create(h1);
+
+        a1 = new Ability();
+        a1.setDescription("super duper");
+        a1.setName("Abil1");
+        abilityDao.create(a1);
 
         cat = new Monster();
         cat.setHauntedIntervalStart(LocalTime.of(10, 15, 24));
         cat.setHauntedIntervalEnd(LocalTime.of(15, 24, 2));
         cat.setName("Cicka");
         cat.setDescription("Cicka Micka zlatunka");
+        cat.setHouse(h1);
 
         horse = new Monster();
         horse.setHauntedIntervalStart(LocalTime.of(10, 15, 24));
         horse.setHauntedIntervalEnd(LocalTime.of(15, 24, 2));
         horse.setName("Ponny");
         horse.setDescription("Hrozostrasny kon");
-
-        dogWithNullName = new Monster();
-        dogWithNullName.setHauntedIntervalStart(LocalTime.of(17, 41, 0));
-        dogWithNullName.setHauntedIntervalEnd(LocalTime.of(19, 18, 2));
-        dogWithNullName.setDescription("k nohe psisko");
-
-        dogWithNullDesc= new Monster();
-        dogWithNullDesc.setHauntedIntervalStart(LocalTime.of(10, 15, 24));
-        dogWithNullDesc.setHauntedIntervalEnd(LocalTime.of(15, 24, 2));
-        dogWithNullDesc.setName("Hafko");
-
-        dogWithNullStartTime= new Monster();
-        dogWithNullStartTime.setHauntedIntervalEnd(LocalTime.of(15, 24, 2));
-        dogWithNullStartTime.setName("Porsche");
-        dogWithNullStartTime.setDescription("tichy psik");
-
-        dogWithNullEndTime= new Monster();
-        dogWithNullEndTime.setHauntedIntervalStart(LocalTime.of(15, 24, 2));
-        dogWithNullEndTime.setName("Mazda");
-        dogWithNullEndTime.setDescription("hlucny psik");
     }
 
     @Test
     public void createMonsterTest() {
         monsterDao.create(cat);
+        Assert.assertEquals(monsterDao.findAll().get(0).getHouse(), h1);
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
@@ -106,23 +96,61 @@ public class MonsterDaoTest extends AbstractTestNGSpringContextTests {
 
     @Test(expectedExceptions = ValidationException.class)
     public void createMonsterNameNullTest(){
-        monsterDao.create(dogWithNullName);
+        cat.setName(null);
+        monsterDao.create(cat);
     }
 
     @Test(expectedExceptions = ValidationException.class)
     public void createMonsterDescriptionNullTest(){
-        monsterDao.create(dogWithNullDesc);
+        cat.setDescription(null);
+        monsterDao.create(cat);
     }
 
     @Test(expectedExceptions = ValidationException.class)
     public void createMonsterStartTimeNullTest(){
-        monsterDao.create(dogWithNullStartTime);
+        cat.setHauntedIntervalStart(null);
+        monsterDao.create(cat);
     }
 
     @Test(expectedExceptions = ValidationException.class)
     public void createMonsterEndTimeNullTest(){
-        monsterDao.create(dogWithNullEndTime);
+        cat.setHauntedIntervalEnd(null);
+        monsterDao.create(cat);
     }
+
+    @Test
+    public void createMonsterHouseNullTest(){
+        cat.setHouse(null);
+        monsterDao.create(cat);
+    }
+
+    @Test
+    public void createMonsterWithAbilityTest(){
+        monsterDao.create(cat);
+
+        Monster myCat = monsterDao.findByName("Cicka");
+        myCat.addAbility(abilityDao.findByName("Abil1"));
+        Monster myAbilityCat = monsterDao.update(myCat);
+
+        List<Ability> result = new ArrayList<>(myAbilityCat.getAbilities());
+        Assert.assertEquals(result.get(0), a1);
+    }
+
+    @Test
+    public void updateMonsterRemoveAbilityTest(){
+        monsterDao.create(cat);
+
+        Monster myCat = monsterDao.findByName("Cicka");
+        myCat.addAbility(abilityDao.findByName("Abil1"));
+        monsterDao.update(myCat);
+
+        Monster myEmptyCat = monsterDao.findByName("Cicka");
+        myEmptyCat.removeAbility(abilityDao.findByName("Abil1"));
+        Monster myUpdatedCat = monsterDao.update(myEmptyCat);
+
+        assertDeepEquals(myUpdatedCat, cat);
+    }
+
 
     @Test
     public void updateNameTest(){
@@ -139,6 +167,37 @@ public class MonsterDaoTest extends AbstractTestNGSpringContextTests {
         cat.setDescription("NovaCicaDesc");
         Monster updated = monsterDao.update(cat);
         Assert.assertEquals(updated.getDescription(), "NovaCicaDesc");
+        assertDeepEquals(updated, cat);
+    }
+
+    @Test
+    public void updateHauntedIntervalTest(){
+        monsterDao.create(cat);
+        cat.setHauntedIntervalStart(LocalTime.of(13, 31));
+        cat.setHauntedIntervalEnd(LocalTime.of(19, 21));
+        Monster updated = monsterDao.update(cat);
+        assertDeepEquals(updated, cat);
+    }
+
+    @Test
+    public void updateHouseTest(){
+        monsterDao.create(cat);
+
+        House h2 = new House();
+        h2.setName("Hacienda");
+        h2.setAddress("Od Senority 4");
+        houseDao.create(h2);
+
+        cat.setHouse(h2);
+        Monster updated = monsterDao.update(cat);
+        assertDeepEquals(updated, cat);
+    }
+
+    @Test
+    public void updateHouseNullTest(){
+        monsterDao.create(cat);
+        cat.setHouse(null);
+        Monster updated = monsterDao.update(cat);
         assertDeepEquals(updated, cat);
     }
 
@@ -165,6 +224,13 @@ public class MonsterDaoTest extends AbstractTestNGSpringContextTests {
         monster.setHauntedIntervalEnd(LocalTime.of(17, 0, 0, 1));
     }
 
+    @Test
+    public void createCorrectHauntedIntervalBorderTest(){
+        Monster monster = new Monster();
+        monster.setHauntedIntervalStart(LocalTime.of(17, 1, 2, 3));
+        monster.setHauntedIntervalEnd(LocalTime.of(17, 1, 2, 3));
+    }
+
     @Test(expectedExceptions = IllegalArgumentException.class)
     public void createBadHauntedIntervalTest(){
         Monster monster = new Monster();
@@ -175,8 +241,8 @@ public class MonsterDaoTest extends AbstractTestNGSpringContextTests {
     @Test(expectedExceptions = PersistenceException.class)
     public void createTwoIdenticNameMonstersTest(){
         monsterDao.create(cat);
-        dogWithNullName.setName("Cicka");
-        monsterDao.create(dogWithNullName);
+        horse.setName("Cicka");
+        monsterDao.create(horse);
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
@@ -203,6 +269,16 @@ public class MonsterDaoTest extends AbstractTestNGSpringContextTests {
         Assert.assertEquals(monsterDao.findAll().size(), 2);
     }
 
+    @Test
+    public void findMonsterByNameTest(){
+        monsterDao.create(cat);
+        monsterDao.create(horse);
+
+        Monster result = monsterDao.findByName("Ponny");
+        Assert.assertNotNull(result);
+        assertDeepEquals(result, horse);
+    }
+
     private void assertDeepEquals(Monster m1, Monster m2){
         Assert.assertEquals(m1, m2);
         Assert.assertEquals(m1.getId(), m2.getId());
@@ -211,6 +287,6 @@ public class MonsterDaoTest extends AbstractTestNGSpringContextTests {
         Assert.assertEquals(m1.getHauntedIntervalEnd(), m2.getHauntedIntervalEnd());
         Assert.assertEquals(m1.getHauntedIntervalStart(), m2.getHauntedIntervalStart());
         Assert.assertEquals(m1.getHouse(), m2.getHouse());
-//        Assert.assertEquals(m1.getAbilities(), m2.getAbilities());
+        Assert.assertEquals(m1.getAbilities(), m2.getAbilities());
     }
 }

@@ -70,14 +70,16 @@ public class Ability {
     public void removeMonster(Monster monster){
         this.monsters.remove(monster);
     }
-    
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     /*** Equals and hash code ***/
 
     @Override
     public int hashCode() {
-        int hash = 3;
-        hash = 67 * hash + Objects.hashCode(this.id);
-        return hash;
+        return Objects.hash(name, description);
     }
 
     @Override
@@ -93,7 +95,9 @@ public class Ability {
         }
 
         final Ability other = (Ability) obj;
-        return this.getId() != null 
-                && !Objects.equals(this.getId(), other.getId());
+        if (name != null ? !name.equals(other.name) : other.name != null) return false;
+        if (monsters != null ? !monsters.equals(other.monsters) : other.monsters != null) return false;
+
+        return true;
     }
 }

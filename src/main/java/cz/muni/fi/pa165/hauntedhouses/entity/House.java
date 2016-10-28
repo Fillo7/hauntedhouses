@@ -4,6 +4,7 @@ import java.util.Collections;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -87,27 +88,18 @@ public class House {
 
     @Override
     public boolean equals(Object obj){
-        if(this == obj)
-            return true;
-        if(obj == null)
-            return false;
-        if(!(obj instanceof House))
-            return false;
+        if(this == obj) return true;
+        if(obj == null) return false;
+        if(!(obj instanceof House)) return false;
 
-        House house = (House) obj;
-        if(name == null){
-            if(house.name != null)
-                return false;
-        }
-        else{
-            if(name.equals(house.name))
-                return true;
-        }
-        return false;
+        final House other = (House) obj;
+        if (name != null ? !name.equals(other.name) : other.name != null) return false;
+
+        return true;
     }
 
     @Override
     public int hashCode(){
-        return address != null ? address.hashCode() : 0;
+        return Objects.hash(name);
     }
 }

@@ -52,9 +52,6 @@ public class Monster {
     @ManyToMany(mappedBy="monsters")
     private Set<Ability> abilities = new HashSet<>();
     
-    public Monster() {
-    }
-    
     public Long getId() {
         return id;
     }
@@ -75,6 +72,10 @@ public class Monster {
         return hauntedIntervalStart;
     }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public void setName(String name) {
         this.name = name;
     }
@@ -84,21 +85,29 @@ public class Monster {
     }
 
     public void setHauntedIntervalEnd(LocalTime hauntedIntervalEnd) {
-        if(this.hauntedIntervalStart != null){
-            if (hauntedIntervalEnd.isBefore(this.hauntedIntervalStart)){
-                throw new IllegalArgumentException("end of hauntedInterval si before start");
+        if(hauntedIntervalEnd == null){
+            this.hauntedIntervalEnd = null;
+        }else{
+            if(this.hauntedIntervalStart != null){
+                if (hauntedIntervalEnd.isBefore(this.hauntedIntervalStart)){
+                    throw new IllegalArgumentException("end of hauntedInterval si before start");
+                }
             }
+            this.hauntedIntervalEnd = hauntedIntervalEnd;
         }
-        this.hauntedIntervalEnd = hauntedIntervalEnd;
     }
 
     public void setHauntedIntervalStart(LocalTime hauntedIntervalStart) {
-        if(this.hauntedIntervalEnd != null){
-            if (hauntedIntervalStart.isAfter(hauntedIntervalEnd)) {
-                throw new IllegalArgumentException("start of hauntedInterval si after end");
+        if(hauntedIntervalStart == null){
+            this.hauntedIntervalStart = null;
+        } else{
+            if(this.hauntedIntervalEnd != null){
+                if (hauntedIntervalStart.isAfter(hauntedIntervalEnd)) {
+                    throw new IllegalArgumentException("start of hauntedInterval si after end");
+                }
             }
+            this.hauntedIntervalStart = hauntedIntervalStart;
         }
-        this.hauntedIntervalStart = hauntedIntervalStart;
     }
 
     public House getHouse() {
@@ -113,30 +122,21 @@ public class Monster {
         return Collections.unmodifiableSet(abilities);
     }
 
-    public void addAbility(Ability ability) {
-        this.abilities.add(ability);
-    }
-    
     public void removeAbility(Ability ability){
         this.abilities.remove(ability);
     }
+
+    public void addAbility(Ability ability) { this.abilities.add(ability);}
     
     @Override
     public boolean equals(Object obj) {
-        if(obj == this){
-            return true;
-        }
-        if(obj == null){
-            return false;
-        }
-        if(!(obj instanceof Monster)){
-            return false;
-        }
+        if(obj == this) return true;
+        if(obj == null) return false;
+        if(!(obj instanceof Monster)) return false;
         
         final Monster monster = (Monster) obj;
-        if( !monster.getId().equals( this.getId() ) ){
-            return false;
-        }
+        if (name != null ? !name.equals(monster.name) : monster.name != null) return false;
+
         return true;
     } 
 
