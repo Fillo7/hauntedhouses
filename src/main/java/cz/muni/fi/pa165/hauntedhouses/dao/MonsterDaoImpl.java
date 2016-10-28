@@ -31,7 +31,10 @@ public class MonsterDaoImpl implements MonsterDao {
 
     @Override
     public void delete(Monster monster) {
-        em.remove(monster);
+        if(monster == null){
+            throw new IllegalArgumentException("Deleting null entity.");
+        }
+        em.remove(findById(monster.getId()));
     }
 
     @Override

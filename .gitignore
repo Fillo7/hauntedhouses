@@ -1,7 +1,7 @@
+.idea/*
 /target/
--.idea
+*.iml
 -*.iws
--*.iml
 -*.ipr
 -nbproject/private/
 -build/
