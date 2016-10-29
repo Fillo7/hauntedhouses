@@ -34,6 +34,7 @@ public class AbilityDaoTest extends AbstractTestNGSpringContextTests {
     
     private Ability abilityOne;
     private Ability abilityTwo;
+    private Ability abilityThree;
     
     private Monster monster;
     
@@ -50,6 +51,18 @@ public class AbilityDaoTest extends AbstractTestNGSpringContextTests {
         abilityTwo = new Ability();
         abilityTwo.setName("Spawn rainbows");
         abilityTwo.setDescription("Spawns rainbows all around the place, blinding anyone who dares to wander nearby.");
+        
+        abilityThree = new Ability();
+        abilityThree.setName("Charm");
+        abilityThree.setDescription("Charms an enemy with its extreme beauty making them do its bidding.");
+        
+        abilityOne.addMonster(monster);
+        abilityTwo.addMonster(monster);
+        abilityThree.addMonster(monster);
+        
+        monster.addAbility(abilityOne);
+        monster.addAbility(abilityTwo);
+        monster.addAbility(abilityThree);
     }
     
     @Test
@@ -78,8 +91,10 @@ public class AbilityDaoTest extends AbstractTestNGSpringContextTests {
         Ability assertSecond = new Ability();
         assertFirst.setName("Impale");
         assertFirst.setDescription("Impales an enemy with its glorious horn.");
+        assertFirst.addMonster(monster);
         assertSecond.setName("Spawn rainbows");
         assertSecond.setDescription("Spawns rainbows all around the place, blinding anyone who dares to wander nearby.");
+        assertSecond.addMonster(monster);
 		
         Assert.assertTrue(abilities.contains(assertFirst));
         Assert.assertTrue(abilities.contains(assertSecond));	

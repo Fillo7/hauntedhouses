@@ -4,7 +4,6 @@ import cz.muni.fi.pa165.hauntedhouses.PersistenceApplicationContext;
 import cz.muni.fi.pa165.hauntedhouses.entity.Ability;
 import cz.muni.fi.pa165.hauntedhouses.entity.House;
 import cz.muni.fi.pa165.hauntedhouses.entity.Monster;
-import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.springframework.transaction.TransactionSystemException;
@@ -17,16 +16,18 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceException;
 import javax.transaction.Transactional;
-import javax.validation.ConstraintViolationException;
 import javax.validation.ValidationException;
 import java.time.LocalTime;
 import java.util.*;
+import javax.validation.ConstraintViolationException;
+import org.springframework.test.context.TestExecutionListeners;
+import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
 
 /**
  * Created by Ondro on 20-Oct-16.
  */
 @ContextConfiguration(classes = PersistenceApplicationContext.class)
-@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
+@TestExecutionListeners(TransactionalTestExecutionListener.class)
 @Transactional
 public class MonsterDaoTest extends AbstractTestNGSpringContextTests {
 
@@ -201,7 +202,7 @@ public class MonsterDaoTest extends AbstractTestNGSpringContextTests {
         assertDeepEquals(updated, cat);
     }
 
-    @Test(expectedExceptions = TransactionSystemException.class)
+    @Test(expectedExceptions = ConstraintViolationException.class)
     public void updateNameNullTest(){
         monsterDao.create(cat);
         cat.setName(null);
@@ -209,7 +210,7 @@ public class MonsterDaoTest extends AbstractTestNGSpringContextTests {
         entityManager.flush();
     }
 
-    @Test(expectedExceptions = TransactionSystemException.class)
+    @Test(expectedExceptions = ConstraintViolationException.class)
     public void updateDescNullTest(){
         monsterDao.create(cat);
         cat.setDescription(null);

@@ -19,7 +19,7 @@ public interface HouseDao {
      * Update already saved House in DB
      *
      * @param house to be updated
-     * @return updated haouse
+     * @return updated house
      */
     House update(House house);
 
