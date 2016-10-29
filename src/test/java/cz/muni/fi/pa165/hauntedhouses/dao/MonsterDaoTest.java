@@ -6,7 +6,6 @@ import cz.muni.fi.pa165.hauntedhouses.entity.House;
 import cz.muni.fi.pa165.hauntedhouses.entity.Monster;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
-import org.springframework.transaction.TransactionSystemException;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -72,6 +71,7 @@ public class MonsterDaoTest extends AbstractTestNGSpringContextTests {
         horse.setHauntedIntervalEnd(LocalTime.of(15, 24, 2));
         horse.setName("Ponny");
         horse.setDescription("Hrozostrasny kon");
+        horse.setHouse(h1);
     }
 
     @Test
@@ -119,7 +119,7 @@ public class MonsterDaoTest extends AbstractTestNGSpringContextTests {
         monsterDao.create(cat);
     }
 
-    @Test
+    @Test(expectedExceptions = PersistenceException.class)
     public void createMonsterHouseNullTest(){
         cat.setHouse(null);
         monsterDao.create(cat);

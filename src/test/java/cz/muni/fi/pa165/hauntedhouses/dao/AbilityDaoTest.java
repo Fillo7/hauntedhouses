@@ -68,14 +68,60 @@ public class AbilityDaoTest extends AbstractTestNGSpringContextTests {
     @Test
     public void testCreate() {
         abilityDao.create(abilityOne);
-        Assert.assertEquals(abilityDao.findById(abilityOne.getId()).getName(), "Impale");
-        Assert.assertEquals(abilityDao.findById(abilityOne.getId()).getDescription(), "Impales an enemy with its glorious horn.");
+        
+        Assert.assertEquals(abilityDao.findById(abilityOne.getId()).getName(), abilityOne.getName());
+        Assert.assertEquals(abilityDao.findById(abilityOne.getId()).getDescription(), abilityOne.getDescription());
+        Assert.assertEquals(abilityDao.findById(abilityOne.getId()).getMonsters(), abilityOne.getMonsters());
     }
     
     @Test(expectedExceptions = IllegalArgumentException.class)
     public void testCreateNull() {
         Ability ability = null;
         abilityDao.create(ability);		
+    }
+    
+    @Test
+    public void update() {
+        abilityDao.create(abilityOne);
+        abilityDao.create(abilityThree);
+        
+        abilityThree.setName("Improved charm");
+        abilityDao.update(abilityThree);
+        
+        Ability found = abilityDao.findById(abilityThree.getId());
+        Assert.assertEquals(found.getName(), abilityThree.getName());	
+    }
+    
+    @Test
+    public void testDelete() {
+        abilityDao.create(abilityOne);
+        abilityDao.create(abilityThree);
+        
+        Assert.assertNotNull(abilityDao.findById(abilityOne.getId()));
+        abilityDao.delete(abilityOne);
+        Assert.assertNull(abilityDao.findById(abilityOne.getId()));
+    }
+    
+    @Test
+    public void testFindById() {
+        abilityDao.create(abilityOne);
+        abilityDao.create(abilityTwo);
+        
+        Ability found = abilityDao.findById(abilityOne.getId());
+        Assert.assertEquals(found.getName(), abilityOne.getName());
+        Assert.assertEquals(found.getDescription(), abilityOne.getDescription());
+        Assert.assertEquals(found.getMonsters(), abilityOne.getMonsters());
+    }
+    
+    @Test
+    public void testFindByName() {
+        abilityDao.create(abilityOne);
+        abilityDao.create(abilityThree);
+        
+        Ability found = abilityDao.findByName(abilityOne.getName());
+        Assert.assertEquals(found.getName(), abilityOne.getName());
+        Assert.assertEquals(found.getDescription(), abilityOne.getDescription());
+        Assert.assertEquals(found.getMonsters(), abilityOne.getMonsters());
     }
     
     @Test
@@ -98,13 +144,5 @@ public class AbilityDaoTest extends AbstractTestNGSpringContextTests {
 		
         Assert.assertTrue(abilities.contains(assertFirst));
         Assert.assertTrue(abilities.contains(assertSecond));	
-    }
-	
-    @Test
-    public void testDelete() {
-        abilityDao.create(abilityOne);
-        Assert.assertNotNull(abilityDao.findById(abilityOne.getId()));
-        abilityDao.delete(abilityOne);
-        Assert.assertNull(abilityDao.findById(abilityOne.getId()));
     }
 }

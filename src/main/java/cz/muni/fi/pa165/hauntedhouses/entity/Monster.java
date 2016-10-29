@@ -46,7 +46,7 @@ public class Monster {
     @NotNull
     private LocalTime hauntedIntervalEnd;
 
-    @ManyToOne
+    @ManyToOne(optional=false)
     private House house;
     
     @ManyToMany(mappedBy="monsters")
