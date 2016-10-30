@@ -138,6 +138,42 @@ public class MonsterDaoTest extends AbstractTestNGSpringContextTests {
     }
 
     @Test
+    public void createMonsterWithNotExistingAbilityTest(){
+        Ability ab = new Ability();
+        ab.setName("Ability2");
+        ab.setDescription("super duper ability");
+        cat.addAbility(ab);
+
+        monsterDao.create(cat);
+
+        Assert.assertEquals(monsterDao.findAll().size(), 1);
+        Assert.assertEquals(monsterDao.findAll().get(0).getAbilities().size(), 1);
+        Assert.assertEquals(monsterDao.findByName("Cicka").getAbilities().size(), 1);
+
+        Ability result = new ArrayList<>(monsterDao.findByName("Cicka").getAbilities()).get(0);
+        Assert.assertEquals(result, ab);
+        Assert.assertNotNull(abilityDao.findByName("Ability2"));
+    }
+
+    @Test
+    public void createMonsterWithNotExistingHouseTest(){
+        House hs = new House();
+        hs.setName("House2");
+        hs.setAddress("house 2 address");
+        cat.setHouse(hs);
+
+        monsterDao.create(cat);
+
+        Assert.assertEquals(monsterDao.findAll().size(), 1);
+        Assert.assertNotNull(monsterDao.findAll().get(0).getHouse());
+        Assert.assertNotNull(monsterDao.findByName("Cicka").getHouse());
+
+        House result = monsterDao.findByName("Cicka").getHouse();
+        Assert.assertEquals(result, hs);
+        Assert.assertNotNull(houseDao.findByName("House2"));
+    }
+
+    @Test
     public void updateMonsterRemoveAbilityTest(){
         monsterDao.create(cat);
 
