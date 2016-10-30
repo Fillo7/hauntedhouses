@@ -30,12 +30,12 @@ public class CursedObjectDaoImpl implements CursedObjectDao {
     }
     
     @Override
-    public void updateCursedObject(CursedObject cursedObject) {
+    public CursedObject updateCursedObject(CursedObject cursedObject) {
         if(cursedObject == null) {
             throw new IllegalArgumentException("cursedObject is set to null.");
         }
         
-        entityManager.merge(cursedObject);
+        return entityManager.merge(cursedObject);
     }
     
     @Override
