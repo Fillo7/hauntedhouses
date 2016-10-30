@@ -1,6 +1,7 @@
 package cz.muni.fi.pa165.hauntedhouses.entity;
 
 import cz.muni.fi.pa165.hauntedhouses.enums.MonsterAttractionFactor;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
@@ -21,6 +22,7 @@ public class CursedObject {
     private Long id;
 
     @NotNull
+    @Column(nullable = false, unique = true)
     private String name;
 
     @NotNull

@@ -8,6 +8,7 @@ import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
+import javax.validation.ConstraintViolationException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
@@ -25,9 +26,6 @@ import org.testng.annotations.BeforeMethod;
 public class AbilityDaoTest extends AbstractTestNGSpringContextTests {
     @Inject
     private AbilityDao abilityDao;
-    
-    @Inject
-    private MonsterDao monsterDao;
     
     @PersistenceContext 
     private EntityManager entityManager;
@@ -75,13 +73,19 @@ public class AbilityDaoTest extends AbstractTestNGSpringContextTests {
     }
     
     @Test(expectedExceptions = IllegalArgumentException.class)
-    public void testCreateNull() {
+    public void testCreateNullAbility() {
         Ability ability = null;
         abilityDao.create(ability);		
     }
     
+    @Test(expectedExceptions = ConstraintViolationException.class)
+    public void testCreateNullNameAbility() {
+        abilityOne.setName(null);
+        abilityDao.create(abilityOne);		
+    }
+    
     @Test
-    public void update() {
+    public void testUpdate() {
         abilityDao.create(abilityOne);
         abilityDao.create(abilityThree);
         
@@ -100,6 +104,11 @@ public class AbilityDaoTest extends AbstractTestNGSpringContextTests {
         Assert.assertNotNull(abilityDao.findById(abilityOne.getId()));
         abilityDao.delete(abilityOne);
         Assert.assertNull(abilityDao.findById(abilityOne.getId()));
+    }
+    
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void testDeleteNonExisting() {
+        abilityDao.delete(abilityOne);
     }
     
     @Test
@@ -128,21 +137,30 @@ public class AbilityDaoTest extends AbstractTestNGSpringContextTests {
     public void testFindAll() {	
         abilityDao.create(abilityOne);
 	abilityDao.create(abilityTwo);
+        abilityDao.create(abilityThree);
 
         List<Ability> abilities = abilityDao.findAll();
 		
-        Assert.assertEquals(abilities.size(), 2);
+        Assert.assertEquals(abilities.size(), 3);
         
         Ability assertFirst = new Ability();
         Ability assertSecond = new Ability();
+        Ability assertThird = new Ability();
+        
         assertFirst.setName("Impale");
         assertFirst.setDescription("Impales an enemy with its glorious horn.");
         assertFirst.addMonster(monster);
+        
         assertSecond.setName("Spawn rainbows");
         assertSecond.setDescription("Spawns rainbows all around the place, blinding anyone who dares to wander nearby.");
         assertSecond.addMonster(monster);
+        
+        assertThird.setName("Charm");
+        assertThird.setDescription("Charms an enemy with its extreme beauty making them do its bidding.");
+        assertThird.addMonster(monster);
 		
         Assert.assertTrue(abilities.contains(assertFirst));
-        Assert.assertTrue(abilities.contains(assertSecond));	
+        Assert.assertTrue(abilities.contains(assertSecond));
+        Assert.assertTrue(abilities.contains(assertThird));	
     }
 }
