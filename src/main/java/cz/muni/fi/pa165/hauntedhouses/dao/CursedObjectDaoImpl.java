@@ -44,7 +44,7 @@ public class CursedObjectDaoImpl implements CursedObjectDao {
             throw new IllegalArgumentException("cursedObject is set to null.");
         }
         
-        entityManager.remove(cursedObject);
+        entityManager.remove(getCursedObject(cursedObject.getId()));
     }
     
     @Override
