@@ -11,6 +11,7 @@ import cz.muni.fi.pa165.hauntedhouses.entity.House;
 import cz.muni.fi.pa165.hauntedhouses.entity.Monster;
 import cz.muni.fi.pa165.hauntedhouses.enums.MonsterAttractionFactor;
 import java.util.List;
+import java.util.Set;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -256,6 +257,22 @@ public class HouseDaoTest extends AbstractTestNGSpringContextTests {
         Assert.assertTrue(houses.contains(houseComplete));
         Assert.assertTrue(houses.contains(houseMonsterOnly));
         Assert.assertTrue(houses.contains(houseCObjectOnly));
+    }
+    
+    @Test(expectedExceptions = UnsupportedOperationException.class)
+    public void testModifyMonsters() {
+        houseDao.create(houseMonsterOnly);
+        
+        Set<Monster> monsters = houseDao.findById(houseMonsterOnly.getId()).getMonsters();
+        monsters.add(new Monster());
+    }
+    
+    @Test(expectedExceptions = UnsupportedOperationException.class)
+    public void testModifyCursedObjects() {
+        houseDao.create(houseCObjectOnly);
+        
+        Set<CursedObject> cursedObjects = houseDao.findById(houseCObjectOnly.getId()).getCursedObjects();
+        cursedObjects.add(new CursedObject());
     }
     
     /**

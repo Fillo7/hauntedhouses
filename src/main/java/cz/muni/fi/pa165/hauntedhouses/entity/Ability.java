@@ -46,6 +46,10 @@ public class Ability {
     public Long getId() {
         return id;
     }
+    
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public String getName() {
         return name;
@@ -72,10 +76,6 @@ public class Ability {
     
     public void removeMonster(Monster monster){
         this.monsters.remove(monster);
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     /*** Equals and hash code ***/
