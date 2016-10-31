@@ -9,6 +9,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -32,12 +33,14 @@ public class Ability {
     private Long id;
     
     @NotNull
+    @Column(nullable = false, unique = true)
     private String name;
     
     private String description;
     
     @ManyToMany
     private Set<Monster> monsters = new HashSet<>(); 
+    
     /*** Getters and setters ***/
     
     public Long getId() {
