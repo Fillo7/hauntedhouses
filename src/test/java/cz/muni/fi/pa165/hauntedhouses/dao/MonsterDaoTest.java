@@ -4,6 +4,7 @@ import cz.muni.fi.pa165.hauntedhouses.PersistenceApplicationContext;
 import cz.muni.fi.pa165.hauntedhouses.entity.Ability;
 import cz.muni.fi.pa165.hauntedhouses.entity.House;
 import cz.muni.fi.pa165.hauntedhouses.entity.Monster;
+import cz.muni.fi.pa165.hauntedhouses.validation.SurviveCondition;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.testng.Assert;
@@ -217,25 +218,23 @@ public class MonsterDaoTest extends AbstractTestNGSpringContextTests {
         entityManager.flush();
     }
 
-    @Test(expectedExceptions = IllegalArgumentException.class)
-    public void createBadHauntedIntervalBorderTest(){
-        Monster monster = new Monster();
-        monster.setHauntedIntervalStart(LocalTime.of(17, 0, 0, 2));
-        monster.setHauntedIntervalEnd(LocalTime.of(17, 0, 0, 1));
+    @Test(expectedExceptions = ConstraintViolationException.class)
+    public void createBadHauntedIntervalEndTest(){
+        cat.setHauntedIntervalEnd(LocalTime.of(2, 30));
+        monsterDao.create(cat);
+    }
+
+    @Test(expectedExceptions = ConstraintViolationException.class)
+    public void createBadHauntedIntervalStartTest(){
+        cat.setHauntedIntervalStart(LocalTime.of(22, 10));
+        monsterDao.create(cat);
     }
 
     @Test
-    public void createCorrectHauntedIntervalBorderTest(){
-        Monster monster = new Monster();
-        monster.setHauntedIntervalStart(LocalTime.of(17, 1, 2, 3));
-        monster.setHauntedIntervalEnd(LocalTime.of(17, 1, 2, 3));
-    }
-
-    @Test(expectedExceptions = IllegalArgumentException.class)
-    public void createBadHauntedIntervalTest(){
-        Monster monster = new Monster();
-        monster.setHauntedIntervalStart(LocalTime.of(17, 0));
-        monster.setHauntedIntervalEnd(LocalTime.of(16, 59));
+    public void createHauntedIntervalBorderTest(){
+        cat.setHauntedIntervalStart(LocalTime.of(22, 10, 15, 7));
+        cat.setHauntedIntervalEnd(LocalTime.of(22, 10, 15, 7));
+        monsterDao.create(cat);
     }
 
     @Test(expectedExceptions = PersistenceException.class)

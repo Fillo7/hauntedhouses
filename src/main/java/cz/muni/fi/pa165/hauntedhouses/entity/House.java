@@ -19,6 +19,7 @@ public class House {
     private Long id;
 
     @NotNull
+    @Column(nullable = false)
     private String address;
 
     @NotNull

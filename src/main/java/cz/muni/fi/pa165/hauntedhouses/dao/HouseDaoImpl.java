@@ -9,7 +9,7 @@ import javax.validation.ConstraintViolationException;
 import java.util.List;
 
 /**
- * Created by User on 17-Oct-16.
+ * Created by Ondro on 17-Oct-16.
  */
 @Repository
 @Transactional

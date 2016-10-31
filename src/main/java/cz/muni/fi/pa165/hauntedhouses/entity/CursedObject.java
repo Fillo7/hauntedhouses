@@ -26,10 +26,12 @@ public class CursedObject {
     private String name;
 
     @NotNull
+    @Column(nullable = false)
     private String description;
     
     @Enumerated
     @NotNull
+    @Column(nullable = false)
     private MonsterAttractionFactor monsterAttractionFactor;
     
     @ManyToOne(optional=false)

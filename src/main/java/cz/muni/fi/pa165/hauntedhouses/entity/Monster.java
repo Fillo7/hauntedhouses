@@ -5,6 +5,8 @@
  */
 package cz.muni.fi.pa165.hauntedhouses.entity;
 
+import cz.muni.fi.pa165.hauntedhouses.validation.SurviveCondition;
+
 import java.time.LocalTime;
 import java.util.Collections;
 import java.util.Objects;
@@ -27,6 +29,7 @@ import javax.validation.constraints.NotNull;
  */
 @Entity
 @Table(name = "Monsters")
+@SurviveCondition(members = {"hauntedIntervalStart", "hauntedIntervalEnd"})
 public class Monster {
 
     @Id
@@ -34,16 +37,19 @@ public class Monster {
     private Long id;
     
     @NotNull
-    @Column(unique = true)
+    @Column(unique = true, nullable = false)
     private String name;
     
     @NotNull
+    @Column(nullable = false)
     private String description;
     
     @NotNull
+    @Column(nullable = false)
     private LocalTime hauntedIntervalStart;
 
     @NotNull
+    @Column(nullable = false)
     private LocalTime hauntedIntervalEnd;
 
     @ManyToOne(optional=false)
@@ -85,29 +91,11 @@ public class Monster {
     }
 
     public void setHauntedIntervalEnd(LocalTime hauntedIntervalEnd) {
-        if(hauntedIntervalEnd == null){
-            this.hauntedIntervalEnd = null;
-        }else{
-            if(this.hauntedIntervalStart != null){
-                if (hauntedIntervalEnd.isBefore(this.hauntedIntervalStart)){
-                    throw new IllegalArgumentException("end of hauntedInterval si before start");
-                }
-            }
-            this.hauntedIntervalEnd = hauntedIntervalEnd;
-        }
+        this.hauntedIntervalEnd = hauntedIntervalEnd;
     }
 
     public void setHauntedIntervalStart(LocalTime hauntedIntervalStart) {
-        if(hauntedIntervalStart == null){
-            this.hauntedIntervalStart = null;
-        } else{
-            if(this.hauntedIntervalEnd != null){
-                if (hauntedIntervalStart.isAfter(hauntedIntervalEnd)) {
-                    throw new IllegalArgumentException("start of hauntedInterval si after end");
-                }
-            }
-            this.hauntedIntervalStart = hauntedIntervalStart;
-        }
+        this.hauntedIntervalStart = hauntedIntervalStart;
     }
 
     public House getHouse() {
