@@ -108,9 +108,6 @@ public class CursedObjectDaoTest extends AbstractTestNGSpringContextTests{
         coDao.addCursedObject(c1);
     }
     
-    //UPDATE
-    //////////////////////////////////////////////////////////////////////////
-    
     @Test()
     public void testUpdate(){
         coDao.addCursedObject(c1);
@@ -121,6 +118,11 @@ public class CursedObjectDaoTest extends AbstractTestNGSpringContextTests{
         
         CursedObject upd =coDao.updateCursedObject(c1);
         validate(upd, c1);
+        
+        c1.setName("old name");
+        upd =coDao.updateCursedObject(c1);
+        validate(upd, c1);
+        
     }
     
     @Test(expectedExceptions = ConstraintViolationException.class)
@@ -159,9 +161,21 @@ public class CursedObjectDaoTest extends AbstractTestNGSpringContextTests{
         CursedObject upd = coDao.updateCursedObject(c1);
         em.flush();
     }
-    
-    //getCO
-    //////////////////////////////////////////////////////////////
+   
+    @Test(expectedExceptions = PersistenceException.class)
+    public void testUpdateWithSameName(){
+        coDao.addCursedObject(c1);
+        coDao.addCursedObject(c2);
+        
+        c1.setName("NAME");
+        c2.setName("NAME");
+        
+        coDao.updateCursedObject(c1);
+        em.flush();
+        coDao.updateCursedObject(c2);
+        em.flush();
+    }
+   
     @Test()
     public void testGetCursedObject(){
         coDao.addCursedObject(c1);
@@ -175,6 +189,7 @@ public class CursedObjectDaoTest extends AbstractTestNGSpringContextTests{
     
     @Test(expectedExceptions = IllegalArgumentException.class)
     public void testGetNoExistingCursedObject(){
+        assertFalse(coDao.getAllCursedObjects().contains(c1));
         CursedObject co = coDao.getCursedObject(c1.getId());
     }
     
@@ -190,8 +205,6 @@ public class CursedObjectDaoTest extends AbstractTestNGSpringContextTests{
         validate(coDao.getAllCursedObjects().get(1),c2);
     }
     
-    //DELETE
-    ////////////////////////////////////////////////////////////////////////
     @Test()
     public void testDeleteCursedObject(){
         coDao.addCursedObject(c1);
@@ -229,7 +242,9 @@ public class CursedObjectDaoTest extends AbstractTestNGSpringContextTests{
         coDao.addCursedObject(c2);
     }
     
+    
     private void validate(CursedObject upd, CursedObject c1){
+        assertEquals(upd, c1);
         assertEquals(c1.getId(), upd.getId());
         assertEquals(c1.getName(), upd.getName());
         assertEquals(c1.getDescription(), upd.getDescription());
