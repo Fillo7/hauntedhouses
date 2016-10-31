@@ -123,7 +123,8 @@ public class Monster {
         if(!(obj instanceof Monster)) return false;
         
         final Monster monster = (Monster) obj;
-        if (name != null ? !name.equals(monster.name) : monster.name != null) return false;
+        if (getName() != null ? !getName().equals(monster.getName()) : monster.getName() != null)
+            return false;
 
         return true;
     } 
