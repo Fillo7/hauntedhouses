@@ -65,16 +65,16 @@ public class CursedObject {
     public void setHouse(House house) { this.house = house; }
 
     @Override
-    public boolean equals(Object other) {
-        if(!(other instanceof Monster)) {
+    public boolean equals(Object obj) {
+        if(this == obj) return true;
+        if(obj == null) return false;
+        if(!(obj instanceof CursedObject)) return false;
+
+        final CursedObject other = (CursedObject) obj;
+        if (getName() != null ? !getName().equals(other.getName()) : other.getName() != null)
             return false;
-        }
-        
-        if(name == null && ((CursedObject)other).getName() != null) {
-            return false;
-        }
-        
-        return name.equals(((CursedObject)other).getName());
+
+        return true;
     }
 
     @Override
