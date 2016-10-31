@@ -14,8 +14,11 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.PersistenceException;
 import javax.transaction.Transactional;
-import javax.validation.ConstraintViolationException;
+//import javax.validation.ConstraintViolationException;
+import javax.validation.ValidationException;
+import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
@@ -35,7 +38,7 @@ import org.testng.annotations.BeforeMethod;
 public class HouseDaoTest extends AbstractTestNGSpringContextTests {
 
     @PersistenceContext 
-    private EntityManager entityManager;
+    private EntityManager em;
     
     @Inject
     private HouseDao houseDao;
@@ -97,6 +100,29 @@ public class HouseDaoTest extends AbstractTestNGSpringContextTests {
         House foundHouse = houseDao.findById(houseComplete.getId());
         this.assertDeepEquals(foundHouse, houseComplete);
     }
+    
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void testCreateNull() {
+        houseDao.create(null);
+    }
+    
+    @Test(expectedExceptions = ValidationException.class)
+    public void testCreateWithNullName() {
+        houseComplete.setName(null);
+        houseDao.create(houseComplete);
+    }
+    
+    // org.hibernate.exception.ConstraintViolationException doesn't seem to be recognized here
+    @Test(expectedExceptions = PersistenceException.class)
+    public void testCreateWithDuplicitName() {
+        houseComplete.setName("Yolo");
+        houseDao.create(houseComplete);
+        
+        houseMonsterOnly.setName("Yolo");
+        houseDao.create(houseMonsterOnly);
+        
+        Assert.assertEquals(houseDao.findAll().size(), 1);
+    }
 
     /**
      * Test of update method, of class HouseDao.
@@ -128,6 +154,42 @@ public class HouseDaoTest extends AbstractTestNGSpringContextTests {
         Assert.assertEquals(updatedHouse.getAddress(), testedHouseAddress);
         this.assertDeepEquals(updatedHouse, houseComplete);
     }
+    
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void testUpdateNull() {
+        houseDao.update(null);
+    }
+    
+    @Test(expectedExceptions = ValidationException.class)
+    public void testUpdateWithNullName() {
+        houseDao.create(houseComplete);
+        houseComplete.setName(null);
+        houseDao.update(houseComplete);
+        em.flush();
+    }
+    
+    @Test(expectedExceptions = ValidationException.class)
+    public void testUpdateWithNullAddress() {
+        houseDao.create(houseComplete);
+        houseComplete.setAddress(null);
+        houseDao.update(houseComplete);
+        em.flush();
+    }
+    
+    @Test(expectedExceptions = PersistenceException.class)
+    public void testUpdateWithDuplicitName() {
+        houseDao.create(houseComplete);
+        houseDao.create(houseMonsterOnly);
+        
+        houseComplete.setName("Yolo");
+        houseMonsterOnly.setName("Yolo");
+        
+        houseDao.update(houseComplete);
+        em.flush();
+        
+        houseDao.update(houseMonsterOnly);
+        em.flush();
+    }
 
     /**
      * Test of remove method, of class HouseDao.
@@ -150,6 +212,17 @@ public class HouseDaoTest extends AbstractTestNGSpringContextTests {
         Assert.assertNull(houseDao.findById(houseComplete.getId()));
         Assert.assertNull(houseDao.findById(houseMonsterOnly.getId()));
     }
+    
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void testRemoveNonexistent() {
+        Assert.assertFalse(houseDao.findAll().contains(houseComplete));
+        houseDao.remove(houseComplete);
+    }
+    
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void testRemoveNull() {
+        houseDao.remove(null);
+    }
 
     /**
      * Test of findById method, of class HouseDao.
@@ -161,6 +234,12 @@ public class HouseDaoTest extends AbstractTestNGSpringContextTests {
         
         House foundHouse = houseDao.findById(houseComplete.getId());
         this.assertDeepEquals(foundHouse, houseComplete);
+    }
+    
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void testFindByIdNonexistent() {
+        Assert.assertFalse(houseDao.findAll().contains(houseComplete));
+        houseDao.findById(houseComplete.getId());
     }
 
     /**
