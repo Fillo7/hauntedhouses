@@ -266,6 +266,8 @@ public class MonsterDaoTest extends AbstractTestNGSpringContextTests {
         monsterDao.create(cat);
         monsterDao.update(horse);
         Assert.assertEquals(monsterDao.findAll().size(), 2);
+        Assert.assertNotNull(monsterDao.findByName("Ponny"));
+        Assert.assertNotNull(monsterDao.findByName("Cicka"));
     }
 
     @Test
