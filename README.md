@@ -9,3 +9,9 @@ how it haunts. An ability has its name and description. In each house there can 
 cursed objects which attract monsters. Cursed object has its name, description and factor that defines
 its attractiveness to monsters. These objects attract monsters in general and are not tied to any specific
 monsters.
+
+Students working on this project:
+- [Ondrej Oravčok](https://github.com/piskula)
+- [Filip Petrovič](https://github.com/Fillo7)
+- [Kristýna Loukotová](https://github.com/Tilwaen)
+- [Marek Jančo](https://github.com/marcus991)
