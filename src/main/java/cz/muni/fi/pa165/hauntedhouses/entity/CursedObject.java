@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
+import java.util.Objects;
 
 /**
  * @author Filip Petrovic (422334)
@@ -66,10 +67,9 @@ public class CursedObject {
 
     @Override
     public boolean equals(Object other) {
-        if(!(other instanceof CursedObject)) {
-            return false;
-        }
-        
+        if(this == other) return true;
+        if(!(other instanceof Monster)) return false;
+
         if(name == null && ((CursedObject)other).getName() != null) {
             return false;
         }
@@ -79,8 +79,6 @@ public class CursedObject {
 
     @Override
     public int hashCode() {
-        int hash = 3;
-        hash = 53 * hash + ((name == null) ? 0 : name.hashCode());
-        return hash;
+        return Objects.hash(name);
     }
 }

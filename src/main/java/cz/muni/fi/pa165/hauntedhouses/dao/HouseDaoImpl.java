@@ -29,7 +29,7 @@ public class HouseDaoImpl implements HouseDao {
     }
 
     @Override
-    public void remove(House house) {
+    public void delete(House house) {
         if(house == null){
             throw new IllegalArgumentException("Deleting null entity.");
         }

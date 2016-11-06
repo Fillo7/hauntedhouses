@@ -25,7 +25,7 @@ public interface AbilityDao {
      * Update the ability in the database.
      * @param ability Ability to be updated.
      */
-    void update(Ability ability);
+    Ability update(Ability ability);
     
     /**
      * Deletes the ability from the database.

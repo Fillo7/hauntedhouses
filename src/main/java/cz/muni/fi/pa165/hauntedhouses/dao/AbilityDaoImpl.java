@@ -28,20 +28,12 @@ public class AbilityDaoImpl implements AbilityDao {
 
     @Override
     public void create(Ability ability) {
-        if (ability == null) {
-            throw new IllegalArgumentException("Attempting to create null Ability entity in the database.");
-        }
-        
         entityManager.persist(ability);
     }
 
     @Override
-    public void update(Ability ability) {
-        if (ability == null) {
-            throw new IllegalArgumentException("Attempting to update null Ability entity in the database.");
-        }
-        
-        entityManager.merge(ability);
+    public Ability update(Ability ability) {
+        return entityManager.merge(ability);
     }
 
     @Override

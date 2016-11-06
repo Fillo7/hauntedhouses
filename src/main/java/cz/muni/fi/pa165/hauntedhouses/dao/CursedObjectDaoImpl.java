@@ -17,38 +17,26 @@ public class CursedObjectDaoImpl implements CursedObjectDao {
     private EntityManager entityManager;
     
     @Override
-    public void addCursedObject(CursedObject cursedObject) {
-        if(cursedObject == null) {
-            throw new IllegalArgumentException("cursedObject is set to null.");
-        }
-        
-        if(cursedObject.getId() != null) {
-            throw new IllegalArgumentException("id is already set.");
-        }
-        
+    public void create(CursedObject cursedObject) {
         entityManager.persist(cursedObject);
     }
     
     @Override
-    public CursedObject updateCursedObject(CursedObject cursedObject) {
-        if(cursedObject == null) {
-            throw new IllegalArgumentException("cursedObject is set to null.");
-        }
-        
+    public CursedObject update(CursedObject cursedObject) {
         return entityManager.merge(cursedObject);
     }
     
     @Override
-    public void deleteCursedObject(CursedObject cursedObject) {
+    public void delete(CursedObject cursedObject) {
         if(cursedObject == null) {
             throw new IllegalArgumentException("cursedObject is set to null.");
         }
         
-        entityManager.remove(getCursedObject(cursedObject.getId()));
+        entityManager.remove(findById(cursedObject.getId()));
     }
     
     @Override
-    public CursedObject getCursedObject(Long id) {
+    public CursedObject findById(Long id) {
         if(id == null) {
             throw new IllegalArgumentException("id is set to null.");
         }
@@ -57,7 +45,7 @@ public class CursedObjectDaoImpl implements CursedObjectDao {
     }
     
     @Override
-    public List<CursedObject> getAllCursedObjects() {
+    public List<CursedObject> findAll() {
         return entityManager.createQuery("SELECT co FROM CursedObject co", CursedObject.class).getResultList();
     }
 }

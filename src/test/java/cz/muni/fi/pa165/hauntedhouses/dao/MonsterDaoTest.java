@@ -4,7 +4,6 @@ import cz.muni.fi.pa165.hauntedhouses.PersistenceApplicationContext;
 import cz.muni.fi.pa165.hauntedhouses.entity.Ability;
 import cz.muni.fi.pa165.hauntedhouses.entity.House;
 import cz.muni.fi.pa165.hauntedhouses.entity.Monster;
-import cz.muni.fi.pa165.hauntedhouses.validation.SurviveCondition;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.testng.Assert;
@@ -278,6 +277,28 @@ public class MonsterDaoTest extends AbstractTestNGSpringContextTests {
         Monster result = monsterDao.findByName("Ponny");
         Assert.assertNotNull(result);
         assertDeepEquals(result, horse);
+    }
+
+    @Test
+    public void findMonsterByIdTest(){
+        monsterDao.create(cat);
+        monsterDao.create(horse);
+
+        Monster result = monsterDao.findById(horse.getId());
+        Assert.assertNotNull(result);
+        assertDeepEquals(result, horse);
+    }
+
+    @Test
+    public void findAllMonstersTest(){
+        monsterDao.create(cat);
+        monsterDao.create(horse);
+
+        List<Monster> result = monsterDao.findAll();
+        Assert.assertNotNull(result);
+        Assert.assertEquals(result.size(), 2);
+        Assert.assertTrue(result.contains(cat));
+        Assert.assertTrue(result.contains(horse));
     }
 
     private void assertDeepEquals(Monster m1, Monster m2){

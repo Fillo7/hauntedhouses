@@ -98,8 +98,7 @@ public class Ability {
         }
 
         final Ability other = (Ability) obj;
-        if (name != null ? !name.equals(other.name) : other.name != null) return false;
-        if (monsters != null ? !monsters.equals(other.monsters) : other.monsters != null) return false;
+        if (name != null ? !name.equals(other.getName()) : other.getName() != null) return false;
 
         return true;
     }

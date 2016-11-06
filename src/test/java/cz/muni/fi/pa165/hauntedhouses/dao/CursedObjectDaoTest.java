@@ -69,177 +69,171 @@ public class CursedObjectDaoTest extends AbstractTestNGSpringContextTests{
     
     @Test
     public void testCreate(){
-        coDao.addCursedObject(c1);
+        coDao.create(c1);
         
         assertNotNull(c1.getId());
-        assertEquals(coDao.getCursedObject(c1.getId()).getName(), c1.getName());
-        assertEquals(coDao.getCursedObject(c1.getId()).getDescription(), c1.getDescription());
-        assertEquals(coDao.getCursedObject(c1.getId()).getHouse(), c1.getHouse());
-        assertEquals(coDao.getCursedObject(c1.getId()).getMonsterAttractionFactor(),
+        assertEquals(coDao.findById(c1.getId()).getName(), c1.getName());
+        assertEquals(coDao.findById(c1.getId()).getDescription(), c1.getDescription());
+        assertEquals(coDao.findById(c1.getId()).getHouse(), c1.getHouse());
+        assertEquals(coDao.findById(c1.getId()).getMonsterAttractionFactor(),
                 c1.getMonsterAttractionFactor());
     }
     
     @Test(expectedExceptions = IllegalArgumentException.class)
     public void testCreateNullCursedObject(){
-        coDao.addCursedObject(null);
+        coDao.create(null);
     }
     
     @Test(expectedExceptions = ValidationException.class)
     public void testCreateCursedObjectWithNullName(){
         c1.setName(null);
-        coDao.addCursedObject(c1);
+        coDao.create(c1);
     }
     
     @Test(expectedExceptions = ValidationException.class)
     public void testCreateCursedObjectWithNullDescription(){
         c1.setDescription(null);
-        coDao.addCursedObject(c1);
+        coDao.create(c1);
     }
 
     @Test(expectedExceptions = ValidationException.class)
     public void testCreateCursedObjectWithNullHouse(){
         c1.setHouse(null);
-        coDao.addCursedObject(c1);
+        coDao.create(c1);
     }
     
     @Test(expectedExceptions = ValidationException.class)
     public void testCreateCursedObjectWithNullMonsterAttractionFactor(){
         c1.setMonsterAttractionFactor(null);
-        coDao.addCursedObject(c1);
+        coDao.create(c1);
     }
     
     @Test()
     public void testUpdate(){
-        coDao.addCursedObject(c1);
+        coDao.create(c1);
         c1.setName("new name");
         c1.setDescription("new description");
         c1.setHouse(h2);
         c1.setMonsterAttractionFactor(MonsterAttractionFactor.INSANE);
         
-        CursedObject upd =coDao.updateCursedObject(c1);
+        CursedObject upd =coDao.update(c1);
         validate(upd, c1);
         
         c1.setName("old name");
-        upd =coDao.updateCursedObject(c1);
+        upd =coDao.update(c1);
         validate(upd, c1);
         
     }
     
     @Test(expectedExceptions = ConstraintViolationException.class)
     public void testUpdateNameToNull(){
-        coDao.addCursedObject(c1);
+        coDao.create(c1);
         
         c1.setName(null);
-        CursedObject upd = coDao.updateCursedObject(c1);
+        CursedObject upd = coDao.update(c1);
         em.flush();
     }
     
     
     @Test(expectedExceptions = ConstraintViolationException.class)
     public void testUpdateDescriptionToNull(){
-        coDao.addCursedObject(c1);
+        coDao.create(c1);
         
         c1.setName(null);
-        CursedObject upd = coDao.updateCursedObject(c1);
+        CursedObject upd = coDao.update(c1);
         em.flush();
     }
     
     @Test(expectedExceptions = ConstraintViolationException.class)
     public void testUpdateHouseToNull(){
-        coDao.addCursedObject(c1);
+        coDao.create(c1);
         
         c1.setHouse(null);
-        CursedObject upd = coDao.updateCursedObject(c1);
+        CursedObject upd = coDao.update(c1);
         em.flush();
     }
     
     @Test(expectedExceptions = ConstraintViolationException.class)
     public void testUpdateMonsterAttractionFactorToNull(){
-        coDao.addCursedObject(c1);
+        coDao.create(c1);
         
         c1.setMonsterAttractionFactor(null);
-        CursedObject upd = coDao.updateCursedObject(c1);
+        CursedObject upd = coDao.update(c1);
         em.flush();
     }
    
     @Test(expectedExceptions = PersistenceException.class)
     public void testUpdateWithSameName(){
-        coDao.addCursedObject(c1);
-        coDao.addCursedObject(c2);
+        coDao.create(c1);
+        coDao.create(c2);
         
         c1.setName("NAME");
         c2.setName("NAME");
         
-        coDao.updateCursedObject(c1);
+        coDao.update(c1);
         em.flush();
-        coDao.updateCursedObject(c2);
+        coDao.update(c2);
         em.flush();
     }
    
     @Test()
     public void testGetCursedObject(){
-        coDao.addCursedObject(c1);
-        coDao.addCursedObject(c2);
+        coDao.create(c1);
+        coDao.create(c2);
         
-        CursedObject co = coDao.getCursedObject(c1.getId());
+        CursedObject co = coDao.findById(c1.getId());
         validate(co, c1);
-        co = coDao.getCursedObject(c2.getId());
+        co = coDao.findById(c2.getId());
         validate(co, c2);
     }
     
     @Test(expectedExceptions = IllegalArgumentException.class)
     public void testGetNoExistingCursedObject(){
-        assertFalse(coDao.getAllCursedObjects().contains(c1));
-        CursedObject co = coDao.getCursedObject(c1.getId());
+        assertFalse(coDao.findAll().contains(c1));
+        CursedObject co = coDao.findById(c1.getId());
     }
     
     @Test()
     public void testGetAll(){
-        assertEquals(coDao.getAllCursedObjects().size(), 0);
-        coDao.addCursedObject(c1);
-        assertEquals(coDao.getAllCursedObjects().size(), 1);
-        coDao.addCursedObject(c2);
+        assertEquals(coDao.findAll().size(), 0);
+        coDao.create(c1);
+        assertEquals(coDao.findAll().size(), 1);
+        coDao.create(c2);
         
-        assertEquals(coDao.getAllCursedObjects().size(), 2);
-        validate(coDao.getAllCursedObjects().get(0),c1);
-        validate(coDao.getAllCursedObjects().get(1),c2);
+        assertEquals(coDao.findAll().size(), 2);
+        validate(coDao.findAll().get(0),c1);
+        validate(coDao.findAll().get(1),c2);
     }
     
     @Test()
     public void testDeleteCursedObject(){
-        coDao.addCursedObject(c1);
-        coDao.addCursedObject(c2);
-        assertEquals(coDao.getAllCursedObjects().size(), 2);
+        coDao.create(c1);
+        coDao.create(c2);
+        assertEquals(coDao.findAll().size(), 2);
         
-        coDao.deleteCursedObject(c1);
-        assertEquals(coDao.getAllCursedObjects().size(), 1);
-        validate(coDao.getAllCursedObjects().get(0),c2);
+        coDao.delete(c1);
+        assertEquals(coDao.findAll().size(), 1);
+        validate(coDao.findAll().get(0),c2);
         
-        coDao.deleteCursedObject(c2);
-        assertEquals(coDao.getAllCursedObjects().size(), 0);
+        coDao.delete(c2);
+        assertEquals(coDao.findAll().size(), 0);
     }
     
     @Test(expectedExceptions = IllegalArgumentException.class)
     public void testDeleteNull(){
-        coDao.deleteCursedObject(null);
+        coDao.delete(null);
     }
     
     @Test(expectedExceptions = IllegalArgumentException.class)
     public void testDeleteNotCreatedCursedObject(){
-        coDao.deleteCursedObject(c1);
-    }
-    
-    @Test(expectedExceptions = IllegalArgumentException.class)
-    public void testCreateSameCursedObjects(){
-        coDao.addCursedObject(c1);
-        coDao.addCursedObject(c1);
+        coDao.delete(c1);
     }
     
     @Test(expectedExceptions = PersistenceException.class)
     public void testCreateSameNamedCursedObjects(){
-        coDao.addCursedObject(c1);
+        coDao.create(c1);
         c2.setName(c1.getName());
-        coDao.addCursedObject(c2);
+        coDao.create(c2);
     }
     
     

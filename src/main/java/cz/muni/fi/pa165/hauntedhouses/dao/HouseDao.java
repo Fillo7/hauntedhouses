@@ -28,7 +28,7 @@ public interface HouseDao {
      *
      * @param house to be removed
      */
-    void remove(House house);
+    void delete(House house);
 
     /**
      * search for House by its specific id

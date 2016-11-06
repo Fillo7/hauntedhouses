@@ -17,9 +17,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceException;
 import javax.transaction.Transactional;
-//import javax.validation.ConstraintViolationException;
 import javax.validation.ValidationException;
-import org.hibernate.exception.ConstraintViolationException;
+
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
@@ -193,7 +192,7 @@ public class HouseDaoTest extends AbstractTestNGSpringContextTests {
     }
 
     /**
-     * Test of remove method, of class HouseDao.
+     * Test of delete method, of class HouseDao.
      */
     @Test
     public void testRemove() {
@@ -204,10 +203,10 @@ public class HouseDaoTest extends AbstractTestNGSpringContextTests {
         Assert.assertNotNull(houseDao.findById(houseComplete.getId()));
         Assert.assertNotNull(houseDao.findById(houseMonsterOnly.getId()));
         
-        houseDao.remove(houseComplete);
+        houseDao.delete(houseComplete);
         Assert.assertEquals(houseDao.findAll().size(), 1);
         
-        houseDao.remove(houseMonsterOnly);
+        houseDao.delete(houseMonsterOnly);
         Assert.assertEquals(houseDao.findAll().size(), 0);
         
         Assert.assertNull(houseDao.findById(houseComplete.getId()));
@@ -217,12 +216,12 @@ public class HouseDaoTest extends AbstractTestNGSpringContextTests {
     @Test(expectedExceptions = IllegalArgumentException.class)
     public void testRemoveNonexistent() {
         Assert.assertFalse(houseDao.findAll().contains(houseComplete));
-        houseDao.remove(houseComplete);
+        houseDao.delete(houseComplete);
     }
     
     @Test(expectedExceptions = IllegalArgumentException.class)
     public void testRemoveNull() {
-        houseDao.remove(null);
+        houseDao.delete(null);
     }
 
     /**
@@ -257,6 +256,17 @@ public class HouseDaoTest extends AbstractTestNGSpringContextTests {
         Assert.assertTrue(houses.contains(houseComplete));
         Assert.assertTrue(houses.contains(houseMonsterOnly));
         Assert.assertTrue(houses.contains(houseCObjectOnly));
+    }
+
+    @Test
+    public void testFindByName() {
+        houseDao.create(houseComplete);
+        houseDao.create(houseMonsterOnly);
+        houseDao.create(houseCObjectOnly);
+
+        House result = houseDao.findByName("Kremlin");
+        Assert.assertNotNull(result);
+        assertDeepEquals(result, houseCObjectOnly);
     }
     
     @Test(expectedExceptions = UnsupportedOperationException.class)

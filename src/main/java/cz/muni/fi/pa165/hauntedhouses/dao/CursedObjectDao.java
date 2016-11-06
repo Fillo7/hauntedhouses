@@ -12,7 +12,7 @@ public interface CursedObjectDao {
      * @param cursedObject Cursed object to be added.
      * @throws IllegalArgumentException when cursedObject is null or id is already set.
      */
-    void addCursedObject(CursedObject cursedObject);
+    void create(CursedObject cursedObject);
     
     /**
      * Updates existing cursed object.
@@ -20,14 +20,14 @@ public interface CursedObjectDao {
      * @return updated CursedObject
      * @throws IllegalArgumentException when cursedObject is null.
      */
-    CursedObject updateCursedObject(CursedObject cursedObject);
+    CursedObject update(CursedObject cursedObject);
     
     /**
      * Deletes existing cursed object.
      * @param cursedObject Cursed object to be deleted.
      * @throws IllegalArgumentException when cursed object is null.
      */
-    void deleteCursedObject(CursedObject cursedObject);
+    void delete(CursedObject cursedObject);
     
     /**
      * Returns existing cursed object with given id.
@@ -35,11 +35,11 @@ public interface CursedObjectDao {
      * @return Existing cursed object with given id.
      * @throws IllegalArgumentException when id is null.
      */
-    CursedObject getCursedObject(Long id);
+    CursedObject findById(Long id);
     
     /**
      * Returns list of all cursed objects.
      * @return List of all cursed objects.
      */
-    List<CursedObject> getAllCursedObjects();
+    List<CursedObject> findAll();
 }

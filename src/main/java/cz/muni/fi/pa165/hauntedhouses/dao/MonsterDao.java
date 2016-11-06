@@ -49,7 +49,7 @@ public interface MonsterDao {
      * find specific monster by it's name
      *
      * @param name given name
-     * @return specific house, is found
+     * @return specific Monster, if found
      */
     public Monster findByName(String name);
 }
