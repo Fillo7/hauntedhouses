@@ -16,6 +16,4 @@ import cz.muni.fi.pa165.api.dto.AbilityDTO;
 public interface AbilityFacade {
     List<AbilityDTO> findAll();
     AbilityDTO findById(Long id);
-
-    //Long createAbility(AbilityCreateDTO categoryCreateDTO);
 }

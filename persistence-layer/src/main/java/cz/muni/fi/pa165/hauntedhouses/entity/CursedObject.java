@@ -42,17 +42,29 @@ public class CursedObject {
 
     public CursedObject() {}
 
-    public Long getId() { return id; }
+    public Long getId() {
+        return id;
+    }
 
-    public void setId(Long id) { this.id = id; }
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-    public String getName() { return name; }
+    public String getName() {
+        return name;
+    }
 
-    public void setName(String name) { this.name = name; }
+    public void setName(String name) {
+        this.name = name;
+    }
 
-    public String getDescription() { return description; }
+    public String getDescription() {
+        return description;
+    }
 
-    public void setDescription(String description) { this.description = description; }
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
     public MonsterAttractionFactor getMonsterAttractionFactor() {
         return monsterAttractionFactor;
@@ -62,9 +74,13 @@ public class CursedObject {
         this.monsterAttractionFactor = monsterAttractionFactor;
     }
 
-    public House getHouse() { return house; }
+    public House getHouse() {
+        return house;
+    }
 
-    public void setHouse(House house) { this.house = house; }
+    public void setHouse(House house) {
+        this.house = house;
+    }
 
     @Override
     public boolean equals(Object other) {
