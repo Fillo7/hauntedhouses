@@ -20,7 +20,7 @@ public class MonsterDaoImpl implements MonsterDao {
 
     @PersistenceContext
     private EntityManager em;
-    
+
     @Override
     public void create(Monster monster) {
         em.persist(monster);
@@ -40,8 +40,8 @@ public class MonsterDaoImpl implements MonsterDao {
     }
 
     @Override
-    public Monster findById(Long Id) {
-        return em.find(Monster.class, Id);
+    public Monster findById(Long id) {
+        return em.find(Monster.class, id);
     }
 
     @Override
@@ -59,5 +59,5 @@ public class MonsterDaoImpl implements MonsterDao {
             return null;
         }
     }
-    
+
 }

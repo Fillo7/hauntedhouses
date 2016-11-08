@@ -24,7 +24,7 @@ import javax.sql.DataSource;
 @EnableJpaRepositories("cz.muni.fi.pa165.hauntedhouses.dao")
 @ComponentScan("cz.muni.fi.pa165.hauntedhouses.dao")
 public class PersistenceApplicationContext {
-    
+
     @Bean
     public JpaTransactionManager transactionManager() {
         return new JpaTransactionManager(entityManagerFactory().getObject());

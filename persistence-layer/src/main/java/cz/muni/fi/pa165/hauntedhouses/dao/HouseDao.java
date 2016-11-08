@@ -51,5 +51,5 @@ public interface HouseDao {
      * @param name given name
      * @return specific house, is found
      */
-    public House findByName(String name);
+    House findByName(String name);
 }

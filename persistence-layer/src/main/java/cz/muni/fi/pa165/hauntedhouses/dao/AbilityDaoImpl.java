@@ -22,7 +22,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 @Transactional
 public class AbilityDaoImpl implements AbilityDao {
-    
+
     @PersistenceContext
     private EntityManager entityManager;
 
@@ -41,13 +41,13 @@ public class AbilityDaoImpl implements AbilityDao {
         if (ability == null) {
             throw new IllegalArgumentException("Attempting to delete null Ability entity from the database.");
         }
-        
+
         Ability abilityInDb = this.findById(ability.getId());
         if (abilityInDb == null) {
             throw new IllegalArgumentException("Attempting to delete Ability entity, "
                     + "but no such entity is currently present in the database.");
         }
-        
+
         entityManager.remove(abilityInDb);
     }
 

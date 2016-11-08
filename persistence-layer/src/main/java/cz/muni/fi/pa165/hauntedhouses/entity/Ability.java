@@ -27,26 +27,26 @@ import javax.validation.constraints.NotNull;
 @Entity
 @Table(name = "Abilities")
 public class Ability {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    
+
     @NotNull
     @Column(nullable = false, unique = true)
     private String name;
-    
+
     private String description;
-    
+
     @ManyToMany
-    private Set<Monster> monsters = new HashSet<>(); 
-    
+    private Set<Monster> monsters = new HashSet<>();
+
     /*** Getters and setters ***/
-    
+
     public Long getId() {
         return id;
     }
-    
+
     public void setId(Long id) {
         this.id = id;
     }
@@ -54,7 +54,7 @@ public class Ability {
     public String getName() {
         return name;
     }
-    
+
     public void setName(String name) {
         this.name = name;
     }
@@ -65,7 +65,7 @@ public class Ability {
     public void setDescription(String description) {
         this.description = description;
     }
-    
+
     public Set<Monster> getMonsters() {
         return Collections.unmodifiableSet(monsters);
     }
@@ -73,7 +73,7 @@ public class Ability {
     public void addMonster(Monster monster) {
         this.monsters.add(monster);
     }
-    
+
     public void removeMonster(Monster monster){
         this.monsters.remove(monster);
     }

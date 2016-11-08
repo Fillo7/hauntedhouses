@@ -18,6 +18,7 @@ import java.util.Objects;
 @Entity
 @Table(name = "CursedObject")
 public class CursedObject {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -29,16 +30,16 @@ public class CursedObject {
     @NotNull
     @Column(nullable = false)
     private String description;
-    
+
     @Enumerated
     @NotNull
     @Column(nullable = false)
     private MonsterAttractionFactor monsterAttractionFactor;
-    
+
     @ManyToOne(optional=false)
     @NotNull
     private House house;
-    
+
     public CursedObject() {}
 
     public Long getId() { return id; }
@@ -52,7 +53,7 @@ public class CursedObject {
     public String getDescription() { return description; }
 
     public void setDescription(String description) { this.description = description; }
-    
+
     public MonsterAttractionFactor getMonsterAttractionFactor() {
         return monsterAttractionFactor;
     }
@@ -60,7 +61,7 @@ public class CursedObject {
     public void setMonsterAttractionFactor(MonsterAttractionFactor monsterAttractionFactor) {
         this.monsterAttractionFactor = monsterAttractionFactor;
     }
-    
+
     public House getHouse() { return house; }
 
     public void setHouse(House house) { this.house = house; }
@@ -70,11 +71,11 @@ public class CursedObject {
         if(this == other) return true;
         if(!(other instanceof Monster)) return false;
 
-        if(name == null && ((CursedObject)other).getName() != null) {
+        if(name == null && ((CursedObject) other).getName() != null) {
             return false;
         }
-        
-        return name.equals(((CursedObject)other).getName());
+
+        return name.equals(((CursedObject) other).getName());
     }
 
     @Override

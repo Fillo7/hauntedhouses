@@ -35,15 +35,15 @@ public class Monster {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    
+
     @NotNull
     @Column(unique = true, nullable = false)
     private String name;
-    
+
     @NotNull
     @Column(nullable = false)
     private String description;
-    
+
     @NotNull
     @Column(nullable = false)
     private LocalTime hauntedIntervalStart;
@@ -54,14 +54,14 @@ public class Monster {
 
     @ManyToOne(optional=false)
     private House house;
-    
+
     @ManyToMany(mappedBy="monsters")
     private Set<Ability> abilities = new HashSet<>();
-    
+
     public Long getId() {
         return id;
     }
-    
+
     public String getName() {
         return name;
     }
@@ -114,20 +114,22 @@ public class Monster {
         this.abilities.remove(ability);
     }
 
-    public void addAbility(Ability ability) { this.abilities.add(ability);}
-    
+    public void addAbility(Ability ability) {
+        this.abilities.add(ability);
+    }
+
     @Override
     public boolean equals(Object obj) {
         if(obj == this) return true;
         if(obj == null) return false;
         if(!(obj instanceof Monster)) return false;
-        
+
         final Monster monster = (Monster) obj;
         if (getName() != null ? !getName().equals(monster.getName()) : monster.getName() != null)
             return false;
 
         return true;
-    } 
+    }
 
     @Override
     public int hashCode() {

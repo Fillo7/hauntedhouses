@@ -28,7 +28,7 @@ public class House {
 
     @OneToMany(mappedBy="house")
     private Set<Monster> monsters = new HashSet<>();
-    
+
     @OneToMany(mappedBy="house")
     private Set<CursedObject> cursedObjects = new HashSet<>();
 
@@ -74,7 +74,7 @@ public class House {
     public void removeMonster(Monster monster){
         this.monsters.remove(monster);
     }
-    
+
     public Set<CursedObject> getCursedObjects() {
         return Collections.unmodifiableSet(cursedObjects);
     }

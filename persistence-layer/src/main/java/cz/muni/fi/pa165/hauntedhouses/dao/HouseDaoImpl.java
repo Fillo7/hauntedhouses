@@ -5,7 +5,6 @@ import org.springframework.stereotype.Repository;
 
 import javax.persistence.*;
 import javax.transaction.Transactional;
-import javax.validation.ConstraintViolationException;
 import java.util.List;
 
 /**
