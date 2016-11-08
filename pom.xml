@@ -8,6 +8,7 @@
     <modules>
         <module>persistence-layer</module>
         <module>facade-layer</module>
+        <module>api-layer</module>
     </modules>
 
     <packaging>pom</packaging>
