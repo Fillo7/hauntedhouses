@@ -9,5 +9,5 @@
         <version>2.0</version>
     </parent>
     <artifactId>api-layer</artifactId>
-    <packaging>jar</packaging>
+    <!--<packaging>jar</packaging>-->
 </project>
