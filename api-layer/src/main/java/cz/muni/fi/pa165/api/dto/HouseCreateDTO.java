@@ -1,4 +1,4 @@
-package cz.muni.fi.pa165.hauntedhouses.dto.create;
+package cz.muni.fi.pa165.api.dto;
 
 import javax.validation.constraints.NotNull;
 import java.util.Objects;

@@ -1,8 +1,8 @@
 package cz.muni.fi.pa165.hauntedhouses.dto;
 
+import cz.muni.fi.pa165.api.dto.HouseCreateDTO;
 import cz.muni.fi.pa165.hauntedhouses.ServiceConfiguration;
 import cz.muni.fi.pa165.hauntedhouses.dao.HouseDao;
-import cz.muni.fi.pa165.hauntedhouses.dto.create.HouseCreateDTO;
 import cz.muni.fi.pa165.hauntedhouses.entity.House;
 import org.dozer.DozerBeanMapper;
 import org.dozer.Mapper;

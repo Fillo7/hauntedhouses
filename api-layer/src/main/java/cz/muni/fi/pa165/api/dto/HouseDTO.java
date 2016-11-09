@@ -1,4 +1,4 @@
-package cz.muni.fi.pa165.hauntedhouses.dto;
+package cz.muni.fi.pa165.api.dto;
 
 import cz.muni.fi.pa165.hauntedhouses.entity.CursedObject;
 import cz.muni.fi.pa165.hauntedhouses.entity.Monster;

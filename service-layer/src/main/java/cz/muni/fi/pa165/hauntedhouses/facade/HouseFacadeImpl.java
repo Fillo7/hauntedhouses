@@ -1,7 +1,8 @@
 package cz.muni.fi.pa165.hauntedhouses.facade;
 
-import cz.muni.fi.pa165.hauntedhouses.dto.HouseDTO;
-import cz.muni.fi.pa165.hauntedhouses.dto.create.HouseCreateDTO;
+import cz.muni.fi.pa165.api.dto.HouseCreateDTO;
+import cz.muni.fi.pa165.api.dto.HouseDTO;
+import cz.muni.fi.pa165.api.facade.HouseFacade;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
