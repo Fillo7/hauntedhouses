@@ -90,7 +90,6 @@ public class House {
     @Override
     public boolean equals(Object obj){
         if(this == obj) return true;
-        if(obj == null) return false;
         if(!(obj instanceof House)) return false;
 
         final House other = (House) obj;
