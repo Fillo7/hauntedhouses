@@ -52,13 +52,16 @@ public class CursedObjectFacadeImpl implements CursedObjectFacade {
     }
     
     @Override
-    public void deleteCursedObject(Long cursedObjectId) {
-        // To do
+    public void deleteCursedObject(Long id) {
+        CursedObject cursedObject = new CursedObject();
+        cursedObject.setId(id);
+        
+        cursedObjectService.delete(cursedObject);
     }
     
     @Override
-    public CursedObjectDTO getCursedObjectWithId(Long cursedObjectId) {
-        CursedObject cursedObject = cursedObjectService.findById(cursedObjectId);
+    public CursedObjectDTO getCursedObjectWithId(Long id) {
+        CursedObject cursedObject = cursedObjectService.findById(id);
         return beanMappingService.mapTo(cursedObject, CursedObjectDTO.class);
     }
     

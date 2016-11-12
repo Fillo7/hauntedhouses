@@ -23,16 +23,16 @@ public interface CursedObjectFacade {
     
     /**
      * Deletes existing cursed object.
-     * @param cursedObjectId Id of cursed object to be deleted
+     * @param id Id of cursed object to be deleted
      */
-    void deleteCursedObject(Long cursedObjectId);
+    void deleteCursedObject(Long id);
     
     /**
      * Returns cursed object with given id.
-     * @param cursedObjectId Id of a cursed object to be returned
+     * @param id Id of a cursed object to be returned
      * @return Cursed object with given id
      */
-    CursedObjectDTO getCursedObjectWithId(Long cursedObjectId);
+    CursedObjectDTO getCursedObjectWithId(Long id);
     
     /**
      * Returns all cursed objects.
