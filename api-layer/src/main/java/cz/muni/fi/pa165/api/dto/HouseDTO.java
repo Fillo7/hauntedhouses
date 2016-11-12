@@ -59,7 +59,7 @@ public class HouseDTO {
         return cursedObjects;
     }
 
-    public void addCursedObjects(Set<CursedObjectDTO> cursedObjects) {
+    public void setCursedObjects(Set<CursedObjectDTO> cursedObjects) {
         this.cursedObjects = cursedObjects;
     }
 

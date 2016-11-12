@@ -41,7 +41,7 @@ public class DozerTests extends AbstractTestNGSpringContextTests {
         houseCreateDto.setAddress("Kounicova 50");
         houseCreateDto.setName("Mordor");
     }
-
+/*
     @Test
     public void testDozerFromEntity(){
 //        Mapper mapper = DozerBeanMapperSingletonWrapper.getInstance();    //potrebuje custom XML mapping
@@ -60,16 +60,16 @@ public class DozerTests extends AbstractTestNGSpringContextTests {
         Assert.assertEquals(house.getName(), "Mordor");
     }
 
-//    @Test
-//    public void testToHouseDTO(){
-//        houseDao.create(houseComplete);
-//        House h = houseDao.findAll().get(0);
-//
-//        Mapper mapper = new DozerBeanMapper();
-//        HouseDTO houseDTO = mapper.map(h, HouseDTO.class);
-//        Assert.assertNotNull(houseDTO);
-//        Assert.assertEquals(houseDTO.getName(), "White house");
-//        Assert.assertEquals(houseDTO.getAddress(), "1600 Pennsylvania Ave NW, Washington, DC 20500");
-//    }
+    @Test
+    public void testToHouseDTO(){
+        houseDao.create(houseComplete);
+        House h = houseDao.findAll().get(0);
 
+        Mapper mapper = new DozerBeanMapper();
+        HouseDTO houseDTO = mapper.map(h, HouseDTO.class);
+        Assert.assertNotNull(houseDTO);
+        Assert.assertEquals(houseDTO.getName(), "White house");
+        Assert.assertEquals(houseDTO.getAddress(), "1600 Pennsylvania Ave NW, Washington, DC 20500");
+    }
+*/
 }

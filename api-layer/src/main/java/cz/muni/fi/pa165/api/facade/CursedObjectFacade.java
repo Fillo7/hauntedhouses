@@ -10,27 +10,33 @@ import java.util.List;
 public interface CursedObjectFacade {
     /**
      * Creates new cursed object.
-     * @param cursedObject Cursed object to be created
+     * @param cursedObjectCreateDTO Cursed object to be created
      * @return Id of the created cursed object
      */
-    public Long createCursedObject(CursedObjectCreateDTO cursedObject);
+    Long createCursedObject(CursedObjectCreateDTO cursedObjectCreateDTO);
     
     /**
      * Updates existing cursed object.
-     * @param cursedObject Cursed object to be updated
+     * @param cursedObjectDTO Cursed object to be updated
      */
-    void updateCursedObject(CursedObjectDTO cursedObject);
+    void updateCursedObject(CursedObjectDTO cursedObjectDTO);
+    
+    /**
+     * Deletes existing cursed object.
+     * @param cursedObjectId Id of cursed object to be deleted
+     */
+    void deleteCursedObject(Long cursedObjectId);
     
     /**
      * Returns cursed object with given id.
-     * @param id Id of a cursed object to be returned
+     * @param cursedObjectId Id of a cursed object to be returned
      * @return Cursed object with given id
      */
-    public CursedObjectDTO getCursedObjectWithId(Long id);
+    CursedObjectDTO getCursedObjectWithId(Long cursedObjectId);
     
     /**
      * Returns all cursed objects.
      * @return All cursed objects
      */
-    public List<CursedObjectDTO> getAllCursedObjects();
+    List<CursedObjectDTO> getAllCursedObjects();
 }

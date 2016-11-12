@@ -7,8 +7,7 @@ import java.util.List;
  * @author Filip Petrovic (422334)
  */
 public interface CursedObjectDao {
-
-     /**
+    /**
      * Adds new cursed object.
      * @param cursedObject Cursed object to be added.
      * @throws IllegalArgumentException when cursedObject is null or id is already set.

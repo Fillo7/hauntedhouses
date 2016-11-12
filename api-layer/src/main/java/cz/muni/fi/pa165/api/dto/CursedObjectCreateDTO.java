@@ -16,6 +16,9 @@ public class CursedObjectCreateDTO {
 
     @NotNull
     private MonsterAttractionFactor monsterAttractionFactor;
+    
+    @NotNull
+    private HouseDTO house;
 
     public String getName() {
         return name;
@@ -39,6 +42,14 @@ public class CursedObjectCreateDTO {
 
     public void setMonsterAttractionFactor(MonsterAttractionFactor monsterAttractionFactor) {
         this.monsterAttractionFactor = monsterAttractionFactor;
+    }
+    
+    public HouseDTO getHouse() {
+        return house;
+    }
+
+    public void setHouse(HouseDTO house) {
+        this.house = house;
     }
 
     @Override
