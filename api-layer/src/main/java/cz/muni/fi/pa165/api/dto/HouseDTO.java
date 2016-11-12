@@ -1,8 +1,5 @@
 package cz.muni.fi.pa165.api.dto;
 
-import cz.muni.fi.pa165.hauntedhouses.entity.CursedObject;
-import cz.muni.fi.pa165.hauntedhouses.entity.Monster;
-
 import javax.validation.constraints.NotNull;
 import java.util.HashSet;
 import java.util.Objects;
@@ -21,9 +18,10 @@ public class HouseDTO {
     @NotNull
     private String name;
 
-    private Set<Monster> monsters = new HashSet<>();
+    /* MonsterDTO not implemented yet
+    private Set<MonsterDTO> monsters = new HashSet<>(); */
 
-    private Set<CursedObject> cursedObjects = new HashSet<>();
+    private Set<CursedObjectDTO> cursedObjects = new HashSet<>();
 
     public Long getId() {
         return id;
@@ -48,20 +46,20 @@ public class HouseDTO {
     public void setName(String name) {
         this.name = name;
     }
-
-    public Set<Monster> getMonsters() {
+    /* MonsterDTO not implemented yet
+    public Set<MonsterDTO> getMonsters() {
         return monsters;
     }
 
-    public void setMonsters(Set<Monster> monsters) {
+    public void setMonsters(Set<MonsterDTO> monsters) {
         this.monsters = monsters;
-    }
+    }*/
 
-    public Set<CursedObject> getCursedObjects() {
+    public Set<CursedObjectDTO> getCursedObjects() {
         return cursedObjects;
     }
 
-    public void setCursedObjects(Set<CursedObject> cursedObjects) {
+    public void addCursedObjects(Set<CursedObjectDTO> cursedObjects) {
         this.cursedObjects = cursedObjects;
     }
 

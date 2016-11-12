@@ -85,8 +85,9 @@ public class CursedObject {
 
     @Override
     public boolean equals(Object other) {
-        if(this == other) return true;
-        if(!(other instanceof Monster)) return false;
+        if(!(other instanceof CursedObject)) {
+            return false;
+        }
 
         if(name == null && ((CursedObject) other).getName() != null) {
             return false;
