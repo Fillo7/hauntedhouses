@@ -15,12 +15,17 @@ import org.testng.annotations.Test;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.transaction.Transactional;
+import org.springframework.test.context.TestExecutionListeners;
+import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
 
 /**
  * Created by Ondro on 09-Nov-16.
  */
 @ContextConfiguration(classes = ServiceConfiguration.class)
-public class DozerTests extends AbstractTestNGSpringContextTests {
+@TestExecutionListeners(TransactionalTestExecutionListener.class)
+@Transactional
+public class BeanMappingServiceTest extends AbstractTestNGSpringContextTests {
 
     @PersistenceContext
     EntityManager entityManager;
@@ -46,22 +51,22 @@ public class DozerTests extends AbstractTestNGSpringContextTests {
     }
     
     @Test
-    public void testDozerFromEntity(){
+    public void testDozerFromEntity() {
         HouseCreateDTO houseDto = beanMappingService.mapTo(houseComplete, HouseCreateDTO.class);
         Assert.assertNotNull(houseDto);
         Assert.assertEquals(houseDto.getName(), "White house");
     }
 
     @Test
-    public void testDozerToEntity(){
+    public void testDozerToEntity() {
         House house = beanMappingService.mapTo(houseCreateDto, House.class);
         Assert.assertNotNull(house);
         Assert.assertEquals(house.getAddress(), "Kounicova 50");
         Assert.assertEquals(house.getName(), "Mordor");
     }
-/*
+
     @Test
-    public void testToHouseDTO(){
+    public void testToHouseDTO() {
         houseDao.create(houseComplete);
         House h = houseDao.findAll().get(0);
 
@@ -69,5 +74,5 @@ public class DozerTests extends AbstractTestNGSpringContextTests {
         Assert.assertNotNull(houseDTO);
         Assert.assertEquals(houseDTO.getName(), "White house");
         Assert.assertEquals(houseDTO.getAddress(), "1600 Pennsylvania Ave NW, Washington, DC 20500");
-    }*/
+    }
 }
