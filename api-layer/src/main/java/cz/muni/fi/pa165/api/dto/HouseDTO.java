@@ -48,7 +48,7 @@ public class HouseDTO {
     }
     /* MonsterDTO not implemented yet
     public Set<MonsterDTO> getMonsters() {
-        return monsters;
+        return monsters;    // Note from Kristyna: return unmodifiable collection?
     }
 
     public void setMonsters(Set<MonsterDTO> monsters) {

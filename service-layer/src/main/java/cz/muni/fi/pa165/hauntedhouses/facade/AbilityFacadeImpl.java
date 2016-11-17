@@ -3,19 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package cz.muni.fi.pa165.api.facade;
-
-import java.util.List;
-import cz.muni.fi.pa165.api.dto.AbilityDTO;
+package cz.muni.fi.pa165.hauntedhouses.facade;
 
 /**
  *
  * @author Kristyna Loukotova
- * @version 08.11.2016
+ * @version 17.11.2016
  */
-public interface AbilityFacade {
+public class AbilityFacadeImpl {
 
-    List<AbilityDTO> findAll();
-
-    AbilityDTO findById(Long id);
 }
