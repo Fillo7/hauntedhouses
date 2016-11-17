@@ -5,13 +5,13 @@
  */
 package cz.muni.fi.pa165.api.dto;
 
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 import javax.validation.constraints.NotNull;
 
 /**
  * Data transfer object for class Ability.
- * TODO: Uncomment MonsterDTO related things.
  * @author Kristyna Loukotova
  * @version 17.11.2016
  */
@@ -24,8 +24,7 @@ public class AbilityDTO {
 
     private String description;
 
-    // MonsterDTO not implemented yet
-    //private Set<MonsterDTO> monsters = new HashSet<>();
+    private Set<MonsterDTO> monsters = new HashSet<>();
 
     public Long getId() {
         return id;
@@ -51,14 +50,13 @@ public class AbilityDTO {
         this.description = description;
     }
 
-    /* MonsterDTO not implemented yet
     public Set<MonsterDTO> getMonsters() {
         return Collections.unmodifiableSet(monsters);
     }
 
     public void setMonsters(Set<MonsterDTO> monsters) {
         this.monsters = monsters;
-    }*/
+    }
 
     @Override
     public int hashCode() {

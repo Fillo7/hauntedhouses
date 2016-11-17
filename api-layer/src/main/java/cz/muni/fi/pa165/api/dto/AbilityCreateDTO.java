@@ -5,6 +5,9 @@
  */
 package cz.muni.fi.pa165.api.dto;
 
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -19,8 +22,7 @@ public class AbilityCreateDTO {
 
     private String description;
 
-    // MonsterDTO not implemented yet
-    //private Set<MonsterDTO> monsters = new HashSet<>();
+    private Set<MonsterDTO> monsters = new HashSet<>();
 
     public String getName() {
         return name;
@@ -38,14 +40,13 @@ public class AbilityCreateDTO {
         this.description = description;
     }
 
-    /* MonsterDTO not implemented yet
     public Set<MonsterDTO> getMonsters() {
         return Collections.unmodifiableSet(monsters);
     }
 
     public void setMonsters(Set<MonsterDTO> monsters) {
         this.monsters = monsters;
-    }*/
+    }
 
     @Override
     public int hashCode() {
