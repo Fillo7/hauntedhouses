@@ -18,8 +18,7 @@ public class HouseDTO {
     @NotNull
     private String name;
 
-    /* MonsterDTO not implemented yet
-    private Set<MonsterDTO> monsters = new HashSet<>(); */
+    private Set<MonsterDTO> monsters = new HashSet<>();
 
     private Set<CursedObjectDTO> cursedObjects = new HashSet<>();
 
@@ -46,14 +45,14 @@ public class HouseDTO {
     public void setName(String name) {
         this.name = name;
     }
-    /* MonsterDTO not implemented yet
+
     public Set<MonsterDTO> getMonsters() {
-        return monsters;    // Note from Kristyna: return unmodifiable collection?
+        return monsters;
     }
 
     public void setMonsters(Set<MonsterDTO> monsters) {
         this.monsters = monsters;
-    }*/
+    }
 
     public Set<CursedObjectDTO> getCursedObjects() {
         return cursedObjects;
