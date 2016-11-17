@@ -70,4 +70,16 @@ public class CursedObjectFacadeImpl implements CursedObjectFacade {
         List<CursedObject> cursedObjects = cursedObjectService.findAll();
         return beanMappingService.mapTo(cursedObjects, CursedObjectDTO.class);
     }
+    
+    @Override
+    public void massIncreaseMonsterAttractionFactor(cz.muni.fi.pa165.api.enums.MonsterAttractionFactor treshold) {
+        List<CursedObject> cursedObjects = cursedObjectService.findAll();
+        
+        for(CursedObject cursedObject : cursedObjects) {
+            if(cursedObject.getMonsterAttractionFactor().ordinal() <= treshold.ordinal()) {
+                cursedObject.setMonsterAttractionFactor(cursedObject.getMonsterAttractionFactor().next());
+                cursedObjectService.update(cursedObject);
+            }
+        }
+    }
 }

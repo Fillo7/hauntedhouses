@@ -16,11 +16,11 @@ import javax.validation.ConstraintViolationException;
 public class TranslateAspectException {
 
     @Around("execution(public * cz.fi.muni.pa165.hauntedhouses.service..*(..))")
-    public Object translateDataAccessException(ProceedingJoinPoint pjp) throws Throwable{
-        try{
+    public Object translateDataAccessException(ProceedingJoinPoint pjp) throws Throwable {
+        try {
             return pjp.proceed();
         } catch(NullPointerException | IllegalArgumentException | ConstraintViolationException | PersistenceException
-                | DataAccessException exception){
+                | DataAccessException exception) {
             throw new DataManipulationException("Exception thrown while accessing data layer on " + pjp.toShortString(), exception);
         }
     }

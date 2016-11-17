@@ -7,5 +7,14 @@ public enum MonsterAttractionFactor {
     LOW,
     MEDIUM,
     HIGH,
-    INSANE
+    INSANE {
+        @Override
+        public MonsterAttractionFactor next() {
+            return this;
+        }
+    };
+    
+    public MonsterAttractionFactor next() {
+        return values()[ordinal() + 1];
+    }
 }
