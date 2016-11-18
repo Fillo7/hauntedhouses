@@ -5,16 +5,18 @@
  */
 package cz.muni.fi.pa165.hauntedhouses.dto;
 
-import cz.muni.fi.pa165.api.dto.HouseDTO;
 import cz.muni.fi.pa165.hauntedhouses.ServiceConfiguration;
 import cz.muni.fi.pa165.hauntedhouses.dao.HouseDao;
 import cz.muni.fi.pa165.hauntedhouses.entity.CursedObject;
 import cz.muni.fi.pa165.hauntedhouses.entity.House;
 import cz.muni.fi.pa165.hauntedhouses.entity.Monster;
 import cz.muni.fi.pa165.hauntedhouses.service.HouseService;
+import java.util.ArrayList;
+import java.util.List;
 import org.hibernate.service.spi.ServiceException;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,7 +43,6 @@ public class HouseServiceTest extends AbstractTransactionalTestNGSpringContextTe
     private HouseService houseService;
 
     private House house1;
-    private House house2;
     private Monster monster;
     private CursedObject cursedObject;
 
@@ -63,11 +64,6 @@ public class HouseServiceTest extends AbstractTransactionalTestNGSpringContextTe
         house1.setAddress("Aperture Science laboratories");
         house1.addMonster(monster);
         house1.addCursedObject(cursedObject);
-
-        house2 = new House();
-        house2.setId(2L);
-        house2.setName("Cake paradise");
-        house2.setAddress("Sweet topping avenue 7, Cakington");
     }
 
     @BeforeClass
@@ -78,31 +74,51 @@ public class HouseServiceTest extends AbstractTransactionalTestNGSpringContextTe
     @Test
     public void testCreate() {
         houseService.create(house1);
+        verify(houseDao).create(house1);
+    }
+
+    @Test
+    public void testUpdate() {
+        when(houseDao.update(house1)).thenReturn(house1);
+
+        House updatedHouse = houseService.update(house1);
+        verify(houseDao).update(house1);
+
+        this.assertDeepEquals(updatedHouse, house1);
+    }
+
+    @Test
+    public void testDelete() {
+        houseService.remove(house1);
+        verify(houseDao).delete(house1);
+    }
+
+    @Test
+    public void testFindById() {
         Long id = house1.getId();
         Assert.assertNotNull(id);
 
         when(houseDao.findById(1L)).thenReturn(house1);
-
-        House house3 = houseService.findById(id);
+        House foundHouse = houseService.findById(id);
 
         Assert.assertNotNull(house1);
-        Assert.assertNotNull(house3);
-        this.assertDeepEquals(house3, house1);
+        Assert.assertNotNull(foundHouse);
+        this.assertDeepEquals(foundHouse, house1);
     }
 
-    // Note: Since DAO is mocked (and no exception is thus implicitly raised),
-    // there probably is no reason to test null or wrong cases here.
-    /*@Test(expectedExceptions = IllegalArgumentException.class)
-    public void testCreateNull() {
-        try {
-            houseService.create(null);
-        }
-        catch (Exception e) {
-            System.out.println("Exception: " + e.getMessage());
-        }
+    @Test
+    public void testFindAll() {
+        List<House> houses = new ArrayList<>();
+        houses.add(house1);
 
-        System.out.println("No exception thrown");
-    }*/
+        when(houseDao.findAll()).thenReturn(houses);
+        List<House> foundHouses = houseService.findAll();
+
+        Assert.assertNotNull(foundHouses);
+        Assert.assertEquals(foundHouses.size(), 1);
+        Assert.assertTrue(foundHouses.get(0).getId().equals(1L));
+        Assert.assertEquals(foundHouses, houses);
+    }
 
     /**
      * Compares the two object by their properties.
