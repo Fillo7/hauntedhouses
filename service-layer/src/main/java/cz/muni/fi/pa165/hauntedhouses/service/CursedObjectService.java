@@ -1,5 +1,6 @@
 package cz.muni.fi.pa165.hauntedhouses.service;
 
+import cz.muni.fi.pa165.hauntedhouses.enums.MonsterAttractionFactor;
 import cz.muni.fi.pa165.hauntedhouses.entity.CursedObject;
 import java.util.List;
 
@@ -38,4 +39,10 @@ public interface CursedObjectService {
      * @return List of all cursed objects.
      */
     List<CursedObject> findAll();
+    
+    /**
+     * Increases monster attraction factor of specified cursed objects by one (up to insane).
+     * @param treshold Increase will only be applied to cursed objects with attraction factor <= treshold
+     */
+    void massIncreaseMonsterAttractionFactor(MonsterAttractionFactor treshold);
 }

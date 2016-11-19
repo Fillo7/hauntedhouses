@@ -1,9 +1,13 @@
 package cz.muni.fi.pa165.hauntedhouses;
 
+import cz.muni.fi.pa165.api.dto.AbilityDTO;
 import cz.muni.fi.pa165.api.dto.CursedObjectDTO;
 import cz.muni.fi.pa165.api.dto.HouseDTO;
+import cz.muni.fi.pa165.api.dto.MonsterDTO;
+import cz.muni.fi.pa165.hauntedhouses.entity.Ability;
 import cz.muni.fi.pa165.hauntedhouses.entity.CursedObject;
 import cz.muni.fi.pa165.hauntedhouses.entity.House;
+import cz.muni.fi.pa165.hauntedhouses.entity.Monster;
 import cz.muni.fi.pa165.hauntedhouses.enums.MonsterAttractionFactor;
 import org.dozer.DozerBeanMapper;
 import org.dozer.Mapper;
@@ -33,7 +37,8 @@ public class ServiceConfiguration {
             mapping(CursedObject.class, CursedObjectDTO.class);
             mapping(cz.muni.fi.pa165.api.enums.MonsterAttractionFactor.class, MonsterAttractionFactor.class);
             mapping(House.class, HouseDTO.class);
-            // To do: Add rest of the needed mappings as they are introduced during project implementation.
+            mapping(Ability.class, AbilityDTO.class);
+            mapping(Monster.class, MonsterDTO.class);
         }
     }
 }
