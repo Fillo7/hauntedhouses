@@ -25,9 +25,9 @@ public class MonsterCreateDTO {
     @NotNull
     private LocalTime hauntedIntervalEnd;
 
-    private HouseDTO house;
+    private Long houseId;
 
-    private Set<AbilityDTO> abilities = new HashSet<>();
+    private Set<Long> abilitiesId = new HashSet<>();
 
     public String getName() {
         return name;
@@ -61,24 +61,24 @@ public class MonsterCreateDTO {
         this.hauntedIntervalStart = hauntedIntervalStart;
     }
 
-    public HouseDTO getHouse() {
-        return house;
+    public Long getHouseId() {
+        return houseId;
     }
 
-    public void setHouse(HouseDTO house) {
-        this.house = house;
+    public void setHouseId(Long houseId) {
+        this.houseId = houseId;
     }
 
-    public Set<AbilityDTO> getAbilities() {
-        return Collections.unmodifiableSet(abilities);
+    public Set<Long> getAbilitiesId() {
+        return Collections.unmodifiableSet(abilitiesId);
     }
 
-    public void removeAbility(AbilityDTO ability) {
-        this.abilities.remove(ability);
+    public void removeAbility(Long abilityId) {
+        this.abilitiesId.remove(abilityId);
     }
 
-    public void addAbility(AbilityDTO ability) {
-        this.abilities.add(ability);
+    public void addAbility(Long abilityId) {
+        this.abilitiesId.add(abilityId);
     }
 
     @Override
