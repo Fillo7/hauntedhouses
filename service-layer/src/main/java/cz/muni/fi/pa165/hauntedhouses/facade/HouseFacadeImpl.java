@@ -2,41 +2,103 @@ package cz.muni.fi.pa165.hauntedhouses.facade;
 
 import cz.muni.fi.pa165.api.dto.HouseCreateDTO;
 import cz.muni.fi.pa165.api.dto.HouseDTO;
+import cz.muni.fi.pa165.api.dto.HouseUpdateDTO;
+import cz.muni.fi.pa165.api.exception.NoEntityException;
 import cz.muni.fi.pa165.api.facade.HouseFacade;
+import cz.muni.fi.pa165.hauntedhouses.BeanMappingService;
+import cz.muni.fi.pa165.hauntedhouses.entity.House;
+import cz.muni.fi.pa165.hauntedhouses.service.HouseService;
 import org.springframework.stereotype.Service;
 
+import javax.inject.Inject;
 import javax.transaction.Transactional;
 import java.util.List;
 
 /**
- * Created by Ondro on 09-Nov-16.
+ * Implementation for HouseFacade
+ *
+ * Created by Ondrej Oravcok on 09-Nov-16.
  */
 @Service
 @Transactional
 public class HouseFacadeImpl implements HouseFacade {
 
+    @Inject
+    private HouseService houseService;
+
+    @Inject
+    private BeanMappingService beanMappingService;
+
     @Override
-    public Long createHouse(HouseCreateDTO house) {
-        return null;
+    public Long createHouse(HouseCreateDTO houseCreateDTO) {
+        if(houseCreateDTO == null){
+            throw new IllegalArgumentException("house cannot be null");
+        }
+
+        House house = beanMappingService.mapTo(houseCreateDTO, House.class);
+
+        houseService.create(house);
+        return house.getId();
     }
 
     @Override
-    public void updateHouse(HouseDTO house) {
+    public void updateHouse(HouseUpdateDTO houseUpdateDTO) {
+        if(houseUpdateDTO == null){
+            throw new IllegalArgumentException("house cannot be null");
+        }
 
+        House house = beanMappingService.mapTo(houseUpdateDTO, House.class);
+        if(houseService.findById(house.getId()) == null){
+            throw new NoEntityException("updating non existing house");
+        }
+
+        houseService.update(house);
     }
 
     @Override
     public List<HouseDTO> getAllHouses() {
-        return null;
+        return beanMappingService.mapTo(houseService.findAll(), HouseDTO.class);
     }
 
     @Override
     public HouseDTO getHouseById(Long houseId) {
-        return null;
+        if(houseId == null){
+            throw new IllegalArgumentException("houseId cannot be null");
+        }
+
+        House house = houseService.findById(houseId);
+        if(house == null){
+            throw new NoEntityException("house with id=" + houseId + " does not exist");
+        }
+
+        return beanMappingService.mapTo(house, HouseDTO.class);
+    }
+
+    @Override
+    public HouseDTO getHouseByName(String houseName) {
+        if(houseName == null){
+            throw new IllegalArgumentException("houseName cannot be null");
+        }
+
+        House house = houseService.findByName(houseName);
+        if(house == null){
+            throw new NoEntityException("house with name=" + houseName + " does not exist");
+        }
+
+        return beanMappingService.mapTo(house, HouseDTO.class);
     }
 
     @Override
     public void removeHouse(Long houseId) {
+        if(houseId == null){
+            throw new IllegalArgumentException("houseId cannot be null");
+        }
 
+        House house = houseService.findById(houseId);
+        if(house == null){
+            throw new NoEntityException("house with id=" + houseId + " does not exist, cannot remove");
+        }
+
+        houseService.remove(house);
     }
 }

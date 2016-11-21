@@ -4,6 +4,8 @@ import javax.validation.constraints.NotNull;
 import java.util.Objects;
 
 /**
+ * DTO object for creating House
+ *
  * Created by Ondro on 09-Nov-16.
  */
 public class HouseCreateDTO {
@@ -13,6 +15,8 @@ public class HouseCreateDTO {
 
     @NotNull
     private String name;
+
+    //getters and setters
 
     public String getAddress() {
         return address;

@@ -6,6 +6,8 @@ import java.util.Objects;
 import java.util.Set;
 
 /**
+ * DTO object for House
+ *
  * Created by Ondro on 09-Nov-16.
  */
 public class HouseDTO {
@@ -21,6 +23,8 @@ public class HouseDTO {
     private Set<MonsterDTO> monsters = new HashSet<>();
 
     private Set<CursedObjectDTO> cursedObjects = new HashSet<>();
+
+    //getters and setters
 
     public Long getId() {
         return id;

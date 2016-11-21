@@ -5,6 +5,8 @@ import cz.muni.fi.pa165.hauntedhouses.entity.House;
 import java.util.List;
 
 /**
+ * Business logic for House entity
+ *
  * Created by Ondro on 08-Nov-16.
  */
 public interface HouseService {
@@ -13,6 +15,7 @@ public interface HouseService {
      * Creates new house
      *
      * @param house to be created
+     * @throws IllegalArgumentException if house is null
      */
     void create(House house);
 
@@ -21,6 +24,7 @@ public interface HouseService {
      *
      * @param house entity to be updated
      * @return updated activity report entity
+     * @throws IllegalArgumentException if house is null
      */
     House update(House house);
 
@@ -29,10 +33,18 @@ public interface HouseService {
      *
      * @param id id of house entity to be returned
      * @return the house entity with given id
+     * @throws IllegalArgumentException if id is null
      */
     House findById(Long id);
 
-    //TODO some special service calls - with proper arguments
+    /**
+     * Returns the House entity with given name.
+     *
+     * @param name of house entity to be returned
+     * @return the house entity with given name
+     * @throws IllegalArgumentException if name is null
+     */
+    House findByName(String name);
 
     /**
      * Returns all house entities.
@@ -45,6 +57,7 @@ public interface HouseService {
      * Removes the house entity from persistence context.
      *
      * @param house house to be removed
+     * @throws IllegalArgumentException if house is null
      */
     void remove(House house);
 

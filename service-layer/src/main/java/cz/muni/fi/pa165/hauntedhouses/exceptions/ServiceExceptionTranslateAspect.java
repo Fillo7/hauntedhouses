@@ -2,8 +2,10 @@ package cz.muni.fi.pa165.hauntedhouses.exceptions;
 
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
+import org.aspectj.lang.annotation.Aspect;
 import org.springframework.dao.DataAccessException;
 
+import javax.inject.Named;
 import javax.persistence.PersistenceException;
 import javax.validation.ConstraintViolationException;
 
@@ -13,14 +15,15 @@ import javax.validation.ConstraintViolationException;
  *
  * Created by Ondro on 09-Nov-16.
  */
-public class TranslateAspectException {
+@Aspect
+@Named
+public class ServiceExceptionTranslateAspect {
 
-    @Around("execution(public * cz.fi.muni.pa165.hauntedhouses.service..*(..))")
-    public Object translateDataAccessException(ProceedingJoinPoint pjp) throws Throwable {
+    @Around("(@annotation(ServiceExceptionTranslate) || @within(ServiceExceptionTranslate)) && execution(public * *(..))")
+    public Object translate(ProceedingJoinPoint pjp) throws Throwable {
         try {
             return pjp.proceed();
-        } catch(NullPointerException | IllegalArgumentException | ConstraintViolationException | PersistenceException
-                | DataAccessException exception) {
+        } catch(ConstraintViolationException | PersistenceException | DataAccessException exception) {
             throw new DataManipulationException("Exception thrown while accessing data layer on " + pjp.toShortString(), exception);
         }
     }
