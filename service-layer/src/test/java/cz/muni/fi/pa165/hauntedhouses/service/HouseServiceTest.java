@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package cz.muni.fi.pa165.hauntedhouses.dto;
+package cz.muni.fi.pa165.hauntedhouses.service;
 
 import cz.muni.fi.pa165.hauntedhouses.ServiceConfiguration;
 import cz.muni.fi.pa165.hauntedhouses.dao.HouseDao;
