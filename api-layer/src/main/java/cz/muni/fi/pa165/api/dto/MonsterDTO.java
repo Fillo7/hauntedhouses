@@ -31,6 +31,8 @@ public class MonsterDTO {
 
     private Set<AbilityDTO> abilities = new HashSet<>();
 
+    //getters and setters
+
     public Long getId() {
         return id;
     }

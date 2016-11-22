@@ -1,5 +1,6 @@
 package cz.muni.fi.pa165.hauntedhouses.service;
 
+import cz.muni.fi.pa165.api.dto.MonsterCreateDTO;
 import cz.muni.fi.pa165.api.facade.MonsterFacade;
 import cz.muni.fi.pa165.hauntedhouses.BeanMappingService;
 import cz.muni.fi.pa165.hauntedhouses.BeanMappingServiceImpl;
@@ -11,6 +12,14 @@ import org.mockito.*;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
+
+import java.time.LocalTime;
+
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+import static org.testng.Assert.assertEquals;
 
 /**
  * Test class for MonsterService
@@ -33,8 +42,40 @@ public class MonsterServiceTest extends AbstractTestNGSpringContextTests {
     @Captor
     ArgumentCaptor<Monster> argumentCaptor;
 
+    private Monster lochness;
+
     @BeforeClass
     public void setupMockito(){
         MockitoAnnotations.initMocks(this);
+    }
+
+    @BeforeMethod
+    public void initMonsters(){
+        lochness = new Monster();
+        lochness.setId(1L);
+
+        when(monsterService.findById(0L)).thenReturn(null);
+        when(monsterService.findById(1L)).thenReturn(lochness);
+    }
+
+//    @Test
+//    public void createMonsterTest(){
+//        MonsterCreateDTO jack = new MonsterCreateDTO();
+//        jack.setName("Jack");
+//        jack.setDescription("very aggressive monster");
+//        jack.setHauntedIntervalStart(LocalTime.of(10, 20));
+//        jack.setHauntedIntervalEnd(LocalTime.of(17, 55));
+//
+//        monsterFacade.createMonster(jack);
+//        verify(monsterService).create(argumentCaptor.capture());
+//        assertEquals(argumentCaptor.getValue().getName(), "Jack");
+//        assertEquals(argumentCaptor.getValue().getDescription(), "very aggressive monster");
+//        assertEquals(argumentCaptor.getValue().getHauntedIntervalStart(), LocalTime.of(10, 20));
+//        assertEquals(argumentCaptor.getValue().getHauntedIntervalEnd(), LocalTime.of(17, 55));
+//    }
+
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void createNullMonsterTest(){
+        monsterFacade.createMonster(null);
     }
 }

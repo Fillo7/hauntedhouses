@@ -17,6 +17,9 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by Ondro on 09-Nov-16.
  */
@@ -24,21 +27,14 @@ import org.springframework.context.annotation.Import;
 @Import(PersistenceApplicationContext.class)
 @ComponentScan("cz.muni.fi.pa165.hauntedhouses")
 public class ServiceConfiguration {
+
     @Bean
     public Mapper dozer() {
-        DozerBeanMapper beanMapper = new DozerBeanMapper();		
-        beanMapper.addMapping(new DozerMappingConfiguration());
+        List<String> customMappingFiles = new ArrayList<>();
+        customMappingFiles.add("dozerJdk8Converters.xml");
+        DozerBeanMapper beanMapper = new DozerBeanMapper();
+        beanMapper.setMappingFiles(customMappingFiles);
         return beanMapper;
     }
-    
-    public class DozerMappingConfiguration extends BeanMappingBuilder {
-        @Override
-        protected void configure() {
-            mapping(CursedObject.class, CursedObjectDTO.class);
-            mapping(cz.muni.fi.pa165.api.enums.MonsterAttractionFactor.class, MonsterAttractionFactor.class);
-            mapping(House.class, HouseDTO.class);
-            mapping(Ability.class, AbilityDTO.class);
-            mapping(Monster.class, MonsterDTO.class);
-        }
-    }
+
 }

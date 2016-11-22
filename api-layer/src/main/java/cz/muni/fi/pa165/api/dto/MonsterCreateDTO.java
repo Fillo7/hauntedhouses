@@ -29,6 +29,8 @@ public class MonsterCreateDTO {
 
     private Set<Long> abilities = new HashSet<>();
 
+    //getters and setters
+
     public String getName() {
         return name;
     }
