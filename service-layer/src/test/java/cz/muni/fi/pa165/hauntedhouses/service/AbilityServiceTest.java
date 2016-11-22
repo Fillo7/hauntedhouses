@@ -4,7 +4,6 @@ import cz.muni.fi.pa165.hauntedhouses.ServiceConfiguration;
 import cz.muni.fi.pa165.hauntedhouses.dao.AbilityDao;
 import cz.muni.fi.pa165.hauntedhouses.entity.Ability;
 import cz.muni.fi.pa165.hauntedhouses.entity.Monster;
-import cz.muni.fi.pa165.hauntedhouses.service.AbilityService;
 import javax.inject.Inject;
 import org.hibernate.service.spi.ServiceException;
 import org.mockito.InjectMocks;
