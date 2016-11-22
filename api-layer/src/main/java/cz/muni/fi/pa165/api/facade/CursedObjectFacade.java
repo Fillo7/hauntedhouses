@@ -2,7 +2,8 @@ package cz.muni.fi.pa165.api.facade;
 
 import cz.muni.fi.pa165.api.dto.CursedObjectCreateDTO;
 import cz.muni.fi.pa165.api.dto.CursedObjectDTO;
-import cz.muni.fi.pa165.api.enums.MonsterAttractionFactor;
+import cz.muni.fi.pa165.hauntedhouses.enums.MonsterAttractionFactor;
+
 import java.util.List;
 
 /**

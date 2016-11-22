@@ -4,6 +4,7 @@ import cz.muni.fi.pa165.hauntedhouses.PersistenceApplicationContext;
 import cz.muni.fi.pa165.hauntedhouses.entity.Ability;
 import cz.muni.fi.pa165.hauntedhouses.entity.House;
 import cz.muni.fi.pa165.hauntedhouses.entity.Monster;
+import org.springframework.dao.DataAccessException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.testng.Assert;
@@ -80,17 +81,17 @@ public class MonsterDaoTest extends AbstractTestNGSpringContextTests {
         Assert.assertEquals(monsterDao.findAll().get(0).getHouse(), h1);
     }
 
-    @Test(expectedExceptions = IllegalArgumentException.class)
+    @Test(expectedExceptions = DataAccessException.class)
     public void createMonsterNullTest(){
         monsterDao.create(null);
     }
 
-    @Test(expectedExceptions = IllegalArgumentException.class)
+    @Test(expectedExceptions = DataAccessException.class)
     public void updateMonsterNullTest(){
         monsterDao.update(null);
     }
 
-    @Test(expectedExceptions = IllegalArgumentException.class)
+    @Test(expectedExceptions = DataAccessException.class)
     public void removeMonsterNullTest(){
         monsterDao.delete(null);
     }
@@ -119,7 +120,7 @@ public class MonsterDaoTest extends AbstractTestNGSpringContextTests {
         monsterDao.create(cat);
     }
 
-    @Test(expectedExceptions = PersistenceException.class)
+    @Test(expectedExceptions = DataAccessException.class)
     public void createMonsterHouseNullTest(){
         cat.setHouse(null);
         monsterDao.create(cat);
@@ -236,14 +237,14 @@ public class MonsterDaoTest extends AbstractTestNGSpringContextTests {
         monsterDao.create(cat);
     }
 
-    @Test(expectedExceptions = PersistenceException.class)
+    @Test(expectedExceptions = DataAccessException.class)
     public void createTwoIdenticNameMonstersTest(){
         monsterDao.create(cat);
         horse.setName("Cicka");
         monsterDao.create(horse);
     }
 
-    @Test(expectedExceptions = IllegalArgumentException.class)
+    @Test(expectedExceptions = DataAccessException.class)
     public void removeNotExistingMonsterTest() {
         monsterDao.create(cat);
         monsterDao.delete(horse);

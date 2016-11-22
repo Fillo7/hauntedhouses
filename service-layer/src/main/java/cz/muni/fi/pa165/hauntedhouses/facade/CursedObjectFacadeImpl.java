@@ -72,7 +72,7 @@ public class CursedObjectFacadeImpl implements CursedObjectFacade {
     }
     
     @Override
-    public void massIncreaseMonsterAttractionFactor(cz.muni.fi.pa165.api.enums.MonsterAttractionFactor treshold) {
+    public void massIncreaseMonsterAttractionFactor(MonsterAttractionFactor treshold) {
         cursedObjectService.massIncreaseMonsterAttractionFactor(beanMappingService.mapTo(treshold, MonsterAttractionFactor.class));
     }
 }

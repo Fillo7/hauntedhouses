@@ -9,13 +9,18 @@ import cz.muni.fi.pa165.hauntedhouses.entity.CursedObject;
 import cz.muni.fi.pa165.hauntedhouses.entity.House;
 import cz.muni.fi.pa165.hauntedhouses.entity.Monster;
 import cz.muni.fi.pa165.hauntedhouses.enums.MonsterAttractionFactor;
+import cz.muni.fi.pa165.hauntedhouses.exceptions.ServiceExceptionTranslateAspect;
+import cz.muni.fi.pa165.hauntedhouses.facade.CursedObjectFacadeImpl;
+import cz.muni.fi.pa165.hauntedhouses.facade.HouseFacadeImpl;
+import cz.muni.fi.pa165.hauntedhouses.facade.MonsterFacadeImpl;
+import cz.muni.fi.pa165.hauntedhouses.service.AbilityServiceImpl;
+import cz.muni.fi.pa165.hauntedhouses.service.CursedObjectServiceImpl;
+import cz.muni.fi.pa165.hauntedhouses.service.HouseServiceImpl;
+import cz.muni.fi.pa165.hauntedhouses.service.MonsterServiceImpl;
 import org.dozer.DozerBeanMapper;
 import org.dozer.Mapper;
 import org.dozer.loader.api.BeanMappingBuilder;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Import;
+import org.springframework.context.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,8 +29,10 @@ import java.util.List;
  * Created by Ondro on 09-Nov-16.
  */
 @Configuration
+@EnableAspectJAutoProxy
 @Import(PersistenceApplicationContext.class)
-@ComponentScan("cz.muni.fi.pa165.hauntedhouses")
+@ComponentScan(basePackageClasses = {MonsterServiceImpl.class, HouseServiceImpl.class, CursedObjectServiceImpl.class, AbilityServiceImpl.class,
+        MonsterFacadeImpl.class, HouseFacadeImpl.class, CursedObjectFacadeImpl.class, AbilityServiceImpl.class, ServiceExceptionTranslateAspect.class, BeanMappingServiceImpl.class})
 public class ServiceConfiguration {
 
     @Bean

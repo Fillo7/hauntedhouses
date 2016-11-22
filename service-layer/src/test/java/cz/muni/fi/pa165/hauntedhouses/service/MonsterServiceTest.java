@@ -58,21 +58,21 @@ public class MonsterServiceTest extends AbstractTestNGSpringContextTests {
         when(monsterService.findById(1L)).thenReturn(lochness);
     }
 
-//    @Test
-//    public void createMonsterTest(){
-//        MonsterCreateDTO jack = new MonsterCreateDTO();
-//        jack.setName("Jack");
-//        jack.setDescription("very aggressive monster");
-//        jack.setHauntedIntervalStart(LocalTime.of(10, 20));
-//        jack.setHauntedIntervalEnd(LocalTime.of(17, 55));
-//
-//        monsterFacade.createMonster(jack);
-//        verify(monsterService).create(argumentCaptor.capture());
-//        assertEquals(argumentCaptor.getValue().getName(), "Jack");
-//        assertEquals(argumentCaptor.getValue().getDescription(), "very aggressive monster");
-//        assertEquals(argumentCaptor.getValue().getHauntedIntervalStart(), LocalTime.of(10, 20));
-//        assertEquals(argumentCaptor.getValue().getHauntedIntervalEnd(), LocalTime.of(17, 55));
-//    }
+    @Test
+    public void createMonsterTest(){
+        MonsterCreateDTO jack = new MonsterCreateDTO();
+        jack.setName("Jack");
+        jack.setDescription("very aggressive monster");
+        jack.setHauntedIntervalStart(LocalTime.of(10, 20));
+        jack.setHauntedIntervalEnd(LocalTime.of(17, 55));
+
+        monsterFacade.createMonster(jack);
+        verify(monsterService).create(argumentCaptor.capture());
+        assertEquals(argumentCaptor.getValue().getName(), "Jack");
+        assertEquals(argumentCaptor.getValue().getDescription(), "very aggressive monster");
+        assertEquals(argumentCaptor.getValue().getHauntedIntervalStart(), LocalTime.of(10, 20));
+        assertEquals(argumentCaptor.getValue().getHauntedIntervalEnd(), LocalTime.of(17, 55));
+    }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
     public void createNullMonsterTest(){

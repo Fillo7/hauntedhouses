@@ -11,13 +11,18 @@ import javax.persistence.PersistenceException;
 import javax.transaction.Transactional;
 import javax.validation.ConstraintViolationException;
 import javax.validation.ValidationException;
-import static org.junit.Assert.*;
+
+import org.springframework.dao.DataAccessException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertNotNull;
 
 /**
  *
@@ -79,7 +84,7 @@ public class CursedObjectDaoTest extends AbstractTestNGSpringContextTests{
                 c1.getMonsterAttractionFactor());
     }
     
-    @Test(expectedExceptions = IllegalArgumentException.class)
+    @Test(expectedExceptions = DataAccessException.class)
     public void testCreateNullCursedObject(){
         coDao.create(null);
     }
@@ -187,7 +192,7 @@ public class CursedObjectDaoTest extends AbstractTestNGSpringContextTests{
         validate(co, c2);
     }
     
-    @Test(expectedExceptions = IllegalArgumentException.class)
+    @Test(expectedExceptions = DataAccessException.class)
     public void testGetNoExistingCursedObject(){
         assertFalse(coDao.findAll().contains(c1));
         CursedObject co = coDao.findById(c1.getId());
@@ -219,17 +224,17 @@ public class CursedObjectDaoTest extends AbstractTestNGSpringContextTests{
         assertEquals(coDao.findAll().size(), 0);
     }
     
-    @Test(expectedExceptions = IllegalArgumentException.class)
+    @Test(expectedExceptions = DataAccessException.class)
     public void testDeleteNull(){
         coDao.delete(null);
     }
     
-    @Test(expectedExceptions = IllegalArgumentException.class)
+    @Test(expectedExceptions = DataAccessException.class)
     public void testDeleteNotCreatedCursedObject(){
         coDao.delete(c1);
     }
     
-    @Test(expectedExceptions = PersistenceException.class)
+    @Test(expectedExceptions = DataAccessException.class)
     public void testCreateSameNamedCursedObjects(){
         coDao.create(c1);
         c2.setName(c1.getName());

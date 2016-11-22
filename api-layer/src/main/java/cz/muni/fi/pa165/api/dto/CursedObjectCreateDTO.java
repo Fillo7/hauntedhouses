@@ -1,6 +1,7 @@
 package cz.muni.fi.pa165.api.dto;
 
-import cz.muni.fi.pa165.api.enums.MonsterAttractionFactor;
+import cz.muni.fi.pa165.hauntedhouses.enums.MonsterAttractionFactor;
+
 import java.util.Objects;
 import javax.validation.constraints.NotNull;
 

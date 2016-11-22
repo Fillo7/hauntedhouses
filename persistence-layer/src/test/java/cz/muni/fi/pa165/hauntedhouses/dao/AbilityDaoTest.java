@@ -10,6 +10,7 @@ import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 import javax.validation.ValidationException;
 
+import org.springframework.dao.DataAccessException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
@@ -73,7 +74,7 @@ public class AbilityDaoTest extends AbstractTestNGSpringContextTests {
         Assert.assertEquals(abilityDao.findById(abilityOne.getId()).getMonsters(), abilityOne.getMonsters());
     }
     
-    @Test(expectedExceptions = IllegalArgumentException.class)
+    @Test(expectedExceptions = DataAccessException.class)
     public void testCreateNullAbility() {
         Ability ability = null;
         abilityDao.create(ability);		
@@ -107,7 +108,7 @@ public class AbilityDaoTest extends AbstractTestNGSpringContextTests {
         Assert.assertNull(abilityDao.findById(abilityOne.getId()));
     }
     
-    @Test(expectedExceptions = IllegalArgumentException.class)
+    @Test(expectedExceptions = DataAccessException.class)
     public void testDeleteNonExisting() {
         abilityDao.delete(abilityOne);
     }
