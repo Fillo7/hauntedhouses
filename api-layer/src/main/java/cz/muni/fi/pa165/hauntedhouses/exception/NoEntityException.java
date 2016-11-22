@@ -1,4 +1,4 @@
-package cz.muni.fi.pa165.api.exception;
+package cz.muni.fi.pa165.hauntedhouses.exception;
 
 /**
  * When there is no entity, this exception is thrown on facade layer

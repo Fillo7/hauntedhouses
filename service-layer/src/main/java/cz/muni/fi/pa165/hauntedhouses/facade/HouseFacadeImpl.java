@@ -1,10 +1,9 @@
 package cz.muni.fi.pa165.hauntedhouses.facade;
 
-import cz.muni.fi.pa165.api.dto.HouseCreateDTO;
-import cz.muni.fi.pa165.api.dto.HouseDTO;
-import cz.muni.fi.pa165.api.dto.HouseUpdateDTO;
-import cz.muni.fi.pa165.api.exception.NoEntityException;
-import cz.muni.fi.pa165.api.facade.HouseFacade;
+import cz.muni.fi.pa165.hauntedhouses.dto.HouseCreateDTO;
+import cz.muni.fi.pa165.hauntedhouses.dto.HouseDTO;
+import cz.muni.fi.pa165.hauntedhouses.dto.HouseUpdateDTO;
+import cz.muni.fi.pa165.hauntedhouses.exception.NoEntityException;
 import cz.muni.fi.pa165.hauntedhouses.BeanMappingService;
 import cz.muni.fi.pa165.hauntedhouses.entity.House;
 import cz.muni.fi.pa165.hauntedhouses.service.HouseService;

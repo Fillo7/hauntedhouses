@@ -14,7 +14,6 @@ import org.testng.annotations.Test;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.PersistenceException;
 import javax.transaction.Transactional;
 import javax.validation.ValidationException;
 import java.time.LocalTime;

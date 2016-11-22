@@ -1,4 +1,4 @@
-package cz.muni.fi.pa165.api.dto;
+package cz.muni.fi.pa165.hauntedhouses.dto;
 
 import cz.muni.fi.pa165.hauntedhouses.enums.MonsterAttractionFactor;
 
@@ -19,7 +19,7 @@ public class CursedObjectCreateDTO {
     private MonsterAttractionFactor monsterAttractionFactor;
     
     @NotNull
-    private HouseDTO house;
+    private Long houseId;
 
     public String getName() {
         return name;
@@ -45,12 +45,12 @@ public class CursedObjectCreateDTO {
         this.monsterAttractionFactor = monsterAttractionFactor;
     }
     
-    public HouseDTO getHouse() {
-        return house;
+    public Long getHouse() {
+        return houseId;
     }
 
-    public void setHouse(HouseDTO house) {
-        this.house = house;
+    public void setHouse(Long houseId) {
+        this.houseId = houseId;
     }
 
     @Override

@@ -1,8 +1,7 @@
 package cz.muni.fi.pa165.hauntedhouses.facade;
 
-import cz.muni.fi.pa165.api.dto.CursedObjectCreateDTO;
-import cz.muni.fi.pa165.api.dto.CursedObjectDTO;
-import cz.muni.fi.pa165.api.facade.CursedObjectFacade;
+import cz.muni.fi.pa165.hauntedhouses.dto.CursedObjectCreateDTO;
+import cz.muni.fi.pa165.hauntedhouses.dto.CursedObjectDTO;
 import cz.muni.fi.pa165.hauntedhouses.BeanMappingService;
 import cz.muni.fi.pa165.hauntedhouses.entity.CursedObject;
 import cz.muni.fi.pa165.hauntedhouses.entity.House;
@@ -31,7 +30,7 @@ public class CursedObjectFacadeImpl implements CursedObjectFacade {
         
         cursedObject.setName(cursedObjectCreateDTO.getName());
         cursedObject.setDescription(cursedObjectCreateDTO.getDescription());
-        cursedObject.setMonsterAttractionFactor(beanMappingService.mapTo(cursedObjectCreateDTO.getMonsterAttractionFactor(), MonsterAttractionFactor.class));
+        cursedObject.setMonsterAttractionFactor(cursedObjectCreateDTO.getMonsterAttractionFactor());
         cursedObject.setHouse(beanMappingService.mapTo(cursedObjectCreateDTO.getHouse(), House.class));
         cursedObjectService.create(cursedObject);
         
@@ -45,7 +44,7 @@ public class CursedObjectFacadeImpl implements CursedObjectFacade {
         cursedObject.setId(cursedObjectDTO.getId());
         cursedObject.setName(cursedObjectDTO.getName());
         cursedObject.setDescription(cursedObjectDTO.getDescription());
-        cursedObject.setMonsterAttractionFactor(beanMappingService.mapTo(cursedObjectDTO.getMonsterAttractionFactor(), MonsterAttractionFactor.class));
+        cursedObject.setMonsterAttractionFactor(cursedObjectDTO.getMonsterAttractionFactor());
         cursedObject.setHouse(beanMappingService.mapTo(cursedObjectDTO.getHouse(), House.class));
         
         cursedObjectService.update(cursedObject);
@@ -73,6 +72,6 @@ public class CursedObjectFacadeImpl implements CursedObjectFacade {
     
     @Override
     public void massIncreaseMonsterAttractionFactor(MonsterAttractionFactor treshold) {
-        cursedObjectService.massIncreaseMonsterAttractionFactor(beanMappingService.mapTo(treshold, MonsterAttractionFactor.class));
+        cursedObjectService.massIncreaseMonsterAttractionFactor(treshold);
     }
 }

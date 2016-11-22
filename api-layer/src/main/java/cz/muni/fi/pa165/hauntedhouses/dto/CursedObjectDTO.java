@@ -1,4 +1,4 @@
-package cz.muni.fi.pa165.api.dto;
+package cz.muni.fi.pa165.hauntedhouses.dto;
 
 import cz.muni.fi.pa165.hauntedhouses.enums.MonsterAttractionFactor;
 

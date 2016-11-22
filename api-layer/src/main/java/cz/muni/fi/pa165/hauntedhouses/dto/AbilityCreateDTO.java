@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package cz.muni.fi.pa165.api.dto;
+package cz.muni.fi.pa165.hauntedhouses.dto;
 
 import java.util.Collections;
 import java.util.HashSet;
@@ -11,13 +11,11 @@ import java.util.Set;
 import javax.validation.constraints.NotNull;
 
 /**
- * Data transfer object for class Ability.
+ *
  * @author Kristyna Loukotova
  * @version 17.11.2016
  */
-public class AbilityDTO {
-
-    private Long id;
+public class AbilityCreateDTO {
 
     @NotNull
     private String name;
@@ -25,14 +23,6 @@ public class AbilityDTO {
     private String description;
 
     private Set<MonsterDTO> monsters = new HashSet<>();
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public String getName() {
         return name;
@@ -81,7 +71,7 @@ public class AbilityDTO {
             return false;
         }
 
-        AbilityDTO other = (AbilityDTO) obj;
+        AbilityCreateDTO other = (AbilityCreateDTO) obj;
         if (name == null) {
             if (other.name != null) {
                 return false;

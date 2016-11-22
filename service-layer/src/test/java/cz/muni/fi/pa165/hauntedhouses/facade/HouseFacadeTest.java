@@ -5,10 +5,9 @@
  */
 package cz.muni.fi.pa165.hauntedhouses.facade;
 
-import cz.muni.fi.pa165.api.dto.HouseCreateDTO;
-import cz.muni.fi.pa165.api.dto.HouseDTO;
-import cz.muni.fi.pa165.api.dto.HouseUpdateDTO;
-import cz.muni.fi.pa165.api.facade.HouseFacade;
+import cz.muni.fi.pa165.hauntedhouses.dto.HouseCreateDTO;
+import cz.muni.fi.pa165.hauntedhouses.dto.HouseDTO;
+import cz.muni.fi.pa165.hauntedhouses.dto.HouseUpdateDTO;
 import cz.muni.fi.pa165.hauntedhouses.ServiceConfiguration;
 import java.util.List;
 import javax.inject.Inject;

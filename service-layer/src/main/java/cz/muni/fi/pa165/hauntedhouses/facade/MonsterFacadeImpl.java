@@ -1,9 +1,8 @@
 package cz.muni.fi.pa165.hauntedhouses.facade;
 
-import cz.muni.fi.pa165.api.dto.AbilityDTO;
-import cz.muni.fi.pa165.api.dto.MonsterCreateDTO;
-import cz.muni.fi.pa165.api.dto.MonsterDTO;
-import cz.muni.fi.pa165.api.facade.MonsterFacade;
+import cz.muni.fi.pa165.hauntedhouses.dto.AbilityDTO;
+import cz.muni.fi.pa165.hauntedhouses.dto.MonsterCreateDTO;
+import cz.muni.fi.pa165.hauntedhouses.dto.MonsterDTO;
 import cz.muni.fi.pa165.hauntedhouses.BeanMappingService;
 import cz.muni.fi.pa165.hauntedhouses.entity.Ability;
 import cz.muni.fi.pa165.hauntedhouses.entity.House;

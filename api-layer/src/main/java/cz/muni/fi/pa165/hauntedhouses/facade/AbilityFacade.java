@@ -1,8 +1,8 @@
-package cz.muni.fi.pa165.api.facade;
+package cz.muni.fi.pa165.hauntedhouses.facade;
 
-import cz.muni.fi.pa165.api.dto.AbilityCreateDTO;
+import cz.muni.fi.pa165.hauntedhouses.dto.AbilityCreateDTO;
 import java.util.List;
-import cz.muni.fi.pa165.api.dto.AbilityDTO;
+import cz.muni.fi.pa165.hauntedhouses.dto.AbilityDTO;
 
 /**
  *

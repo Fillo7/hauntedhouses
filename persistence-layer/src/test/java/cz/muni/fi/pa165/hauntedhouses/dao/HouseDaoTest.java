@@ -17,7 +17,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceException;
 import javax.transaction.Transactional;
-import javax.validation.ConstraintViolationException;
 import javax.validation.ValidationException;
 
 import org.springframework.dao.DataAccessException;

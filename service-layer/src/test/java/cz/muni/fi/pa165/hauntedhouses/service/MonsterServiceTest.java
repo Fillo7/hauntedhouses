@@ -1,7 +1,7 @@
 package cz.muni.fi.pa165.hauntedhouses.service;
 
-import cz.muni.fi.pa165.api.dto.MonsterCreateDTO;
-import cz.muni.fi.pa165.api.facade.MonsterFacade;
+import cz.muni.fi.pa165.hauntedhouses.dto.MonsterCreateDTO;
+import cz.muni.fi.pa165.hauntedhouses.facade.MonsterFacade;
 import cz.muni.fi.pa165.hauntedhouses.BeanMappingService;
 import cz.muni.fi.pa165.hauntedhouses.BeanMappingServiceImpl;
 import cz.muni.fi.pa165.hauntedhouses.ServiceConfiguration;

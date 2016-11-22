@@ -13,10 +13,8 @@ import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
-import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
-
-import javax.persistence.PersistenceException;
 import javax.sql.DataSource;
+import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
 /**
  * Created by Ondro on 20-Oct-16.
@@ -28,7 +26,7 @@ import javax.sql.DataSource;
 public class PersistenceApplicationContext {
 
     @Bean
-    public PersistenceExceptionTranslationPostProcessor getPersistenceExceptionTranslationPostProcessor(){
+    public PersistenceExceptionTranslationPostProcessor exceptionTranslationPostProcessor() {
         return new PersistenceExceptionTranslationPostProcessor();
     }
 
@@ -45,7 +43,12 @@ public class PersistenceApplicationContext {
         jpaFactoryBean.setPersistenceProviderClass(HibernatePersistenceProvider.class);
         return jpaFactoryBean;
     }
-
+    
+    @Bean
+    public LocalValidatorFactoryBean localValidatorFactoryBean() {
+        return new LocalValidatorFactoryBean();
+    }
+    
     @Bean
     public LoadTimeWeaver instrumentationLoadTimeWeaver() {
         return new InstrumentationLoadTimeWeaver();

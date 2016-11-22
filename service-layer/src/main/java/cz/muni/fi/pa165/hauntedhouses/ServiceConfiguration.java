@@ -1,9 +1,9 @@
 package cz.muni.fi.pa165.hauntedhouses;
 
-import cz.muni.fi.pa165.api.dto.AbilityDTO;
-import cz.muni.fi.pa165.api.dto.CursedObjectDTO;
-import cz.muni.fi.pa165.api.dto.HouseDTO;
-import cz.muni.fi.pa165.api.dto.MonsterDTO;
+import cz.muni.fi.pa165.hauntedhouses.dto.AbilityDTO;
+import cz.muni.fi.pa165.hauntedhouses.dto.CursedObjectDTO;
+import cz.muni.fi.pa165.hauntedhouses.dto.HouseDTO;
+import cz.muni.fi.pa165.hauntedhouses.dto.MonsterDTO;
 import cz.muni.fi.pa165.hauntedhouses.entity.Ability;
 import cz.muni.fi.pa165.hauntedhouses.entity.CursedObject;
 import cz.muni.fi.pa165.hauntedhouses.entity.House;
@@ -18,7 +18,7 @@ import org.springframework.context.annotation.*;
  */
 @Configuration
 @Import(PersistenceApplicationContext.class)
-@ComponentScan({"cz.muni.fi.pa165.hauntedhouses", "cz.muni.fi.pa165.api"})
+@ComponentScan(basePackages = "cz.muni.fi.pa165.hauntedhouses")
 public class ServiceConfiguration {
     @Bean
     public Mapper dozer() {
@@ -31,7 +31,6 @@ public class ServiceConfiguration {
         @Override
         protected void configure() {
             mapping(CursedObject.class, CursedObjectDTO.class);
-            //mapping(cz.muni.fi.pa165.api.enums.MonsterAttractionFactor.class, MonsterAttractionFactor.class);
             mapping(House.class, HouseDTO.class);
             mapping(Ability.class, AbilityDTO.class);
             mapping(Monster.class, MonsterDTO.class);
