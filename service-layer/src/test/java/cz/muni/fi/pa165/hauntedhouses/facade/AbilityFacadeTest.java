@@ -3,8 +3,7 @@ package cz.muni.fi.pa165.hauntedhouses.facade;
 import cz.muni.fi.pa165.hauntedhouses.ServiceConfiguration;
 import cz.muni.fi.pa165.hauntedhouses.dto.AbilityCreateDTO;
 import cz.muni.fi.pa165.hauntedhouses.dto.AbilityDTO;
-import cz.muni.fi.pa165.hauntedhouses.dto.MonsterDTO;
-import java.util.HashSet;
+import java.util.List;
 import javax.inject.Inject;
 import javax.transaction.Transactional;
 import org.springframework.test.context.ContextConfiguration;
@@ -22,15 +21,20 @@ public class AbilityFacadeTest extends AbstractTransactionalTestNGSpringContextT
     @Inject
     AbilityFacade abilityFacade;
     
-    private AbilityCreateDTO create;
+    private AbilityCreateDTO createFirst;
+    private AbilityCreateDTO createSecond;
     private AbilityDTO ability;
     
     @BeforeMethod
-    public void prepareHouse() {
-        create = new AbilityCreateDTO();
-        create.setName("Shameless copy");
-        create.setDescription("Shamelessly copies what its target is doing.");
+    public void prepareAbilities() {
+        createFirst = new AbilityCreateDTO();
+        createFirst.setName("Shameless copy");
+        createFirst.setDescription("Shamelessly copies what its target is doing.");
 
+        createSecond = new AbilityCreateDTO();
+        createSecond.setName("Another shameless copy");
+        createSecond.setDescription("Running out of ideas.");
+        
         ability = new AbilityDTO();
         ability.setName("Charm");
         ability.setDescription("Charms an enemy with its extreme beauty making them do its bidding.");
@@ -38,13 +42,13 @@ public class AbilityFacadeTest extends AbstractTransactionalTestNGSpringContextT
     
     @Test
     public void testCreate() {
-        Long id = abilityFacade.createAbility(create);
-        assertDeepEquals(create, abilityFacade.getAbilityById(id));
+        Long id = abilityFacade.createAbility(createFirst);
+        assertDeepEquals(createFirst, abilityFacade.getAbilityById(id));
     }
 
     @Test
     public void testUpdate() {
-        Long id = abilityFacade.createAbility(create);
+        Long id = abilityFacade.createAbility(createFirst);
         ability.setId(id);
         abilityFacade.updateAbility(ability);
         
@@ -53,17 +57,32 @@ public class AbilityFacadeTest extends AbstractTransactionalTestNGSpringContextT
 
     @Test
     public void testRemove() {
+        Long id = abilityFacade.createAbility(createFirst);
+        Assert.assertEquals(abilityFacade.getAllAbilities().size(), 1);
         
+        abilityFacade.removeAbility(id);
+        Assert.assertEquals(abilityFacade.getAllAbilities().size(), 0);
     }
 
     @Test
     public void testFindById() {
+        abilityFacade.createAbility(createFirst);
+        Long id = abilityFacade.createAbility(createSecond);
         
+        AbilityDTO returned = abilityFacade.getAbilityById(id);
+        assertDeepEquals(createSecond, returned);
     }
 
     @Test
     public void testFindAll() {
+        abilityFacade.createAbility(createFirst);
+        abilityFacade.createAbility(createSecond);
         
+        List<AbilityDTO> returned = abilityFacade.getAllAbilities();
+        Assert.assertEquals(returned.size(), 2);
+        
+        assertDeepEquals(createFirst, returned.get(0));
+        assertDeepEquals(createSecond, returned.get(1));
     }
     
     private void assertDeepEquals(AbilityCreateDTO actual, AbilityDTO expected) {
