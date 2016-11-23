@@ -6,6 +6,7 @@ import cz.muni.fi.pa165.hauntedhouses.entity.House;
 import cz.muni.fi.pa165.hauntedhouses.entity.Monster;
 import cz.muni.fi.pa165.hauntedhouses.exceptions.DataManipulationException;
 import cz.muni.fi.pa165.hauntedhouses.exceptions.ServiceExceptionTranslate;
+import java.util.HashSet;
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
@@ -80,8 +81,9 @@ public class HouseServiceImpl implements HouseService {
             throw new DataManipulationException("Given house is not in the database, cannot be purged.");
         }
 
-        Set<Monster> monsters = house.getMonsters();
-        Set<CursedObject> cursedObjects = house.getCursedObjects();
+        // New HashSets to allow removal via .forEach()
+        Set<Monster> monsters = new HashSet<>(house.getMonsters());
+        Set<CursedObject> cursedObjects = new HashSet<>(house.getCursedObjects());
 
         monsters.forEach(monster -> house.removeMonster(monster));
         cursedObjects.forEach(cursedObject -> house.removeCursedObject(cursedObject));

@@ -12,7 +12,9 @@ import cz.muni.fi.pa165.hauntedhouses.entity.House;
 import cz.muni.fi.pa165.hauntedhouses.entity.Monster;
 import cz.muni.fi.pa165.hauntedhouses.service.HouseService;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import javax.inject.Inject;
 import org.hibernate.service.spi.ServiceException;
 import org.mockito.InjectMocks;
@@ -43,28 +45,29 @@ public class HouseServiceTest extends AbstractTestNGSpringContextTests {
     @InjectMocks
     private HouseService houseService;
 
-    private House house1;
+    private House house;
     private Monster monster;
     private CursedObject cursedObject;
 
     @BeforeMethod
     public void prepareHouses() {
         cursedObject = new CursedObject();
+        monster = new Monster();
+        house = new House();
+
         cursedObject.setName("Cake");
         cursedObject.setDescription("This is a lie.");
-        cursedObject.setHouse(house1);
+        //cursedObject.setHouse(house); // Not needed because of the safe setters
 
-        monster = new Monster();
         monster.setName("GLaDOS");
         monster.setDescription("Generates lust after unreachable tasty cakes.");
-        monster.setHouse(house1);
+        //monster.setHouse(house);
 
-        house1 = new House();
-        house1.setId(1L);
-        house1.setName("Aperture");
-        house1.setAddress("Aperture Science laboratories");
-        house1.addMonster(monster);
-        house1.addCursedObject(cursedObject);
+        house.setId(1L);
+        house.setName("Aperture");
+        house.setAddress("Aperture Science laboratories");
+        house.addMonster(monster);
+        house.addCursedObject(cursedObject);
     }
 
     @BeforeClass
@@ -74,44 +77,41 @@ public class HouseServiceTest extends AbstractTestNGSpringContextTests {
 
     @Test
     public void testCreate() {
-        houseService.create(house1);
-        //verify(houseDao).create(house1);
-        verify(houseDao, times(1)).create(house1);
+        houseService.create(house);
+        verify(houseDao, times(1)).create(house);
     }
 
     @Test
     public void testUpdate() {
-        when(houseDao.update(house1)).thenReturn(house1);
+        when(houseDao.update(house)).thenReturn(house);
 
-        House updatedHouse = houseService.update(house1);
-        verify(houseDao).update(house1);
-
-        this.assertDeepEquals(updatedHouse, house1);
+        House updatedHouse = houseService.update(house);
+        this.assertDeepEquals(updatedHouse, house);
     }
 
     @Test
     public void testDelete() {
-        houseService.remove(house1);
-        verify(houseDao).delete(house1);
+        houseService.remove(house);
+        verify(houseDao).delete(house);
     }
 
     @Test
     public void testFindById() {
-        Long id = house1.getId();
+        Long id = house.getId();
         Assert.assertNotNull(id);
 
-        when(houseDao.findById(1L)).thenReturn(house1);
+        when(houseDao.findById(1L)).thenReturn(house);
         House foundHouse = houseService.findById(id);
 
-        Assert.assertNotNull(house1);
+        Assert.assertNotNull(house);
         Assert.assertNotNull(foundHouse);
-        this.assertDeepEquals(foundHouse, house1);
+        this.assertDeepEquals(foundHouse, house);
     }
 
     @Test
     public void testFindAll() {
         List<House> houses = new ArrayList<>();
-        houses.add(house1);
+        houses.add(house);
 
         when(houseDao.findAll()).thenReturn(houses);
         List<House> foundHouses = houseService.findAll();
@@ -120,6 +120,65 @@ public class HouseServiceTest extends AbstractTestNGSpringContextTests {
         Assert.assertEquals(foundHouses.size(), 1);
         Assert.assertTrue(foundHouses.get(0).getId().equals(1L));
         Assert.assertEquals(foundHouses, houses);
+    }
+
+    @Test
+    public void testPurge() {
+        Monster anotherMonster = new Monster();
+        anotherMonster.setName("Sithis");
+        house.addMonster(anotherMonster);
+
+        when(houseDao.findById(1L)).thenReturn(house);
+
+        Assert.assertEquals(house.getMonsters().size(), 2);
+        Assert.assertEquals(house.getCursedObjects().size(), 1);
+
+        houseService.purge(house);
+        verify(houseDao).update(house);
+
+        Assert.assertEquals(house.getMonsters().size(), 0);
+        Assert.assertEquals(house.getCursedObjects().size(), 0);
+    }
+
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void testPurgeNull() {
+        houseService.purge(null);
+    }
+
+    @Test
+    public void testPurgeNoMonsters() {
+        House house2 = new House();
+        house2.setId(2L);
+        house2.setName("2");
+        house2.setAddress("2");
+        house2.addCursedObject(cursedObject);
+
+        Assert.assertEquals(house2.getMonsters().size(), 0);
+        Assert.assertEquals(house2.getCursedObjects().size(), 1);
+
+        when(houseDao.findById(2L)).thenReturn(house2);
+        houseService.purge(house2);
+
+        Assert.assertEquals(house2.getMonsters().size(), 0);
+        Assert.assertEquals(house2.getCursedObjects().size(), 0);
+    }
+
+    @Test
+    public void testPurgeNoCursedObjects() {
+        House house2 = new House();
+        house2.setId(2L);
+        house2.setName("2");
+        house2.setAddress("2");
+        house2.addMonster(monster);
+
+        Assert.assertEquals(house2.getMonsters().size(), 1);
+        Assert.assertEquals(house2.getCursedObjects().size(), 0);
+
+        when(houseDao.findById(2L)).thenReturn(house2);
+        houseService.purge(house2);
+
+        Assert.assertEquals(house2.getMonsters().size(), 0);
+        Assert.assertEquals(house2.getCursedObjects().size(), 0);
     }
 
     /**
