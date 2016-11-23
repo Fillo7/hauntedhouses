@@ -26,7 +26,7 @@ import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 public class PersistenceApplicationContext {
 
     @Bean
-    public PersistenceExceptionTranslationPostProcessor exceptionTranslationPostProcessor() {
+    public PersistenceExceptionTranslationPostProcessor exceptionTranslationPostProcessor() {      
         return new PersistenceExceptionTranslationPostProcessor();
     }
 
@@ -42,6 +42,11 @@ public class PersistenceApplicationContext {
         jpaFactoryBean.setLoadTimeWeaver(instrumentationLoadTimeWeaver());
         jpaFactoryBean.setPersistenceProviderClass(HibernatePersistenceProvider.class);
         return jpaFactoryBean;
+    }
+
+    @Bean
+    public LocalValidatorFactoryBean localValidatorFactoryBean() {
+        return new LocalValidatorFactoryBean();
     }
 
     @Bean

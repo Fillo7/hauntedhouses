@@ -28,22 +28,22 @@ import java.util.List;
 @ComponentScan(basePackages = "cz.muni.fi.pa165.hauntedhouses")
 public class ServiceConfiguration {
 
-//    @Bean
-//    public Mapper dozer() {
-//        DozerBeanMapper beanMapper = new DozerBeanMapper();
-//        beanMapper.addMapping(new DozerMappingConfiguration());
-//        return beanMapper;
-//    }
-//
-//    public class DozerMappingConfiguration extends BeanMappingBuilder {
-//        @Override
-//        protected void configure() {
-//            mapping(CursedObject.class, CursedObjectDTO.class);
-//            mapping(House.class, HouseDTO.class);
-//            mapping(Ability.class, AbilityDTO.class);
-//            mapping(Monster.class, MonsterDTO.class);
-//        }
-//    }
+    /*@Bean
+    public Mapper dozer() {
+        DozerBeanMapper beanMapper = new DozerBeanMapper();
+        beanMapper.addMapping(new DozerMappingConfiguration());
+        return beanMapper;
+    }
+
+    public class DozerMappingConfiguration extends BeanMappingBuilder {
+        @Override
+        protected void configure() {
+            mapping(CursedObject.class, CursedObjectDTO.class);
+            mapping(House.class, HouseDTO.class);
+            mapping(Ability.class, AbilityDTO.class);
+            mapping(Monster.class, MonsterDTO.class);
+        }
+    }*/
 
     @Bean
     public Mapper dozer() {
