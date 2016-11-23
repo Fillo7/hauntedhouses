@@ -4,9 +4,11 @@ import cz.muni.fi.pa165.hauntedhouses.dto.AbilityDTO;
 import cz.muni.fi.pa165.hauntedhouses.dto.MonsterCreateDTO;
 import cz.muni.fi.pa165.hauntedhouses.dto.MonsterDTO;
 import cz.muni.fi.pa165.hauntedhouses.BeanMappingService;
+import cz.muni.fi.pa165.hauntedhouses.dto.MonsterUpdateDTO;
 import cz.muni.fi.pa165.hauntedhouses.entity.Ability;
 import cz.muni.fi.pa165.hauntedhouses.entity.House;
 import cz.muni.fi.pa165.hauntedhouses.entity.Monster;
+import cz.muni.fi.pa165.hauntedhouses.exception.NoEntityException;
 import cz.muni.fi.pa165.hauntedhouses.service.AbilityService;
 import cz.muni.fi.pa165.hauntedhouses.service.HouseService;
 import cz.muni.fi.pa165.hauntedhouses.service.MonsterService;
@@ -59,28 +61,18 @@ public class MonsterFacadeImpl implements MonsterFacade {
     }
 
     @Override
-    public void updateMonster(MonsterDTO monsterDTO) {
+    public void updateMonster(MonsterUpdateDTO monsterDTO) {
         if (monsterDTO == null) {
             throw new IllegalArgumentException("monster cannot be null");
         }
         if (monsterDTO.getId() == null || monsterService.findById(monsterDTO.getId()) == null) {
-
             throw new IllegalArgumentException("monster is not in DB, cannot be updated");
         }
 
-        Monster monster = monsterService.findById(monsterDTO.getId());
-        monster.setName(monsterDTO.getName());
-        monster.setDescription(monsterDTO.getDescription());
-        monster.setHauntedIntervalStart(monsterDTO.getHauntedIntervalStart());
-        monster.setHauntedIntervalEnd(monsterDTO.getHauntedIntervalEnd());
-        if (monsterDTO.getHouse() == null) {
-            monster.setHouse(null);
-        } else {
-            monster.setHouse(getHouse(monsterDTO.getHouse().getId()));
+        Monster monster = beanMappingService.mapTo(monsterDTO, Monster.class);
+        if (monsterService.findById(monster.getId()) == null) {
+            throw new NoEntityException("updating not existing monster");
         }
-
-        Set<AbilityDTO> abilities = monsterDTO.getAbilities();
-        abilities.forEach(ability -> monster.addAbility(getAbility(ability.getId())));
 
         monsterService.update(monster);
     }

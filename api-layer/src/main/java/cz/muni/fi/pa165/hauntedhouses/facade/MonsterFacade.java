@@ -2,6 +2,8 @@ package cz.muni.fi.pa165.hauntedhouses.facade;
 
 import cz.muni.fi.pa165.hauntedhouses.dto.MonsterCreateDTO;
 import cz.muni.fi.pa165.hauntedhouses.dto.MonsterDTO;
+import cz.muni.fi.pa165.hauntedhouses.dto.MonsterUpdateDTO;
+
 import java.util.List;
 
 /**
@@ -24,7 +26,7 @@ public interface MonsterFacade {
      * @param m monster to be updated
      * @throws 
      */
-    public void updateMonster(MonsterDTO m);
+    public void updateMonster(MonsterUpdateDTO m);
     
     /**
      * deletes existing monster
