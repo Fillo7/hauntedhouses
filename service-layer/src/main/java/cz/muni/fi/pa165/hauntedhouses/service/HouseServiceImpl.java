@@ -14,7 +14,7 @@ import java.util.List;
  * Created by Ondro on 09-Nov-16.
  */
 @Service
-@ServiceExceptionTranslate
+//@ServiceExceptionTranslate
 public class HouseServiceImpl implements HouseService {
 
     @Inject
