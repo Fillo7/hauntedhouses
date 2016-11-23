@@ -2,6 +2,8 @@ package cz.muni.fi.pa165.hauntedhouses.service;
 
 import cz.muni.fi.pa165.hauntedhouses.dao.MonsterDao;
 import cz.muni.fi.pa165.hauntedhouses.entity.Monster;
+import org.springframework.stereotype.Service;
+
 import java.util.List;
 import javax.inject.Inject;
 
@@ -9,6 +11,7 @@ import javax.inject.Inject;
  *
  * @author Marek Janco
  */
+@Service
 public class MonsterServiceImpl implements MonsterService{
     @Inject
     private MonsterDao monsterDao;

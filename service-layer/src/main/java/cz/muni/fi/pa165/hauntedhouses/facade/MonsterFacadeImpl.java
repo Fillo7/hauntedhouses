@@ -10,14 +10,19 @@ import cz.muni.fi.pa165.hauntedhouses.entity.Monster;
 import cz.muni.fi.pa165.hauntedhouses.service.AbilityService;
 import cz.muni.fi.pa165.hauntedhouses.service.HouseService;
 import cz.muni.fi.pa165.hauntedhouses.service.MonsterService;
+import org.springframework.stereotype.Service;
+
 import java.util.List;
 import java.util.Set;
 import javax.inject.Inject;
+import javax.transaction.Transactional;
 
 /**
  *
  * @author Marek Janco
  */
+@Service
+@Transactional
 public class MonsterFacadeImpl implements MonsterFacade {
 
     @Inject
