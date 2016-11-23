@@ -29,8 +29,11 @@ public class AbilityFacadeImpl implements AbilityFacade {
 
     @Override
     public Long createAbility(AbilityCreateDTO abilityCreateDTO) {
-        Ability ability = new Ability();
+        if (abilityCreateDTO == null) {
+            throw new IllegalArgumentException("AbilityCreateDTO is null.");
+        }
 
+        Ability ability = new Ability();
         ability.setName(abilityCreateDTO.getName());
         ability.setDescription(abilityCreateDTO.getDescription());
         Set<MonsterDTO> monsters = abilityCreateDTO.getMonsters();
@@ -42,8 +45,11 @@ public class AbilityFacadeImpl implements AbilityFacade {
 
     @Override
     public void updateAbility(AbilityDTO abilityDTO) {
-        Ability ability = new Ability();
+        if (abilityDTO == null) {
+            throw new IllegalArgumentException("AbilityDTO is null.");
+        }
 
+        Ability ability = new Ability();
         ability.setId(abilityDTO.getId());
         ability.setName(abilityDTO.getName());
         ability.setDescription(abilityDTO.getDescription());
@@ -55,6 +61,10 @@ public class AbilityFacadeImpl implements AbilityFacade {
 
     @Override
     public void removeAbility(Long id) {
+        if (id == null) {
+            throw new IllegalArgumentException("ID of ability is null.");
+        }
+
         Ability ability = new Ability();
         ability.setId(id);
 
@@ -63,7 +73,20 @@ public class AbilityFacadeImpl implements AbilityFacade {
 
     @Override
     public AbilityDTO getAbilityById(Long id) {
+        if (id == null) {
+            throw new IllegalArgumentException("ID of ability is null.");
+        }
+
         return beanMappingService.mapTo(abilityService.findById(id), AbilityDTO.class);
+    }
+
+    @Override
+    public AbilityDTO getAbilityByName(String name) {
+        if (name == null) {
+            throw new IllegalArgumentException("Name of ability is null.");
+        }
+
+        return beanMappingService.mapTo(abilityService.findByName(name), AbilityDTO.class);
     }
 
     @Override

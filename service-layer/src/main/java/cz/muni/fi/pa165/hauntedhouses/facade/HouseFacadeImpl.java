@@ -103,6 +103,10 @@ public class HouseFacadeImpl implements HouseFacade {
 
     @Override
     public void purge(HouseDTO house) {
+        if (house == null) {
+            throw new IllegalArgumentException("House is null.");
+        }
+
         House houseEntity = beanMappingService.mapTo(house, House.class);
 
         houseService.purge(houseEntity);

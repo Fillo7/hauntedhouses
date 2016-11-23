@@ -36,6 +36,13 @@ public interface AbilityService {
     Ability findById(Long id);
 
     /**
+     * Returns existing ability with given name.
+     * @param name Name of the wanted ability.
+     * @return Ability with given name.
+     */
+    Ability findByName(String name);
+
+    /**
      * Returns all abilities.
      * @return List of all abilities.
      */

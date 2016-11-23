@@ -38,6 +38,11 @@ public class AbilityServiceImpl implements AbilityService {
     }
 
     @Override
+    public Ability findByName(String name) {
+        return abilityDao.findByName(name);
+    }
+
+    @Override
     public List<Ability> findAll() {
         return abilityDao.findAll();
     }
