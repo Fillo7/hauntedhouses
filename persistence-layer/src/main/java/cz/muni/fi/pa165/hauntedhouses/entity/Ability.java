@@ -71,11 +71,29 @@ public class Ability {
     }
 
     public void addMonster(Monster monster) {
+        // Prevent endless loop
+        if (monsters.contains(monster)) {
+            return;
+        }
+
+        // Add new monster
         this.monsters.add(monster);
+
+        // Set this ability as the monster's ability
+        monster.addAbility(this);
     }
 
     public void removeMonster(Monster monster){
+        // Prevent endless loop
+        if (!monsters.contains(monster)) {
+            return;
+        }
+
+        // Remove the monster
         this.monsters.remove(monster);
+
+        // Remove this ability from the monster's abilities
+        monster.removeAbility(this);
     }
 
     /*** Equals and hash code ***/

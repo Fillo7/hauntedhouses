@@ -103,7 +103,24 @@ public class Monster {
     }
 
     public void setHouse(House house) {
+        // Prevent endless loop
+        if (sameAsFormer(house)) {
+            return;
+        }
+
+        // Set new house
+        House oldHouse = this.house;
         this.house = house;
+
+        // Remove from the old house
+        if (oldHouse != null) {
+            oldHouse.removeMonster(this);
+        }
+
+        // Set this monster to new house
+        if (house != null) {
+            house.addMonster(this);
+        }
     }
 
     public Set<Ability> getAbilities() {
@@ -111,11 +128,29 @@ public class Monster {
     }
 
     public void removeAbility(Ability ability){
+        // Prevent endless loop
+        if (!abilities.contains(ability)) {
+            return;
+        }
+
+        // Remove the ability
         this.abilities.remove(ability);
+
+        // Remove this monster from the ability's monsters
+        ability.removeMonster(this);
     }
 
     public void addAbility(Ability ability) {
+        // Prevent endless loop
+        if (this.abilities.contains(ability)) {
+            return;
+        }
+
+        // Add new ability
         this.abilities.add(ability);
+
+        // Set this monster to the ability
+        ability.addMonster(this);
     }
 
     @Override
@@ -135,5 +170,14 @@ public class Monster {
         int hash = 5;
         hash = 29 * hash + Objects.hashCode(this.name);
         return hash;
+    }
+
+    /**
+     * Checks whether given newHouse is the same as this monster's saved house.
+     * @param newHouse New house to be linked to this monster.
+     * @return True if the two houses are the same. False if not.
+     */
+    private boolean sameAsFormer(House newHouse) {
+        return house == null ? newHouse == null : house.equals(newHouse);
     }
 }

@@ -41,7 +41,8 @@ public class AbilityCreateDTO {
     }
 
     public Set<MonsterDTO> getMonsters() {
-        return Collections.unmodifiableSet(monsters);
+        //return Collections.unmodifiableSet(monsters);
+        return monsters;
     }
 
     public void setMonsters(Set<MonsterDTO> monsters) {

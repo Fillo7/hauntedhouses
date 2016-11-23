@@ -68,11 +68,29 @@ public class House {
     }
 
     public void addMonster(Monster monster){
+        // Prevent endless loop
+        if (monsters.contains(monster)) {
+            return;
+        }
+
+        // Add new monster
         this.monsters.add(monster);
+
+        // Set this house as the monster's house
+        monster.setHouse(this);
     }
 
     public void removeMonster(Monster monster){
+        // Prevent endless loop
+        if (!monsters.contains(monster)) {
+            return;
+        }
+
+        // Remove the monster
         this.monsters.remove(monster);
+
+        // Remove this house as the monster's house
+        monster.setHouse(null);
     }
 
     public Set<CursedObject> getCursedObjects() {
@@ -80,11 +98,29 @@ public class House {
     }
 
     public void addCursedObject(CursedObject cursedObject){
+        // Prevent endless loop
+        if (cursedObjects.contains(cursedObject)) {
+            return;
+        }
+
+        // Add new cursed object
         this.cursedObjects.add(cursedObject);
+
+        // Set this house as the cursed object's house
+        cursedObject.setHouse(this);
     }
 
     public void removeCursedObject(CursedObject cursedObject){
+        // Prevent endless loop
+        if (!cursedObjects.contains(cursedObject)) {
+            return;
+        }
+
+        // Remove the cursed object
         this.cursedObjects.remove(cursedObject);
+
+        // Remove this house as the cursed object's house
+        cursedObject.setHouse(null);
     }
 
     @Override
