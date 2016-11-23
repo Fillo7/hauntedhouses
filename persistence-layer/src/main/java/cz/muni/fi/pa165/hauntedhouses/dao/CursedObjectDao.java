@@ -10,7 +10,6 @@ public interface CursedObjectDao {
     /**
      * Adds new cursed object.
      * @param cursedObject Cursed object to be added.
-     * @throws IllegalArgumentException when cursedObject is null or id is already set.
      */
     void create(CursedObject cursedObject);
 
@@ -18,7 +17,6 @@ public interface CursedObjectDao {
      * Updates existing cursed object.
      * @param cursedObject Cursed object to be updated.
      * @return updated CursedObject
-     * @throws IllegalArgumentException when cursedObject is null.
      */
     CursedObject update(CursedObject cursedObject);
 

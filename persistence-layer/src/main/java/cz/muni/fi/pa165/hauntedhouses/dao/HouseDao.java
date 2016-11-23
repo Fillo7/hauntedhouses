@@ -27,6 +27,7 @@ public interface HouseDao {
      * Removes house from DB
      *
      * @param house to be removed
+     * @throws IllegalArgumentException if the house is null.
      */
     void delete(House house);
 

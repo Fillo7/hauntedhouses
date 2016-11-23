@@ -20,6 +20,8 @@ public interface MonsterDao {
     * update monster, which is saved in DB
     *
     * @param monster to be updated
+    *
+    * @return updated monster
     */
     Monster update(Monster monster);
 
@@ -27,6 +29,8 @@ public interface MonsterDao {
     * delete monster from DB
     *
     * @param monster to be deleted
+    *
+    * @throws IllegalArgumentException if the monster is null
     */
     void delete(Monster monster);
 

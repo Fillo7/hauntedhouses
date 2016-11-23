@@ -24,12 +24,15 @@ public interface AbilityDao {
     /**
      * Update the ability in the database.
      * @param ability Ability to be updated.
+     * @return Updated ability.
      */
     Ability update(Ability ability);
 
     /**
      * Deletes the ability from the database.
      * @param ability Ability to be deleted.
+     * @throws IllegalArgumentException if the ability is null or of there is
+     * no such ability present in the database.
      */
     void delete(Ability ability);
 
