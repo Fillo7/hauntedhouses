@@ -17,10 +17,10 @@ public class MonsterDTO {
 
     @NotNull
     private String name;
-    
+
     @NotNull
     private String description;
-    
+
     @NotNull
     private LocalTime hauntedIntervalStart;
 
@@ -82,7 +82,8 @@ public class MonsterDTO {
     }
 
     public Set<AbilityDTO> getAbilities() {
-        return Collections.unmodifiableSet(abilities);
+        //return Collections.unmodifiableSet(abilities);
+        return abilities;
     }
 
     public void removeAbility(AbilityDTO ability) {

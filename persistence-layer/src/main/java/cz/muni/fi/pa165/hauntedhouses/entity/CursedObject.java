@@ -80,7 +80,24 @@ public class CursedObject {
     }
 
     public void setHouse(House house) {
+        // Prevent endless loop
+        if (sameAsFormer(house)) {
+            return;
+        }
+
+        // Set new house
+        House oldHouse = this.house;
         this.house = house;
+
+        // Remove from the old house
+        if (oldHouse != null) {
+            oldHouse.removeCursedObject(this);
+        }
+
+        // Set this cursed object to new house
+        if (house != null) {
+            house.addCursedObject(this);
+        }
     }
 
     @Override
@@ -99,5 +116,14 @@ public class CursedObject {
     @Override
     public int hashCode() {
         return Objects.hash(name);
+    }
+
+    /**
+     * Checks whether given newHouse is the same as this cursed object's saved house.
+     * @param newHouse New house to be linked to this monster.
+     * @return True if the two houses are the same. False if not.
+     */
+    private boolean sameAsFormer(House newHouse) {
+        return house == null ? newHouse == null : house.equals(newHouse);
     }
 }
