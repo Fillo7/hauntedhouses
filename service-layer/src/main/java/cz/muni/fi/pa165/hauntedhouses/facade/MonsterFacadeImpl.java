@@ -4,6 +4,7 @@ import cz.muni.fi.pa165.hauntedhouses.dto.AbilityDTO;
 import cz.muni.fi.pa165.hauntedhouses.dto.MonsterCreateDTO;
 import cz.muni.fi.pa165.hauntedhouses.dto.MonsterDTO;
 import cz.muni.fi.pa165.hauntedhouses.BeanMappingService;
+import cz.muni.fi.pa165.hauntedhouses.dto.HouseDTO;
 import cz.muni.fi.pa165.hauntedhouses.dto.MonsterUpdateDTO;
 import cz.muni.fi.pa165.hauntedhouses.entity.Ability;
 import cz.muni.fi.pa165.hauntedhouses.entity.House;
@@ -95,6 +96,14 @@ public class MonsterFacadeImpl implements MonsterFacade {
         return beanMappingService.mapTo(monsterService.findAll(), MonsterDTO.class);
     }
 
+    @Override
+    public void moveToAnotherHouse(MonsterDTO monster, HouseDTO house) {
+        Monster monsterEntity = beanMappingService.mapTo(monster, Monster.class);
+        House houseEntity = beanMappingService.mapTo(house, House.class);
+
+        monsterService.moveToAnotherHouse(monsterEntity, houseEntity);
+    }
+
     private House getHouse(Long id) {
         if (id == null) {
             return null;
@@ -114,5 +123,4 @@ public class MonsterFacadeImpl implements MonsterFacade {
 
         return ability;
     }
-
 }

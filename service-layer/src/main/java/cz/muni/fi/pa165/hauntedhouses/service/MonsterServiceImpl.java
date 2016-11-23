@@ -50,5 +50,6 @@ public class MonsterServiceImpl implements MonsterService{
         }
 
         monster.setHouse(house);
+        monsterDao.update(monster);
     }
 }

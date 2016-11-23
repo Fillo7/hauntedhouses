@@ -100,4 +100,11 @@ public class HouseFacadeImpl implements HouseFacade {
 
         houseService.remove(house);
     }
+
+    @Override
+    public void purge(HouseDTO house) {
+        House houseEntity = beanMappingService.mapTo(house, House.class);
+
+        houseService.purge(houseEntity);
+    }
 }

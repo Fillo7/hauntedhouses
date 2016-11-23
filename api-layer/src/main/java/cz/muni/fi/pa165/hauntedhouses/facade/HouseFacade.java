@@ -68,4 +68,10 @@ public interface HouseFacade {
      */
     void removeHouse(Long houseId);
 
+    /**
+     * Destroys all monsters and cursed objects in the given house.
+     * @param house House to be purged.
+     * @throws IllegalArgumentException if the house is null.
+     */
+    void purge(HouseDTO house);
 }

@@ -61,4 +61,10 @@ public interface HouseService {
      */
     void remove(House house);
 
+    /**
+     * Destroys all monsters and cursed objects in the given house.
+     * @param house House to be purged.
+     * @throws IllegalArgumentException if the house is null.
+     */
+    void purge(House house);
 }

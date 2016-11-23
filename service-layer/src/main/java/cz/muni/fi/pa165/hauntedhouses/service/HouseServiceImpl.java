@@ -1,12 +1,17 @@
 package cz.muni.fi.pa165.hauntedhouses.service;
 
 import cz.muni.fi.pa165.hauntedhouses.dao.HouseDao;
+import cz.muni.fi.pa165.hauntedhouses.entity.CursedObject;
 import cz.muni.fi.pa165.hauntedhouses.entity.House;
+import cz.muni.fi.pa165.hauntedhouses.entity.Monster;
+import cz.muni.fi.pa165.hauntedhouses.exceptions.DataManipulationException;
 import cz.muni.fi.pa165.hauntedhouses.exceptions.ServiceExceptionTranslate;
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
 import java.util.List;
+import java.util.Set;
+import org.springframework.dao.DataAccessException;
 
 /**
  * Implementation of HouseService
@@ -63,5 +68,24 @@ public class HouseServiceImpl implements HouseService {
             throw new IllegalArgumentException("house is null - cannot remove");
         }
         houseDao.delete(house);
+    }
+
+    @Override
+    public void purge(House house) {
+        if (house == null) {
+            throw new IllegalArgumentException("House is null, cannot be purged.");
+        }
+
+        if (houseDao.findById(house.getId()) == null) {
+            throw new DataManipulationException("Given house is not in the database, cannot be purged.");
+        }
+
+        Set<Monster> monsters = house.getMonsters();
+        Set<CursedObject> cursedObjects = house.getCursedObjects();
+
+        monsters.forEach(monster -> house.removeMonster(monster));
+        cursedObjects.forEach(cursedObject -> house.removeCursedObject(cursedObject));
+
+        houseDao.update(house);
     }
 }
