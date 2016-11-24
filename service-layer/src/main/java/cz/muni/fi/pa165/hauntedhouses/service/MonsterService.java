@@ -2,6 +2,7 @@ package cz.muni.fi.pa165.hauntedhouses.service;
 
 import cz.muni.fi.pa165.hauntedhouses.entity.House;
 import cz.muni.fi.pa165.hauntedhouses.entity.Monster;
+import cz.muni.fi.pa165.hauntedhouses.exceptions.DataManipulationException;
 import java.util.List;
 
 /**
@@ -55,6 +56,8 @@ public interface MonsterService {
      * Moves the monster into another house.
      * @param monster Monster that is to be moved.
      * @param house House that the monster is moving into.
+     * @throws IllegalArgumentException if either monster or house is null
+     * @throws DataManipulationException if the monster cannot be found in the database
      */
     public void moveToAnotherHouse(Monster monster, House house);
 }

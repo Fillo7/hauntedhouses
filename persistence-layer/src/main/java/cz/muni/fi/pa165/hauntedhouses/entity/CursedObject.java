@@ -118,6 +118,11 @@ public class CursedObject {
         return Objects.hash(name);
     }
 
+    @Override
+    public String toString() {
+        return "Cursed object: id: " + id + ", name: " + name;
+    }
+
     /**
      * Checks whether given newHouse is the same as this cursed object's saved house.
      * @param newHouse New house to be linked to this monster.

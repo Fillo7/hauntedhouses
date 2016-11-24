@@ -100,7 +100,7 @@ public class Ability {
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, description);
+        return Objects.hash(name);
     }
 
     @Override
@@ -119,5 +119,11 @@ public class Ability {
         if (name != null ? !name.equals(other.getName()) : other.getName() != null) return false;
 
         return true;
+    }
+
+    @Override
+    public String toString() {
+        return "Ability: id: " + id + ", name: " + name + ", description: "
+                + description + ", monsters size: " + monsters.size();
     }
 }

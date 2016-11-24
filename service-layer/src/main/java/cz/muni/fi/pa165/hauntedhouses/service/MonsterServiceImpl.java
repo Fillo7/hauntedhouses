@@ -45,6 +45,13 @@ public class MonsterServiceImpl implements MonsterService{
 
     @Override
     public void moveToAnotherHouse(Monster monster, House house) {
+        if (monster == null) {
+            throw new IllegalArgumentException("Null monster cannot be moved.");
+        }
+        if (house == null) {
+            throw new IllegalArgumentException("Monster cannot be moved to null house.");
+        }
+
         if (monsterDao.findById(monster.getId()) == null) {
             throw new DataManipulationException("The monster cannot be found in the database.");
         }

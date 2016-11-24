@@ -138,4 +138,10 @@ public class House {
     public int hashCode(){
         return Objects.hash(name);
     }
+
+    @Override
+    public String toString() {
+        return "House: id: " + id + ", name: " + name + ", address: " + address
+                + ", monsters size: " + monsters.size() + ", cursed objects size: " + cursedObjects.size();
+    }
 }

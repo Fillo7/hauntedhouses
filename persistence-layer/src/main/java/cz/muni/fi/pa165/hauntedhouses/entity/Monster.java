@@ -172,6 +172,14 @@ public class Monster {
         return hash;
     }
 
+    @Override
+    public String toString() {
+        return "Monster: id: " + id + ", name: " + name + ", description: " + description
+                + ", haunt interval: (" + hauntedIntervalStart + ", " + hauntedIntervalEnd
+                + "), house id: " + (house == null ? "house is null" : house.getId())
+                + ", abilities size: " + abilities.size();
+    }
+
     /**
      * Checks whether given newHouse is the same as this monster's saved house.
      * @param newHouse New house to be linked to this monster.

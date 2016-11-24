@@ -74,6 +74,16 @@ public class AbilityFacadeTest extends AbstractTransactionalTestNGSpringContextT
     }
 
     @Test
+    public void testFindByName() {
+        abilityFacade.createAbility(createFirst);
+        Long id = abilityFacade.createAbility(createSecond);
+        String name = createSecond.getName();
+
+        AbilityDTO returned = abilityFacade.getAbilityByName(name);
+        assertDeepEquals(createSecond, returned);
+    }
+
+    @Test
     public void testFindAll() {
         abilityFacade.createAbility(createFirst);
         abilityFacade.createAbility(createSecond);

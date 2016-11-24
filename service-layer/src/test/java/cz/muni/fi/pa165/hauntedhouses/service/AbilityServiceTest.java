@@ -53,7 +53,7 @@ public class AbilityServiceTest extends AbstractTestNGSpringContextTests {
         one.setName("Shameless copy");
         one.setDescription("Shamelessly copies what its target is doing.");
         one.addMonster(monster);
-        
+
         two.setId(1L);
         two.setName("Charm");
         two.setDescription("Charms an enemy with its extreme beauty making them do its bidding.");
@@ -92,6 +92,14 @@ public class AbilityServiceTest extends AbstractTestNGSpringContextTests {
         when(abilityDao.findById(one.getId())).thenReturn(one);
 
         Ability retrieved = abilityService.findById(one.getId());
+        assertDeepEquals(retrieved, one);
+    }
+
+    @Test
+    public void testFindByName() {
+        when(abilityDao.findByName(one.getName())).thenReturn(one);
+
+        Ability retrieved = abilityService.findByName(one.getName());
         assertDeepEquals(retrieved, one);
     }
 
