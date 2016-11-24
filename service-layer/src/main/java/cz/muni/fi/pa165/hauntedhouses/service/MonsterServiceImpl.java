@@ -15,7 +15,7 @@ import javax.inject.Inject;
  * @author Marek Janco
  */
 @Service
-@ServiceExceptionTranslate
+//@ServiceExceptionTranslate
 public class MonsterServiceImpl implements MonsterService{
 
     @Inject
