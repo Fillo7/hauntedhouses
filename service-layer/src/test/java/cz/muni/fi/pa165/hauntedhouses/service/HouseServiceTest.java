@@ -91,17 +91,17 @@ public class HouseServiceTest extends AbstractTestNGSpringContextTests {
 
     @Test
     public void testDelete() {
-        houseService.remove(house);
+        houseService.delete(house);
         verify(houseDao).delete(house);
     }
 
     @Test
-    public void testFindById() {
+    public void testGetById() {
         Long id = house.getId();
         Assert.assertNotNull(id);
 
-        when(houseDao.findById(1L)).thenReturn(house);
-        House foundHouse = houseService.findById(id);
+        when(houseDao.getById(1L)).thenReturn(house);
+        House foundHouse = houseService.getById(id);
 
         Assert.assertNotNull(house);
         Assert.assertNotNull(foundHouse);
@@ -109,12 +109,12 @@ public class HouseServiceTest extends AbstractTestNGSpringContextTests {
     }
 
     @Test
-    public void testFindAll() {
+    public void testGetAll() {
         List<House> houses = new ArrayList<>();
         houses.add(house);
 
-        when(houseDao.findAll()).thenReturn(houses);
-        List<House> foundHouses = houseService.findAll();
+        when(houseDao.getAll()).thenReturn(houses);
+        List<House> foundHouses = houseService.getAll();
 
         Assert.assertNotNull(foundHouses);
         Assert.assertEquals(foundHouses.size(), 1);
@@ -128,7 +128,7 @@ public class HouseServiceTest extends AbstractTestNGSpringContextTests {
         anotherMonster.setName("Sithis");
         house.addMonster(anotherMonster);
 
-        when(houseDao.findById(1L)).thenReturn(house);
+        when(houseDao.getById(1L)).thenReturn(house);
 
         Assert.assertEquals(house.getMonsters().size(), 2);
         Assert.assertEquals(house.getCursedObjects().size(), 1);
@@ -156,7 +156,7 @@ public class HouseServiceTest extends AbstractTestNGSpringContextTests {
         Assert.assertEquals(house2.getMonsters().size(), 0);
         Assert.assertEquals(house2.getCursedObjects().size(), 1);
 
-        when(houseDao.findById(2L)).thenReturn(house2);
+        when(houseDao.getById(2L)).thenReturn(house2);
         houseService.purge(house2);
 
         Assert.assertEquals(house2.getMonsters().size(), 0);
@@ -174,7 +174,7 @@ public class HouseServiceTest extends AbstractTestNGSpringContextTests {
         Assert.assertEquals(house2.getMonsters().size(), 1);
         Assert.assertEquals(house2.getCursedObjects().size(), 0);
 
-        when(houseDao.findById(2L)).thenReturn(house2);
+        when(houseDao.getById(2L)).thenReturn(house2);
         houseService.purge(house2);
 
         Assert.assertEquals(house2.getMonsters().size(), 0);

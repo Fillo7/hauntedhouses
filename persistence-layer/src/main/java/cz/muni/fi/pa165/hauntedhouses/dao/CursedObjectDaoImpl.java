@@ -31,11 +31,11 @@ public class CursedObjectDaoImpl implements CursedObjectDao {
             throw new IllegalArgumentException("cursedObject is set to null.");
         }
 
-        entityManager.remove(findById(cursedObject.getId()));
+        entityManager.remove(getById(cursedObject.getId()));
     }
 
     @Override
-    public CursedObject findById(Long id) {
+    public CursedObject getById(Long id) {
         if(id == null) {
             throw new IllegalArgumentException("id is set to null.");
         }
@@ -44,7 +44,7 @@ public class CursedObjectDaoImpl implements CursedObjectDao {
     }
 
     @Override
-    public List<CursedObject> findAll() {
+    public List<CursedObject> getAll() {
         return entityManager.createQuery("SELECT co FROM CursedObject co", CursedObject.class).getResultList();
     }
 }

@@ -47,7 +47,7 @@ public class HouseFacadeImpl implements HouseFacade {
         }
 
         House house = beanMappingService.mapTo(houseUpdateDTO, House.class);
-        if(houseService.findById(house.getId()) == null){
+        if(houseService.getById(house.getId()) == null){
             throw new NoEntityException("updating non existing house");
         }
 
@@ -56,7 +56,7 @@ public class HouseFacadeImpl implements HouseFacade {
 
     @Override
     public List<HouseDTO> getAllHouses() {
-        return beanMappingService.mapTo(houseService.findAll(), HouseDTO.class);
+        return beanMappingService.mapTo(houseService.getAll(), HouseDTO.class);
     }
 
     @Override
@@ -65,7 +65,7 @@ public class HouseFacadeImpl implements HouseFacade {
             throw new IllegalArgumentException("houseId cannot be null");
         }
 
-        House house = houseService.findById(houseId);
+        House house = houseService.getById(houseId);
         if(house == null){
             throw new NoEntityException("house with id=" + houseId + " does not exist");
         }
@@ -79,7 +79,7 @@ public class HouseFacadeImpl implements HouseFacade {
             throw new IllegalArgumentException("houseName cannot be null");
         }
 
-        House house = houseService.findByName(houseName);
+        House house = houseService.getByName(houseName);
         if(house == null){
             throw new NoEntityException("house with name=" + houseName + " does not exist");
         }
@@ -88,17 +88,17 @@ public class HouseFacadeImpl implements HouseFacade {
     }
 
     @Override
-    public void removeHouse(Long houseId) {
+    public void deleteHouse(Long houseId) {
         if(houseId == null){
             throw new IllegalArgumentException("houseId cannot be null");
         }
 
-        House house = houseService.findById(houseId);
+        House house = houseService.getById(houseId);
         if(house == null){
             throw new NoEntityException("house with id=" + houseId + " does not exist, cannot remove");
         }
 
-        houseService.remove(house);
+        houseService.delete(house);
     }
 
     @Override

@@ -32,13 +32,13 @@ public interface CursedObjectService {
      * @param id Id of a cursed object to be returned.
      * @return Existing cursed object with given id.
      */
-    CursedObject findById(Long id);
+    CursedObject getById(Long id);
 
     /**
      * Returns list of all cursed objects.
      * @return List of all cursed objects.
      */
-    List<CursedObject> findAll();
+    List<CursedObject> getAll();
     
     /**
      * Increases monster attraction factor of specified cursed objects by one (up to insane).

@@ -62,8 +62,8 @@ public class MonsterFacadeTest extends AbstractTestNGSpringContextTests {
         lochness.setHauntedIntervalStart(LocalTime.of(10, 30));
         lochness.setHauntedIntervalEnd(LocalTime.of(12, 30));
 
-        when(monsterService.findById(0L)).thenReturn(null);
-        when(monsterService.findById(1L)).thenReturn(lochness);
+        when(monsterService.getById(0L)).thenReturn(null);
+        when(monsterService.getById(1L)).thenReturn(lochness);
     }
 
     @Test
@@ -123,7 +123,7 @@ public class MonsterFacadeTest extends AbstractTestNGSpringContextTests {
     }
 
     @Test
-    public void removeMonsterTest() {
+    public void deleteMonsterTest() {
         monsterFacade.deleteMonster(1l);
         verify(monsterService).delete(argumentCaptor.capture());
         assertEquals((long) argumentCaptor.getValue().getId(), 1l);
@@ -134,12 +134,12 @@ public class MonsterFacadeTest extends AbstractTestNGSpringContextTests {
     }
 
     @Test(expectedExceptions = NoEntityException.class)
-    public void removeNonExistingMonster(){
+    public void deleteNonExistingMonster(){
         monsterFacade.deleteMonster(0l);
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
-    public void removeNullMonsterTest() {
+    public void deleteNullMonsterTest() {
         monsterFacade.deleteMonster(null);
     }
 

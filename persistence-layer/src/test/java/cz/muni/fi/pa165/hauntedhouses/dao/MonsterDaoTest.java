@@ -77,7 +77,7 @@ public class MonsterDaoTest extends AbstractTestNGSpringContextTests {
     @Test
     public void createMonsterTest() {
         monsterDao.create(cat);
-        Assert.assertEquals(monsterDao.findAll().get(0).getHouse(), h1);
+        Assert.assertEquals(monsterDao.getAll().get(0).getHouse(), h1);
     }
 
     @Test(expectedExceptions = DataAccessException.class)
@@ -129,8 +129,8 @@ public class MonsterDaoTest extends AbstractTestNGSpringContextTests {
     public void createMonsterWithAbilityTest(){
         monsterDao.create(cat);
 
-        Monster myCat = monsterDao.findByName("Cicka");
-        myCat.addAbility(abilityDao.findByName("Abil1"));
+        Monster myCat = monsterDao.getByName("Cicka");
+        myCat.addAbility(abilityDao.getByName("Abil1"));
         Monster myAbilityCat = monsterDao.update(myCat);
 
         List<Ability> result = new ArrayList<>(myAbilityCat.getAbilities());
@@ -141,12 +141,12 @@ public class MonsterDaoTest extends AbstractTestNGSpringContextTests {
     public void updateMonsterRemoveAbilityTest(){
         monsterDao.create(cat);
 
-        Monster myCat = monsterDao.findByName("Cicka");
-        myCat.addAbility(abilityDao.findByName("Abil1"));
+        Monster myCat = monsterDao.getByName("Cicka");
+        myCat.addAbility(abilityDao.getByName("Abil1"));
         monsterDao.update(myCat);
 
-        Monster myEmptyCat = monsterDao.findByName("Cicka");
-        myEmptyCat.removeAbility(abilityDao.findByName("Abil1"));
+        Monster myEmptyCat = monsterDao.getByName("Cicka");
+        myEmptyCat.removeAbility(abilityDao.getByName("Abil1"));
         Monster myUpdatedCat = monsterDao.update(myEmptyCat);
 
         assertDeepEquals(myUpdatedCat, cat);
@@ -244,57 +244,57 @@ public class MonsterDaoTest extends AbstractTestNGSpringContextTests {
     }
 
     @Test(expectedExceptions = DataAccessException.class)
-    public void removeNotExistingMonsterTest() {
+    public void deleteNotExistingMonsterTest() {
         monsterDao.create(cat);
         monsterDao.delete(horse);
     }
 
     @Test
-    public void removeMonsterTest(){
+    public void deleteMonsterTest(){
         monsterDao.create(cat);
         monsterDao.create(horse);
-        Assert.assertEquals(monsterDao.findAll().size(), 2);
+        Assert.assertEquals(monsterDao.getAll().size(), 2);
 
         monsterDao.delete(cat);
-        Assert.assertEquals(monsterDao.findAll().size(), 1);
-        Assert.assertEquals(monsterDao.findAll().get(0).getName(), "Ponny");
+        Assert.assertEquals(monsterDao.getAll().size(), 1);
+        Assert.assertEquals(monsterDao.getAll().get(0).getName(), "Ponny");
     }
 
     @Test
     public void updateNotExistingMonsterTest() {
         monsterDao.create(cat);
         monsterDao.update(horse);
-        Assert.assertEquals(monsterDao.findAll().size(), 2);
-        Assert.assertNotNull(monsterDao.findByName("Ponny"));
-        Assert.assertNotNull(monsterDao.findByName("Cicka"));
+        Assert.assertEquals(monsterDao.getAll().size(), 2);
+        Assert.assertNotNull(monsterDao.getByName("Ponny"));
+        Assert.assertNotNull(monsterDao.getByName("Cicka"));
     }
 
     @Test
-    public void findMonsterByNameTest(){
+    public void getMonsterByNameTest(){
         monsterDao.create(cat);
         monsterDao.create(horse);
 
-        Monster result = monsterDao.findByName("Ponny");
+        Monster result = monsterDao.getByName("Ponny");
         Assert.assertNotNull(result);
         assertDeepEquals(result, horse);
     }
 
     @Test
-    public void findMonsterByIdTest(){
+    public void getMonsterByIdTest(){
         monsterDao.create(cat);
         monsterDao.create(horse);
 
-        Monster result = monsterDao.findById(horse.getId());
+        Monster result = monsterDao.getById(horse.getId());
         Assert.assertNotNull(result);
         assertDeepEquals(result, horse);
     }
 
     @Test
-    public void findAllMonstersTest(){
+    public void getAllMonstersTest(){
         monsterDao.create(cat);
         monsterDao.create(horse);
 
-        List<Monster> result = monsterDao.findAll();
+        List<Monster> result = monsterDao.getAll();
         Assert.assertNotNull(result);
         Assert.assertEquals(result.size(), 2);
         Assert.assertTrue(result.contains(cat));

@@ -46,16 +46,16 @@ public class MonsterServiceImpl implements MonsterService{
     }
 
     @Override
-    public Monster findById(Long id) {
+    public Monster getById(Long id) {
         if(id == null){
             throw new IllegalArgumentException("id of monster is null");
         }
-        return monsterDao.findById(id);
+        return monsterDao.getById(id);
     }
 
     @Override
-    public List<Monster> findAll() {
-        return monsterDao.findAll();
+    public List<Monster> getAll() {
+        return monsterDao.getAll();
     }
 
     @Override
@@ -67,7 +67,7 @@ public class MonsterServiceImpl implements MonsterService{
             throw new IllegalArgumentException("Monster cannot be moved to null house.");
         }
 
-        if (monsterDao.findById(monster.getId()) == null) {
+        if (monsterDao.getById(monster.getId()) == null) {
             throw new DataManipulationException("The monster cannot be found in the database.");
         }
 

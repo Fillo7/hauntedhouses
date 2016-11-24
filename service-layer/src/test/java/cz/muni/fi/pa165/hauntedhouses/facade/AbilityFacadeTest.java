@@ -55,16 +55,16 @@ public class AbilityFacadeTest extends AbstractTransactionalTestNGSpringContextT
     }
 
     @Test
-    public void testRemove() {
+    public void testDelete() {
         Long id = abilityFacade.createAbility(createFirst);
         Assert.assertEquals(abilityFacade.getAllAbilities().size(), 1);
 
-        abilityFacade.removeAbility(id);
+        abilityFacade.deleteAbility(id);
         Assert.assertEquals(abilityFacade.getAllAbilities().size(), 0);
     }
 
     @Test
-    public void testFindById() {
+    public void testGetById() {
         abilityFacade.createAbility(createFirst);
         Long id = abilityFacade.createAbility(createSecond);
 
@@ -73,7 +73,7 @@ public class AbilityFacadeTest extends AbstractTransactionalTestNGSpringContextT
     }
 
     @Test
-    public void testFindByName() {
+    public void testGetByName() {
         abilityFacade.createAbility(createFirst);
         Long id = abilityFacade.createAbility(createSecond);
         String name = createSecond.getName();
@@ -83,7 +83,7 @@ public class AbilityFacadeTest extends AbstractTransactionalTestNGSpringContextT
     }
 
     @Test
-    public void testFindAll() {
+    public void testGetAll() {
         abilityFacade.createAbility(createFirst);
         abilityFacade.createAbility(createSecond);
 

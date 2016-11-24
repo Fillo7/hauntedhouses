@@ -31,7 +31,7 @@ public interface AbilityFacade {
      * @param id ID of the ability that is to be deleted.
      * @throws IllegalArgumentException if id is null.
      */
-    void removeAbility(Long id);
+    void deleteAbility(Long id);
 
     /**
      * Retrieves the ability by its ID.

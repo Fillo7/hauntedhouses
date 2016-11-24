@@ -43,14 +43,14 @@ public interface MonsterService {
      * @param id of monster to be found
      * @return Monster with given id
      */
-    public Monster findById(Long id);
+    public Monster getById(Long id);
 
     /**
      * finds all monsters
      *
      * @return list of all monsters
      */
-    public List<Monster> findAll();
+    public List<Monster> getAll();
 
     /**
      * Moves the monster into another house.

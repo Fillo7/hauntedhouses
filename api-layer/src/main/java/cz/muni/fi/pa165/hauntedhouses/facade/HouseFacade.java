@@ -66,7 +66,7 @@ public interface HouseFacade {
      * @throws IllegalArgumentException if houseId is null
      * @throws NoEntityException if House with given Id does not exist
      */
-    void removeHouse(Long houseId);
+    void deleteHouse(Long houseId);
 
     /**
      * Destroys all monsters and cursed objects in the given house.

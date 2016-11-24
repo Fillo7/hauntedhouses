@@ -26,25 +26,25 @@ public interface AbilityService {
      * Delete existing ability.
      * @param ability Ability to be deleted.
      */
-    void remove(Ability ability);
+    void delete(Ability ability);
 
     /**
      * Returns existing ability with given ID.
      * @param id ID of the wanted ability.
      * @return Ability with given ID.
      */
-    Ability findById(Long id);
+    Ability getById(Long id);
 
     /**
      * Returns existing ability with given name.
      * @param name Name of the wanted ability.
      * @return Ability with given name.
      */
-    Ability findByName(String name);
+    Ability getByName(String name);
 
     /**
      * Returns all abilities.
      * @return List of all abilities.
      */
-    List<Ability> findAll();
+    List<Ability> getAll();
 }

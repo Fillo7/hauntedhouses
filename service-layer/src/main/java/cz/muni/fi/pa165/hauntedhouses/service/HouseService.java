@@ -35,7 +35,7 @@ public interface HouseService {
      * @return the house entity with given id
      * @throws IllegalArgumentException if id is null
      */
-    House findById(Long id);
+    House getById(Long id);
 
     /**
      * Returns the House entity with given name.
@@ -44,14 +44,14 @@ public interface HouseService {
      * @return the house entity with given name
      * @throws IllegalArgumentException if name is null
      */
-    House findByName(String name);
+    House getByName(String name);
 
     /**
      * Returns all house entities.
      *
      * @return all houses
      */
-    List<House> findAll();
+    List<House> getAll();
 
     /**
      * Removes the house entity from persistence context.
@@ -59,7 +59,7 @@ public interface HouseService {
      * @param house house to be removed
      * @throws IllegalArgumentException if house is null
      */
-    void remove(House house);
+    void delete(House house);
 
     /**
      * Destroys all monsters and cursed objects in the given house.

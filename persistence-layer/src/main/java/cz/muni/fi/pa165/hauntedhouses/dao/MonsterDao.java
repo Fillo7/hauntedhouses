@@ -40,14 +40,14 @@ public interface MonsterDao {
     * @param id of monster that should be found
     * @return Monster if found, null if not
     */
-    Monster findById(Long id);
+    Monster getById(Long id);
 
     /**
     * List all monsters that are in DB
     *
     * @return List of all monsters
     */
-    List<Monster> findAll();
+    List<Monster> getAll();
 
     /**
      * find specific monster by it's name
@@ -55,5 +55,5 @@ public interface MonsterDao {
      * @param name given name
      * @return specific Monster, if found
      */
-    Monster findByName(String name);
+    Monster getByName(String name);
 }

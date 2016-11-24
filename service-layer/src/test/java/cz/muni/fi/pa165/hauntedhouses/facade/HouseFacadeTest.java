@@ -84,18 +84,13 @@ public class HouseFacadeTest extends AbstractTransactionalTestNGSpringContextTes
         Assert.assertEquals(houseFacade.getAllHouses().size(), 0);
         Long createdId = houseFacade.createHouse(house1);
         Assert.assertEquals(houseFacade.getAllHouses().size(), 1);
-        houseFacade.removeHouse(createdId);
+        houseFacade.deleteHouse(createdId);
         Assert.assertEquals(houseFacade.getAllHouses().size(), 0);
     }
 
     @Test
-    public void findById() {
-        try {
-            houseFacade.getHouseById(null);
-        } catch (IllegalArgumentException e) {
-            // TODO: Change this exception to DataAccessException after merge
-        }
-
+    public void testGetById() {
+        houseFacade.createHouse(house2);
         Long createdId = houseFacade.createHouse(house1);
         HouseDTO foundHouse = houseFacade.getHouseById(createdId);
 
@@ -103,7 +98,7 @@ public class HouseFacadeTest extends AbstractTransactionalTestNGSpringContextTes
     }
 
     @Test
-    public void findAll() {
+    public void testGetAll() {
         Assert.assertEquals(houseFacade.getAllHouses().size(), 0);
         Long createdId1 = houseFacade.createHouse(house1);
         Assert.assertEquals(houseFacade.getAllHouses().size(), 1);

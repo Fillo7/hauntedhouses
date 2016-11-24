@@ -60,7 +60,7 @@ public class AbilityFacadeImpl implements AbilityFacade {
     }
 
     @Override
-    public void removeAbility(Long id) {
+    public void deleteAbility(Long id) {
         if (id == null) {
             throw new IllegalArgumentException("ID of ability is null.");
         }
@@ -68,7 +68,7 @@ public class AbilityFacadeImpl implements AbilityFacade {
         Ability ability = new Ability();
         ability.setId(id);
 
-        abilityService.remove(ability);
+        abilityService.delete(ability);
     }
 
     @Override
@@ -77,7 +77,7 @@ public class AbilityFacadeImpl implements AbilityFacade {
             throw new IllegalArgumentException("ID of ability is null.");
         }
 
-        return beanMappingService.mapTo(abilityService.findById(id), AbilityDTO.class);
+        return beanMappingService.mapTo(abilityService.getById(id), AbilityDTO.class);
     }
 
     @Override
@@ -86,11 +86,11 @@ public class AbilityFacadeImpl implements AbilityFacade {
             throw new IllegalArgumentException("Name of ability is null.");
         }
 
-        return beanMappingService.mapTo(abilityService.findByName(name), AbilityDTO.class);
+        return beanMappingService.mapTo(abilityService.getByName(name), AbilityDTO.class);
     }
 
     @Override
     public List<AbilityDTO> getAllAbilities() {
-        return beanMappingService.mapTo(abilityService.findAll(), AbilityDTO.class);
+        return beanMappingService.mapTo(abilityService.getAll(), AbilityDTO.class);
     }
 }

@@ -35,21 +35,21 @@ public class MonsterDaoImpl implements MonsterDao {
         if(monster == null){
             throw new IllegalArgumentException("Deleting null entity.");
         }
-        em.remove(findById(monster.getId()));
+        em.remove(getById(monster.getId()));
     }
 
     @Override
-    public Monster findById(Long id) {
+    public Monster getById(Long id) {
         return em.find(Monster.class, id);
     }
 
     @Override
-    public List<Monster> findAll() {
+    public List<Monster> getAll() {
         return em.createQuery("SELECT m FROM Monster m", Monster.class).getResultList();
     }
 
     @Override
-    public Monster findByName(String name) {
+    public Monster getByName(String name) {
         try{
             TypedQuery<Monster> query = em.createQuery("SELECT m FROM Monster m WHERE m.name = :name",
                     Monster.class).setParameter("name", name);

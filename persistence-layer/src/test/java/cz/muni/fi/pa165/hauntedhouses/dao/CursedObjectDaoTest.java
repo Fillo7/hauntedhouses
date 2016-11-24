@@ -77,10 +77,10 @@ public class CursedObjectDaoTest extends AbstractTestNGSpringContextTests{
         coDao.create(c1);
         
         assertNotNull(c1.getId());
-        assertEquals(coDao.findById(c1.getId()).getName(), c1.getName());
-        assertEquals(coDao.findById(c1.getId()).getDescription(), c1.getDescription());
-        assertEquals(coDao.findById(c1.getId()).getHouse(), c1.getHouse());
-        assertEquals(coDao.findById(c1.getId()).getMonsterAttractionFactor(),
+        assertEquals(coDao.getById(c1.getId()).getName(), c1.getName());
+        assertEquals(coDao.getById(c1.getId()).getDescription(), c1.getDescription());
+        assertEquals(coDao.getById(c1.getId()).getHouse(), c1.getHouse());
+        assertEquals(coDao.getById(c1.getId()).getMonsterAttractionFactor(),
                 c1.getMonsterAttractionFactor());
     }
     
@@ -186,42 +186,42 @@ public class CursedObjectDaoTest extends AbstractTestNGSpringContextTests{
         coDao.create(c1);
         coDao.create(c2);
         
-        CursedObject co = coDao.findById(c1.getId());
+        CursedObject co = coDao.getById(c1.getId());
         validate(co, c1);
-        co = coDao.findById(c2.getId());
+        co = coDao.getById(c2.getId());
         validate(co, c2);
     }
     
     @Test(expectedExceptions = DataAccessException.class)
     public void testGetNoExistingCursedObject(){
-        assertFalse(coDao.findAll().contains(c1));
-        CursedObject co = coDao.findById(c1.getId());
+        assertFalse(coDao.getAll().contains(c1));
+        CursedObject co = coDao.getById(c1.getId());
     }
     
     @Test()
     public void testGetAll(){
-        assertEquals(coDao.findAll().size(), 0);
+        assertEquals(coDao.getAll().size(), 0);
         coDao.create(c1);
-        assertEquals(coDao.findAll().size(), 1);
+        assertEquals(coDao.getAll().size(), 1);
         coDao.create(c2);
         
-        assertEquals(coDao.findAll().size(), 2);
-        validate(coDao.findAll().get(0),c1);
-        validate(coDao.findAll().get(1),c2);
+        assertEquals(coDao.getAll().size(), 2);
+        validate(coDao.getAll().get(0),c1);
+        validate(coDao.getAll().get(1),c2);
     }
     
     @Test()
     public void testDeleteCursedObject(){
         coDao.create(c1);
         coDao.create(c2);
-        assertEquals(coDao.findAll().size(), 2);
+        assertEquals(coDao.getAll().size(), 2);
         
         coDao.delete(c1);
-        assertEquals(coDao.findAll().size(), 1);
-        validate(coDao.findAll().get(0),c2);
+        assertEquals(coDao.getAll().size(), 1);
+        validate(coDao.getAll().get(0),c2);
         
         coDao.delete(c2);
-        assertEquals(coDao.findAll().size(), 0);
+        assertEquals(coDao.getAll().size(), 0);
     }
     
     @Test(expectedExceptions = DataAccessException.class)

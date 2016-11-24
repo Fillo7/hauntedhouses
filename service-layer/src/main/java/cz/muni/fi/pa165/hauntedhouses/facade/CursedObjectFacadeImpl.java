@@ -60,13 +60,13 @@ public class CursedObjectFacadeImpl implements CursedObjectFacade {
     
     @Override
     public CursedObjectDTO getCursedObjectWithId(Long id) {
-        CursedObject cursedObject = cursedObjectService.findById(id);
+        CursedObject cursedObject = cursedObjectService.getById(id);
         return beanMappingService.mapTo(cursedObject, CursedObjectDTO.class);
     }
     
     @Override
     public List<CursedObjectDTO> getAllCursedObjects() {
-        List<CursedObject> cursedObjects = cursedObjectService.findAll();
+        List<CursedObject> cursedObjects = cursedObjectService.getAll();
         return beanMappingService.mapTo(cursedObjects, CursedObjectDTO.class);
     }
     

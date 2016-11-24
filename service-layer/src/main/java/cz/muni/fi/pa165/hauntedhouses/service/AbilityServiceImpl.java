@@ -28,22 +28,22 @@ public class AbilityServiceImpl implements AbilityService {
     }
 
     @Override
-    public void remove(Ability cursedObject) {
+    public void delete(Ability cursedObject) {
         abilityDao.delete(cursedObject);
     }
 
     @Override
-    public Ability findById(Long id) {
-        return abilityDao.findById(id);
+    public Ability getById(Long id) {
+        return abilityDao.getById(id);
     }
 
     @Override
-    public Ability findByName(String name) {
-        return abilityDao.findByName(name);
+    public Ability getByName(String name) {
+        return abilityDao.getByName(name);
     }
 
     @Override
-    public List<Ability> findAll() {
-        return abilityDao.findAll();
+    public List<Ability> getAll() {
+        return abilityDao.getAll();
     }
 }

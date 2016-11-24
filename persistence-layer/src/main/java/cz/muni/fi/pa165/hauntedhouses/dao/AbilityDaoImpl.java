@@ -41,7 +41,7 @@ public class AbilityDaoImpl implements AbilityDao {
             throw new IllegalArgumentException("Attempting to delete null Ability entity from the database.");
         }
 
-        Ability abilityInDb = this.findById(ability.getId());
+        Ability abilityInDb = this.getById(ability.getId());
         if (abilityInDb == null) {
             throw new IllegalArgumentException("Attempting to delete Ability entity, "
                     + "but no such entity is currently present in the database.");
@@ -51,13 +51,13 @@ public class AbilityDaoImpl implements AbilityDao {
     }
 
     @Override
-    public Ability findById(Long id) {
+    public Ability getById(Long id) {
         // If find doesn't find anything in the DB, returns null
         return entityManager.find(Ability.class, id);
     }
 
     @Override
-    public Ability findByName(String name) {
+    public Ability getByName(String name) {
         try {
             TypedQuery<Ability> query = entityManager
                     .createQuery("SELECT a FROM Ability a WHERE a.name = :givenName", Ability.class)
@@ -69,7 +69,7 @@ public class AbilityDaoImpl implements AbilityDao {
     }
 
     @Override
-    public List<Ability> findAll() {
+    public List<Ability> getAll() {
         try {
             TypedQuery<Ability> query = entityManager.createQuery("SELECT a FROM Ability a", Ability.class);
             return query.getResultList();

@@ -37,14 +37,14 @@ public interface HouseDao {
      * @param id of house to be look for
      * @return specific house
      */
-    House findById(Long id);
+    House getById(Long id);
 
     /**
      * gives you all houses stored in DB
      *
      * @return all houses
      */
-    List<House> findAll();
+    List<House> getAll();
 
     /**
      * find specific house by it's name
@@ -52,5 +52,5 @@ public interface HouseDao {
      * @param name given name
      * @return specific house, is found
      */
-    House findByName(String name);
+    House getByName(String name);
 }

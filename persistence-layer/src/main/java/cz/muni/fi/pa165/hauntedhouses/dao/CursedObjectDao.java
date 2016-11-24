@@ -33,11 +33,11 @@ public interface CursedObjectDao {
      * @return Existing cursed object with given id.
      * @throws IllegalArgumentException when id is null.
      */
-    CursedObject findById(Long id);
+    CursedObject getById(Long id);
 
     /**
      * Returns list of all cursed objects.
      * @return List of all cursed objects.
      */
-    List<CursedObject> findAll();
+    List<CursedObject> getAll();
 }

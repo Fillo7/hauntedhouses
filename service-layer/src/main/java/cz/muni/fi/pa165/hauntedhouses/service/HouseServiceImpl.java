@@ -43,28 +43,28 @@ public class HouseServiceImpl implements HouseService {
     }
 
     @Override
-    public House findById(Long id) {
+    public House getById(Long id) {
         if(id == null){
             throw new IllegalArgumentException("id of house is null");
         }
-        return houseDao.findById(id);
+        return houseDao.getById(id);
     }
 
     @Override
-    public House findByName(String name) {
+    public House getByName(String name) {
         if(name == null){
             throw new IllegalArgumentException("name of house is null");
         }
-        return houseDao.findByName(name);
+        return houseDao.getByName(name);
     }
 
     @Override
-    public List<House> findAll() {
-        return houseDao.findAll();
+    public List<House> getAll() {
+        return houseDao.getAll();
     }
 
     @Override
-    public void remove(House house) {
+    public void delete(House house) {
         if(house == null){
             throw new IllegalArgumentException("house is null - cannot remove");
         }
@@ -77,7 +77,7 @@ public class HouseServiceImpl implements HouseService {
             throw new IllegalArgumentException("House is null, cannot be purged.");
         }
 
-        if (houseDao.findById(house.getId()) == null) {
+        if (houseDao.getById(house.getId()) == null) {
             throw new DataManipulationException("Given house is not in the database, cannot be purged.");
         }
 

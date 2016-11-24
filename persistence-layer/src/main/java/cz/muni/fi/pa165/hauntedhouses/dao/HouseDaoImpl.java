@@ -31,22 +31,22 @@ public class HouseDaoImpl implements HouseDao {
         if(house == null){
             throw new IllegalArgumentException("Deleting null entity.");
         }
-        entityManager.remove(findById(house.getId()));
+        entityManager.remove(getById(house.getId()));
     }
 
     @Override
-    public House findById(Long id) {
+    public House getById(Long id) {
         return entityManager.find(House.class, id);
     }
 
     @Override
-    public List<House> findAll() {
+    public List<House> getAll() {
         TypedQuery<House> query = entityManager.createQuery("SELECT h FROM House h", House.class);
         return query.getResultList();
     }
 
     @Override
-    public House findByName(String name){
+    public House getByName(String name){
         try {
             TypedQuery<House> q = entityManager.createQuery("SELECT h FROM House h WHERE h.name = :givenName",
                     House.class).setParameter("givenName", name);

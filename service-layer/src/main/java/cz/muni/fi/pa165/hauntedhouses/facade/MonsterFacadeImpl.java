@@ -58,7 +58,7 @@ public class MonsterFacadeImpl implements MonsterFacade {
         }
 
         Monster monster = beanMappingService.mapTo(monsterDTO, Monster.class);
-        if (monsterService.findById(monster.getId()) == null) {
+        if (monsterService.getById(monster.getId()) == null) {
             throw new NoEntityException("updating not existing monster");
         }
 
@@ -71,7 +71,7 @@ public class MonsterFacadeImpl implements MonsterFacade {
             throw new IllegalArgumentException("monsterId cannot be null");
         }
 
-        Monster monster = monsterService.findById(id);
+        Monster monster = monsterService.getById(id);
         if(monster == null){
             throw new NoEntityException("monster with id=" + id + " does not exist, cannot remove");
         }
@@ -85,7 +85,7 @@ public class MonsterFacadeImpl implements MonsterFacade {
             throw new IllegalArgumentException("monster id cannot be null");
         }
 
-        Monster monster = monsterService.findById(id);
+        Monster monster = monsterService.getById(id);
         if(monster == null){
             throw new NoEntityException("monster with id=" + id + " does not exist");
         }
@@ -95,7 +95,7 @@ public class MonsterFacadeImpl implements MonsterFacade {
 
     @Override
     public List<MonsterDTO> getAllMonsters() {
-        return beanMappingService.mapTo(monsterService.findAll(), MonsterDTO.class);
+        return beanMappingService.mapTo(monsterService.getAll(), MonsterDTO.class);
     }
 
     @Override

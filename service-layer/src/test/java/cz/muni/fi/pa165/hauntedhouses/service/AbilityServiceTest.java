@@ -81,37 +81,37 @@ public class AbilityServiceTest extends AbstractTestNGSpringContextTests {
     }
 
     @Test
-    public void testRemove() {
-        abilityService.remove(one);
+    public void testDelete() {
+        abilityService.delete(one);
 
         verify(abilityDao, times(1)).delete(one);
     }
 
     @Test
-    public void testFindById() {
-        when(abilityDao.findById(one.getId())).thenReturn(one);
+    public void testGetById() {
+        when(abilityDao.getById(one.getId())).thenReturn(one);
 
-        Ability retrieved = abilityService.findById(one.getId());
+        Ability retrieved = abilityService.getById(one.getId());
         assertDeepEquals(retrieved, one);
     }
 
     @Test
-    public void testFindByName() {
-        when(abilityDao.findByName(one.getName())).thenReturn(one);
+    public void testGetByName() {
+        when(abilityDao.getByName(one.getName())).thenReturn(one);
 
-        Ability retrieved = abilityService.findByName(one.getName());
+        Ability retrieved = abilityService.getByName(one.getName());
         assertDeepEquals(retrieved, one);
     }
 
     @Test
-    public void testFindAll() {
+    public void testGetAll() {
         List<Ability> list = new ArrayList<>();
         list.add(one);
         list.add(two);
 
-        when(abilityDao.findAll()).thenReturn(list);
+        when(abilityDao.getAll()).thenReturn(list);
 
-        List<Ability> retrieved = abilityService.findAll();
+        List<Ability> retrieved = abilityService.getAll();
         Assert.assertEquals(retrieved.size(), 2);
         Assert.assertTrue(retrieved.get(0).getId().equals(0L));
         Assert.assertTrue(retrieved.get(1).getId().equals(1L));

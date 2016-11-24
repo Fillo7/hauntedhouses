@@ -38,53 +38,53 @@ import org.testng.annotations.BeforeMethod;
 @Transactional
 public class HouseDaoTest extends AbstractTestNGSpringContextTests {
 
-    @PersistenceContext 
+    @PersistenceContext
     private EntityManager em;
-    
+
     @Inject
     private HouseDao houseDao;
-    
+
     private House houseComplete;
     private House houseMonsterOnly;
     private House houseCObjectOnly;
-    
+
     private Monster monster;
-    
+
     private CursedObject cursedObject;
-    
+
     @BeforeMethod
     public void setUp() {
         houseComplete = new House();
         houseComplete.setName("White house");
         houseComplete.setAddress("1600 Pennsylvania Ave NW, Washington, DC 20500");
-        
+
         houseMonsterOnly = new House();
         houseMonsterOnly.setName("Prague castle");
         houseMonsterOnly.setAddress("Prague 1, 119 08");
-        
+
         houseCObjectOnly = new House();
         houseCObjectOnly.setName("Kremlin");
         houseCObjectOnly.setAddress("Moscow, 103073");
-        
+
         monster = new Monster();
         monster.setName("Spaghetti flying monster");
         monster.setDescription("Strangles the victim with pasta tentacles");
-        
+
         cursedObject = new CursedObject();
         cursedObject.setName("The roll of doom");
         cursedObject.setDescription("Empty roll of toilet paper");
         cursedObject.setMonsterAttractionFactor(MonsterAttractionFactor.INSANE);
-        
+
         // Both monster and cursed object
         houseComplete.addMonster(monster);
         houseComplete.addCursedObject(cursedObject);
         monster.setHouse(houseComplete);
         cursedObject.setHouse(houseComplete);
-        
+
         // Only monster
         houseMonsterOnly.addMonster(monster);
         monster.setHouse(houseMonsterOnly);
-        
+
         // Only cursed object
         houseCObjectOnly.addCursedObject(cursedObject);
         cursedObject.setHouse(houseCObjectOnly);
@@ -96,32 +96,32 @@ public class HouseDaoTest extends AbstractTestNGSpringContextTests {
     @Test
     public void testCreate() {
         houseDao.create(houseComplete);
-        
+
         Assert.assertNotNull(houseComplete.getId());
-        House foundHouse = houseDao.findById(houseComplete.getId());
+        House foundHouse = houseDao.getById(houseComplete.getId());
         this.assertDeepEquals(foundHouse, houseComplete);
     }
-    
+
     @Test(expectedExceptions = DataAccessException.class)
     public void testCreateNull() {
         houseDao.create(null);
     }
-    
+
     @Test(expectedExceptions = ValidationException.class)
     public void testCreateWithNullName() {
         houseComplete.setName(null);
         houseDao.create(houseComplete);
     }
-    
+
     @Test(expectedExceptions = DataAccessException.class)
     public void testCreateWithDuplicitName() {
         houseComplete.setName("Yolo");
         houseDao.create(houseComplete);
-        
+
         houseMonsterOnly.setName("Yolo");
         houseDao.create(houseMonsterOnly);
-        
-        Assert.assertEquals(houseDao.findAll().size(), 1);
+
+        Assert.assertEquals(houseDao.getAll().size(), 1);
     }
 
     /**
@@ -133,33 +133,33 @@ public class HouseDaoTest extends AbstractTestNGSpringContextTests {
         String testedHouseAddress = "Some random, quiet forrest";
         String testedMonsterName = "Soft fluffy sheep";
         String testedCObjectName = "Chocolate fountain";
-        
+
         houseDao.create(houseComplete);
         houseComplete.setName(testedHouseName);
         houseComplete.setAddress(testedHouseAddress);
-        
+
         houseComplete.removeMonster(monster);
         Monster newMonster = new Monster();
         newMonster.setName(testedMonsterName);
         houseComplete.addMonster(newMonster);
-        
+
         houseComplete.removeCursedObject(cursedObject);
         CursedObject newCursedObject = new CursedObject();
         newCursedObject.setName(testedCObjectName);
         houseComplete.addCursedObject(newCursedObject);
-        
+
         House updatedHouse = houseDao.update(houseComplete);
 
         Assert.assertEquals(updatedHouse.getName(), testedHouseName);
         Assert.assertEquals(updatedHouse.getAddress(), testedHouseAddress);
         this.assertDeepEquals(updatedHouse, houseComplete);
     }
-    
+
     @Test(expectedExceptions = DataAccessException.class)
     public void testUpdateNull() {
         houseDao.update(null);
     }
-    
+
     @Test(expectedExceptions = ValidationException.class)
     public void testUpdateWithNullName() {
         houseDao.create(houseComplete);
@@ -167,7 +167,7 @@ public class HouseDaoTest extends AbstractTestNGSpringContextTests {
         houseDao.update(houseComplete);
         em.flush();
     }
-    
+
     @Test(expectedExceptions = ValidationException.class)
     public void testUpdateWithNullAddress() {
         houseDao.create(houseComplete);
@@ -175,18 +175,18 @@ public class HouseDaoTest extends AbstractTestNGSpringContextTests {
         houseDao.update(houseComplete);
         em.flush();
     }
-    
+
     @Test(expectedExceptions = PersistenceException.class)
     public void testUpdateWithDuplicitName() {
         houseDao.create(houseComplete);
         houseDao.create(houseMonsterOnly);
-        
+
         houseComplete.setName("Yolo");
         houseMonsterOnly.setName("Yolo");
-        
+
         houseDao.update(houseComplete);
         em.flush();
-        
+
         houseDao.update(houseMonsterOnly);
         em.flush();
     }
@@ -195,63 +195,63 @@ public class HouseDaoTest extends AbstractTestNGSpringContextTests {
      * Test of delete method, of class HouseDao.
      */
     @Test
-    public void testRemove() {
+    public void testDelete() {
         houseDao.create(houseComplete);
         houseDao.create(houseMonsterOnly);
-        
-        Assert.assertEquals(houseDao.findAll().size(), 2);
-        Assert.assertNotNull(houseDao.findById(houseComplete.getId()));
-        Assert.assertNotNull(houseDao.findById(houseMonsterOnly.getId()));
-        
+
+        Assert.assertEquals(houseDao.getAll().size(), 2);
+        Assert.assertNotNull(houseDao.getById(houseComplete.getId()));
+        Assert.assertNotNull(houseDao.getById(houseMonsterOnly.getId()));
+
         houseDao.delete(houseComplete);
-        Assert.assertEquals(houseDao.findAll().size(), 1);
-        
+        Assert.assertEquals(houseDao.getAll().size(), 1);
+
         houseDao.delete(houseMonsterOnly);
-        Assert.assertEquals(houseDao.findAll().size(), 0);
-        
-        Assert.assertNull(houseDao.findById(houseComplete.getId()));
-        Assert.assertNull(houseDao.findById(houseMonsterOnly.getId()));
+        Assert.assertEquals(houseDao.getAll().size(), 0);
+
+        Assert.assertNull(houseDao.getById(houseComplete.getId()));
+        Assert.assertNull(houseDao.getById(houseMonsterOnly.getId()));
     }
-    
+
     @Test(expectedExceptions = DataAccessException.class)
-    public void testRemoveNonexistent() {
-        Assert.assertFalse(houseDao.findAll().contains(houseComplete));
+    public void testDeleteNonexistent() {
+        Assert.assertFalse(houseDao.getAll().contains(houseComplete));
         houseDao.delete(houseComplete);
     }
-    
+
     @Test(expectedExceptions = DataAccessException.class)
-    public void testRemoveNull() {
+    public void testDeleteNull() {
         houseDao.delete(null);
     }
 
     /**
-     * Test of findById method, of class HouseDao.
+     * Test of getById method, of class HouseDao.
      */
     @Test
-    public void testFindById() {
+    public void testGetById() {
         houseDao.create(houseComplete);
         houseDao.create(houseMonsterOnly);
-        
-        House foundHouse = houseDao.findById(houseComplete.getId());
+
+        House foundHouse = houseDao.getById(houseComplete.getId());
         this.assertDeepEquals(foundHouse, houseComplete);
     }
-    
+
     @Test(expectedExceptions = DataAccessException.class)
-    public void testFindByIdNonexistent() {
-        Assert.assertFalse(houseDao.findAll().contains(houseComplete));
-        houseDao.findById(houseComplete.getId());
+    public void testGetByIdNonexistent() {
+        Assert.assertFalse(houseDao.getAll().contains(houseComplete));
+        houseDao.getById(houseComplete.getId());
     }
 
     /**
-     * Test of findAll method, of class HouseDao.
+     * Test of getAll method, of class HouseDao.
      */
     @Test
-    public void testFindAll() {
+    public void testGetAll() {
         houseDao.create(houseComplete);
         houseDao.create(houseMonsterOnly);
         houseDao.create(houseCObjectOnly);
-        
-        List<House> houses = houseDao.findAll();
+
+        List<House> houses = houseDao.getAll();
         Assert.assertEquals(houses.size(), 3);
         Assert.assertTrue(houses.contains(houseComplete));
         Assert.assertTrue(houses.contains(houseMonsterOnly));
@@ -259,32 +259,32 @@ public class HouseDaoTest extends AbstractTestNGSpringContextTests {
     }
 
     @Test
-    public void testFindByName() {
+    public void testGetByName() {
         houseDao.create(houseComplete);
         houseDao.create(houseMonsterOnly);
         houseDao.create(houseCObjectOnly);
 
-        House result = houseDao.findByName("Kremlin");
+        House result = houseDao.getByName("Kremlin");
         Assert.assertNotNull(result);
         assertDeepEquals(result, houseCObjectOnly);
     }
-    
+
     @Test(expectedExceptions = UnsupportedOperationException.class)
     public void testModifyMonsters() {
         houseDao.create(houseMonsterOnly);
-        
-        Set<Monster> monsters = houseDao.findById(houseMonsterOnly.getId()).getMonsters();
+
+        Set<Monster> monsters = houseDao.getById(houseMonsterOnly.getId()).getMonsters();
         monsters.add(new Monster());
     }
-    
+
     @Test(expectedExceptions = UnsupportedOperationException.class)
     public void testModifyCursedObjects() {
         houseDao.create(houseCObjectOnly);
-        
-        Set<CursedObject> cursedObjects = houseDao.findById(houseCObjectOnly.getId()).getCursedObjects();
+
+        Set<CursedObject> cursedObjects = houseDao.getById(houseCObjectOnly.getId()).getCursedObjects();
         cursedObjects.add(new CursedObject());
     }
-    
+
     /**
      * Compares the two object by their properties.
      * This method fails if one object differs from the other.

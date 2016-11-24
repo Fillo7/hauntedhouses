@@ -47,7 +47,7 @@ import static org.mockito.Mockito.times;
  *
  * @author Kristyna Loukotova
  * @version 24.11.2016
-=======
+=======*/
 
 /**
  * Test class for MonsterService
@@ -115,12 +115,12 @@ public class MonsterServiceTest extends AbstractTestNGSpringContextTests {
     }
 
     @Test
-    public void testFindById() {
+    public void testGetById() {
         Long id = monster.getId();
         Assert.assertNotNull(id);
 
-        when(monsterDao.findById(1L)).thenReturn(monster);
-        Monster foundMonster = monsterService.findById(id);
+        when(monsterDao.getById(1L)).thenReturn(monster);
+        Monster foundMonster = monsterService.getById(id);
 
         Assert.assertNotNull(monster);
         Assert.assertNotNull(foundMonster);
@@ -128,12 +128,12 @@ public class MonsterServiceTest extends AbstractTestNGSpringContextTests {
     }
 
     @Test
-    public void testFindAll() {
+    public void testGetAll() {
         List<Monster> monsters = new ArrayList<>();
         monsters.add(monster);
 
-        when(monsterDao.findAll()).thenReturn(monsters);
-        List<Monster> foundMonsters = monsterService.findAll();
+        when(monsterDao.getAll()).thenReturn(monsters);
+        List<Monster> foundMonsters = monsterService.getAll();
 
         Assert.assertNotNull(foundMonsters);
         Assert.assertEquals(foundMonsters.size(), 1);
@@ -153,7 +153,7 @@ public class MonsterServiceTest extends AbstractTestNGSpringContextTests {
         Assert.assertEquals(newHouse.getMonsters().size(), 0);
         Assert.assertEquals(house.getMonsters().size(), 1);
 
-        when(monsterDao.findById(1L)).thenReturn(monster);
+        when(monsterDao.getById(1L)).thenReturn(monster);
         monsterService.moveToAnotherHouse(monster, newHouse);
 
         Assert.assertEquals(monster.getHouse(), newHouse);
@@ -167,7 +167,7 @@ public class MonsterServiceTest extends AbstractTestNGSpringContextTests {
         Assert.assertEquals(monster.getHouse(), house);
         Assert.assertEquals(house.getMonsters().size(), 1);
 
-        when(monsterDao.findById(1L)).thenReturn(monster);
+        when(monsterDao.getById(1L)).thenReturn(monster);
         monsterService.moveToAnotherHouse(monster, house);
 
         Assert.assertEquals(monster.getHouse(), house);
@@ -267,17 +267,17 @@ public class MonsterServiceTest extends AbstractTestNGSpringContextTests {
 //    @BeforeMethod(dependsOnMethods = "initMonsters")
 //    public void initMocksBehaviour() {
 //        //findByName
-//        when(monsterDao.findByName("not persisted monster")).thenReturn(lochness);
-//        when(monsterDao.findByName("non existing")).thenReturn(null);
+//        when(monsterDao.getByName("not persisted monster")).thenReturn(lochness);
+//        when(monsterDao.getByName("non existing")).thenReturn(null);
 //
-//        // findById
-//        when(monsterDao.findById(0l)).thenReturn(null);
-//        when(monsterDao.findById(1l)).thenReturn(jack);
-////        when(sportActivityDao.findById(2l)).thenReturn(footballPersisted);
+//        // getById
+//        when(monsterDao.getById(0l)).thenReturn(null);
+//        when(monsterDao.getById(1l)).thenReturn(jack);
+////        when(sportActivityDao.getById(2l)).thenReturn(footballPersisted);
 //
 //        doAnswer((InvocationOnMock invocation) -> {
 //            throw new InvalidDataAccessApiUsageException("This behaviour is already tested on dao layer.");
-//        }).when(monsterDao).findById(null);
+//        }).when(monsterDao).getById(null);
 //
 //        //create
 //        doAnswer((InvocationOnMock invocation) -> {

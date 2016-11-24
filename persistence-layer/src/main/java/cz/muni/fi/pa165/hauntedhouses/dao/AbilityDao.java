@@ -41,18 +41,18 @@ public interface AbilityDao {
      * @param id ID of the ability.
      * @return Ability with specified ID. Null if the entity hasn't been found.
      */
-    Ability findById(Long id);
+    Ability getById(Long id);
 
     /**
      * Finds the specified ability in the database.
      * @param name Name of the ability.
      * @return Ability with specified name. Null if the entity hasn't been found.
      */
-    Ability findByName(String name);
+    Ability getByName(String name);
 
     /**
      * Finds all abilities in the database.
      * @return List of all abilities from the database. Null if no entity has been found.
      */
-    List<Ability> findAll();
+    List<Ability> getAll();
 }

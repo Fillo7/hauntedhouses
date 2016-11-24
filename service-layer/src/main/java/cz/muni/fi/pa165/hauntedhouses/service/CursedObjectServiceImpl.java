@@ -31,18 +31,18 @@ public class CursedObjectServiceImpl implements CursedObjectService {
     }
 
     @Override
-    public CursedObject findById(Long id) {
-        return cursedObjectDao.findById(id);
+    public CursedObject getById(Long id) {
+        return cursedObjectDao.getById(id);
     }
 
     @Override
-    public List<CursedObject> findAll() {
-        return cursedObjectDao.findAll();
+    public List<CursedObject> getAll() {
+        return cursedObjectDao.getAll();
     }
     
     @Override
     public void massIncreaseMonsterAttractionFactor(MonsterAttractionFactor treshold) {
-        List<CursedObject> cursedObjects = cursedObjectDao.findAll();
+        List<CursedObject> cursedObjects = cursedObjectDao.getAll();
         
         for(CursedObject cursedObject : cursedObjects) {
             if(cursedObject.getMonsterAttractionFactor().ordinal() <= treshold.ordinal()) {
