@@ -11,7 +11,6 @@ import org.springframework.stereotype.Repository;
  * @author Filip Petrovic (422334)
  */
 @Repository
-@Transactional
 public class CursedObjectDaoImpl implements CursedObjectDao {
     @PersistenceContext
     private EntityManager entityManager;

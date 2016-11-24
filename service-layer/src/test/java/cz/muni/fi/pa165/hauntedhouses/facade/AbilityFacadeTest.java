@@ -16,7 +16,6 @@ import org.testng.annotations.Test;
  * @author Filip Petrovic (422334)
  */
 @ContextConfiguration(classes=ServiceConfiguration.class)
-@Transactional
 public class AbilityFacadeTest extends AbstractTransactionalTestNGSpringContextTests {
     @Inject
     AbilityFacade abilityFacade;
