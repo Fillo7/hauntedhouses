@@ -5,7 +5,6 @@ import cz.muni.fi.pa165.hauntedhouses.dto.MonsterCreateDTO;
 import cz.muni.fi.pa165.hauntedhouses.dto.MonsterDTO;
 import cz.muni.fi.pa165.hauntedhouses.BeanMappingService;
 import cz.muni.fi.pa165.hauntedhouses.dto.HouseDTO;
-import cz.muni.fi.pa165.hauntedhouses.dto.MonsterUpdateDTO;
 import cz.muni.fi.pa165.hauntedhouses.entity.Ability;
 import cz.muni.fi.pa165.hauntedhouses.entity.House;
 import cz.muni.fi.pa165.hauntedhouses.entity.Monster;
@@ -49,7 +48,7 @@ public class MonsterFacadeImpl implements MonsterFacade {
     }
 
     @Override
-    public void updateMonster(MonsterUpdateDTO monsterDTO) {
+    public void updateMonster(MonsterDTO monsterDTO) {
         if (monsterDTO == null) {
             throw new IllegalArgumentException("monster cannot be null");
         }

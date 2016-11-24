@@ -5,7 +5,6 @@
  */
 package cz.muni.fi.pa165.hauntedhouses.dto;
 
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 import javax.validation.constraints.NotNull;
@@ -22,7 +21,7 @@ public class AbilityCreateDTO {
 
     private String description;
 
-    private Set<MonsterDTO> monsters = new HashSet<>();
+    private Set<Long> monsterIds = new HashSet<>();
 
     public String getName() {
         return name;
@@ -40,13 +39,12 @@ public class AbilityCreateDTO {
         this.description = description;
     }
 
-    public Set<MonsterDTO> getMonsters() {
-        //return Collections.unmodifiableSet(monsters);
-        return monsters;
+    public Set<Long> getMonsterIds() {
+        return monsterIds;
     }
 
-    public void setMonsters(Set<MonsterDTO> monsters) {
-        this.monsters = monsters;
+    public void addMonsterId(Long monsterId) {
+        monsterIds.add(monsterId);
     }
 
     @Override

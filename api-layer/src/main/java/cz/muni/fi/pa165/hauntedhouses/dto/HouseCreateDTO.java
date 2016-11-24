@@ -1,7 +1,9 @@
 package cz.muni.fi.pa165.hauntedhouses.dto;
 
+import java.util.HashSet;
 import javax.validation.constraints.NotNull;
 import java.util.Objects;
+import java.util.Set;
 
 /**
  * DTO object for creating House
@@ -16,6 +18,10 @@ public class HouseCreateDTO {
     @NotNull
     private String name;
 
+    private Set<Long> monsterIds = new HashSet<>();
+
+    private Set<Long> cursedObjectIds = new HashSet<>();
+    
     //getters and setters
 
     public String getAddress() {
@@ -34,6 +40,22 @@ public class HouseCreateDTO {
         this.name = name;
     }
 
+    public Set<Long> getMonsterIds() {
+        return monsterIds;
+    }
+
+    public void addMonsterId(Long monsterId) {
+        this.monsterIds.add(monsterId);
+    }
+
+    public Set<Long> getCursedObjectIds() {
+        return cursedObjectIds;
+    }
+
+    public void addCursedObjectId(Long cursedObjectId) {
+        this.cursedObjectIds.add(cursedObjectId);
+    }
+    
     @Override
     public boolean equals(Object obj){
         if(obj == this) return true;

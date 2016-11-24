@@ -11,7 +11,7 @@ import java.util.Set;
  * Created by Ondro on 09-Nov-16.
  */
 public class HouseDTO {
-
+    @NotNull
     private Long id;
 
     @NotNull
@@ -54,16 +54,16 @@ public class HouseDTO {
         return monsters;
     }
 
-    public void setMonsters(Set<MonsterDTO> monsters) {
-        this.monsters = monsters;
+    public void addMonster(MonsterDTO monster) {
+        this.monsters.add(monster);
     }
 
     public Set<CursedObjectDTO> getCursedObjects() {
         return cursedObjects;
     }
 
-    public void setCursedObjects(Set<CursedObjectDTO> cursedObjects) {
-        this.cursedObjects = cursedObjects;
+    public void addCursedObject(CursedObjectDTO cursedObject) {
+        this.cursedObjects.add(cursedObject);
     }
 
     @Override

@@ -1,6 +1,7 @@
 package cz.muni.fi.pa165.hauntedhouses.service;
 
 import cz.muni.fi.pa165.hauntedhouses.entity.House;
+import cz.muni.fi.pa165.hauntedhouses.exceptions.DataManipulationException;
 
 import java.util.List;
 

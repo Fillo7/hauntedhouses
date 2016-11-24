@@ -2,7 +2,6 @@ package cz.muni.fi.pa165.hauntedhouses.facade;
 
 import cz.muni.fi.pa165.hauntedhouses.dto.HouseCreateDTO;
 import cz.muni.fi.pa165.hauntedhouses.dto.HouseDTO;
-import cz.muni.fi.pa165.hauntedhouses.dto.HouseUpdateDTO;
 import cz.muni.fi.pa165.hauntedhouses.exception.NoEntityException;
 
 import java.util.List;
@@ -26,11 +25,11 @@ public interface HouseFacade {
     /**
      * Updates house
      *
-     * @param houseUpdateDTO entity to be updated
+     * @param houseDTO entity to be updated
      * @throws IllegalArgumentException if houseUpdateDTO is null
      * @throws NoEntityException if updating non-persisted entity
      */
-    void updateHouse(HouseUpdateDTO houseUpdateDTO);
+    void updateHouse(HouseDTO houseDTO);
 
     /**
      * Returns all houses

@@ -2,7 +2,6 @@ package cz.muni.fi.pa165.hauntedhouses.facade;
 
 import cz.muni.fi.pa165.hauntedhouses.dto.MonsterCreateDTO;
 import cz.muni.fi.pa165.hauntedhouses.dto.MonsterDTO;
-import cz.muni.fi.pa165.hauntedhouses.dto.MonsterUpdateDTO;
 import cz.muni.fi.pa165.hauntedhouses.exception.NoEntityException;
 import cz.muni.fi.pa165.hauntedhouses.facade.MonsterFacade;
 import cz.muni.fi.pa165.hauntedhouses.BeanMappingService;
@@ -89,7 +88,7 @@ public class MonsterFacadeTest extends AbstractTestNGSpringContextTests {
 
     @Test
     public void updateMonsterTest() {
-        MonsterUpdateDTO jack = new MonsterUpdateDTO();
+        MonsterDTO jack = new MonsterDTO();
         jack.setId(1l);
         jack.setName("Jack Sparrow");
         jack.setDescription("sweet little kitty");
@@ -107,7 +106,7 @@ public class MonsterFacadeTest extends AbstractTestNGSpringContextTests {
 
     @Test(expectedExceptions = NoEntityException.class)
     public void updateNonExistingMonsterTest() {
-        MonsterUpdateDTO jack = new MonsterUpdateDTO();
+        MonsterDTO jack = new MonsterDTO();
         jack.setId(0l);
         jack.setName("Jack Sparrow");
         jack.setDescription("sweet little kitty");

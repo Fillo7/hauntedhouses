@@ -1,7 +1,6 @@
 package cz.muni.fi.pa165.hauntedhouses.dto;
 
 import java.time.LocalTime;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -24,10 +23,11 @@ public class MonsterCreateDTO {
 
     @NotNull
     private LocalTime hauntedIntervalEnd;
-
+    
+    @NotNull
     private Long houseId;
 
-    private Set<Long> abilities = new HashSet<>();
+    private Set<Long> abilityIds = new HashSet<>();
 
     //getters and setters
 
@@ -71,17 +71,16 @@ public class MonsterCreateDTO {
         this.houseId = houseId;
     }
 
-    public Set<Long> getAbilitiesId() {
-        //return Collections.unmodifiableSet(abilities);
-        return abilities;
-    }
-
-    public void removeAbilityId(Long abilityId) {
-        this.abilities.remove(abilityId);
+    public Set<Long> getAbilityIds() {
+        return abilityIds;
     }
 
     public void addAbilityId(Long abilityId) {
-        this.abilities.add(abilityId);
+        this.abilityIds.add(abilityId);
+    }
+
+    public void removeAbilityId(Long abilityId) {
+        this.abilityIds.remove(abilityId);
     }
 
     @Override

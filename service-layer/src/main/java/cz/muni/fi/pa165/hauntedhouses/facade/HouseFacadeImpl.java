@@ -2,7 +2,6 @@ package cz.muni.fi.pa165.hauntedhouses.facade;
 
 import cz.muni.fi.pa165.hauntedhouses.dto.HouseCreateDTO;
 import cz.muni.fi.pa165.hauntedhouses.dto.HouseDTO;
-import cz.muni.fi.pa165.hauntedhouses.dto.HouseUpdateDTO;
 import cz.muni.fi.pa165.hauntedhouses.exception.NoEntityException;
 import cz.muni.fi.pa165.hauntedhouses.BeanMappingService;
 import cz.muni.fi.pa165.hauntedhouses.entity.House;
@@ -41,12 +40,12 @@ public class HouseFacadeImpl implements HouseFacade {
     }
 
     @Override
-    public void updateHouse(HouseUpdateDTO houseUpdateDTO) {
-        if(houseUpdateDTO == null){
+    public void updateHouse(HouseDTO houseDTO) {
+        if(houseDTO == null){
             throw new IllegalArgumentException("house cannot be null");
         }
 
-        House house = beanMappingService.mapTo(houseUpdateDTO, House.class);
+        House house = beanMappingService.mapTo(houseDTO, House.class);
         if(houseService.getById(house.getId()) == null){
             throw new NoEntityException("updating non existing house");
         }

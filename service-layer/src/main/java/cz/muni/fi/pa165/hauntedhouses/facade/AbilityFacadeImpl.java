@@ -7,6 +7,7 @@ import cz.muni.fi.pa165.hauntedhouses.BeanMappingService;
 import cz.muni.fi.pa165.hauntedhouses.entity.Ability;
 import cz.muni.fi.pa165.hauntedhouses.entity.Monster;
 import cz.muni.fi.pa165.hauntedhouses.service.AbilityService;
+import cz.muni.fi.pa165.hauntedhouses.service.MonsterService;
 import java.util.List;
 import java.util.Set;
 import javax.inject.Inject;
@@ -23,7 +24,10 @@ import org.springframework.stereotype.Service;
 public class AbilityFacadeImpl implements AbilityFacade {
     @Inject
     private AbilityService abilityService;
-
+    
+    @Inject
+    private MonsterService monsterService;
+    
     @Inject
     private BeanMappingService beanMappingService;
 
@@ -36,8 +40,8 @@ public class AbilityFacadeImpl implements AbilityFacade {
         Ability ability = new Ability();
         ability.setName(abilityCreateDTO.getName());
         ability.setDescription(abilityCreateDTO.getDescription());
-        Set<MonsterDTO> monsters = abilityCreateDTO.getMonsters();
-        monsters.forEach(monster -> ability.addMonster(beanMappingService.mapTo(monster, Monster.class)));
+        Set<Long> monsterIds = abilityCreateDTO.getMonsterIds();
+        monsterIds.forEach(monsterId -> ability.addMonster(monsterService.getById(monsterId)));
 
         abilityService.create(ability);
         return ability.getId();

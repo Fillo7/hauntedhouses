@@ -1,7 +1,6 @@
 package cz.muni.fi.pa165.hauntedhouses.dto;
 
 import java.time.LocalTime;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -12,7 +11,7 @@ import javax.validation.constraints.NotNull;
  * @author Marek Janco
  */
 public class MonsterDTO {
-
+    @NotNull
     private Long id;
 
     @NotNull
@@ -26,7 +25,8 @@ public class MonsterDTO {
 
     @NotNull
     private LocalTime hauntedIntervalEnd;
-
+    
+    @NotNull
     private HouseDTO house;
 
     private Set<AbilityDTO> abilities = new HashSet<>();
@@ -82,16 +82,15 @@ public class MonsterDTO {
     }
 
     public Set<AbilityDTO> getAbilities() {
-        //return Collections.unmodifiableSet(abilities);
         return abilities;
-    }
-
-    public void removeAbility(AbilityDTO ability) {
-        this.abilities.remove(ability);
     }
 
     public void addAbility(AbilityDTO ability) {
         this.abilities.add(ability);
+    }
+
+    public void removeAbility(AbilityDTO ability) {
+        this.abilities.remove(ability);
     }
 
     @Override

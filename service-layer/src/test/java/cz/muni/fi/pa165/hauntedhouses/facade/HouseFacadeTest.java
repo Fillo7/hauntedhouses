@@ -7,11 +7,9 @@ package cz.muni.fi.pa165.hauntedhouses.facade;
 
 import cz.muni.fi.pa165.hauntedhouses.dto.HouseCreateDTO;
 import cz.muni.fi.pa165.hauntedhouses.dto.HouseDTO;
-import cz.muni.fi.pa165.hauntedhouses.dto.HouseUpdateDTO;
 import cz.muni.fi.pa165.hauntedhouses.ServiceConfiguration;
 import java.util.List;
 import javax.inject.Inject;
-import javax.transaction.Transactional;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.testng.AbstractTransactionalTestNGSpringContextTests;
 import org.testng.Assert;
@@ -29,18 +27,24 @@ public class HouseFacadeTest extends AbstractTransactionalTestNGSpringContextTes
     @Inject
     HouseFacade houseFacade;
 
-    private HouseUpdateDTO house1;
-    private HouseUpdateDTO house2;
+    private HouseCreateDTO createHouse1;
+    private HouseCreateDTO createHouse2;
 
+    private HouseDTO house1;
+    
     @BeforeMethod
     public void prepareHouse() {
-        house1 = new HouseUpdateDTO();
-        house1.setName("Yolo");
-        house1.setAddress("Rolo");
+        createHouse1 = new HouseCreateDTO();
+        createHouse1.setName("Yolo");
+        createHouse1.setAddress("Rolo");
 
-        house2 = new HouseUpdateDTO();
-        house2.setName("Kolo");
-        house2.setAddress("Polo");
+        createHouse2 = new HouseCreateDTO();
+        createHouse2.setName("Kolo");
+        createHouse2.setAddress("Polo");
+        
+        house1 = new HouseDTO();
+        house1.setName("Changed name");
+        house1.setAddress("Changed address");
     }
 
     @Test
@@ -48,7 +52,7 @@ public class HouseFacadeTest extends AbstractTransactionalTestNGSpringContextTes
         List<HouseDTO> foundHouses = houseFacade.getAllHouses();
         Assert.assertEquals(foundHouses.size(), 0);
 
-        Long createdId = houseFacade.createHouse(house1);
+        Long createdId = houseFacade.createHouse(createHouse1);
 
         foundHouses = houseFacade.getAllHouses();
         Assert.assertEquals(foundHouses.size(), 1);
@@ -58,31 +62,24 @@ public class HouseFacadeTest extends AbstractTransactionalTestNGSpringContextTes
     @Test
     public void testUpdate() {
 
-        Long createdId = houseFacade.createHouse(house1);
+        Long createdId = houseFacade.createHouse(createHouse1);
         Assert.assertNotNull(createdId);
         HouseDTO foundHouse = houseFacade.getHouseById(createdId);
 
-        this.assertHouseEquals(foundHouse, house1);
-
-        house1.setName("Changed name");
-        house1.setAddress("Changed address");
-
-        foundHouse = houseFacade.getHouseById(createdId);
-
-        Assert.assertNotEquals(foundHouse.getName(), house1.getName());
-        Assert.assertNotEquals(foundHouse.getAddress(), house1.getAddress());
+        this.assertHouseEquals(foundHouse, createHouse1);
 
         house1.setId(createdId);
         houseFacade.updateHouse(house1);
         foundHouse = houseFacade.getHouseById(createdId);
 
-        this.assertHouseEquals(foundHouse, house1);
+        Assert.assertEquals(house1.getName(), foundHouse.getName());
+        Assert.assertEquals(house1.getAddress(), foundHouse.getAddress());
     }
 
     @Test
     public void testDelete() {
         Assert.assertEquals(houseFacade.getAllHouses().size(), 0);
-        Long createdId = houseFacade.createHouse(house1);
+        Long createdId = houseFacade.createHouse(createHouse1);
         Assert.assertEquals(houseFacade.getAllHouses().size(), 1);
         houseFacade.deleteHouse(createdId);
         Assert.assertEquals(houseFacade.getAllHouses().size(), 0);
@@ -90,26 +87,26 @@ public class HouseFacadeTest extends AbstractTransactionalTestNGSpringContextTes
 
     @Test
     public void testGetById() {
-        houseFacade.createHouse(house2);
-        Long createdId = houseFacade.createHouse(house1);
+        houseFacade.createHouse(createHouse2);
+        Long createdId = houseFacade.createHouse(createHouse1);
         HouseDTO foundHouse = houseFacade.getHouseById(createdId);
 
-        this.assertHouseEquals(foundHouse, house1);
+        this.assertHouseEquals(foundHouse, createHouse1);
     }
 
     @Test
     public void testGetAll() {
         Assert.assertEquals(houseFacade.getAllHouses().size(), 0);
-        Long createdId1 = houseFacade.createHouse(house1);
+        Long createdId1 = houseFacade.createHouse(createHouse1);
         Assert.assertEquals(houseFacade.getAllHouses().size(), 1);
-        Long createdId2 = houseFacade.createHouse(house2);
+        Long createdId2 = houseFacade.createHouse(createHouse2);
         Assert.assertEquals(houseFacade.getAllHouses().size(), 2);
 
         HouseDTO foundHouse1 = houseFacade.getHouseById(createdId1);
         HouseDTO foundHouse2 = houseFacade.getHouseById(createdId2);
 
-        this.assertHouseEquals(foundHouse1, house1);
-        this.assertHouseEquals(foundHouse2, house2);
+        this.assertHouseEquals(foundHouse1, createHouse1);
+        this.assertHouseEquals(foundHouse2, createHouse2);
     }
 
     /**
