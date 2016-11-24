@@ -1,13 +1,20 @@
 package cz.muni.fi.pa165.hauntedhouses.facade;
 
+import cz.muni.fi.pa165.hauntedhouses.BeanMappingService;
 import cz.muni.fi.pa165.hauntedhouses.ServiceConfiguration;
 import cz.muni.fi.pa165.hauntedhouses.dto.AbilityCreateDTO;
 import cz.muni.fi.pa165.hauntedhouses.dto.AbilityDTO;
+import cz.muni.fi.pa165.hauntedhouses.service.AbilityService;
 import java.util.List;
 import javax.inject.Inject;
+import org.hibernate.service.spi.ServiceException;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.testng.AbstractTransactionalTestNGSpringContextTests;
 import org.testng.Assert;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -16,12 +23,24 @@ import org.testng.annotations.Test;
  */
 @ContextConfiguration(classes=ServiceConfiguration.class)
 public class AbilityFacadeTest extends AbstractTransactionalTestNGSpringContextTests {
+    /*@Mock
+    AbilityService abilityService;
+    
+    @Mock
+    BeanMappingService beanMappingService;*/
+    
     @Inject
+    //@InjectMocks
     AbilityFacade abilityFacade;
 
     private AbilityCreateDTO createFirst;
     private AbilityCreateDTO createSecond;
     private AbilityDTO ability;
+    
+    /*@BeforeClass
+    public void setUpClass() throws ServiceException {
+        MockitoAnnotations.initMocks(this);
+    }*/
     
     @BeforeMethod
     public void prepareAbilities() {

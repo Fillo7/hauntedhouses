@@ -4,10 +4,8 @@ import cz.muni.fi.pa165.hauntedhouses.dto.CursedObjectCreateDTO;
 import cz.muni.fi.pa165.hauntedhouses.dto.CursedObjectDTO;
 import cz.muni.fi.pa165.hauntedhouses.BeanMappingService;
 import cz.muni.fi.pa165.hauntedhouses.entity.CursedObject;
-import cz.muni.fi.pa165.hauntedhouses.entity.House;
 import cz.muni.fi.pa165.hauntedhouses.enums.MonsterAttractionFactor;
 import cz.muni.fi.pa165.hauntedhouses.service.CursedObjectService;
-import cz.muni.fi.pa165.hauntedhouses.service.HouseService;
 import java.util.List;
 import javax.inject.Inject;
 import javax.transaction.Transactional;
@@ -23,9 +21,6 @@ public class CursedObjectFacadeImpl implements CursedObjectFacade {
     private CursedObjectService cursedObjectService;
     
     @Inject
-    private HouseService houseService;
-    
-    @Inject
     private BeanMappingService beanMappingService;
     
     @Override
@@ -34,11 +29,7 @@ public class CursedObjectFacadeImpl implements CursedObjectFacade {
             throw new IllegalArgumentException("CursedObjectCreateDTO is null.");
         }
         
-        CursedObject cursedObject = new CursedObject();
-        cursedObject.setName(cursedObjectCreateDTO.getName());
-        cursedObject.setDescription(cursedObjectCreateDTO.getDescription());
-        cursedObject.setMonsterAttractionFactor(cursedObjectCreateDTO.getMonsterAttractionFactor());
-        cursedObject.setHouse(houseService.getById(cursedObjectCreateDTO.getHouseId()));
+        CursedObject cursedObject = beanMappingService.mapTo(cursedObjectCreateDTO, CursedObject.class);
         cursedObjectService.create(cursedObject);
         
         return cursedObject.getId();
@@ -50,13 +41,7 @@ public class CursedObjectFacadeImpl implements CursedObjectFacade {
             throw new IllegalArgumentException("CursedObjectDTO is null.");
         }
         
-        CursedObject cursedObject = new CursedObject();
-        cursedObject.setId(cursedObjectDTO.getId());
-        cursedObject.setName(cursedObjectDTO.getName());
-        cursedObject.setDescription(cursedObjectDTO.getDescription());
-        cursedObject.setMonsterAttractionFactor(cursedObjectDTO.getMonsterAttractionFactor());
-        cursedObject.setHouse(beanMappingService.mapTo(cursedObjectDTO.getHouse(), House.class));
-        
+        CursedObject cursedObject = beanMappingService.mapTo(cursedObjectDTO, CursedObject.class);
         cursedObjectService.update(cursedObject);
     }
     

@@ -37,13 +37,9 @@ public class AbilityFacadeImpl implements AbilityFacade {
             throw new IllegalArgumentException("AbilityCreateDTO is null.");
         }
 
-        Ability ability = new Ability();
-        ability.setName(abilityCreateDTO.getName());
-        ability.setDescription(abilityCreateDTO.getDescription());
-        Set<Long> monsterIds = abilityCreateDTO.getMonsterIds();
-        monsterIds.forEach(monsterId -> ability.addMonster(monsterService.getById(monsterId)));
-
+        Ability ability = beanMappingService.mapTo(abilityCreateDTO, Ability.class);
         abilityService.create(ability);
+        
         return ability.getId();
     }
 
@@ -52,14 +48,8 @@ public class AbilityFacadeImpl implements AbilityFacade {
         if (abilityDTO == null) {
             throw new IllegalArgumentException("AbilityDTO is null.");
         }
-
-        Ability ability = new Ability();
-        ability.setId(abilityDTO.getId());
-        ability.setName(abilityDTO.getName());
-        ability.setDescription(abilityDTO.getDescription());
-        Set<MonsterDTO> monsters = abilityDTO.getMonsters();
-        monsters.forEach(monster -> ability.addMonster(beanMappingService.mapTo(monster, Monster.class)));
-
+        
+        Ability ability = beanMappingService.mapTo(abilityDTO, Ability.class);
         abilityService.update(ability);
     }
 
