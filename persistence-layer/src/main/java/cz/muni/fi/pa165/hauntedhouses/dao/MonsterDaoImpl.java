@@ -15,7 +15,6 @@ import org.springframework.stereotype.Repository;
  * @author Marek Janco
  */
 @Repository
-@Transactional
 public class MonsterDaoImpl implements MonsterDao {
 
     @PersistenceContext

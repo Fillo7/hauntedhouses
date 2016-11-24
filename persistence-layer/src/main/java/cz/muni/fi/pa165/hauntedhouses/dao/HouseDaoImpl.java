@@ -11,7 +11,6 @@ import java.util.List;
  * Created by Ondro on 17-Oct-16.
  */
 @Repository
-@Transactional
 public class HouseDaoImpl implements HouseDao {
 
     @PersistenceContext

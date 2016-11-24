@@ -23,7 +23,6 @@ import org.testng.annotations.Test;
  * @author Kristyna Loukotova
  * @version 22.11.2016
  */
-@Transactional
 @ContextConfiguration(classes=ServiceConfiguration.class)
 public class HouseFacadeTest extends AbstractTransactionalTestNGSpringContextTests {
 

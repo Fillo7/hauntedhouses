@@ -32,9 +32,6 @@ public class MonsterFacadeImpl implements MonsterFacade {
     private MonsterService monsterService;
 
     @Inject
-    private HouseService houseService;
-
-    @Inject
     private AbilityService abilityService;
 
     @Inject
@@ -47,16 +44,6 @@ public class MonsterFacadeImpl implements MonsterFacade {
         }
 
         Monster monsterCreate = beanMappingService.mapTo(monsterCreateDTO, Monster.class);
-
-        monsterCreate.setName(monsterCreateDTO.getName());
-        monsterCreate.setDescription(monsterCreateDTO.getDescription());
-        monsterCreate.setHauntedIntervalStart(monsterCreateDTO.getHauntedIntervalStart());
-        monsterCreate.setHauntedIntervalEnd(monsterCreateDTO.getHauntedIntervalEnd());
-        monsterCreate.setHouse(getHouse(monsterCreateDTO.getHouseId()));
-
-        Set<Long> abilities = monsterCreateDTO.getAbilitiesId();
-        abilities.forEach(ability -> monsterCreate.addAbility(getAbility(ability)));
-
         monsterService.create(monsterCreate);
         return monsterCreate.getId();
     }
@@ -66,8 +53,8 @@ public class MonsterFacadeImpl implements MonsterFacade {
         if (monsterDTO == null) {
             throw new IllegalArgumentException("monster cannot be null");
         }
-        if (monsterDTO.getId() == null || monsterService.findById(monsterDTO.getId()) == null) {
-            throw new IllegalArgumentException("monster is not in DB, cannot be updated");
+        if (monsterDTO.getId() == null) {
+            throw new IllegalArgumentException("monsterDto id is null");
         }
 
         Monster monster = beanMappingService.mapTo(monsterDTO, Monster.class);
@@ -80,15 +67,30 @@ public class MonsterFacadeImpl implements MonsterFacade {
 
     @Override
     public void deleteMonster(Long id) {
-        Monster monster = new Monster();
-        monster.setId(id);
+        if(id == null){
+            throw new IllegalArgumentException("monsterId cannot be null");
+        }
+
+        Monster monster = monsterService.findById(id);
+        if(monster == null){
+            throw new NoEntityException("monster with id=" + id + " does not exist, cannot remove");
+        }
 
         monsterService.delete(monster);
     }
 
     @Override
     public MonsterDTO getMonsterById(Long id) {
-        return beanMappingService.mapTo(monsterService.findById(id), MonsterDTO.class);
+        if(id == null){
+            throw new IllegalArgumentException("monster id cannot be null");
+        }
+
+        Monster monster = monsterService.findById(id);
+        if(monster == null){
+            throw new NoEntityException("monster with id=" + id + " does not exist");
+        }
+
+        return beanMappingService.mapTo(monster, MonsterDTO.class);
     }
 
     @Override
@@ -104,23 +106,4 @@ public class MonsterFacadeImpl implements MonsterFacade {
         monsterService.moveToAnotherHouse(monsterEntity, houseEntity);
     }
 
-    private House getHouse(Long id) {
-        if (id == null) {
-            return null;
-        }
-        House house = houseService.findById(id);
-        return house;
-    }
-
-    private Ability getAbility(Long id) {
-        if (id == null) {
-            throw new IllegalArgumentException("id of ability was null");
-        }
-        Ability ability = abilityService.findById(id);
-        if (ability == null) {
-            throw new IllegalArgumentException("ability with id: " + id.intValue() + " doesnt exist");
-        }
-
-        return ability;
-    }
 }

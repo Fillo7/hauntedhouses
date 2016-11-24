@@ -20,7 +20,6 @@ import org.springframework.stereotype.Repository;
  * @version 21.10.2016
  */
 @Repository
-@Transactional
 public class AbilityDaoImpl implements AbilityDao {
 
     @PersistenceContext
