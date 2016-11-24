@@ -1,6 +1,7 @@
 package cz.muni.fi.pa165.hauntedhouses.facade;
 
 import cz.muni.fi.pa165.hauntedhouses.dto.MonsterCreateDTO;
+import cz.muni.fi.pa165.hauntedhouses.dto.MonsterDTO;
 import cz.muni.fi.pa165.hauntedhouses.dto.MonsterUpdateDTO;
 import cz.muni.fi.pa165.hauntedhouses.exception.NoEntityException;
 import cz.muni.fi.pa165.hauntedhouses.facade.MonsterFacade;
@@ -122,7 +123,7 @@ public class MonsterFacadeTest extends AbstractTestNGSpringContextTests {
     }
 
     @Test
-    public void removeTest() {
+    public void removeMonsterTest() {
         monsterFacade.deleteMonster(1l);
         verify(monsterService).delete(argumentCaptor.capture());
         assertEquals((long) argumentCaptor.getValue().getId(), 1l);
@@ -135,5 +136,20 @@ public class MonsterFacadeTest extends AbstractTestNGSpringContextTests {
     @Test(expectedExceptions = NoEntityException.class)
     public void removeNonExistingMonster(){
         monsterFacade.deleteMonster(0l);
+    }
+
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void removeNullMonsterTest() {
+        monsterFacade.deleteMonster(null);
+    }
+
+    @Test
+    public void getMonsterByIdTest() {
+        MonsterDTO monster = monsterFacade.getMonsterById(1l);
+        assertEquals(monster.getId(), lochness.getId());
+        assertEquals(monster.getName(), lochness.getName());
+        assertEquals(monster.getDescription(), monster.getDescription());
+        assertEquals(monster.getHauntedIntervalStart(), monster.getHauntedIntervalStart());
+        assertEquals(monster.getHauntedIntervalEnd(), monster.getHauntedIntervalEnd());
     }
 }
