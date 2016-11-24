@@ -25,7 +25,7 @@ import javax.validation.constraints.NotNull;
  * @version 21.10.2016
  */
 @Entity
-@Table(name = "Abilities")
+@Table(name = "APP.Abilities")
 public class Ability {
 
     @Id
