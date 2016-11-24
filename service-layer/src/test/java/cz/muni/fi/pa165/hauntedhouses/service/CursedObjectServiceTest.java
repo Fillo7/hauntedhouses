@@ -111,6 +111,11 @@ public class CursedObjectServiceTest extends AbstractTestNGSpringContextTests{
         Assert.assertEquals(founded, Arrays.asList(cursedObject));
     }
     
+    @Test
+    public void massIncreaseMonsterAttractionFactorTest(){
+        // not implemented yet
+    }
+    
     private void assertDeepEquals(CursedObject updated, CursedObject cursedObject) {
         Assert.assertEquals(updated, cursedObject);
         Assert.assertEquals(updated.getName(), cursedObject.getName());
