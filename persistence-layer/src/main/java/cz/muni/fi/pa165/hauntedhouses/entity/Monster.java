@@ -28,7 +28,7 @@ import javax.validation.constraints.NotNull;
  * @author Marek Janco
  */
 @Entity
-@Table(name = "APP.Monsters")
+@Table(name = "Monsters")
 @SurviveCondition(members = {"hauntedIntervalStart", "hauntedIntervalEnd"})
 public class Monster {
 

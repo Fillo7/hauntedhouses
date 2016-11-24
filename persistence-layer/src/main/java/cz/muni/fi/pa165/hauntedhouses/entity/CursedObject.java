@@ -17,7 +17,7 @@ import java.util.Objects;
  * @author Filip Petrovic (422334)
  */
 @Entity
-@Table(name = "APP.CursedObject")
+@Table(name = "CursedObject")
 public class CursedObject {
 
     @Id

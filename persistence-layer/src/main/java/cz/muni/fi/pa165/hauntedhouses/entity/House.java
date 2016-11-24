@@ -11,7 +11,7 @@ import java.util.Set;
  * Created by Ondro on 17-Oct-16.
  */
 @Entity
-@Table(name = "APP.Houses")
+@Table(name = "Houses")
 public class House {
 
     @Id
