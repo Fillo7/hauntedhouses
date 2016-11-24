@@ -45,11 +45,11 @@ public class CursedObjectCreateDTO {
         this.monsterAttractionFactor = monsterAttractionFactor;
     }
     
-    public Long getHouse() {
+    public Long getHouseId() {
         return houseId;
     }
 
-    public void setHouse(Long houseId) {
+    public void setHouseId(Long houseId) {
         this.houseId = houseId;
     }
 

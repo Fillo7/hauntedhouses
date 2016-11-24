@@ -5,7 +5,6 @@ import cz.muni.fi.pa165.hauntedhouses.dto.AbilityCreateDTO;
 import cz.muni.fi.pa165.hauntedhouses.dto.AbilityDTO;
 import java.util.List;
 import javax.inject.Inject;
-import javax.transaction.Transactional;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.testng.AbstractTransactionalTestNGSpringContextTests;
 import org.testng.Assert;
@@ -23,7 +22,7 @@ public class AbilityFacadeTest extends AbstractTransactionalTestNGSpringContextT
     private AbilityCreateDTO createFirst;
     private AbilityCreateDTO createSecond;
     private AbilityDTO ability;
-
+    
     @BeforeMethod
     public void prepareAbilities() {
         createFirst = new AbilityCreateDTO();
@@ -75,7 +74,7 @@ public class AbilityFacadeTest extends AbstractTransactionalTestNGSpringContextT
     @Test
     public void testGetByName() {
         abilityFacade.createAbility(createFirst);
-        Long id = abilityFacade.createAbility(createSecond);
+        abilityFacade.createAbility(createSecond);
         String name = createSecond.getName();
 
         AbilityDTO returned = abilityFacade.getAbilityByName(name);

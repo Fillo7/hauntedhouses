@@ -4,7 +4,6 @@ import cz.muni.fi.pa165.hauntedhouses.dao.MonsterDao;
 import cz.muni.fi.pa165.hauntedhouses.entity.House;
 import cz.muni.fi.pa165.hauntedhouses.entity.Monster;
 import cz.muni.fi.pa165.hauntedhouses.exceptions.DataManipulationException;
-import cz.muni.fi.pa165.hauntedhouses.exceptions.ServiceExceptionTranslate;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,33 +22,21 @@ public class MonsterServiceImpl implements MonsterService{
 
     @Override
     public void create(Monster m) {
-        if(m == null){
-            throw new IllegalArgumentException("monster is null - cannot create");
-        }
         monsterDao.create(m);
     }
 
     @Override
     public Monster update(Monster m) {
-        if(m == null){
-            throw new IllegalArgumentException("monster is null - cannot update");
-        }
         return monsterDao.update(m);
     }
 
     @Override
     public void delete(Monster m) {
-        if(m == null){
-            throw new IllegalArgumentException("monster is null - cannot delete");
-        }
         monsterDao.delete(m);
     }
 
     @Override
     public Monster getById(Long id) {
-        if(id == null){
-            throw new IllegalArgumentException("id of monster is null");
-        }
         return monsterDao.getById(id);
     }
 
@@ -70,7 +57,7 @@ public class MonsterServiceImpl implements MonsterService{
         if (monsterDao.getById(monster.getId()) == null) {
             throw new DataManipulationException("The monster cannot be found in the database.");
         }
-
+        
         monster.setHouse(house);
         monsterDao.update(monster);
     }

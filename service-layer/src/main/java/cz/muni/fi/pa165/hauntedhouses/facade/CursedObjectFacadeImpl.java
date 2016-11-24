@@ -7,6 +7,7 @@ import cz.muni.fi.pa165.hauntedhouses.entity.CursedObject;
 import cz.muni.fi.pa165.hauntedhouses.entity.House;
 import cz.muni.fi.pa165.hauntedhouses.enums.MonsterAttractionFactor;
 import cz.muni.fi.pa165.hauntedhouses.service.CursedObjectService;
+import cz.muni.fi.pa165.hauntedhouses.service.HouseService;
 import java.util.List;
 import javax.inject.Inject;
 import javax.transaction.Transactional;
@@ -22,16 +23,22 @@ public class CursedObjectFacadeImpl implements CursedObjectFacade {
     private CursedObjectService cursedObjectService;
     
     @Inject
+    private HouseService houseService;
+    
+    @Inject
     private BeanMappingService beanMappingService;
     
     @Override
     public Long createCursedObject(CursedObjectCreateDTO cursedObjectCreateDTO) {
-        CursedObject cursedObject = new CursedObject();
+        if(cursedObjectCreateDTO == null) {
+            throw new IllegalArgumentException("CursedObjectCreateDTO is null.");
+        }
         
+        CursedObject cursedObject = new CursedObject();
         cursedObject.setName(cursedObjectCreateDTO.getName());
         cursedObject.setDescription(cursedObjectCreateDTO.getDescription());
         cursedObject.setMonsterAttractionFactor(cursedObjectCreateDTO.getMonsterAttractionFactor());
-        cursedObject.setHouse(beanMappingService.mapTo(cursedObjectCreateDTO.getHouse(), House.class));
+        cursedObject.setHouse(houseService.getById(cursedObjectCreateDTO.getHouseId()));
         cursedObjectService.create(cursedObject);
         
         return cursedObject.getId();
@@ -39,8 +46,11 @@ public class CursedObjectFacadeImpl implements CursedObjectFacade {
     
     @Override
     public void updateCursedObject(CursedObjectDTO cursedObjectDTO) {
-        CursedObject cursedObject = new CursedObject();
+        if(cursedObjectDTO == null) {
+            throw new IllegalArgumentException("CursedObjectDTO is null.");
+        }
         
+        CursedObject cursedObject = new CursedObject();
         cursedObject.setId(cursedObjectDTO.getId());
         cursedObject.setName(cursedObjectDTO.getName());
         cursedObject.setDescription(cursedObjectDTO.getDescription());
@@ -52,6 +62,10 @@ public class CursedObjectFacadeImpl implements CursedObjectFacade {
     
     @Override
     public void deleteCursedObject(Long id) {
+        if(id == null) {
+            throw new IllegalArgumentException("Id is null.");
+        }
+        
         CursedObject cursedObject = new CursedObject();
         cursedObject.setId(id);
         
@@ -60,6 +74,10 @@ public class CursedObjectFacadeImpl implements CursedObjectFacade {
     
     @Override
     public CursedObjectDTO getCursedObjectWithId(Long id) {
+        if(id == null) {
+            throw new IllegalArgumentException("Id is null.");
+        }
+        
         CursedObject cursedObject = cursedObjectService.getById(id);
         return beanMappingService.mapTo(cursedObject, CursedObjectDTO.class);
     }
@@ -72,6 +90,10 @@ public class CursedObjectFacadeImpl implements CursedObjectFacade {
     
     @Override
     public void massIncreaseMonsterAttractionFactor(MonsterAttractionFactor treshold) {
+        if(treshold == null) {
+            throw new IllegalArgumentException("Treshold is null.");
+        }
+        
         cursedObjectService.massIncreaseMonsterAttractionFactor(treshold);
     }
 }

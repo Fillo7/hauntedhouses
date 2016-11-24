@@ -5,14 +5,12 @@ import cz.muni.fi.pa165.hauntedhouses.entity.CursedObject;
 import cz.muni.fi.pa165.hauntedhouses.entity.House;
 import cz.muni.fi.pa165.hauntedhouses.entity.Monster;
 import cz.muni.fi.pa165.hauntedhouses.exceptions.DataManipulationException;
-import cz.muni.fi.pa165.hauntedhouses.exceptions.ServiceExceptionTranslate;
 import java.util.HashSet;
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
 import java.util.List;
 import java.util.Set;
-import org.springframework.dao.DataAccessException;
 
 /**
  * Implementation of HouseService
@@ -28,33 +26,21 @@ public class HouseServiceImpl implements HouseService {
 
     @Override
     public void create(House house) {
-        if(house == null){
-            throw new IllegalArgumentException("house is null - cannot create");
-        }
         houseDao.create(house);
     }
 
     @Override
     public House update(House house) {
-        if(house == null){
-            throw new IllegalArgumentException("house is null - cannot update");
-        }
         return houseDao.update(house);
     }
 
     @Override
     public House getById(Long id) {
-        if(id == null){
-            throw new IllegalArgumentException("id of house is null");
-        }
         return houseDao.getById(id);
     }
 
     @Override
     public House getByName(String name) {
-        if(name == null){
-            throw new IllegalArgumentException("name of house is null");
-        }
         return houseDao.getByName(name);
     }
 
@@ -65,9 +51,6 @@ public class HouseServiceImpl implements HouseService {
 
     @Override
     public void delete(House house) {
-        if(house == null){
-            throw new IllegalArgumentException("house is null - cannot remove");
-        }
         houseDao.delete(house);
     }
 
@@ -80,7 +63,7 @@ public class HouseServiceImpl implements HouseService {
         if (houseDao.getById(house.getId()) == null) {
             throw new DataManipulationException("Given house is not in the database, cannot be purged.");
         }
-
+        
         // New HashSets to allow removal via .forEach()
         Set<Monster> monsters = new HashSet<>(house.getMonsters());
         Set<CursedObject> cursedObjects = new HashSet<>(house.getCursedObjects());

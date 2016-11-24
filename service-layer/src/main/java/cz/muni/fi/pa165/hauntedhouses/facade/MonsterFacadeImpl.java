@@ -100,6 +100,12 @@ public class MonsterFacadeImpl implements MonsterFacade {
 
     @Override
     public void moveToAnotherHouse(MonsterDTO monster, HouseDTO house) {
+        if (monster == null) {
+            throw new IllegalArgumentException("Null monster cannot be moved.");
+        }
+        if (house == null) {
+            throw new IllegalArgumentException("Monster cannot be moved to null house.");
+        }
         Monster monsterEntity = beanMappingService.mapTo(monster, Monster.class);
         House houseEntity = beanMappingService.mapTo(house, House.class);
 

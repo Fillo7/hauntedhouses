@@ -10,10 +10,19 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class BeanMappingServiceImpl implements BeanMappingService {
-
     @Inject
     private Mapper dozer;
 
+    @Override
+    public Mapper getMapper() {
+        return dozer;
+    }
+    
+    @Override
+    public <T> T mapTo(Object object, Class<T> mapToClass) {
+        return (object == null) ? null : dozer.map(object, mapToClass);
+    }
+    
     @Override
     public <T> List<T> mapTo(Collection<?> objects, Class<T> mapToClass) {
         List<T> mappedCollection = new ArrayList<>();
@@ -30,15 +39,5 @@ public class BeanMappingServiceImpl implements BeanMappingService {
             mappedCollection.put(dozer.map(entry.getKey(), mapToClass), entry.getValue());
         }
         return mappedCollection;
-    }
-
-    @Override
-    public <T> T mapTo(Object u, Class<T> mapToClass) {
-        return (u == null) ? null : dozer.map(u, mapToClass);
-    }
-
-    @Override
-    public Mapper getMapper() {
-        return dozer;
     }
 }
