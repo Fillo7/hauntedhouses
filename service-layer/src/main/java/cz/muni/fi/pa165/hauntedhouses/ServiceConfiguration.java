@@ -1,12 +1,8 @@
 package cz.muni.fi.pa165.hauntedhouses;
 
-import cz.muni.fi.pa165.hauntedhouses.dto.AbilityCreateDTO;
 import cz.muni.fi.pa165.hauntedhouses.dto.AbilityDTO;
-import cz.muni.fi.pa165.hauntedhouses.dto.CursedObjectCreateDTO;
 import cz.muni.fi.pa165.hauntedhouses.dto.CursedObjectDTO;
-import cz.muni.fi.pa165.hauntedhouses.dto.HouseCreateDTO;
 import cz.muni.fi.pa165.hauntedhouses.dto.HouseDTO;
-import cz.muni.fi.pa165.hauntedhouses.dto.MonsterCreateDTO;
 import cz.muni.fi.pa165.hauntedhouses.dto.MonsterDTO;
 import cz.muni.fi.pa165.hauntedhouses.entity.Ability;
 import cz.muni.fi.pa165.hauntedhouses.entity.CursedObject;
@@ -31,13 +27,25 @@ import java.util.List;
 @Import(PersistenceApplicationContext.class)
 @ComponentScan(basePackages = "cz.muni.fi.pa165.hauntedhouses")
 public class ServiceConfiguration {
-    @Bean
+
+    /*@Bean
     public Mapper dozer() {
         DozerBeanMapper beanMapper = new DozerBeanMapper();
+        beanMapper.addMapping(new DozerMappingConfiguration());
         return beanMapper;
     }
 
-    /*@Bean
+    public class DozerMappingConfiguration extends BeanMappingBuilder {
+        @Override
+        protected void configure() {
+            mapping(CursedObject.class, CursedObjectDTO.class);
+            mapping(House.class, HouseDTO.class);
+            mapping(Ability.class, AbilityDTO.class);
+            mapping(Monster.class, MonsterDTO.class);
+        }
+    }*/
+
+    @Bean
     public Mapper dozer() {
         List<String> mappingFiles = new ArrayList();
         mappingFiles.add("dozerJdk8Converters.xml");
@@ -45,5 +53,5 @@ public class ServiceConfiguration {
         DozerBeanMapper dozer = new DozerBeanMapper();
         dozer.setMappingFiles(mappingFiles);
         return dozer;
-    }*/
+    }
 }

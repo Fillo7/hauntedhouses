@@ -51,7 +51,7 @@ public class CursedObjectFacadeTest extends AbstractTransactionalTestNGSpringCon
     
     @Spy
     @Inject
-    private BeanMappingService beanMappingService;
+    private final BeanMappingService beanMappingService = new BeanMappingServiceImpl();
     
     @Mock
     private HouseService houseService;

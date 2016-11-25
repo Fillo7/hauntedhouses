@@ -37,7 +37,7 @@ public class MonsterFacadeTest extends AbstractTestNGSpringContextTests {
 
     @Spy
     @Inject
-    private BeanMappingService beanMappingService;
+    private final BeanMappingService beanMappingService = new BeanMappingServiceImpl();
 
     @InjectMocks
     private final MonsterFacade monsterFacade = new MonsterFacadeImpl();
