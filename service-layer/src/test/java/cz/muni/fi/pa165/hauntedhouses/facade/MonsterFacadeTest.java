@@ -147,8 +147,8 @@ public class MonsterFacadeTest extends AbstractTestNGSpringContextTests {
         MonsterDTO monster = monsterFacade.getMonsterById(1l);
         assertEquals(monster.getId(), lochness.getId());
         assertEquals(monster.getName(), lochness.getName());
-        assertEquals(monster.getDescription(), monster.getDescription());
-        assertEquals(monster.getHauntedIntervalStart(), monster.getHauntedIntervalStart());
-        assertEquals(monster.getHauntedIntervalEnd(), monster.getHauntedIntervalEnd());
+        assertEquals(monster.getDescription(), lochness.getDescription());
+        assertEquals(monster.getHauntedIntervalStart(), lochness.getHauntedIntervalStart());
+        assertEquals(monster.getHauntedIntervalEnd(), lochness.getHauntedIntervalEnd());
     }
 }
