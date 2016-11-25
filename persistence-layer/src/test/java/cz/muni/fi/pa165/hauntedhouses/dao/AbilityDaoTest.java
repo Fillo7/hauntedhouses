@@ -8,7 +8,7 @@ import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
-import javax.validation.ValidationException;
+import javax.validation.ConstraintViolationException;
 
 import org.springframework.dao.DataAccessException;
 import org.springframework.test.context.ContextConfiguration;
@@ -80,7 +80,7 @@ public class AbilityDaoTest extends AbstractTestNGSpringContextTests {
         abilityDao.create(ability);
     }
 
-    @Test(expectedExceptions = ValidationException.class)
+    @Test(expectedExceptions = ConstraintViolationException.class)
     public void testCreateNullNameAbility() {
         abilityOne.setName(null);
         abilityDao.create(abilityOne);

@@ -95,13 +95,13 @@ public class MonsterDaoTest extends AbstractTestNGSpringContextTests {
         monsterDao.delete(null);
     }
 
-    @Test(expectedExceptions = ValidationException.class)
+    @Test(expectedExceptions = ConstraintViolationException.class)
     public void createMonsterNameNullTest(){
         cat.setName(null);
         monsterDao.create(cat);
     }
 
-    @Test(expectedExceptions = ValidationException.class)
+    @Test(expectedExceptions = ConstraintViolationException.class)
     public void createMonsterDescriptionNullTest(){
         cat.setDescription(null);
         monsterDao.create(cat);

@@ -17,7 +17,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceException;
 import javax.transaction.Transactional;
-import javax.validation.ValidationException;
+import javax.validation.ConstraintViolationException;
 
 import org.springframework.dao.DataAccessException;
 import org.springframework.test.context.ContextConfiguration;
@@ -107,7 +107,7 @@ public class HouseDaoTest extends AbstractTestNGSpringContextTests {
         houseDao.create(null);
     }
 
-    @Test(expectedExceptions = ValidationException.class)
+    @Test(expectedExceptions = ConstraintViolationException.class)
     public void testCreateWithNullName() {
         houseComplete.setName(null);
         houseDao.create(houseComplete);
@@ -160,7 +160,7 @@ public class HouseDaoTest extends AbstractTestNGSpringContextTests {
         houseDao.update(null);
     }
 
-    @Test(expectedExceptions = ValidationException.class)
+    @Test(expectedExceptions = ConstraintViolationException.class)
     public void testUpdateWithNullName() {
         houseDao.create(houseComplete);
         houseComplete.setName(null);
@@ -168,7 +168,7 @@ public class HouseDaoTest extends AbstractTestNGSpringContextTests {
         em.flush();
     }
 
-    @Test(expectedExceptions = ValidationException.class)
+    @Test(expectedExceptions = ConstraintViolationException.class)
     public void testUpdateWithNullAddress() {
         houseDao.create(houseComplete);
         houseComplete.setAddress(null);

@@ -10,7 +10,6 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceException;
 import javax.transaction.Transactional;
 import javax.validation.ConstraintViolationException;
-import javax.validation.ValidationException;
 
 import org.springframework.dao.DataAccessException;
 import org.springframework.test.context.ContextConfiguration;
@@ -89,25 +88,25 @@ public class CursedObjectDaoTest extends AbstractTestNGSpringContextTests{
         coDao.create(null);
     }
     
-    @Test(expectedExceptions = ValidationException.class)
+    @Test(expectedExceptions = ConstraintViolationException.class)
     public void testCreateCursedObjectWithNullName(){
         c1.setName(null);
         coDao.create(c1);
     }
     
-    @Test(expectedExceptions = ValidationException.class)
+    @Test(expectedExceptions = ConstraintViolationException.class)
     public void testCreateCursedObjectWithNullDescription(){
         c1.setDescription(null);
         coDao.create(c1);
     }
 
-    @Test(expectedExceptions = ValidationException.class)
+    @Test(expectedExceptions = ConstraintViolationException.class)
     public void testCreateCursedObjectWithNullHouse(){
         c1.setHouse(null);
         coDao.create(c1);
     }
     
-    @Test(expectedExceptions = ValidationException.class)
+    @Test(expectedExceptions = ConstraintViolationException.class)
     public void testCreateCursedObjectWithNullMonsterAttractionFactor(){
         c1.setMonsterAttractionFactor(null);
         coDao.create(c1);

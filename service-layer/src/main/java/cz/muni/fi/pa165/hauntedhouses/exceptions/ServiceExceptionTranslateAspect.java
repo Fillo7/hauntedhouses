@@ -7,7 +7,7 @@ import org.springframework.dao.DataAccessException;
 
 import javax.inject.Named;
 import javax.persistence.PersistenceException;
-import javax.validation.ConstraintViolationException;
+import javax.validation.ValidationException;
 
 /**
  * Every exception from DAO is presented as DataManipulationException
@@ -23,7 +23,7 @@ public class ServiceExceptionTranslateAspect {
     public Object translate(ProceedingJoinPoint pjp) throws Throwable {
         try {
             return pjp.proceed();
-        } catch(ConstraintViolationException | PersistenceException | DataAccessException exception) {
+        } catch(ValidationException | PersistenceException | DataAccessException | UnsupportedOperationException exception) {
             throw new DataManipulationException("Exception thrown while accessing data layer on " + pjp.toShortString(), exception);
         }
     }
