@@ -6,6 +6,7 @@ import cz.muni.fi.pa165.hauntedhouses.dto.AbilityCreateDTO;
 import cz.muni.fi.pa165.hauntedhouses.dto.AbilityDTO;
 import cz.muni.fi.pa165.hauntedhouses.entity.Ability;
 import cz.muni.fi.pa165.hauntedhouses.service.AbilityService;
+import java.util.ArrayList;
 import java.util.List;
 import org.hibernate.service.spi.ServiceException;
 import org.mockito.InjectMocks;
@@ -37,17 +38,23 @@ public class AbilityFacadeTest extends AbstractTestNGSpringContextTests {
 
     private AbilityCreateDTO createFirst;
     private AbilityCreateDTO createSecond;
-    private AbilityDTO ability;
+    private AbilityDTO dtoFirst;
+    private AbilityDTO dtoThird;
     
     private Ability first;
     private Ability second;
     private Ability third;
+    private Ability empty;
     
     @BeforeMethod
     public void prepareAbilities() {
         createFirst = new AbilityCreateDTO();
         createFirst.setName("Shameless copy");
         createFirst.setDescription("Shamelessly copies what its target is doing.");
+        
+        dtoFirst = new AbilityDTO();
+        dtoFirst.setName("Shameless copy");
+        dtoFirst.setDescription("Shamelessly copies what its target is doing.");
         
         first = new Ability();
         first.setName("Shameless copy");
@@ -61,13 +68,16 @@ public class AbilityFacadeTest extends AbstractTestNGSpringContextTests {
         second.setName("Another shameless copy");
         second.setDescription("Running out of ideas.");
         
-        ability = new AbilityDTO();
-        ability.setName("Charm");
-        ability.setDescription("Charms an enemy with its extreme beauty making them do its bidding.");
+        dtoThird = new AbilityDTO();
+        dtoThird.setName("Charm");
+        dtoThird.setDescription("Charms an enemy with its extreme beauty making them do its bidding.");
         
         third = new Ability();
         third.setName("Charm");
         third.setDescription("Charms an enemy with its extreme beauty making them do its bidding.");
+        
+        empty = new Ability();
+        empty.setId(0L);
     }
 
     @BeforeClass
@@ -85,59 +95,59 @@ public class AbilityFacadeTest extends AbstractTestNGSpringContextTests {
 
     @Test
     public void testUpdate() {
-        when(beanMappingService.mapTo(ability, Ability.class)).thenReturn(third);
+        when(beanMappingService.mapTo(dtoThird, Ability.class)).thenReturn(third);
         
-        abilityFacade.updateAbility(ability);
+        abilityFacade.updateAbility(dtoThird);
         verify(abilityService, times(1)).update(third);
     }
 
-    /*@Test
+    @Test
     public void testDelete() {
-        Long id = abilityFacade.createAbility(createFirst);
-        Assert.assertEquals(abilityFacade.getAllAbilities().size(), 1);
-
-        abilityFacade.deleteAbility(id);
-        Assert.assertEquals(abilityFacade.getAllAbilities().size(), 0);
+        abilityFacade.deleteAbility(0L);
+        verify(abilityService, times(1)).delete(empty);
     }
 
     @Test
     public void testGetById() {
-        abilityFacade.createAbility(createFirst);
-        Long id = abilityFacade.createAbility(createSecond);
-
+        Long id = 0L;
+        when(abilityService.getById(id)).thenReturn(third);
+        when(beanMappingService.mapTo(third, AbilityDTO.class)).thenReturn(dtoThird);
+        
         AbilityDTO returned = abilityFacade.getAbilityById(id);
-        assertDeepEquals(createSecond, returned);
+        assertDeepEquals(returned, third);
     }
 
     @Test
     public void testGetByName() {
-        abilityFacade.createAbility(createFirst);
-        abilityFacade.createAbility(createSecond);
-        String name = createSecond.getName();
-
-        AbilityDTO returned = abilityFacade.getAbilityByName(name);
-        assertDeepEquals(createSecond, returned);
+        when(abilityService.getByName(third.getName())).thenReturn(third);
+        when(beanMappingService.mapTo(third, AbilityDTO.class)).thenReturn(dtoThird);
+        
+        AbilityDTO returned = abilityFacade.getAbilityByName(third.getName());
+        assertDeepEquals(returned, third);
     }
 
     @Test
     public void testGetAll() {
-        abilityFacade.createAbility(createFirst);
-        abilityFacade.createAbility(createSecond);
+        List<Ability> abilities = new ArrayList<>();
+        abilities.add(first);
+        abilities.add(third);
+        
+        List<AbilityDTO> abilityDTOs = new ArrayList<>();
+        abilityDTOs.add(dtoFirst);
+        abilityDTOs.add(dtoThird);
+        
+        when(abilityService.getAll()).thenReturn(abilities);
+        when(beanMappingService.mapTo(abilities, AbilityDTO.class)).thenReturn(abilityDTOs);
 
         List<AbilityDTO> returned = abilityFacade.getAllAbilities();
+        
         Assert.assertEquals(returned.size(), 2);
-
-        assertDeepEquals(createFirst, returned.get(0));
-        assertDeepEquals(createSecond, returned.get(1));
+        assertDeepEquals(returned.get(0), first);
+        assertDeepEquals(returned.get(1), third);
     }
 
-    private void assertDeepEquals(AbilityCreateDTO actual, AbilityDTO expected) {
+    private void assertDeepEquals(AbilityDTO actual, Ability expected) {
         Assert.assertEquals(actual.getName(), expected.getName());
         Assert.assertEquals(actual.getDescription(), expected.getDescription());
     }
-
-    private void assertDeepEquals(AbilityDTO actual, AbilityDTO expected) {
-        Assert.assertEquals(actual.getName(), expected.getName());
-        Assert.assertEquals(actual.getDescription(), expected.getDescription());
-    }*/
 }
