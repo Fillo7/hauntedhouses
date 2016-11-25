@@ -14,6 +14,7 @@ import cz.muni.fi.pa165.hauntedhouses.dto.HouseDTO;
 import cz.muni.fi.pa165.hauntedhouses.entity.CursedObject;
 import cz.muni.fi.pa165.hauntedhouses.entity.House;
 import cz.muni.fi.pa165.hauntedhouses.enums.MonsterAttractionFactor;
+import cz.muni.fi.pa165.hauntedhouses.exception.NoEntityException;
 import cz.muni.fi.pa165.hauntedhouses.service.CursedObjectService;
 import cz.muni.fi.pa165.hauntedhouses.service.HouseService;
 import java.util.ArrayList;
@@ -31,6 +32,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import org.mockito.MockitoAnnotations;
 import org.mockito.Spy;
+import org.springframework.dao.DataAccessException;
 import static org.testng.Assert.*;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
@@ -128,6 +130,11 @@ public class CursedObjectFacadeTest extends AbstractTransactionalTestNGSpringCon
         assertEquals(captor.getValue().getMonsterAttractionFactor(), firstCreate.getMonsterAttractionFactor());
     }
     
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void createNullCursedObjectTest(){
+        cursedObjectFacade.createCursedObject(null);
+    }
+    
     @Test
     public void testUpdate(){
         cursedObjectFacade.updateCursedObject(cursedObjectDto);
@@ -140,11 +147,28 @@ public class CursedObjectFacadeTest extends AbstractTransactionalTestNGSpringCon
         assertDeepEquals(captor.getValue().getHouse(), cursedObjectDto.getHouse());
     }
     
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void updateNullTest(){
+        cursedObjectFacade.updateCursedObject(null);
+    }
+    
     @Test
     public void testFindById(){
         CursedObjectDTO found = cursedObjectFacade.getCursedObjectWithId(1L);
         assertDeepEquals(firstCreate, found);
     }
+    
+    
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void getWithNullIdTest(){
+        cursedObjectFacade.getCursedObjectWithId(null);
+    }
+     
+    @Test
+    public void getNoExistingCursedObjectTest(){
+        assertNull(cursedObjectFacade.getCursedObjectWithId(0L));
+    }
+   
     @Test
     public void testFindAll(){
         
@@ -164,6 +188,11 @@ public class CursedObjectFacadeTest extends AbstractTransactionalTestNGSpringCon
         verify(cursedObjectService).delete(captor.capture());
         
         assertEquals(cursedObjectDto.getId(), captor.getValue().getId());
+    }
+    
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void deleteNullTest(){
+        cursedObjectFacade.deleteCursedObject(null);
     }
 
     private void assertDeepEquals(CursedObjectCreateDTO first, CursedObjectDTO second) {
