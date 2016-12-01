@@ -4,7 +4,7 @@
     <groupId>cz.muni.fi.pa165</groupId>
     <artifactId>hauntedhouses</artifactId>
     <packaging>pom</packaging>
-    <version>2.0</version>
+    <version>3.0</version>
     
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -24,6 +24,7 @@
         <module>persistence-layer</module>
         <module>api-layer</module>
         <module>service-layer</module>
+        <module>sample-data</module>
     </modules>
    
     <dependencyManagement>

@@ -9,7 +9,7 @@
     <parent>
         <artifactId>hauntedhouses</artifactId>
         <groupId>cz.muni.fi.pa165</groupId>
-        <version>2.0</version>
+        <version>3.0</version>
     </parent>
     
     <dependencies>
