@@ -2,13 +2,11 @@ package cz.muni.fi.pa165.hauntedhouses.facade;
 
 import cz.muni.fi.pa165.hauntedhouses.dto.MonsterCreateDTO;
 import cz.muni.fi.pa165.hauntedhouses.dto.MonsterDTO;
-import cz.muni.fi.pa165.hauntedhouses.exception.NoEntityException;
-import cz.muni.fi.pa165.hauntedhouses.facade.MonsterFacade;
+import cz.muni.fi.pa165.hauntedhouses.exceptions.NoEntityException;
 import cz.muni.fi.pa165.hauntedhouses.BeanMappingService;
 import cz.muni.fi.pa165.hauntedhouses.BeanMappingServiceImpl;
 import cz.muni.fi.pa165.hauntedhouses.ServiceConfiguration;
 import cz.muni.fi.pa165.hauntedhouses.entity.Monster;
-import cz.muni.fi.pa165.hauntedhouses.facade.MonsterFacadeImpl;
 import cz.muni.fi.pa165.hauntedhouses.service.MonsterService;
 import org.mockito.*;
 import org.springframework.test.context.ContextConfiguration;

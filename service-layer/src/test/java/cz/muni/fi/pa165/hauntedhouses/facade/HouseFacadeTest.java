@@ -11,7 +11,7 @@ import cz.muni.fi.pa165.hauntedhouses.dto.HouseCreateDTO;
 import cz.muni.fi.pa165.hauntedhouses.dto.HouseDTO;
 import cz.muni.fi.pa165.hauntedhouses.ServiceConfiguration;
 import cz.muni.fi.pa165.hauntedhouses.entity.House;
-import cz.muni.fi.pa165.hauntedhouses.exception.NoEntityException;
+import cz.muni.fi.pa165.hauntedhouses.exceptions.NoEntityException;
 import cz.muni.fi.pa165.hauntedhouses.service.HouseService;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,8 +26,7 @@ import org.mockito.MockitoAnnotations;
 import org.mockito.Spy;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
-import org.springframework.test.context.testng.AbstractTransactionalTestNGSpringContextTests;
-import org.testng.Assert;
+
 import static org.testng.Assert.assertEquals;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;

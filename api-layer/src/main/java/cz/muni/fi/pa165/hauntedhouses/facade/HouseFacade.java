@@ -2,7 +2,7 @@ package cz.muni.fi.pa165.hauntedhouses.facade;
 
 import cz.muni.fi.pa165.hauntedhouses.dto.HouseCreateDTO;
 import cz.muni.fi.pa165.hauntedhouses.dto.HouseDTO;
-import cz.muni.fi.pa165.hauntedhouses.exception.NoEntityException;
+import cz.muni.fi.pa165.hauntedhouses.exceptions.NoEntityException;
 
 import java.util.List;
 
