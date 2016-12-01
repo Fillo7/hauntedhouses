@@ -1,4 +1,4 @@
-package data.sample;
+package cz.fi.muni.pa165.hauntedhouses.data;
 
 import cz.muni.fi.pa165.hauntedhouses.entity.Monster;
 import cz.muni.fi.pa165.hauntedhouses.service.MonsterService;
@@ -11,13 +11,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * implementation of sample data loading facade SampleLoadingFacade
+ * implementation of SampleDataLoad Facade
  *
  * Created by Ondrej Oravcok on 01-Dec-16.
  */
 @Transactional
 @Component
-public class SampleDataLoadingFacadeImpl implements SampleDataLoadingFacade {
+public class SampleDataLoadFacadeImpl implements SampleDataLoadFacade {
 
     private final Map<String, Monster> monsters = new HashMap<>();
 

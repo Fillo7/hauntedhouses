@@ -1,11 +1,11 @@
-package data.sample;
+package cz.fi.muni.pa165.hauntedhouses.data;
 
 /**
- * facade for data loading
+ * Facade for loading sample data
  *
  * Created by Ondrej Oravcok on 01-Dec-16.
  */
-public interface SampleDataLoadingFacade {
+public interface SampleDataLoadFacade {
 
     /**
      * loads data if sample data needed
