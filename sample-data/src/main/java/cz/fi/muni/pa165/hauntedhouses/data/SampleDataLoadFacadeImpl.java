@@ -36,7 +36,7 @@ public class SampleDataLoadFacadeImpl implements SampleDataLoadFacade {
     }
 
     private void generateHouses(){
-
+        //TODO
     }
 
     private Monster createMonster(String name, String description, LocalTime hauntedStart, LocalTime hauntedEnd){

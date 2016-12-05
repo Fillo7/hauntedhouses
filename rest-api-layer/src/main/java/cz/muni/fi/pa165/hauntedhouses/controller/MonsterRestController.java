@@ -24,6 +24,13 @@ public class MonsterRestController {
     @Inject
     MonsterFacade monsterFacade;
 
+    /**
+     * Gives you all Monsters in system
+     *
+     * e.g. curl -i -X GET http://localhost:8000/hauntedhouses/monsters
+     *
+     * @return list of monsters in system
+     */
     @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public final List<MonsterDTO> getAllMonsters(){
         List<MonsterDTO> result = new ArrayList<>();
@@ -31,6 +38,15 @@ public class MonsterRestController {
         return result;
     }
 
+    /**
+     * Gives you specific monster, if exists
+     *
+     * e.g. curl -i -X GET http://loclahost:8000/hauntedhouses/monsters/6
+     *
+     * @param id monster id
+     * @return DTO of that Monster
+     * @throws RequestedResourceNotFound if there is no Monster with given id
+     */
     @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public final MonsterDTO getMonsterById(@PathVariable("id") long id){
         try {
