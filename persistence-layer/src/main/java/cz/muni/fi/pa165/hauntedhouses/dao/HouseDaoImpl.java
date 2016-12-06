@@ -4,7 +4,6 @@ import cz.muni.fi.pa165.hauntedhouses.entity.House;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.*;
-import javax.transaction.Transactional;
 import java.util.List;
 
 /**
