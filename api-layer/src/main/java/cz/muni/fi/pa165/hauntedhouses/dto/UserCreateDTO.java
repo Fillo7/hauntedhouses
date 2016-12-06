@@ -12,9 +12,6 @@ public class UserCreateDTO {
     private String login;
 
     @NotNull
-    private String passwordHash;
-
-    @NotNull
     private UserRole userRole;
 
     public String getLogin() {
@@ -23,14 +20,6 @@ public class UserCreateDTO {
 
     public void setLogin(String login) {
         this.login = login;
-    }
-
-    public String getPasswordHash() {
-        return passwordHash;
-    }
-
-    public void setPasswordHash(String passwordHash) {
-        this.passwordHash = passwordHash;
     }
 
     public UserRole getUserRole() {

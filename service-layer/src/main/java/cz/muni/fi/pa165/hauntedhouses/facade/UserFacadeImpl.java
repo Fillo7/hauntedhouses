@@ -40,16 +40,6 @@ public class UserFacadeImpl implements UserFacade {
     }
 
     @Override
-    public void updateUser(UserDTO userDTO) {
-        if(userDTO == null) {
-            throw new IllegalArgumentException("userDTO is null.");
-        }
-        
-        User user = beanMappingService.mapTo(userDTO, User.class);
-        userService.update(user);
-    }
-
-    @Override
     public void deleteUser(Long id) {
         if(id == null) {
             throw new IllegalArgumentException("Id is null.");

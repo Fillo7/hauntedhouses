@@ -14,13 +14,6 @@ public interface UserDao {
     void create(User user);
 
     /**
-     * Updates existing user.
-     * @param user User to be updated.
-     * @return Updated user.
-     */
-    User update(User user);
-
-    /**
      * Deletes existing user.
      * @param user User to be deleted.
      * @throws IllegalArgumentException when user is null.

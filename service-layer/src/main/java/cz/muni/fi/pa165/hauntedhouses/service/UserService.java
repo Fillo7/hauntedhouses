@@ -15,13 +15,6 @@ public interface UserService {
     void create(User user, String unencryptedPassword);
 
     /**
-     * Updates existing user.
-     * @param user User to be updated.
-     * @return Updated user.
-     */
-    User update(User user);
-
-    /**
      * Deletes existing user.
      * @param user User to be deleted.
      */

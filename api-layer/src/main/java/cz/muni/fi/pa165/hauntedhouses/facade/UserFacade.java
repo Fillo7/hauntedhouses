@@ -19,13 +19,6 @@ public interface UserFacade {
     Long createUser(UserCreateDTO userCreateDTO, String unencryptedPassword);
 
     /**
-     * Updates existing user.
-     * @param userDTO User to be updated.
-     * @throws IllegalArgumentException if userDTO is null.
-     */
-    void updateUser(UserDTO userDTO);
-
-    /**
      * Deletes existing user.
      * @param id Id of a user to be deleted.
      * @throws IllegalArgumentException if id is null.

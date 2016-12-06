@@ -21,11 +21,6 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public User update(User user) {
-        return entityManager.merge(user);
-    }
-
-    @Override
     public void delete(User user) {
         if(user == null) {
             throw new IllegalArgumentException("user is set to null.");
