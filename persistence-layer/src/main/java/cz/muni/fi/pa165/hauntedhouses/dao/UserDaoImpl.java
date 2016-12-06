@@ -7,7 +7,7 @@ import javax.persistence.PersistenceContext;
 import org.springframework.stereotype.Repository;
 
 /**
- * @author Filip Petrovic
+ * @author Filip Petrovic (422334)
  */
 @Repository
 public class UserDaoImpl implements UserDao {
