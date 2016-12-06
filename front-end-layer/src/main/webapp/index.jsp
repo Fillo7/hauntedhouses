@@ -13,8 +13,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular-resource.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular-route.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-    <!-- To do: create Angular JS application
-    <script src="${pageContext.request.contextPath}/angular_app.js"></script> -->
+    <script src="${pageContext.request.contextPath}/haunted_houses_app.js"></script>
 </head>
 
 <body>
