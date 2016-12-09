@@ -27,9 +27,9 @@ public class MonsterDTO {
     private LocalTime hauntedIntervalEnd;
     
     @NotNull
-    private HouseDTO house;
+    private Long houseId;
 
-    private Set<AbilityDTO> abilities = new HashSet<>();
+    private Set<Long> abilities = new HashSet<>();
 
     //getters and setters
 
@@ -37,64 +37,64 @@ public class MonsterDTO {
         return id;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public LocalTime getHauntedIntervalEnd() {
-        return hauntedIntervalEnd;
-    }
-
-    public LocalTime getHauntedIntervalStart() {
-        return hauntedIntervalStart;
-    }
-
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getName() {
+        return name;
     }
 
     public void setName(String name) {
         this.name = name;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
     public void setDescription(String description) {
         this.description = description;
     }
 
-    public void setHauntedIntervalEnd(LocalTime hauntedIntervalEnd) {
-        this.hauntedIntervalEnd = hauntedIntervalEnd;
+    public LocalTime getHauntedIntervalStart() {
+        return hauntedIntervalStart;
     }
 
     public void setHauntedIntervalStart(LocalTime hauntedIntervalStart) {
         this.hauntedIntervalStart = hauntedIntervalStart;
     }
 
-    public HouseDTO getHouse() {
-        return house;
+    public LocalTime getHauntedIntervalEnd() {
+        return hauntedIntervalEnd;
     }
 
-    public void setHouse(HouseDTO house) {
-        this.house = house;
+    public void setHauntedIntervalEnd(LocalTime hauntedIntervalEnd) {
+        this.hauntedIntervalEnd = hauntedIntervalEnd;
     }
 
-    public Set<AbilityDTO> getAbilities() {
+    public Long getHouseId() {
+        return houseId;
+    }
+
+    public void setHouseId(Long houseId) {
+        this.houseId = houseId;
+    }
+
+    public Set<Long> getAbilities() {
         return abilities;
     }
 
-    public void addAbility(AbilityDTO ability) {
+    public void addAbility(Long ability) {
         this.abilities.add(ability);
     }
 
-    public void addAllAbilities(Set<AbilityDTO> abilities){
+    public void addAllAbilities(Set<Long> abilities){
         this.abilities.addAll(abilities);
     }
 
-    public void removeAbility(AbilityDTO ability) {
-        this.abilities.remove(ability);
+    public void removeAbility(Long abilityId) {
+        this.abilities.remove(abilityId);
     }
 
     @Override

@@ -90,8 +90,8 @@ public class MonsterRestControllerTest extends AbstractTestNGSpringContextTests 
         kitty.setDescription("little sweet kitty");
         kitty.setHauntedIntervalStart(LocalTime.of(10, 20));
         kitty.setHauntedIntervalEnd(LocalTime.of(13, 40));
-        kitty.setHouse(houseFacade.getHouseById(1l));
-        kitty.addAbility(abilityFacade.getAbilityById(1l));
+        kitty.setHouseId(1l);
+        kitty.addAbility(1l);
 
         huggy = new MonsterDTO();
         huggy.setId(2l);
@@ -99,7 +99,7 @@ public class MonsterRestControllerTest extends AbstractTestNGSpringContextTests 
         huggy.setDescription("Snoop Dogg Huggy Bear");
         huggy.setHauntedIntervalStart(LocalTime.of(13, 20));
         huggy.setHauntedIntervalEnd(LocalTime.of(18, 40));
-        huggy.setHouse(houseFacade.getHouseById(1l));
+        huggy.setHouseId(1l);
     }
 
     @BeforeMethod(dependsOnMethods = "initMonsters")
@@ -119,13 +119,13 @@ public class MonsterRestControllerTest extends AbstractTestNGSpringContextTests 
                 .andExpect(jsonPath("$.[?(@.id==1)].description").value(kitty.getDescription()))
 //                .andExpect(jsonPath("$.[?(@.id==1)].hauntedIntervalStart").value(kitty.getHauntedIntervalStart()))
 //                .andExpect(jsonPath("$.[?(@.id==1)].hauntedIntervalEnd").value(kitty.getHauntedIntervalEnd()))
-//                .andExpect(jsonPath("$.[?(@.id==1)].house").value(kitty.getHouse()))
+//                .andExpect(jsonPath("$.[?(@.id==1)].houseId").value(kitty.getHouseId()))
 //                .andExpect(jsonPath("$.[?(@.id==1)].abilities").value(kitty.getAbilities()))
                 .andExpect(jsonPath("$.[?(@.id==2)].name").value(huggy.getName()))
                 .andExpect(jsonPath("$.[?(@.id==2)].description").value(huggy.getDescription()))
 //                .andExpect(jsonPath("$.[?(@.id==2)].hauntedIntervalStart").value(huggy.getHauntedIntervalStart()))
 //                .andExpect(jsonPath("$.[?(@.id==2)].hauntedIntervalEnd").value(huggy.getHauntedIntervalEnd()))
-//                .andExpect(jsonPath("$.[?(@.id==2)].house").value(huggy.getHouse()))
+//                .andExpect(jsonPath("$.[?(@.id==2)].houseId").value(huggy.getHouseId()))
 //                .andExpect(jsonPath("$.[?(@.id==2)].abilities").value(huggy.getAbilities()))
         ;
     }
