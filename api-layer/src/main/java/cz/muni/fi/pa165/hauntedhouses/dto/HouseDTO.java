@@ -86,6 +86,6 @@ public class HouseDTO {
 
     @Override
     public String toString(){
-        return "HouseCreateDTO{name=" + getName() + ", address=" + getAddress() + "}";
+        return "{id=" + id + ", address=" + getAddress() + ", name=" + getName() + ", monsters=" + monsters + ", cursedObjects=" + cursedObjects + "}";
     }
 }

@@ -90,4 +90,9 @@ public class AbilityDTO {
         }
         return true;
     }
+
+    @Override
+    public String toString(){
+        return "{id=" + id + "}";
+    }
 }

@@ -109,7 +109,7 @@ public class MonsterCreateDTO {
 
     @Override
     public String toString() {
-        return "MonsterDTO( name: "+this.getName()+", descrition: "+this.getDescription()+")";
+        return "MonsterDTO( name: "+this.getName()+", description: "+this.getDescription()+")";
     }
 
 }

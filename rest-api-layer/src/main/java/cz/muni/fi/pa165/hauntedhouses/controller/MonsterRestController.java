@@ -96,9 +96,11 @@ public class MonsterRestController {
     /**
      * Updates monster
      *
+     * curl -i -X PUT -H "Content-Type: application/json" --data '{"name":"Novy nazov"}' http://localhost:8080/pa165/rest/monsters/2
+     *
      * @param id of updating monster
      * @param editedMonster with required fields
-     * @throws RequestedResourceNotFound if user does not exists
+     * @throws RequestedResourceNotFound if monster does not exists
      * @throws RequestedResourceNotModified if cannot be updated
      */
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE,
