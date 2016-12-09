@@ -2,10 +2,7 @@ package cz.muni.fi.pa165.hauntedhouses.controller;
 
 import cz.muni.fi.pa165.hauntedhouses.dto.MonsterCreateDTO;
 import cz.muni.fi.pa165.hauntedhouses.dto.MonsterDTO;
-import cz.muni.fi.pa165.hauntedhouses.exceptions.DataManipulationException;
-import cz.muni.fi.pa165.hauntedhouses.exceptions.NoEntityException;
-import cz.muni.fi.pa165.hauntedhouses.exceptions.RequestedResourceNotFound;
-import cz.muni.fi.pa165.hauntedhouses.exceptions.UnprocessableEntityException;
+import cz.muni.fi.pa165.hauntedhouses.exceptions.*;
 import cz.muni.fi.pa165.hauntedhouses.facade.MonsterFacade;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -94,6 +91,52 @@ public class MonsterRestController {
         } catch (Exception e){
             throw new UnprocessableEntityException("Requested resource already exists.", e);
         }
+    }
+
+    /**
+     * Updates monster
+     *
+     * @param id of updating monster
+     * @param editedMonster with required fields
+     * @throws RequestedResourceNotFound if user does not exists
+     * @throws RequestedResourceNotModified if cannot be updated
+     */
+    @RequestMapping(value = "/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public final MonsterDTO updateMonster(@PathVariable("id") long id, @RequestBody MonsterDTO editedMonster) throws RequestedResourceNotFound, RequestedResourceNotModified {
+        MonsterDTO existingMonster;
+        try{
+            existingMonster = monsterFacade.getMonsterById(id);
+        } catch(Exception e) {
+            throw new RequestedResourceNotFound("Cannot update. Monster with id=" + id + " does not exist in system.", e);
+        }
+
+        MonsterDTO toUpdate = createUpdatingDTO(existingMonster, editedMonster);
+        if(existingMonster.equals(toUpdate)){
+            return existingMonster;
+        }
+
+        try{
+            monsterFacade.updateMonster(toUpdate);
+        } catch (Exception e) {
+            throw new RequestedResourceNotModified(e);
+        }
+
+        return toUpdate;
+    }
+
+    private MonsterDTO createUpdatingDTO(MonsterDTO existing, MonsterDTO toUpdate){
+        MonsterDTO result = new MonsterDTO();
+        result.setId(existing.getId());
+
+        result.setName(toUpdate.getName() == null ? existing.getName() : toUpdate.getName());
+        result.setDescription(toUpdate.getDescription() == null ? existing.getDescription() : toUpdate.getDescription());
+        result.setHauntedIntervalStart(toUpdate.getHauntedIntervalStart() == null ? existing.getHauntedIntervalStart() : toUpdate.getHauntedIntervalStart());
+        result.setHauntedIntervalEnd(toUpdate.getHauntedIntervalEnd() == null ? existing.getHauntedIntervalEnd() : toUpdate.getHauntedIntervalEnd());
+        result.setHouse(toUpdate.getHouse() == null ? existing.getHouse() : toUpdate.getHouse());
+        result.addAllAbilities(toUpdate.getAbilities() == null ? existing.getAbilities() : toUpdate.getAbilities());
+
+        return result;
     }
 
 }

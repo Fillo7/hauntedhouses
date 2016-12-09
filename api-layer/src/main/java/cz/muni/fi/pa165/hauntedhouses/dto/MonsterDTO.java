@@ -89,6 +89,10 @@ public class MonsterDTO {
         this.abilities.add(ability);
     }
 
+    public void addAllAbilities(Set<AbilityDTO> abilities){
+        this.abilities.addAll(abilities);
+    }
+
     public void removeAbility(AbilityDTO ability) {
         this.abilities.remove(ability);
     }
