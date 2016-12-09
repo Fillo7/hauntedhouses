@@ -15,4 +15,8 @@ public class RequestedResourceNotFound extends RuntimeException {
         super(cause);
     }
 
+    public RequestedResourceNotFound(String message, Throwable cause){
+        super(message, cause);
+    }
+
 }
