@@ -45,7 +45,7 @@ public class CursedObjectRestController {
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public final void updateCursedObject(@RequestBody CursedObjectDTO cursedObjectDTO, @RequestBody long id) {
+    public final void updateCursedObject(@RequestBody CursedObjectDTO cursedObjectDTO, @PathVariable("id") long id) {
         CursedObjectDTO existing = null;
         try {
             existing = cursedObjectFacade.getCursedObjectWithId(id);
