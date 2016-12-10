@@ -15,7 +15,7 @@ import javax.validation.constraints.NotNull;
  * @author Filip Petrovic (422334)
  */
 @Entity
-@Table(name = "User")
+@Table(name = "Users")
 public class User {
 
     @Id
