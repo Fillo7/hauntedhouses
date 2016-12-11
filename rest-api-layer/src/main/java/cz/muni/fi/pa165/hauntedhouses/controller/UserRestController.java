@@ -53,12 +53,12 @@ public class UserRestController {
     
     /**
      * Authenticates given user.
-     * Command: curl -i -X GET
+     * Command: curl -X PUT -i -H "Content-Type: application/json" --data '{"id":"integer","password":"string"}'
      * http://localhost:8080/pa165/rest/users/authenticate
      * @param user to be authenticated
      * @return true if authentication was successful, false otherwise
      */
-    @RequestMapping(value = "/authenticate", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/authenticate", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public final boolean authenticate(@RequestBody UserAuthenticateDTO user) {
         return userFacade.authenticate(user);
     }
