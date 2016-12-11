@@ -120,7 +120,7 @@ public class HouseRestController {
      * @return list of houses
      */
     @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public final List<HouseDTO> getHouses() {
+    public final List<HouseDTO> getAllHouses() {
         return houseFacade.getAllHouses();
     }
     
