@@ -56,8 +56,8 @@ public class SampleDataLoadFacadeImpl implements SampleDataLoadFacade {
         CursedObject object = createCursedObject("object", "some description", MonsterAttractionFactor.MEDIUM, house);
         
         // Load users
-       User regular = createUser("regular", "regular", UserRole.REGULAR_USER);
-       User admin = createUser("admin", "admin", UserRole.ADMIN);
+        User regular = createUser("regular", "regular", UserRole.REGULAR_USER);
+        User admin = createUser("admin", "admin", UserRole.ADMIN);
     }
     
     private House createHouse(String name, String address) {
