@@ -66,12 +66,12 @@ public class HouseRestController {
     /**
      * Returns house with given id.
      * Command: curl -i -X GET
-     * http://localhost:8080/pa165/rest/houses/{id}
+     * http://localhost:8080/pa165/rest/houses/id/{id}
      * @param id identifier of a house
      * @return house with given id
      * @throws RequestedResourceNotFound when given house is not found.
      */
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/id/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public final HouseDTO getHouseById(@PathVariable("id") long id) throws RequestedResourceNotFound {
         try {
             return houseFacade.getHouseById(id);
@@ -83,12 +83,12 @@ public class HouseRestController {
     /**
      * Returns house with given name.
      * Command: curl -i -X GET
-     * http://localhost:8080/pa165/rest/houses/{name}
+     * http://localhost:8080/pa165/rest/houses/name/{name}
      * @param name name of a house
      * @return house with given name
      * @throws RequestedResourceNotFound when given house is not found.
      */
-    @RequestMapping(value = "/{name}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/name/{name}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public final HouseDTO getHouseByName(@PathVariable("name") String name) throws RequestedResourceNotFound {
         try {
             return houseFacade.getHouseByName(name);

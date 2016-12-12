@@ -6,6 +6,7 @@
 package cz.muni.fi.pa165.hauntedhouses.dto;
 
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 import javax.validation.constraints.NotNull;
 
@@ -49,10 +50,7 @@ public class AbilityCreateDTO {
 
     @Override
     public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((name == null) ? 0 : name.hashCode());
-        return result;
+        return Objects.hash(name);
     }
 
     @Override
@@ -62,11 +60,7 @@ public class AbilityCreateDTO {
             return true;
         }
 
-        if (obj == null) {
-            return false;
-        }
-
-        if (getClass() != obj.getClass()) {
+        if (!(obj instanceof AbilityCreateDTO)) {
             return false;
         }
 
@@ -79,5 +73,10 @@ public class AbilityCreateDTO {
             return false;
         }
         return true;
+    }
+
+    @Override
+    public String toString(){
+        return "{name=" + name + ", description=" + description + "}";
     }
 }

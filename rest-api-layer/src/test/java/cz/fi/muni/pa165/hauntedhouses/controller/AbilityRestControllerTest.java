@@ -72,7 +72,7 @@ public class AbilityRestControllerTest extends AbstractTestNGSpringContextTests 
         ability1.setId(1L);
         ability1.setName("Ability 1");
         ability1.setDescription("Ability 1 description");
-        ability1.addMonster(monster);
+        ability1.addMonsterId(monster.getId());
 
         ability2 = new AbilityDTO();
         ability2.setId(2L);
@@ -92,7 +92,7 @@ public class AbilityRestControllerTest extends AbstractTestNGSpringContextTests 
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(jsonPath("$.[?(@.id==1)].name").value(ability1.getName()))
                 .andExpect(jsonPath("$.[?(@.id==1)].description").value(ability1.getDescription()))
-//                .andExpect(jsonPath("$.[?(@.id==1)].monsters").value(ability1.getMonsters()))
+//                .andExpect(jsonPath("$.[?(@.id==1)].monsterIds").value(ability1.getMonsterIds()))
                 .andExpect(jsonPath("$.[?(@.id==2)].name").value(ability2.getName()))
                 .andExpect(jsonPath("$.[?(@.id==2)].description").value(ability2.getDescription()));
     }

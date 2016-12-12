@@ -104,17 +104,15 @@ public class AbilityRestController {
     /**
      * Finds ability with given id.
      *
-     * curl -i -X GET http://localhost:8080/pa165/rest/abilities?id={id}
+     * curl -i -X GET http://localhost:8080/pa165/rest/abilities/id/{id}
      * where {id} stands for numerical value of the ability identifier.
      *
      * @param id Ability identifier
      * @return Ability with given id
      * @throws RequestedResourceNotFound if the ability wasn't found in the database
      */
-    @RequestMapping(
-            method = RequestMethod.GET,
-            produces = MediaType.APPLICATION_JSON_VALUE)
-    public final AbilityDTO getAbilityById(@RequestParam(value="id") long id) throws RequestedResourceNotFound {
+    @RequestMapping(value = "/id/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public final AbilityDTO getAbilityById(@PathVariable(value="id") long id) throws RequestedResourceNotFound {
         try {
             return abilityFacade.getAbilityById(id);
         } catch (NoEntityException ex) {
@@ -125,17 +123,15 @@ public class AbilityRestController {
     /**
      * Finds ability with given name.
      *
-     * curl -i -X GET http://localhost:8080/pa165/rest/abilities?name={name}
+     * curl -i -X GET http://localhost:8080/pa165/rest/abilities/name/{name}
      * where {name} stands for string value of the ability name (in correct encoding).
      *
      * @param name Name of the ability
      * @return Ability with given name
      * @throws RequestedResourceNotFound if the ability wasn't found in the database
      */
-    @RequestMapping(
-            method = RequestMethod.GET,
-            produces = MediaType.APPLICATION_JSON_VALUE)
-    public final AbilityDTO getAbilityByName(@RequestParam(value="name") String name) throws RequestedResourceNotFound {
+    @RequestMapping(value = "/name/{name}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public final AbilityDTO getAbilityByName(@PathVariable(value="name") String name) throws RequestedResourceNotFound {
         try {
             return abilityFacade.getAbilityByName(name);
         } catch (NoEntityException ex) {

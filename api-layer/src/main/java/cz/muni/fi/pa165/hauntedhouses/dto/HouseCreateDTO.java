@@ -76,6 +76,6 @@ public class HouseCreateDTO {
 
     @Override
     public String toString(){
-        return "HouseCreateDTO{name=" + getName() + ", address=" + getAddress() + "}";
+        return "{name=" + getName() + ", address=" + getAddress() + "}";
     }
 }
