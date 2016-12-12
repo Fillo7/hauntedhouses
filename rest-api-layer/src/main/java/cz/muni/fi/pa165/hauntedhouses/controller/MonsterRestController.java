@@ -1,5 +1,6 @@
 package cz.muni.fi.pa165.hauntedhouses.controller;
 
+import cz.muni.fi.pa165.hauntedhouses.configuration.Uri;
 import cz.muni.fi.pa165.hauntedhouses.dto.MonsterCreateDTO;
 import cz.muni.fi.pa165.hauntedhouses.dto.MonsterDTO;
 import cz.muni.fi.pa165.hauntedhouses.exceptions.*;
@@ -15,7 +16,7 @@ import java.util.List;
  * Created by Ondrej Oravcok on 01-Dec-16.
  */
 @RestController
-@RequestMapping("/monsters")
+@RequestMapping(Uri.MONSTERS)
 public class MonsterRestController {
 
     @Inject
@@ -136,7 +137,7 @@ public class MonsterRestController {
         result.setHauntedIntervalStart(toUpdate.getHauntedIntervalStart() == null ? existing.getHauntedIntervalStart() : toUpdate.getHauntedIntervalStart());
         result.setHauntedIntervalEnd(toUpdate.getHauntedIntervalEnd() == null ? existing.getHauntedIntervalEnd() : toUpdate.getHauntedIntervalEnd());
         result.setHouseId(toUpdate.getHouseId() == null ? existing.getHouseId() : toUpdate.getHouseId());
-        result.addAllAbilities(toUpdate.getAbilities() == null ? existing.getAbilities() : toUpdate.getAbilities());
+        result.addAllAbilityIds(toUpdate.getAbilityIds() == null ? existing.getAbilityIds() : toUpdate.getAbilityIds());
 
         return result;
     }

@@ -18,9 +18,7 @@ import javax.servlet.http.HttpServletResponse;
 public class AllPrivilegesInterceptorAdapter extends HandlerInterceptorAdapter {
 
     @Override
-    public boolean preHandle(HttpServletRequest request,
-                             HttpServletResponse response, Object handler)
-            throws Exception {
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         response.setHeader("Access-Control-Allow-Origin", "*");
         response.setHeader("Access-Control-Allow-Methods",
                 "GET, POST, PUT, DELETE, OPTIONS");

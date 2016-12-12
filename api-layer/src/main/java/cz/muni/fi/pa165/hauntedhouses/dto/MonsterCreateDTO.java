@@ -79,6 +79,10 @@ public class MonsterCreateDTO {
         this.abilityIds.add(abilityId);
     }
 
+    public void addAllAbilityIds(Set<Long> abilityIds) {
+        this.abilityIds.addAll(abilityIds);
+    }
+
     public void removeAbilityId(Long abilityId) {
         this.abilityIds.remove(abilityId);
     }
@@ -109,7 +113,7 @@ public class MonsterCreateDTO {
 
     @Override
     public String toString() {
-        return "MonsterDTO( name: "+this.getName()+", description: "+this.getDescription()+")";
+        return "{name: "+this.getName()+", description: "+this.getDescription()+"}";
     }
 
 }
