@@ -19,8 +19,9 @@ public class MainController {
         resourcesMap.put("houses_uri", "/houses");
         resourcesMap.put("monsters_uri", "/monsters");
         resourcesMap.put("cursed_objects_uri", "/cursedObjects");
+        resourcesMap.put("abilities_uri", "/abilities");
         resourcesMap.put("users_uri", "/users");
-        
+
         return Collections.unmodifiableMap(resourcesMap);
     }
 }
