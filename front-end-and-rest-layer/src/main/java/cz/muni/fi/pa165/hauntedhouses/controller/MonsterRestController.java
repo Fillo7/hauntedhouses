@@ -57,7 +57,7 @@ public class MonsterRestController {
     /**
      * Delete specific monster, if exists
      *
-     * e.g. curl -i -X DELETE http://loclahost:8080/pa165/rest/monsters/6
+     * e.g. curl -i -X DELETE http://localhost:8080/pa165/rest/monsters/1
      *
      * @param id monster id
      * @throws RequestedResourceNotFound if there is no Monster with given id
@@ -74,7 +74,6 @@ public class MonsterRestController {
     /**
      * Create a new monster by POST method.
      *
-     * curl -X POST -i -H "Content-Type: application/json" --data '{"name":"Homer Simpson","description":"Massive big yellow mmonster","hauntedIntervalStart":"6:15","hauntedIntervalEnd":"16:50","houseId":"1","abilityIds":""}' http://localhost:8080/pa165/rest/monsters
      * curl -X POST -i -H "Content-Type: application/json" --data '{"name":"Homer Simpson","description":"Massive big yellow mmonster","hauntedIntervalStart":[6,15],"hauntedIntervalEnd":[16,50],"houseId":"1","abilityIds":[]}' http://localhost:8080/pa165/rest/monsters
      *
      * @param monster MonsterCreateDTO with required fields for creation
