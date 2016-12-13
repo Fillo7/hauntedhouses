@@ -30,12 +30,21 @@ public class CursedObjectRestController {
     @Inject
     private CursedObjectFacade cursedObjectFacade;
 
+    /**
+     * Method creates CursedObject
+     * 
+     * curl -X POST -i -H "Content-Type: application/json" --data '{"name":"default_name","description":"default_description","monsterAttractionFactor":"LOW","houseId":"1"}' http://localhost:8080/pa165/rest/cursedObjects
+     *
+     * 
+     * @param createDto
+     * @return created CursedObject
+     */
     @RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public final CursedObjectDTO createCursedObject(@RequestBody CursedObjectCreateDTO createDto) {
+    public CursedObjectDTO createCursedObject(@RequestBody CursedObjectCreateDTO createDto) {
         try {
-            return cursedObjectFacade.getCursedObjectWithId(
-                    cursedObjectFacade.createCursedObject(createDto));
+            Long id = cursedObjectFacade.createCursedObject(createDto);
+            return cursedObjectFacade.getCursedObjectWithId(id);
         } catch (DataManipulationException ex) {
             throw new UnprocessableEntityException("while creating CursedObject DataManipulationException was thrown", ex);
         } catch (Exception ex) {
@@ -43,6 +52,14 @@ public class CursedObjectRestController {
         }
     }
 
+    /**
+     * Updates already created CursedObject
+     * 
+     * curl -X PUT -i -H "Content-Type: application/json" --data '{"name":"new_name"}' http://localhost:8080/pa165/rest/cursedObjects/1
+     * 
+     * @param cursedObjectDTO contains new values of attributes
+     * @param id of cursedObject in db
+     */
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public final void updateCursedObject(@RequestBody CursedObjectDTO cursedObjectDTO, @PathVariable("id") long id) {
@@ -64,6 +81,13 @@ public class CursedObjectRestController {
         }
     }
 
+    /**
+     * Deletes CursedObject
+     * 
+     * e.g. curl -i -X DELETE http://localhost:8080/pa165/rest/cursedObjects/1
+     * 
+     * @param id of CursedObject that should be deleted
+     */
     @RequestMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.DELETE)
     public final void deleteCursedObject(@PathVariable("id") long id) {
         try {
@@ -73,6 +97,14 @@ public class CursedObjectRestController {
         }
     }
 
+    /**
+     * Finds CursedObject with given id
+     * 
+     * e.g. curl -i -X GET http://localhost:8080/pa165/rest/cursedObjects/1
+     * 
+     * @param id
+     * @return CursedObject with given id
+     */
     @RequestMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
     public CursedObjectDTO getCursedObjectById(@PathVariable("id") long id) {
         try {
@@ -82,6 +114,13 @@ public class CursedObjectRestController {
         }
     }
 
+    /**
+     * Finds all CursedObjects
+     * 
+     * e.g. curl -i -X GET http://localhost:8080/pa165/rest/cursedObjects
+     * 
+     * @return list of all CursedObjects
+     */
     @RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
     public List<CursedObjectDTO> getAllCursedObjects() {
         try {
