@@ -23,20 +23,10 @@ hauntedHousesApp.run(function ($rootScope) {
     };
 });
 
-hauntedHousesControllers.controller('MonstersController', function ($scope, $rootScope, $routeParams, $http) {
-    // get monster id from URL fragment #/monster/:monsterId
-    var monsterId = $routeParams.monsterId;
-    $http.get('/pa165/rest/monsters' + monsterId).then(
-        function (response) {
-            $scope.monster = response.data;
-            console.log('AJAX loaded detail of monster ' + $scope.monster.name);
-        },
-        function error(response) {
-            console.log("failed to load monster " + monsterId);
-            console.log(response);
-            $rootScope.warningAlert = 'Cannot load monster: '+response.data.message;
-        }
-    );
+hauntedHousesControllers.controller('MonstersController', function ($scope, $http) {
+    $http.get('/pa165/rest/monsters').then(function (response) {
+        $scope.monsters = response.data._embedded.monsters;
+    });
 });
 
 // To do: add rest of the controllers

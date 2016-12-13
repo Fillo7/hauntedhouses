@@ -3,15 +3,15 @@
 <table class="table">
     <thead>
     <tr>
-        <th>id</th>
-        <th>name</th>
-        <th>description</th>
-        <th>haunt interval start</th>
-        <th>haunt interval end</th>
+        <th>Id</th>
+        <th>Name</th>
+        <th>Description</th>
+        <th>Haunting start</th>
+        <th>Haunting end</th>
     </tr>
     </thead>
     <tbody>
-        <tr ng-repeat="monster in monsters track by $index">
+        <tr ng-repeat="monster in monsters">
             <td>{{monster.id}}</td>
             <td>{{monster.name}}</td>
             <td>{{monster.description}}</td>
