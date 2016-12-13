@@ -15,14 +15,14 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 public class MainController {
-    @RequestMapping(value = "/", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/rest", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public final Map<String, String> getResources() {
         Map<String,String> resourcesMap = new HashMap<>();
         resourcesMap.put("houses_uri", Uri.HOUSES);
         resourcesMap.put("monsters_uri", Uri.MONSTERS);
-        resourcesMap.put("cursed_objects_uri", "/cursedObjects");
+        resourcesMap.put("cursed_objects_uri", Uri.CURSED_OBJECTS);
         resourcesMap.put("abilities_uri", Uri.ABILITIES);
-        resourcesMap.put("users_uri", "/users");
+        resourcesMap.put("users_uri", Uri.USERS);
 
         return Collections.unmodifiableMap(resourcesMap);
     }

@@ -5,6 +5,7 @@
  */
 package cz.muni.fi.pa165.hauntedhouses.controller;
 
+import cz.muni.fi.pa165.hauntedhouses.configuration.Uri;
 import cz.muni.fi.pa165.hauntedhouses.dto.CursedObjectCreateDTO;
 import cz.muni.fi.pa165.hauntedhouses.dto.CursedObjectDTO;
 import cz.muni.fi.pa165.hauntedhouses.exceptions.DataManipulationException;
@@ -24,7 +25,7 @@ import org.springframework.web.bind.annotation.*;
  */
 
 @RestController
-@RequestMapping("/cursedObjects")
+@RequestMapping(Uri.CURSED_OBJECTS)
 public class CursedObjectRestController {
 
     @Inject

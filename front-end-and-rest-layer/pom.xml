@@ -3,7 +3,7 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>rest-api-layer</artifactId>
+    <artifactId>front-end-and-rest-layer</artifactId>
     <packaging>war</packaging>
     
     <parent>
@@ -56,13 +56,16 @@
             <artifactId>jackson-databind</artifactId>
         </dependency>
 
-        <!--needed for some date/time transfers-->
         <dependency>
             <groupId>com.fasterxml.jackson.datatype</groupId>
             <artifactId>jackson-datatype-jsr310</artifactId>
         </dependency>
 
-        <!--testing-->
+        <dependency>
+            <groupId>javax.servlet.jsp</groupId>
+            <artifactId>javax.servlet.jsp-api</artifactId>
+        </dependency>
+
         <dependency>
             <groupId>org.testng</groupId>
             <artifactId>testng</artifactId>
@@ -86,7 +89,6 @@
             <artifactId>javax.el</artifactId>
             <scope>test</scope>
         </dependency>
-
     </dependencies>
 
     <build>
@@ -99,11 +101,10 @@
                 <version>2.2</version>
                 <configuration>
                     <port>8080</port>
-                    <path>/pa165/rest</path>
+                    <path>/pa165</path>
                     <ignorePackaging>true</ignorePackaging>
                 </configuration>
             </plugin>
         </plugins>
     </build>
-
 </project>

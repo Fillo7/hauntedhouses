@@ -1,5 +1,6 @@
 package cz.muni.fi.pa165.hauntedhouses.controller;
 
+import cz.muni.fi.pa165.hauntedhouses.configuration.Uri;
 import cz.muni.fi.pa165.hauntedhouses.dto.HouseCreateDTO;
 import cz.muni.fi.pa165.hauntedhouses.dto.HouseDTO;
 import cz.muni.fi.pa165.hauntedhouses.exceptions.NoEntityException;
@@ -19,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @author Filip Petrovic (422334)
  */
 @RestController
-@RequestMapping("/houses")
+@RequestMapping(Uri.HOUSES)
 public class HouseRestController {
     @Inject
     HouseFacade houseFacade;

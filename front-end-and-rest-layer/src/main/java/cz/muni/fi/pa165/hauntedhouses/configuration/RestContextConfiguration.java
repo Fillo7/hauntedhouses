@@ -28,7 +28,7 @@ import java.util.Locale;
 @Configuration
 @EnableWebMvc
 @Import({ServiceConfiguration.class, SampleDataConfiguration.class})
-@ComponentScan(basePackageClasses = MonsterRestController.class)
+@ComponentScan(basePackages = "cz.muni.fi.pa165.hauntedhouses.controller")
 public class RestContextConfiguration extends WebMvcConfigurerAdapter {
 
     @Override

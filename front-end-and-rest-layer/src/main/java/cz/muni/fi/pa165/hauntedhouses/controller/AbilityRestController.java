@@ -5,6 +5,7 @@
  */
 package cz.muni.fi.pa165.hauntedhouses.controller;
 
+import cz.muni.fi.pa165.hauntedhouses.configuration.Uri;
 import cz.muni.fi.pa165.hauntedhouses.dto.AbilityCreateDTO;
 import cz.muni.fi.pa165.hauntedhouses.dto.AbilityDTO;
 import cz.muni.fi.pa165.hauntedhouses.exceptions.NoEntityException;
@@ -28,7 +29,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @cersion 12.12.2016
  */
 @RestController
-@RequestMapping("/abilities")
+@RequestMapping(Uri.ABILITIES)
 public class AbilityRestController {
 
     @Inject

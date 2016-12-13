@@ -1,5 +1,6 @@
 package cz.muni.fi.pa165.hauntedhouses.controller;
 
+import cz.muni.fi.pa165.hauntedhouses.configuration.Uri;
 import cz.muni.fi.pa165.hauntedhouses.dto.UserAuthenticateDTO;
 import cz.muni.fi.pa165.hauntedhouses.dto.UserDTO;
 import cz.muni.fi.pa165.hauntedhouses.exceptions.NoEntityException;
@@ -18,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @author Filip Petrovic (422334)
  */
 @RestController
-@RequestMapping("/users")
+@RequestMapping(Uri.USERS)
 public class UserRestController {
     @Inject
     private UserFacade userFacade;
