@@ -26,7 +26,6 @@
         <module>service-layer</module>
         <module>sample-data</module>
         <module>rest-api-layer</module>
-        <module>front-end-layer</module>
   </modules>
    
     <dependencyManagement>
