@@ -22,8 +22,8 @@
         <dependency>
             <groupId>org.apache.tomcat</groupId>
             <artifactId>tomcat-api</artifactId>
-            <scope>provided</scope>
             <version>9.0.0.M13</version>
+            <scope>provided</scope>
         </dependency>
 
         <dependency>
@@ -39,6 +39,7 @@
         <dependency>
             <groupId>com.jayway.jsonpath</groupId>
             <artifactId>json-path</artifactId>
+            <version>${json-path.version}</version>
         </dependency>
         
         <dependency>
@@ -59,11 +60,6 @@
         <dependency>
             <groupId>com.fasterxml.jackson.datatype</groupId>
             <artifactId>jackson-datatype-jsr310</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>javax.servlet.jsp</groupId>
-            <artifactId>javax.servlet.jsp-api</artifactId>
         </dependency>
 
         <dependency>
