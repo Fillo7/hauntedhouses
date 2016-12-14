@@ -1,20 +1,8 @@
 'use strict';
 
 angular.module('angularApp')
-    .controller('MonstersCtrl', function ($scope) {
-        //TODO toto len nahradit za REST call a je hotovo
-        $scope.priserky = [
-            {
-                name: 'Sebastian',
-                description: 'desc',
-                hauntedIntervalStart: null,
-                hauntedIntervalEnd: null
-            },
-            {
-                name: 'Momo',
-                description: 'desc 2',
-                hauntedIntervalStart: null,
-                hauntedIntervalEnd: null
-            }
-        ];
+    .controller('MonstersCtrl', function ($scope, $http) {
+        $http.get('/pa165/rest/monsters').then(function (response) {
+            $scope.priserky = response.data;
+        });
     });
