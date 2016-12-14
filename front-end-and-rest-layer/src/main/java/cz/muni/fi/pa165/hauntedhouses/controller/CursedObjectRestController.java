@@ -60,10 +60,11 @@ public class CursedObjectRestController {
      * 
      * @param cursedObjectDTO contains new values of attributes
      * @param id of cursedObject in db
+     * @return updated cursed object
      */
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public final void updateCursedObject(@RequestBody CursedObjectDTO cursedObjectDTO, @PathVariable("id") long id) {
+    public final CursedObjectDTO updateCursedObject(@RequestBody CursedObjectDTO cursedObjectDTO, @PathVariable("id") long id) {
         CursedObjectDTO existing = null;
         try {
             existing = cursedObjectFacade.getCursedObjectWithId(id);
@@ -80,6 +81,8 @@ public class CursedObjectRestController {
         } catch (Exception ex) {
             throw new RequestedResourceNotModified(ex);
         }
+        
+        return toBeUpdated;
     }
 
     /**
@@ -132,8 +135,7 @@ public class CursedObjectRestController {
     }
 
     private CursedObjectDTO updateDTO(CursedObjectDTO cursedObjectDTO, CursedObjectDTO existing) {
-        CursedObjectDTO result = new CursedObjectDTO();
-        result.setId(existing.getId());
+        cursedObjectDTO.setId(existing.getId());
 
         if (cursedObjectDTO.getName() == null) {
             cursedObjectDTO.setName(existing.getName());
@@ -148,7 +150,7 @@ public class CursedObjectRestController {
             cursedObjectDTO.setMonsterAttractionFactor(existing.getMonsterAttractionFactor());
         }
 
-        return result;
+        return cursedObjectDTO;
     }
 
 }
