@@ -77,14 +77,14 @@ public class CursedObjectRestControllerTest extends AbstractTestNGSpringContextT
         doll.setName("cursed creepy doll");
         doll.setDescription("doll scares all people around her");
         doll.setMonsterAttractionFactor(MonsterAttractionFactor.MEDIUM);
-        doll.setHouse(house);
+        doll.setHouseId(house.getId());
 
         mirror = new CursedObjectDTO();
         mirror.setId(2l);
         mirror.setName("Mirror of death");
         mirror.setDescription("causes hallucinations");
         mirror.setMonsterAttractionFactor(MonsterAttractionFactor.INSANE);
-        mirror.setHouse(house);
+        mirror.setHouseId(house.getId());
     }
 
     @BeforeMethod(dependsOnMethods = "initEntities")
@@ -105,14 +105,14 @@ public class CursedObjectRestControllerTest extends AbstractTestNGSpringContextT
                 .andExpect(jsonPath("$.[?(@.id==" + doll.getId() + ")].name").value(doll.getName()))
                 .andExpect(jsonPath("$.[?(@.id==" + doll.getId() + ")].description").value(doll.getDescription()))
                 .andExpect(jsonPath("$.[?(@.id==" + doll.getId() + ")].monsterAttractionFactor").value(doll.getMonsterAttractionFactor().toString()))
-                .andExpect(jsonPath("$.[?(@.id==" + doll.getId() + ")].house.name").value(doll.getHouse().getName()));
+                .andExpect(jsonPath("$.[?(@.id==" + doll.getId() + ")].houseId").value(doll.getHouseId().intValue()));
 
         mockMvc.perform(get(Uri.CURSED_OBJECTS + "/" + mirror.getId() + "")).andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(jsonPath("$.[?(@.id==" + mirror.getId() + ")].name").value(mirror.getName()))
                 .andExpect(jsonPath("$.[?(@.id==" + mirror.getId() + ")].description").value(mirror.getDescription()))
                 .andExpect(jsonPath("$.[?(@.id==" + mirror.getId() + ")].monsterAttractionFactor").value(mirror.getMonsterAttractionFactor().toString()))
-                .andExpect(jsonPath("$.[?(@.id==" + mirror.getId() + ")].house.name").value(mirror.getHouse().getName()));
+                .andExpect(jsonPath("$.[?(@.id==" + mirror.getId() + ")].houseId").value(mirror.getHouseId().intValue()));
     }
 
     @Test
@@ -123,11 +123,11 @@ public class CursedObjectRestControllerTest extends AbstractTestNGSpringContextT
                 .andExpect(jsonPath("$.[?(@.id==" + doll.getId() + ")].name").value(doll.getName()))
                 .andExpect(jsonPath("$.[?(@.id==" + doll.getId() + ")].description").value(doll.getDescription()))
                 .andExpect(jsonPath("$.[?(@.id==" + doll.getId() + ")].monsterAttractionFactor").value(doll.getMonsterAttractionFactor().toString()))
-                .andExpect(jsonPath("$.[?(@.id==" + doll.getId() + ")].house.name").value(doll.getHouse().getName()))
+                .andExpect(jsonPath("$.[?(@.id==" + doll.getId() + ")].houseId").value(doll.getHouseId().intValue()))
                 .andExpect(jsonPath("$.[?(@.id==" + mirror.getId() + ")].name").value(mirror.getName()))
                 .andExpect(jsonPath("$.[?(@.id==" + mirror.getId() + ")].description").value(mirror.getDescription()))
                 .andExpect(jsonPath("$.[?(@.id==" + mirror.getId() + ")].monsterAttractionFactor").value(mirror.getMonsterAttractionFactor().toString()))
-                .andExpect(jsonPath("$.[?(@.id==" + mirror.getId() + ")].house.name").value(mirror.getHouse().getName()));
+                .andExpect(jsonPath("$.[?(@.id==" + mirror.getId() + ")].houseId").value(mirror.getHouseId().intValue()));
     }
     
     @Test

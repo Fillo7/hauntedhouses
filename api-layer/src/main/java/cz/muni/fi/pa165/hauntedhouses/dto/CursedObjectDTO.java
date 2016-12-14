@@ -22,7 +22,7 @@ public class CursedObjectDTO {
     private MonsterAttractionFactor monsterAttractionFactor;
 
     @NotNull
-    private HouseDTO house;
+    private Long houseId;
 
     public Long getId() {
         return id;
@@ -56,12 +56,12 @@ public class CursedObjectDTO {
         this.monsterAttractionFactor = monsterAttractionFactor;
     }
 
-    public HouseDTO getHouse() {
-        return house;
+    public Long getHouseId() {
+        return houseId;
     }
 
-    public void setHouse(HouseDTO house) {
-        this.house = house;
+    public void setHouseId(Long houseId) {
+        this.houseId = houseId;
     }
 
     @Override

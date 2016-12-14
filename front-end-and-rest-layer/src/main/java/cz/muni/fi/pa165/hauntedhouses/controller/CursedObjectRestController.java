@@ -141,8 +141,8 @@ public class CursedObjectRestController {
         if (cursedObjectDTO.getDescription() == null) {
             cursedObjectDTO.setDescription(existing.getDescription());
         }
-        if (cursedObjectDTO.getHouse() == null) {
-            cursedObjectDTO.setHouse(existing.getHouse());
+        if (cursedObjectDTO.getHouseId() == null) {
+            cursedObjectDTO.setHouseId(existing.getHouseId());
         }
         if (cursedObjectDTO.getMonsterAttractionFactor() == null) {
             cursedObjectDTO.setMonsterAttractionFactor(existing.getMonsterAttractionFactor());
