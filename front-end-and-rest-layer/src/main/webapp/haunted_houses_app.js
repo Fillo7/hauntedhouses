@@ -25,7 +25,7 @@ hauntedHousesApp.run(function ($rootScope) {
 
 hauntedHousesControllers.controller('MonstersController', function ($scope, $http) {
     $http.get('/pa165/rest/monsters').then(function (response) {
-        $scope.monsters = response.data._embedded.monsters;
+        $scope.monsters = response.data;
     });
 });
 
