@@ -5,14 +5,18 @@
  */
 package cz.fi.muni.pa165.hauntedhouses.controller;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import cz.muni.fi.pa165.hauntedhouses.configuration.RestContextConfiguration;
 import cz.muni.fi.pa165.hauntedhouses.configuration.Uri;
 import cz.muni.fi.pa165.hauntedhouses.controller.CursedObjectRestController;
+import cz.muni.fi.pa165.hauntedhouses.dto.CursedObjectCreateDTO;
 import cz.muni.fi.pa165.hauntedhouses.dto.CursedObjectDTO;
 import cz.muni.fi.pa165.hauntedhouses.dto.HouseDTO;
 import cz.muni.fi.pa165.hauntedhouses.enums.MonsterAttractionFactor;
 import cz.muni.fi.pa165.hauntedhouses.facade.CursedObjectFacade;
 import cz.muni.fi.pa165.hauntedhouses.facade.HouseFacade;
+import java.io.IOException;
 
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -28,6 +32,7 @@ import org.testng.annotations.Test;
 
 import javax.inject.Inject;
 import java.util.Arrays;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 import org.springframework.http.MediaType;
 
@@ -74,7 +79,7 @@ public class CursedObjectRestControllerTest extends AbstractTestNGSpringContextT
 
         doll = new CursedObjectDTO();
         doll.setId(1l);
-        doll.setName("cursed creepy doll");
+        doll.setName("Anabelle");
         doll.setDescription("doll scares all people around her");
         doll.setMonsterAttractionFactor(MonsterAttractionFactor.MEDIUM);
         doll.setHouseId(house.getId());
@@ -120,18 +125,68 @@ public class CursedObjectRestControllerTest extends AbstractTestNGSpringContextT
 
         mockMvc.perform(get(Uri.CURSED_OBJECTS)).andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(status().isOk())
                 .andExpect(jsonPath("$.[?(@.id==" + doll.getId() + ")].name").value(doll.getName()))
                 .andExpect(jsonPath("$.[?(@.id==" + doll.getId() + ")].description").value(doll.getDescription()))
                 .andExpect(jsonPath("$.[?(@.id==" + doll.getId() + ")].monsterAttractionFactor").value(doll.getMonsterAttractionFactor().toString()))
-                .andExpect(jsonPath("$.[?(@.id==" + doll.getId() + ")].houseId").value(doll.getHouseId().intValue()))
                 .andExpect(jsonPath("$.[?(@.id==" + mirror.getId() + ")].name").value(mirror.getName()))
                 .andExpect(jsonPath("$.[?(@.id==" + mirror.getId() + ")].description").value(mirror.getDescription()))
                 .andExpect(jsonPath("$.[?(@.id==" + mirror.getId() + ")].monsterAttractionFactor").value(mirror.getMonsterAttractionFactor().toString()))
                 .andExpect(jsonPath("$.[?(@.id==" + mirror.getId() + ")].houseId").value(mirror.getHouseId().intValue()));
     }
-    
+
     @Test
-    public void deleteCursedObjectTest() {
-        
+    public void deleteCursedObjectTest() throws Exception {
+        doNothing().when(cursedObjectFacade).deleteCursedObject(1l);
+
+        mockMvc.perform(delete(Uri.CURSED_OBJECTS + "/1")).andExpect(status().isOk());
+    }
+
+    @Test
+    public void createCursedObjectTest() throws Exception {
+        CursedObjectCreateDTO chuckyCreateDTO = new CursedObjectCreateDTO();
+        chuckyCreateDTO.setHouseId(this.house.getId());
+        chuckyCreateDTO.setName("Chucky");
+        chuckyCreateDTO.setDescription("Chucky the cursed doll");
+        chuckyCreateDTO.setMonsterAttractionFactor(MonsterAttractionFactor.INSANE);
+
+        CursedObjectDTO chuckyDTO = new CursedObjectDTO();
+        chuckyDTO.setHouseId(house.getId());
+        chuckyDTO.setName("Chucky");
+        chuckyDTO.setDescription("Chucky the cursed doll");
+        chuckyDTO.setMonsterAttractionFactor(MonsterAttractionFactor.INSANE);
+
+        when(cursedObjectFacade.createCursedObject(chuckyCreateDTO)).thenReturn(1l);
+        when(cursedObjectFacade.getCursedObjectWithId(1l)).thenReturn(chuckyDTO);
+        mockMvc.perform(
+                post(Uri.CURSED_OBJECTS).contentType(MediaType.APPLICATION_JSON)
+                .content(convertObjectToJsonBytes(chuckyCreateDTO)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.name").value(chuckyDTO.getName()))
+                .andExpect(jsonPath("$.description").value(chuckyDTO.getDescription()))
+                .andExpect(jsonPath("$.monsterAttractionFactor").value(chuckyDTO.getMonsterAttractionFactor().toString()))
+                .andExpect(jsonPath("$.houseId").value(chuckyDTO.getHouseId().intValue()));
+    }
+
+    @Test
+    public void updateCursedObjectTest() throws Exception {
+
+        doll.setName("Chucky");
+
+        mockMvc.perform(put(Uri.CURSED_OBJECTS + "/" + doll.getId()).contentType(MediaType.APPLICATION_JSON)
+                .content(convertObjectToJsonBytes(doll)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.name").value(doll.getName()))
+                .andExpect(jsonPath("$.description").value(doll.getDescription()))
+                .andExpect(jsonPath("$.monsterAttractionFactor").value(doll.getMonsterAttractionFactor().toString()))
+                .andExpect(jsonPath("$.houseId").value(doll.getHouseId().intValue()));
+    }
+
+    private static String convertObjectToJsonBytes(Object object)
+            throws IOException {
+        ObjectMapper mapper;
+        mapper = new ObjectMapper();
+        mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+        return mapper.writeValueAsString(object);
     }
 }
