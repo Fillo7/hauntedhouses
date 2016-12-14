@@ -90,6 +90,7 @@
     <build>
         <!--if mvn command is run-->
         <defaultGoal>tomcat7:run</defaultGoal>
+
         <plugins>
             <plugin>
                 <groupId>org.apache.tomcat.maven</groupId>
