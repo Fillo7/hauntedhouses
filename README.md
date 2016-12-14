@@ -18,7 +18,7 @@ Students working on this project:
 - [Kristýna Loukotová](https://github.com/Tilwaen)
 - [Marek Jančo](https://github.com/marcus991)
 
-# Running application
+### Running application
 This application has two parts:
 - REST API running on /pa165/rest
 - AngularJS front-end running on /pa165
