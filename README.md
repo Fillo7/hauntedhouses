@@ -17,3 +17,11 @@ Students working on this project:
 - [Filip Petrovič](https://github.com/Fillo7)
 - [Kristýna Loukotová](https://github.com/Tilwaen)
 - [Marek Jančo](https://github.com/marcus991)
+
+# Running application
+This application has two parts:
+- REST API running on /pa165/rest
+- AngularJS front-end running on /pa165
+
+1. run `mvn clean install` command in home directory
+2. run `mvn` in front-end-and-rest-layer directory
