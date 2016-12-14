@@ -62,7 +62,7 @@ public class HouseDTO {
         return cursedObjectIds;
     }
 
-    public void addCursedObject(Long cursedObjectId) {
+    public void addCursedObjectId(Long cursedObjectId) {
         this.cursedObjectIds.add(cursedObjectId);
     }
 

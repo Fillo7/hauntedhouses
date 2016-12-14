@@ -56,7 +56,7 @@ public class RestContextConfiguration extends WebMvcConfigurerAdapter {
         objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
         objectMapper.registerModule(new JavaTimeModule());
         objectMapper.setDateFormat(new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.ENGLISH));
-
+        
         jsonConverter.setObjectMapper(objectMapper);
         return jsonConverter;
     }
