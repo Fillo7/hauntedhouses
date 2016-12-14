@@ -40,6 +40,12 @@
                         <li><a href="#/cursedobjects">Cursed Objects</a></li>
                     </ul>
                 </li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Create new entity<b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#/createMonster">Create monster</a></li>
+                    </ul>
+                </li>
                 <li><a href="#/login">Login</a></li>
             </ul>
         </div><!--/.nav-collapse -->
