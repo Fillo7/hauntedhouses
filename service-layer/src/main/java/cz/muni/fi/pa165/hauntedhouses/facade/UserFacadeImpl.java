@@ -52,12 +52,22 @@ public class UserFacadeImpl implements UserFacade {
     }
 
     @Override
-    public UserDTO getUserWithId(Long id) {
+    public UserDTO getUserById(Long id) {
         if(id == null) {
             throw new IllegalArgumentException("Id is null.");
         }
         
         User user = userService.getById(id);
+        return beanMappingService.mapTo(user, UserDTO.class);
+    }
+    
+    @Override
+    public UserDTO getUserByLogin(String login) {
+        if(login == null) {
+            throw new IllegalArgumentException("Login is null.");
+        }
+        
+        User user = userService.getByLogin(login);
         return beanMappingService.mapTo(user, UserDTO.class);
     }
 
@@ -73,6 +83,6 @@ public class UserFacadeImpl implements UserFacade {
             throw new IllegalArgumentException("userAuthenticateDTO is null.");
         }
         
-        return userService.authenticate(userService.getById(userAuthenticateDTO.getId()), userAuthenticateDTO.getPassword());
+        return userService.authenticate(userService.getByLogin(userAuthenticateDTO.getLogin()), userAuthenticateDTO.getPassword());
     }
 }

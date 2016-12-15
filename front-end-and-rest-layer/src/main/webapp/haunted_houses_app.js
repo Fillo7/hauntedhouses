@@ -36,14 +36,14 @@ hauntedHousesControllers.controller('MonstersController', function ($scope, $htt
 
 hauntedHousesControllers.controller('LoginController', function ($scope, $routeParams, $http, $location, $rootScope) {
     $scope.user = {
-        'name': '',
+        'login': '',
         'password': ''
     };
     
     $scope.login = function (user) {
         $http({
             method: 'POST',
-            url: '/pa165/rest/authenticate',
+            url: '/pa165/rest/users/authenticate',
             data: user
         }).then(function success(response) {
             console.log('login was successful');

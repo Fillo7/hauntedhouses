@@ -7,17 +7,17 @@ import javax.validation.constraints.NotNull;
  */
 public class UserAuthenticateDTO {
     @NotNull
-    private Long id;
+    private String login;
 
     @NotNull
     private String password;
 
-    public Long getId() {
-        return id;
+    public String getLogin() {
+        return login;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setLogin(String login) {
+        this.login = login;
     }
 
     public String getPassword() {

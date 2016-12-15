@@ -3,7 +3,9 @@ package cz.muni.fi.pa165.hauntedhouses.dao;
 import cz.muni.fi.pa165.hauntedhouses.entity.User;
 import java.util.List;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -36,6 +38,21 @@ public class UserDaoImpl implements UserDao {
         }
 
         return entityManager.find(User.class, id);
+    }
+    
+    @Override
+    public User getByLogin(String login) {
+        if(login == null) {
+            throw new IllegalArgumentException("login is set to null.");
+        }
+        
+        try {
+            TypedQuery<User> query = entityManager.createQuery("SELECT u FROM User u WHERE u.login = :givenLogin", User.class)
+            .setParameter("givenLogin", login);
+            return query.getSingleResult();
+        } catch (NoResultException ex) {
+            return null;
+        }
     }
 
     @Override

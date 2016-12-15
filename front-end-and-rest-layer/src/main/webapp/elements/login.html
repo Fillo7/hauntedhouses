@@ -1,12 +1,12 @@
 <h1>Login</h1>
 
 <form name="form"  novalidate class="form-horizontal">
-    <div class="form-group" ng-class="{'has-error': !(form.name.$valid)}">
-        <label for="name" class="col-sm-2 control-label">Login</label>
+    <div class="form-group" ng-class="{'has-error': !(form.login.$valid)}">
+        <label for="login" class="col-sm-2 control-label">Login</label>
         <div class="col-sm-10">
-            <input placeholder="Login" id="name" type="text" ng-minlength="1" name="name" class="form-control" ng-model="user.name" required/>
-            <p class="help-block" ng-show="form.name.$error.required">Login is required.</p>
-            <p class="help-block" ng-show="form.name.$error.minlength">Login must not be empty.</p>
+            <input placeholder="Login" id="login" type="text" ng-minlength="1" name="login" class="form-control" ng-model="user.name" required/>
+            <p class="help-block" ng-show="form.login.$error.required">Login is required.</p>
+            <p class="help-block" ng-show="form.login.$error.minlength">Login must not be empty.</p>
         </div>
     </div>
     
@@ -14,8 +14,8 @@
         <label for="password" class="col-sm-2 control-label">Password</label>
         <div class="col-sm-10">
             <input placeholder="Password" id="password" type="text" ng-minlength="1" name="password" class="form-control" ng-model="user.password" required/>
-            <p class="help-block" ng-show="form.name.$error.required">Password is required.</p>
-            <p class="help-block" ng-show="form.name.$error.minlength">Password must not be empty.</p>
+            <p class="help-block" ng-show="form.password.$error.required">Password is required.</p>
+            <p class="help-block" ng-show="form.password.$error.minlength">Password must not be empty.</p>
         </div>
     </div>
 

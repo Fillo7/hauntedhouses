@@ -31,8 +31,16 @@ public interface UserFacade {
      * @return User with given id
      * @throws IllegalArgumentException if id is null.
      */
-    UserDTO getUserWithId(Long id);
+    UserDTO getUserById(Long id);
 
+    /**
+     * Returns user with given login.
+     * @param login Login of a user to be returned
+     * @return User with given login
+     * @throws IllegalArgumentException if login is null.
+     */
+    UserDTO getUserByLogin(String login);
+    
     /**
      * Returns all users.
      * @return All users

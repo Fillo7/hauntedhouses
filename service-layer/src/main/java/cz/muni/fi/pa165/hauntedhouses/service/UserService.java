@@ -28,6 +28,13 @@ public interface UserService {
     User getById(Long id);
 
     /**
+     * Returns existing user with given login.
+     * @param login Login of a user to be returned.
+     * @return Existing user with given login.
+     */
+    User getByLogin(String login);
+
+    /**
      * Returns list of all users.
      * @return List of all users.
      */
