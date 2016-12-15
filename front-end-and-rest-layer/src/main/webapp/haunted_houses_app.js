@@ -10,6 +10,8 @@ hauntedHousesApp.config(['$routeProvider',
         when('/createMonster', {templateUrl: 'elements/create_monster.html', controller: 'MonsterCreateController'}).
         when('/login', {templateUrl: 'elements/login.html', controller: 'LoginController'}).
         when('/abilities', {templateUrl: 'elements/abilities_view.html', controller: 'AbilitiesController'}).
+        when('/cursedObjects', {templateUrl: 'elements/cursedObject_view.html', controller: 'CursedObjectController'}).
+        when('/createCursedObject', {templateUrl: 'elements/create_cursed_object.html', controller: 'CursedObjectController'}).
         // to do: add rest of the (yet unimplemented) paths
         otherwise({redirectTo: '/'});
     }]);
@@ -112,4 +114,23 @@ hauntedHousesControllers.controller('AbilitiesController', function ($scope, $ht
     });
 });
 
+
+hauntedHousesControllers.controller('CursedObjectController', function ($scope, $http) {
+    $http.get('/pa165/rest/cursedObjects').then(function (response) {
+        $scope.cursedObjects = response.data;
+    });
+});
+
+hauntedHousesControllers.controller('CursedObjectController', function ($scope, $routeParams, $http, $location, $rootScope) {
+    $http.get('/pa165/rest/houses').then(function (response) {
+        $scope.houses = response.data;
+    });
+
+    $scope.cursedObject = {
+        'name': '',
+        'description': '',
+        'monsterAttractionFactor': '',
+        'houseId': '',
+    };
+});
 // To do: add rest of the controllers

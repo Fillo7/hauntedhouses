@@ -36,7 +36,7 @@
                         <li><a href="#/houses">Houses</a></li>
                         <li><a href="#/monsters">Monsters</a></li>
                         <li><a href="#/abilities">Monster Abilities</a></li>
-                        <li><a href="#/cursedobjects">Cursed Objects</a></li>
+                        <li><a href="#/cursedObjects">Cursed Objects</a></li>
                     </ul>
                 </li>
                 <li><a href="#/login">Login</a></li>
