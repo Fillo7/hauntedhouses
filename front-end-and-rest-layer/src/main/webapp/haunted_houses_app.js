@@ -31,16 +31,43 @@ hauntedHousesControllers.controller('MonstersController', function ($scope, $htt
     });
 });
 
-hauntedHousesControllers.controller('LoginController', function ($scope, $http) {
-    // to do
+hauntedHousesControllers.controller('LoginController', function ($scope, $routeParams, $http, $location, $rootScope) {
+    $scope.user = {
+        'name': '',
+        'password': ''
+    };
+    
+    $scope.login = function (user) {
+        $http({
+            method: 'POST',
+            url: '/pa165/rest/authenticate',
+            data: user
+        }).then(function success(response) {
+            console.log('login was successful');
+            var loggedUser = response.data;
+            $rootScope.successAlert = 'User "' + loggedUser.name + '" logged in.';
+            $location.path("/");
+        }, function error(response) {
+            console.log("error when authenticating user");
+            console.log(response);
+            switch (response.data.code) {
+            case 'InvalidRequestException':
+                $rootScope.errorAlert = 'Sent data were found to be invalid by server!';
+                break;
+            default:
+                $rootScope.errorAlert = 'Cannot authenticate user! Reason given by the server: '+response.data.message;
+                break;
+            }
+        });
+    };
 });
 
 hauntedHousesControllers.controller('MonsterCreateController', function ($scope, $routeParams, $http, $location, $rootScope) {
     $http.get('/pa165/rest/houses').then(function (response) {
-        $scope.houses = response.data['_embedded']['houses'];
+        $scope.houses = response.data;
     });
     $http.get('/pa165/rest/abilities').then(function (response) {
-        $scope.abilities = response.data['_embedded']['abilities'];
+        $scope.abilities = response.data;
     });
     
     $scope.monster = {
@@ -48,8 +75,8 @@ hauntedHousesControllers.controller('MonsterCreateController', function ($scope,
         'description': '',
         'hauntedIntervalStart': '',
         'hauntedIntervalEnd': '',
-        'houseId': $scope.houses[0].id,
-        'abilityIds': 1
+        'houseId': '',
+        'abilityIds': ''
     };
     
     // Function called when submit button is clicked, creates monster on server
@@ -68,10 +95,10 @@ hauntedHousesControllers.controller('MonsterCreateController', function ($scope,
             console.log(response);
             switch (response.data.code) {
             case 'InvalidRequestException':
-                $rootScope.errorAlert = 'Sent data were found to be invalid by server ! ';
+                $rootScope.errorAlert = 'Sent data were found to be invalid by server!';
                 break;
             default:
-                $rootScope.errorAlert = 'Cannot create product ! Reason given by the server: '+response.data.message;
+                $rootScope.errorAlert = 'Cannot create monster! Reason given by the server: '+response.data.message;
                 break;
             }
         });
