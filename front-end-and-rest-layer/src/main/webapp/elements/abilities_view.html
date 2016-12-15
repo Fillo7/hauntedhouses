@@ -16,8 +16,8 @@
                 <td>{{ability.name}}</td>
                 <td>{{ability.description}}</td>
                 <td>
-                    <div ng-repeat="monster in ability.monsters">{{monster.name}}</div>
-                    <div ng-show="!ability.monsters.length">No assigned monster</div>
+                    <div ng-repeat="monsterId in ability.monsterIds">{{monsterId}}</div>
+                    <div ng-show="ability.monsterIds.length == 0">No assigned monster</div>
                 </td>
             </tr>
         </tbody>

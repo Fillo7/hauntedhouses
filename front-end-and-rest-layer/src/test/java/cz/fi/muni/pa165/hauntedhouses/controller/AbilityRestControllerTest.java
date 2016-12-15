@@ -35,7 +35,7 @@ import org.testng.annotations.Test;
 /**
  *
  * @author Kristyna Loukotova
- * @version 12.12.2016
+ * @version 15.12.2016
  */
 @WebAppConfiguration
 @ContextConfiguration(classes = RestContextConfiguration.class)
@@ -61,7 +61,7 @@ public class AbilityRestControllerTest extends AbstractTestNGSpringContextTests 
     }
 
     @BeforeMethod
-    public void initMonsters(){
+    public void initEntities(){
 
         monster = new MonsterDTO();
         monster.setId(1L);
@@ -83,6 +83,11 @@ public class AbilityRestControllerTest extends AbstractTestNGSpringContextTests 
         when(abilityFacade.getAbilityById(2L)).thenReturn(ability2);
 
         when(abilityFacade.getAllAbilities()).thenReturn(Arrays.asList(ability1, ability2));
+    }
+
+    @Test
+    public void createAbilityTest() {
+
     }
 
     @Test
