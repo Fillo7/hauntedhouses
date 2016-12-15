@@ -28,7 +28,7 @@ public class HouseRestController {
     /**
      * Creates a new house by POST method.
      * Command: curl -X POST -i -H "Content-Type: application/json" --data 
-     * '{"name":"string","address":"string","monsterIds":"","cursedObjectIds":""}' 
+     * '{"name":"string","address":"string","monsterIds":[],"cursedObjectIds":[]}' 
      * http://localhost:8080/pa165/rest/houses/create
      * @param house HouseCreateDTO with required fields for creation
      * @return newly created house
@@ -46,7 +46,7 @@ public class HouseRestController {
     
     /**
      * Updates given house by PUT method.
-     * Command: curl -X PUT -i -H "Content-Type: application/json" --data '{"name":"string","address":"string","monsterIds":"1","cursedObjectIds":"1"}'
+     * Command: curl -X PUT -i -H "Content-Type: application/json" --data '{"name":"string","address":"string","monsterIds":[1],"cursedObjectIds":[1]}'
      * http://localhost:8080/pa165/rest/houses/{id}
      * @param id identifier of a house
      * @param house updated house
@@ -127,10 +127,10 @@ public class HouseRestController {
     
     /**
      * Purges all monsters and cursed objects in given house.
-     * http://localhost:8080/pa165/rest/houses/{id}
+     * http://localhost:8080/pa165/rest/houses/purge/{id}
      * @param id identifier of a house
      */
-    @RequestMapping(value = "/{id}", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/purge/{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
     public final void purge(@PathVariable("id") long id) {
         HouseDTO house = houseFacade.getHouseById(id);
         houseFacade.purge(house);

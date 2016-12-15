@@ -80,7 +80,7 @@ public class MonsterRestController {
      * @return the newly created DTO of monster
      * @throws UnprocessableEntityException if monster can not be created because validation failures or Monster already exists
      */
-    @RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE,
+    @RequestMapping(value = "/create", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public final MonsterDTO createMonster(@RequestBody MonsterCreateDTO monster) throws UnprocessableEntityException {
         try{

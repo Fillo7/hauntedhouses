@@ -1,5 +1,10 @@
 <h1>List of monsters</h1>
 
+<a href="#/createMonster" class="btn btn-primary">
+    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+    New monster
+</a>
+
 <table class="table">
     <thead>
     <tr>
@@ -8,6 +13,8 @@
         <th>Description</th>
         <th>Haunting start</th>
         <th>Haunting end</th>
+        <th>House</th>
+        <th>Abilities</th>
     </tr>
     </thead>
     <tbody>
@@ -17,6 +24,8 @@
             <td>{{monster.description}}</td>
             <td>{{monster.hauntedIntervalStart}}</td>
             <td>{{monster.hauntedIntervalEnd}}</td>
+            <td>{{monster.name}}</td>
+            <td>{{monster.name}}</td>
         </tr>
     </tbody>
 </table>
