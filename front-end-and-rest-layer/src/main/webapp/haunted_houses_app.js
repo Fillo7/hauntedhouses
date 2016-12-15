@@ -109,10 +109,34 @@ hauntedHousesControllers.controller('MonsterCreateController', function ($scope,
     };
 });
 
-hauntedHousesControllers.controller('AbilitiesController', function ($scope, $http) {
+hauntedHousesControllers.controller('AbilitiesController', function ($scope, $http, $rootScope, $location) {
     $http.get('/pa165/rest/abilities').then(function (response) {
         $scope.abilities = response.data;
     });
+
+    $scope.delete = function (ability) {
+        console.log("Deleting ability with id = " + ability.id + " (" + ability.name + ")");
+        $http.delete("rest/abilities/" + ability.id).then(
+                function success(response) {
+                    console.log("Succesfully deleted ability " + ability.id + " on the server");
+                    // Display confirmation alert
+                    $rootScope.successAlert = ("Deleted ability \"" + ability.name + "\"");
+                    $location.path("/pa165/abilities");
+                },
+                function error(response) {
+                    console.log("Error when deleting ability with id \"" + ability.id + "\"");
+                    console.log(response);
+                    switch (response.data.code) {
+                        case 'ResourceNotFoundException':
+                            $rootScope.errorAlert = "Cannot delete non-existent ability!";
+                            break;
+                        default:
+                            $rootScope.errorAlert = "Cannot delete te ability! Reason given by the server: " + response.data.message;
+                            break;
+                    }
+                }
+        );
+    };
 });
 
 function getMonstersId(selection) {

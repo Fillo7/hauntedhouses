@@ -73,7 +73,7 @@ public class AbilityRestController {
             method = RequestMethod.PUT,
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public final AbilityDTO updateHouse(@RequestParam(value="update") long id, @RequestBody AbilityDTO ability) throws RequestedResourceNotFound {
+    public final AbilityDTO updateHouse(@PathVariable("id") long id, @RequestBody AbilityDTO ability) throws RequestedResourceNotFound {
         try {
             ability.setId(id);
             abilityFacade.updateAbility(ability);
@@ -92,9 +92,10 @@ public class AbilityRestController {
      * @throws RequestedResourceNotFound if the ability wasn't found in the database
      */
     @RequestMapping(
+            value = "/{id}",
             method = RequestMethod.DELETE,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public final void deleteHouse(@RequestParam(value="delete") long id) throws RequestedResourceNotFound {
+    public final void deleteHouse(@PathVariable("id") long id) throws RequestedResourceNotFound {
         try {
             abilityFacade.deleteAbility(id);
         } catch (Exception ex) {
