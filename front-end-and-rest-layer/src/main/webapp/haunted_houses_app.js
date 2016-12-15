@@ -9,6 +9,7 @@ hauntedHousesApp.config(['$routeProvider',
         when('/monsters', {templateUrl: 'elements/monsters_view.html', controller: 'MonstersController'}).
         when('/createMonster', {templateUrl: 'elements/create_monster.html', controller: 'MonsterCreateController'}).
         when('/login', {templateUrl: 'elements/login.html', controller: 'LoginController'}).
+        when('/abilities', {templateUrl: 'elements/abilities_view.html', controller: 'AbilitiesController'}).
         // to do: add rest of the (yet unimplemented) paths
         otherwise({redirectTo: '/'});
     }]);
@@ -69,7 +70,7 @@ hauntedHousesControllers.controller('MonsterCreateController', function ($scope,
     $http.get('/pa165/rest/abilities').then(function (response) {
         $scope.abilities = response.data;
     });
-    
+
     $scope.monster = {
         'name': '',
         'description': '',
@@ -78,7 +79,7 @@ hauntedHousesControllers.controller('MonsterCreateController', function ($scope,
         'houseId': '',
         'abilityIds': ''
     };
-    
+
     // Function called when submit button is clicked, creates monster on server
     $scope.create = function (monster) {
         $http({
@@ -103,6 +104,12 @@ hauntedHousesControllers.controller('MonsterCreateController', function ($scope,
             }
         });
     };
+});
+
+hauntedHousesControllers.controller('AbilitiesController', function ($scope, $http) {
+    $http.get('/pa165/rest/abilities').then(function (response) {
+        $scope.abilities = response.data;
+    });
 });
 
 // To do: add rest of the controllers

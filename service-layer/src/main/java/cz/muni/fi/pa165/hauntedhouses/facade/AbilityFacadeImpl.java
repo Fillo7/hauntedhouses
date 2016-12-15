@@ -17,17 +17,17 @@ import org.springframework.stereotype.Service;
 /**
  *
  * @author Kristyna Loukotova
- * @version 17.11.2016
+ * @version 15.12.2016
  */
 @Service
 @Transactional
 public class AbilityFacadeImpl implements AbilityFacade {
     @Inject
     private AbilityService abilityService;
-    
+
     @Inject
     private MonsterService monsterService;
-    
+
     @Inject
     private BeanMappingService beanMappingService;
 
@@ -38,8 +38,17 @@ public class AbilityFacadeImpl implements AbilityFacade {
         }
 
         Ability ability = beanMappingService.mapTo(abilityCreateDTO, Ability.class);
+
+        // IDs to entities by Filip/Ondro's template
+        for (Long monsterId : abilityCreateDTO.getMonsterIds()){
+            Monster monster = monsterService.getById(monsterId);
+            if (monster != null){
+                ability.addMonster(monster);
+            }
+        }
+
         abilityService.create(ability);
-        
+
         return ability.getId();
     }
 
@@ -48,8 +57,17 @@ public class AbilityFacadeImpl implements AbilityFacade {
         if (abilityDTO == null) {
             throw new IllegalArgumentException("AbilityDTO is null.");
         }
-        
+
         Ability ability = beanMappingService.mapTo(abilityDTO, Ability.class);
+
+        // IDs to entities by Filip/Ondro's template
+        for (Long monsterId : abilityDTO.getMonsterIds()){
+            Monster monster = monsterService.getById(monsterId);
+            if (monster != null){
+                ability.addMonster(monster);
+            }
+        }
+
         abilityService.update(ability);
     }
 
@@ -71,7 +89,15 @@ public class AbilityFacadeImpl implements AbilityFacade {
             throw new IllegalArgumentException("ID of ability is null.");
         }
 
-        return beanMappingService.mapTo(abilityService.getById(id), AbilityDTO.class);
+        Ability ability = abilityService.getById(id);
+        AbilityDTO resultAbilityDTO = beanMappingService.mapTo(ability, AbilityDTO.class);
+
+        // Entities to IDs by Filip/Ondro's template
+        if (ability.getMonsters() != null){
+            ability.getMonsters().forEach(current -> resultAbilityDTO.addMonsterId(current.getId()));
+        }
+
+        return resultAbilityDTO;
     }
 
     @Override
@@ -80,11 +106,32 @@ public class AbilityFacadeImpl implements AbilityFacade {
             throw new IllegalArgumentException("Name of ability is null.");
         }
 
-        return beanMappingService.mapTo(abilityService.getByName(name), AbilityDTO.class);
+        Ability ability = abilityService.getByName(name);
+        AbilityDTO resultAbilityDTO = beanMappingService.mapTo(ability, AbilityDTO.class);
+
+        // Entities to IDs by Filip/Ondro's template
+        if (ability.getMonsters() != null){
+            ability.getMonsters().forEach(current -> resultAbilityDTO.addMonsterId(current.getId()));
+        }
+
+        return resultAbilityDTO;
     }
 
     @Override
     public List<AbilityDTO> getAllAbilities() {
-        return beanMappingService.mapTo(abilityService.getAll(), AbilityDTO.class);
+        List<AbilityDTO> resultAbilities = beanMappingService.mapTo(abilityService.getAll(), AbilityDTO.class);
+
+        // Entities to IDs by Filip/Ondro's template
+        for (AbilityDTO abilityDTO : resultAbilities) {
+
+            Ability ability = abilityService.getById(abilityDTO.getId());
+
+            if (ability != null) {
+                Set<Monster> monsters = ability.getMonsters();
+                monsters.forEach(monster -> abilityDTO.addMonsterId(monster.getId()));
+            }
+        }
+
+        return resultAbilities;
     }
 }

@@ -1,0 +1,25 @@
+<div id="abilities">
+    <h1>Monster abilities</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Assigned monsters</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="ability in abilities">
+                <td>{{ability.id}}</td>
+                <td>{{ability.name}}</td>
+                <td>{{ability.description}}</td>
+                <td>
+                    <div ng-repeat="monster in ability.monsters">{{monster.name}}</div>
+                    <div ng-show="!ability.monsters.length">No assigned monster</div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
