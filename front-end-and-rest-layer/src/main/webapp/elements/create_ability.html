@@ -38,9 +38,9 @@
         <div class="form-group">
             <label for="monsters" class="col-sm-2 control-label">Monsters</label>
             <div class="col-sm-10">
-                <div ng-repeat="monster in monsters" ng-model="ability.monsterIds">
+                <div ng-repeat="monster in monsters">
                     <label>
-                        <input type="checkbox">
+                        <input type="checkbox" ng-model="monster.checked" name="selectedAbilities[]">
                         {{monster.name}}
                     </label><br/>
                 </div>

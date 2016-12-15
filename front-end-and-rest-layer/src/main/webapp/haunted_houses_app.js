@@ -115,21 +115,17 @@ hauntedHousesControllers.controller('AbilitiesController', function ($scope, $ht
     });
 });
 
-/*function getMonstersId(selection) {
+function getMonstersId(selection) {
     var monsterIds = [];
 
-    console.log("Number of selected monsters: " + selection.length);
     for (var i = 0; i < selection.length; i++) {
-        monsterIds.push(selection[i].id);
+        if (selection[i].checked === true) {
+            monsterIds.push(selection[i].id);
+        }
     }
 
     return monsterIds;
 }
-
-function getMonsterId(item, index) {
-    var fullname = [item.id];
-    return fullname;
-}*/
 
 hauntedHousesControllers.controller('AbilityCreateController', function ($scope, $routeParams, $http, $location, $rootScope) {
 
@@ -143,19 +139,9 @@ hauntedHousesControllers.controller('AbilityCreateController', function ($scope,
         'monsterIds': []
     };
 
-    // Checkbox selection
-    //$scope.selection = [];
-
     // Create button clicked
     $scope.create = function (ability) {
-        //ability.monsterIds = getMonstersId($scope.selection);
-        //ability.monsterIds = $scope.selection.map(getMonsterId);
-        //console.log("Number of selected monsters: " + $scope.selection.length);
-        //console.log("Number of mapped monsters: " + ability.monsterIds.length);
-        //console.log("Monster ids:");
-        //console.log(ability.monsterIds);
-        //console.log("Selected monsters:");
-        //console.log($scope.selection);
+        ability.monsterIds = getMonstersId($scope.monsters);
 
         $http({
             method: 'POST',
@@ -164,7 +150,7 @@ hauntedHousesControllers.controller('AbilityCreateController', function ($scope,
         }).then(function success(response) {
             var createdAbility = response.data;
             $rootScope.successAlert = "Ability \"" + createdAbility.name + "\" was created.";
-            console.log("Ability created");
+            console.log("Ability " + createdAbility.name + " created");
             $location.path("/pa165/abilities");
         }, function error(response) {
             console.log("Error when attempting to create ability:");
