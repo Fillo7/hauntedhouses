@@ -5,7 +5,7 @@
     <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
     New Cursed Object
 </a>
-    
+    <br><br>
     <table class="table">
         <thead>
             <tr>
@@ -24,6 +24,7 @@
                 <td>{{cursedObject.description}}</td>
                 <td>{{cursedObject.monsterAttractionFactor}}</td>
                 <td>{{cursedObject.houseId}}</td>
+                <td><a ng-click="delete(cursedObject)">delete</a></td>
             </tr>
         </tbody>
     </table>

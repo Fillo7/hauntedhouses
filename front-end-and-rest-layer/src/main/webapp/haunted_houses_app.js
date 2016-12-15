@@ -114,11 +114,40 @@ hauntedHousesControllers.controller('AbilitiesController', function ($scope, $ht
     });
 });
 
-
-hauntedHousesControllers.controller('CursedObjectController', function ($scope, $http) {
-    $http.get('/pa165/rest/cursedObjects').then(function (response) {
+//loads cursedObjects
+function loadAllCursedObjects($http, $scope) {
+    $http.get('rest/cursedObjects').then(function (response) {
         $scope.cursedObjects = response.data;
     });
+}
+
+
+hauntedHousesControllers.controller('CursedObjectController', function ($scope, $rootScope, $routeParams, $http) {
+    loadAllCursedObjects($http, $scope);
+    
+    $scope.delete = function (cursedObject) {
+            console.log("deleting cursedObject with id=" + cursedObject.id);
+            $http.delete('rest/cursedObjects/'+cursedObject.id).then(
+                function success(response) {
+                    console.log('deleted cursedObject ' + cursedObject.id + ' on server');
+                    //display confirmation alert
+                    $rootScope.successAlert = 'Deleted cursedObject "' + cursedObject.name + '"';
+                    loadAllCursedObjects($http, $scope);
+                },
+                function error(response) {
+                    console.log("error when deleting cursedObject");
+                    console.log(response);
+                    switch (response.data.code) {
+                        case 'ResourceNotFoundException':
+                            $rootScope.errorAlert = 'Cannot delete non-existent cursedObject ! ';
+                            break;
+                        default:
+                            $rootScope.errorAlert = 'Cannot delete cursedObject ! Reason given by the server: '+response.data.message;
+                            break;
+                    }
+                }
+            );
+        };
 });
 
 hauntedHousesControllers.controller('CursedObjectCreateController', function ($scope, $routeParams, $http, $location, $rootScope) {
