@@ -109,6 +109,9 @@ hauntedHousesControllers.controller('MonsterCreateController', function ($scope,
     };
 });
 
+/**
+ * Manipulates listing of all abilities and their deletion.
+ */
 hauntedHousesControllers.controller('AbilitiesController', function ($scope, $http, $rootScope, $location) {
     $http.get('/pa165/rest/abilities').then(function (response) {
         $scope.abilities = response.data;
@@ -139,7 +142,12 @@ hauntedHousesControllers.controller('AbilitiesController', function ($scope, $ht
     };
 });
 
-function getMonstersId(selection) {
+/**
+ * Helper method that returns array of checked monster IDs.
+ * @param {type} selection Array that has items with optional checked property.
+ * @return {Array|getMonstersId.monsterIds} Array of checked item IDs.
+ */
+function getMonsterIds(selection) {
     var monsterIds = [];
 
     for (var i = 0; i < selection.length; i++) {
@@ -151,6 +159,9 @@ function getMonstersId(selection) {
     return monsterIds;
 }
 
+/**
+ * Manipulates ability creation.
+ */
 hauntedHousesControllers.controller('AbilityCreateController', function ($scope, $routeParams, $http, $location, $rootScope) {
 
     $http.get('/pa165/rest/monsters').then(function (response) {
@@ -165,7 +176,7 @@ hauntedHousesControllers.controller('AbilityCreateController', function ($scope,
 
     // Create button clicked
     $scope.create = function (ability) {
-        ability.monsterIds = getMonstersId($scope.monsters);
+        ability.monsterIds = getMonsterIds($scope.monsters);
 
         $http({
             method: 'POST',
