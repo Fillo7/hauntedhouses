@@ -159,7 +159,7 @@ public class CursedObjectRestControllerTest extends AbstractTestNGSpringContextT
         when(cursedObjectFacade.createCursedObject(chuckyCreateDTO)).thenReturn(1l);
         when(cursedObjectFacade.getCursedObjectWithId(1l)).thenReturn(chuckyDTO);
         mockMvc.perform(
-                post(Uri.CURSED_OBJECTS).contentType(MediaType.APPLICATION_JSON)
+                post(Uri.CURSED_OBJECTS+"/create").contentType(MediaType.APPLICATION_JSON)
                 .content(convertObjectToJsonBytes(chuckyCreateDTO)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.name").value(chuckyDTO.getName()))

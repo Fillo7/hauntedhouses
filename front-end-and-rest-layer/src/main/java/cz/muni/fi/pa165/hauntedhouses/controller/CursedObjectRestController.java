@@ -40,7 +40,7 @@ public class CursedObjectRestController {
      * @param createDto
      * @return created CursedObject
      */
-    @RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE,
+    @RequestMapping(value = "/create",method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public CursedObjectDTO createCursedObject(@RequestBody CursedObjectCreateDTO createDto) {
         try {
