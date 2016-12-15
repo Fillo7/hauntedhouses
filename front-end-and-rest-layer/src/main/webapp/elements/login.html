@@ -1,10 +1,12 @@
+<div class="login">
+    
 <h1>Login</h1>
 
 <form name="form"  novalidate class="form-horizontal">
     <div class="form-group" ng-class="{'has-error': !(form.login.$valid)}">
         <label for="login" class="col-sm-2 control-label">Login</label>
         <div class="col-sm-10">
-            <input placeholder="Login" id="login" type="text" ng-minlength="1" name="login" class="form-control" ng-model="user.name" required/>
+            <input placeholder="Login" id="login" type="text" ng-minlength="1" name="login" class="form-control" ng-model="user.login" required/>
             <p class="help-block" ng-show="form.login.$error.required">Login is required.</p>
             <p class="help-block" ng-show="form.login.$error.minlength">Login must not be empty.</p>
         </div>
@@ -21,3 +23,5 @@
 
     <button ng-disabled="!form.$valid" class="btn btn-primary" type="submit" ng-click="login(user)">Log in</button>
 </form>
+
+</div>
