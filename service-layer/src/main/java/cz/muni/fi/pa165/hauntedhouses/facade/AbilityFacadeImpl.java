@@ -130,6 +130,12 @@ public class AbilityFacadeImpl implements AbilityFacade {
                 Set<Monster> monsters = ability.getMonsters();
                 monsters.forEach(monster -> abilityDTO.addMonsterId(monster.getId()));
             }
+            else {
+                System.err.println("Ability found as DTO, but not as Ability entity. No monster assigned to this entity.");
+                if (abilityDTO.getId() == null) {
+                    System.err.println("AbilityDTO's ID is null, therefore the Ability entity hasn't been found.");
+                }
+            }
         }
 
         return resultAbilities;

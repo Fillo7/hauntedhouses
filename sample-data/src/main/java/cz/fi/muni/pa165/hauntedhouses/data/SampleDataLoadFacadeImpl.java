@@ -48,9 +48,13 @@ public class SampleDataLoadFacadeImpl implements SampleDataLoadFacade {
         // Load monsters
         Monster kitty = createMonster("Little Kitty", "little sweet kitty", LocalTime.of(10, 20), LocalTime.of(13, 40), house);
         Monster huggy = createMonster("Huggy Bear", "Snoop Dogg Huggy Bear", LocalTime.of(4, 0), LocalTime.of(4, 5), house);
+        Monster grumpy = createMonster("Grumpy cat", "So grumpy it makes you cry", LocalTime.of(5, 6), LocalTime.of(7, 3), house);
 
         // Load abilities
         Ability rainbows = createAbility("Spawn rainbows", "Spawns rainbows all around the place, blinding anyone who dares to wander nearby.", kitty);
+        Ability monsterTestingAbility = createAbility("Monster testing ability",
+                rainbows.getMonsters().isEmpty() ? "Rainbow's monster list is empty" : "Rainbow has some assigned monster!",
+                grumpy);
 
         // Load cursed objects
         CursedObject object = createCursedObject("object", "some description", MonsterAttractionFactor.MEDIUM, house);
