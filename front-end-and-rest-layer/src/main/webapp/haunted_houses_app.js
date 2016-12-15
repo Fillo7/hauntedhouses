@@ -6,13 +6,19 @@ var hauntedHousesControllers = angular.module('hauntedHousesControllers', []);
 hauntedHousesApp.config(['$routeProvider',
     function ($routeProvider) {
         $routeProvider.
-                when('/monsters/', {templateUrl: 'elements/monsters_view.html', controller: 'MonstersController'}).
-                when('/createMonster', {templateUrl: 'elements/create_monster.html', controller: 'MonsterCreateController'}).
                 when('/login', {templateUrl: 'elements/login.html', controller: 'LoginController'}).
                 when('/abilities/', {templateUrl: 'elements/abilities_view.html', controller: 'AbilitiesController'}).
-                when('/createAbility', {templateUrl: 'elements/create_ability.html', controller: 'AbilityCreateController'}).
                 when('/cursedObjects/', {templateUrl: 'elements/cursedObject_view.html', controller: 'CursedObjectController'}).
+                //when('/houses/', {templateUrl: 'elements/housest_view.html', controller: 'HousesController'}).
+                when('/monsters/', {templateUrl: 'elements/monsters_view.html', controller: 'MonstersController'}).
+                when('/createAbility', {templateUrl: 'elements/create_ability.html', controller: 'AbilityCreateController'}).
                 when('/createCursedObject', {templateUrl: 'elements/create_cursed_object.html', controller: 'CursedObjectCreateController'}).
+                //when('/createHouse', {templateUrl: 'elements/create_house.html', controller: 'HouseCreateController'}).
+                when('/createMonster', {templateUrl: 'elements/create_monster.html', controller: 'MonsterCreateController'}).
+                when('/updateAbility/:ability', {templateUrl: 'elements/update_ability.html', controller: 'AbilityUpdateController'}).
+                //when('/updateCursedObject', {templateUrl: 'elements/update_cursed_object.html', controller: 'CursedObjectUpdateController'}).
+                //when('/updateHouse', {templateUrl: 'elements/update_house.html', controller: 'HouseUpdateController'}).
+                //when('/updateMonster', {templateUrl: 'elements/update_monster.html', controller: 'MonsterUpdateController'}).
                 // to do: add rest of the (yet unimplemented) paths
                 otherwise({redirectTo: '/'});
 
@@ -168,7 +174,7 @@ function getMonsterIds(selection) {
 /**
  * Manipulates ability creation.
  */
-hauntedHousesControllers.controller('AbilityCreateController', function ($scope, $routeParams, $http, $location, $rootScope) {
+hauntedHousesControllers.controller('AbilityCreateController', function ($scope, $http, $location, $rootScope) {
 
     $http.get('/pa165/rest/monsters').then(function (response) {
         $scope.monsters = response.data;
@@ -189,11 +195,14 @@ hauntedHousesControllers.controller('AbilityCreateController', function ($scope,
             url: '/pa165/rest/abilities/create',
             data: ability
         }).then(function success(response) {
+
             var createdAbility = response.data;
             $rootScope.successAlert = "Ability \"" + createdAbility.name + "\" was created.";
             console.log("Ability " + createdAbility.name + " created");
             $location.path("/abilities");
+
         }, function error(response) {
+
             console.log("Error when attempting to create ability:");
             console.log(ability);
             console.log(response);
@@ -203,6 +212,52 @@ hauntedHousesControllers.controller('AbilityCreateController', function ($scope,
                     break;
                 default:
                     $rootScope.errorAlert = "Cannot create ability! Reason given by the server: " + response.data.message;
+                    break;
+            }
+        });
+    };
+});
+
+/**
+ * Manipulates ability update.
+ */
+hauntedHousesControllers.controller('AbilityUpdateController', function ($scope, $http, $routeParams, $location, $rootScope) {
+
+    $http.get('/pa165/rest/monsters').then(function (response) {
+        $scope.monsters = response.data;
+    });
+
+    $scope.ability = $routeParams.ability;
+    console.log("Ability passed as parameter: " + $scope.ability);
+
+    // TODO: Link ability here and in update_ability, check correct monsters from the start, figure out how to get update method in REST working
+
+    // Update button clicked
+    $scope.update = function (ability) {
+        ability.monsterIds = getMonsterIds($scope.monsters);
+
+        $http({
+            method: 'PUT',
+            url: '/pa165/rest/abilities/' + ability.id,
+            data: ability
+        }).then(function success(response) {
+
+            var updatedAbility = response.data;
+            $rootScope.successAlert = "Ability \"" + updatedAbility.name + "\" was updated.";
+            console.log("Ability " + updatedAbility.name + " updated");
+            $location.path("/abilities");
+
+        }, function error(response) {
+
+            console.log("Error when attempting to update ability:");
+            console.log(ability);
+            console.log(response);
+            switch (response.data.code) {
+                case 'InvalidRequestException':
+                    $rootScope.errorAlert = "Sent data were found to be invalid by server!";
+                    break;
+                default:
+                    $rootScope.errorAlert = "Cannot update ability! Reason given by the server: " + response.data.message;
                     break;
             }
         });

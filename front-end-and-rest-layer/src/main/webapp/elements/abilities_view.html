@@ -12,8 +12,9 @@
                 <th>Id</th>
                 <th>Name</th>
                 <th>Description</th>
-                <th>Assigned monsters</th>
-                <th>Delete ability</th>
+                <th>Monster IDs</th>
+                <th>Update</th>
+                <th>Delete</th>
             </tr>
         </thead>
         <tbody>
@@ -25,6 +26,16 @@
                     <div ng-repeat="monsterId in ability.monsterIds">{{monsterId}}</div>
                     <div ng-show="ability.monsterIds.length == 0">No assigned monster</div>
                 </td>
+                <!-- Update button -->
+                <td>
+                    <a href="#/updateAbility/{{ability}}">
+                        <button class="glyphicon glyphicon-pencil"
+                                aria-hidden="true"
+                                accesskey="" style="color: black"
+                                autofocus="" style="text-decoration: none"
+                                style="background: none" />
+                    </a>
+                </td>
                 <!-- Delete button -->
                 <td>
                     <button ng-click="delete(ability)"
@@ -34,11 +45,6 @@
                             accesskey="" style="color: red"
                             autofocus="" style="text-decoration: none"
                             style="background: none" />
-                    <!--<a ng-click="delete(ability)"
-                       class="glyphicon glyphicon-remove"
-                       aria-hidden="true"
-                       style="color: red"
-                       style="text-decoration: none" />-->
                 </td>
             </tr>
         </tbody>

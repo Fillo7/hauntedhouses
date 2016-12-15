@@ -61,7 +61,7 @@ public class AbilityRestController {
     /**
      * Updates the ability via PUT method.
      *
-     * curl -X PUT -i -H "Content-Type: application/json" --data '{"name":"defaultName","description":"defaultDescription","monsterIds":[1]}' http://localhost:8080/pa165/rest/abilities/update/{id}
+     * curl -X PUT -i -H "Content-Type: application/json" --data '{"name":"defaultName","description":"defaultDescription","monsterIds":[1]}' http://localhost:8080/pa165/rest/abilities/{id}
      *
      * @param id Ability identifier
      * @param ability Ability to be updated
@@ -86,7 +86,7 @@ public class AbilityRestController {
     /**
      * Deletes ability with given id.
      *
-     * curl -i -X DELETE http://localhost:8080/pa165/rest/abilities/delete/{id}
+     * curl -i -X DELETE http://localhost:8080/pa165/rest/abilities/{id}
      *
      * @param id Ability identifier
      * @throws RequestedResourceNotFound if the ability wasn't found in the database
