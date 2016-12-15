@@ -121,7 +121,7 @@ hauntedHousesControllers.controller('AbilitiesController', function ($scope, $ht
                     console.log("Succesfully deleted ability " + ability.id + " on the server");
                     // Display confirmation alert
                     $rootScope.successAlert = ("Deleted ability \"" + ability.name + "\"");
-                    $location.path("/pa165/abilities");
+                    $location.path("/abilities");
                 },
                 function error(response) {
                     console.log("Error when deleting ability with id \"" + ability.id + "\"");
@@ -175,7 +175,7 @@ hauntedHousesControllers.controller('AbilityCreateController', function ($scope,
             var createdAbility = response.data;
             $rootScope.successAlert = "Ability \"" + createdAbility.name + "\" was created.";
             console.log("Ability " + createdAbility.name + " created");
-            $location.path("/pa165/abilities");
+            $location.path("/abilities");
         }, function error(response) {
             console.log("Error when attempting to create ability:");
             console.log(ability);
