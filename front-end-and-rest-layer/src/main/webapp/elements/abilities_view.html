@@ -1,6 +1,11 @@
 <div id="abilities">
     <h1>Monster abilities</h1>
 
+    <a href="#/createAbility" class="btn btn-primary">
+        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+        New ability
+    </a>
+
     <table class="table">
         <thead>
             <tr>
@@ -8,6 +13,7 @@
                 <th>Name</th>
                 <th>Description</th>
                 <th>Assigned monsters</th>
+                <th>Delete ability</th>
             </tr>
         </thead>
         <tbody>
@@ -18,6 +24,20 @@
                 <td>
                     <div ng-repeat="monsterId in ability.monsterIds">{{monsterId}}</div>
                     <div ng-show="ability.monsterIds.length == 0">No assigned monster</div>
+                </td>
+                <!-- Delete button -->
+                <td>
+                    <!--<a href="#/delete/{{ability.id}}"
+                       class="glyphicon glyphicon-remove"
+                       aria-hidden="true"
+                       style="color: red"
+                       style="text-decoration: none" />-->
+                    <button ng-click="deleteAbility(ability)"
+                            type="submit"
+                            class="glyphicon glyphicon-remove"
+                            aria-hidden="true"
+                            accesskey=""style="color: red"
+                            autofocus=""style="text-decoration: none"></button>
                 </td>
             </tr>
         </tbody>

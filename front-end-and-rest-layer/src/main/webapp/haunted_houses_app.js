@@ -6,14 +6,15 @@ var hauntedHousesControllers = angular.module('hauntedHousesControllers', []);
 hauntedHousesApp.config(['$routeProvider',
     function ($routeProvider) {
         $routeProvider.
-        when('/monsters', {templateUrl: 'elements/monsters_view.html', controller: 'MonstersController'}).
-        when('/createMonster', {templateUrl: 'elements/create_monster.html', controller: 'MonsterCreateController'}).
-        when('/login', {templateUrl: 'elements/login.html', controller: 'LoginController'}).
-        when('/abilities', {templateUrl: 'elements/abilities_view.html', controller: 'AbilitiesController'}).
-        when('/cursedObjects', {templateUrl: 'elements/cursedObject_view.html', controller: 'CursedObjectController'}).
-        when('/createCursedObject', {templateUrl: 'elements/create_cursed_object.html', controller: 'CursedObjectCreateController'}).
-        // to do: add rest of the (yet unimplemented) paths
-        otherwise({redirectTo: '/'});
+                when('/monsters', {templateUrl: 'elements/monsters_view.html', controller: 'MonstersController'}).
+                when('/createMonster', {templateUrl: 'elements/create_monster.html', controller: 'MonsterCreateController'}).
+                when('/login', {templateUrl: 'elements/login.html', controller: 'LoginController'}).
+                when('/abilities', {templateUrl: 'elements/abilities_view.html', controller: 'AbilitiesController'}).
+                when('/createAbility', {templateUrl: 'elements/create_ability.html', controller: 'AbilityCreateController'}).
+                when('/cursedObjects', {templateUrl: 'elements/cursedObject_view.html', controller: 'CursedObjectController'}).
+                when('/createCursedObject', {templateUrl: 'elements/create_cursed_object.html', controller: 'CursedObjectCreateController'}).
+                // to do: add rest of the (yet unimplemented) paths
+                otherwise({redirectTo: '/'});
     }]);
 
 hauntedHousesApp.run(function ($rootScope) {
@@ -39,7 +40,7 @@ hauntedHousesControllers.controller('LoginController', function ($scope, $routeP
         'login': '',
         'password': ''
     };
-    
+
     $scope.login = function (user) {
         $http({
             method: 'POST',
@@ -54,12 +55,12 @@ hauntedHousesControllers.controller('LoginController', function ($scope, $routeP
             console.log("error when authenticating user");
             console.log(response);
             switch (response.data.code) {
-            case 'InvalidRequestException':
-                $rootScope.errorAlert = 'Sent data were found to be invalid by server!';
-                break;
-            default:
-                $rootScope.errorAlert = 'Cannot authenticate user! Reason given by the server: '+response.data.message;
-                break;
+                case 'InvalidRequestException':
+                    $rootScope.errorAlert = 'Sent data were found to be invalid by server!';
+                    break;
+                default:
+                    $rootScope.errorAlert = 'Cannot authenticate user! Reason given by the server: ' + response.data.message;
+                    break;
             }
         });
     };
@@ -97,12 +98,12 @@ hauntedHousesControllers.controller('MonsterCreateController', function ($scope,
             console.log("error when creating monster");
             console.log(response);
             switch (response.data.code) {
-            case 'InvalidRequestException':
-                $rootScope.errorAlert = 'Sent data were found to be invalid by server!';
-                break;
-            default:
-                $rootScope.errorAlert = 'Cannot create monster! Reason given by the server: '+response.data.message;
-                break;
+                case 'InvalidRequestException':
+                    $rootScope.errorAlert = 'Sent data were found to be invalid by server!';
+                    break;
+                default:
+                    $rootScope.errorAlert = 'Cannot create monster! Reason given by the server: ' + response.data.message;
+                    break;
             }
         });
     };
@@ -112,6 +113,73 @@ hauntedHousesControllers.controller('AbilitiesController', function ($scope, $ht
     $http.get('/pa165/rest/abilities').then(function (response) {
         $scope.abilities = response.data;
     });
+});
+
+/*function getMonstersId(selection) {
+    var monsterIds = [];
+
+    console.log("Number of selected monsters: " + selection.length);
+    for (var i = 0; i < selection.length; i++) {
+        monsterIds.push(selection[i].id);
+    }
+
+    return monsterIds;
+}
+
+function getMonsterId(item, index) {
+    var fullname = [item.id];
+    return fullname;
+}*/
+
+hauntedHousesControllers.controller('AbilityCreateController', function ($scope, $routeParams, $http, $location, $rootScope) {
+
+    $http.get('/pa165/rest/monsters').then(function (response) {
+        $scope.monsters = response.data;
+    });
+
+    $scope.ability = {
+        'name': '',
+        'description': '',
+        'monsterIds': []
+    };
+
+    // Checkbox selection
+    //$scope.selection = [];
+
+    // Create button clicked
+    $scope.create = function (ability) {
+        //ability.monsterIds = getMonstersId($scope.selection);
+        //ability.monsterIds = $scope.selection.map(getMonsterId);
+        //console.log("Number of selected monsters: " + $scope.selection.length);
+        //console.log("Number of mapped monsters: " + ability.monsterIds.length);
+        //console.log("Monster ids:");
+        //console.log(ability.monsterIds);
+        //console.log("Selected monsters:");
+        //console.log($scope.selection);
+
+        $http({
+            method: 'POST',
+            url: '/pa165/rest/abilities/create',
+            data: ability
+        }).then(function success(response) {
+            var createdAbility = response.data;
+            $rootScope.successAlert = "Ability \"" + createdAbility.name + "\" was created.";
+            console.log("Ability created");
+            $location.path("/pa165/abilities");
+        }, function error(response) {
+            console.log("Error when attempting to create ability:");
+            console.log(ability);
+            console.log(response);
+            switch (response.data.code) {
+                case 'InvalidRequestException':
+                    $rootScope.errorAlert = "Sent data were found to be invalid by server!";
+                    break;
+                default:
+                    $rootScope.errorAlert = "Cannot create ability! Reason given by the server: " + response.data.message;
+                    break;
+            }
+        });
+    };
 });
 
 //loads cursedObjects
@@ -124,74 +192,75 @@ function loadAllCursedObjects($http, $scope) {
 
 hauntedHousesControllers.controller('CursedObjectController', function ($scope, $rootScope, $routeParams, $http) {
     loadAllCursedObjects($http, $scope);
-    
-    
+
+
     $scope.delete = function (cursedObject) {
-            if(confirm("are you sure you want to delete?")){
+        if (confirm("are you sure you want to delete?")) {
             console.log("deleting cursedObject with id=" + cursedObject.id);
-            $http.delete('rest/cursedObjects/'+cursedObject.id).then(
-                function success(response) {
-                    console.log('deleted cursedObject ' + cursedObject.id + ' on server');
-                    //display confirmation alert
-                    $rootScope.successAlert = 'Deleted cursedObject "' + cursedObject.name + '"';
-                    loadAllCursedObjects($http, $scope);
-                },
-                function error(response) {
-                    console.log("error when deleting cursedObject");
-                    console.log(response);
-                    switch (response.data.code) {
-                        case 'ResourceNotFoundException':
-                            $rootScope.errorAlert = 'Cannot delete non-existent cursedObject ! ';
-                            break;
-                        default:
-                            $rootScope.errorAlert = 'Cannot delete cursedObject ! Reason given by the server: '+response.data.message;
-                            break;
+            $http.delete('rest/cursedObjects/' + cursedObject.id).then(
+                    function success(response) {
+                        console.log('deleted cursedObject ' + cursedObject.id + ' on server');
+                        //display confirmation alert
+                        $rootScope.successAlert = 'Deleted cursedObject "' + cursedObject.name + '"';
+                        loadAllCursedObjects($http, $scope);
+                    },
+                    function error(response) {
+                        console.log("error when deleting cursedObject");
+                        console.log(response);
+                        switch (response.data.code) {
+                            case 'ResourceNotFoundException':
+                                $rootScope.errorAlert = 'Cannot delete non-existent cursedObject ! ';
+                                break;
+                            default:
+                                $rootScope.errorAlert = 'Cannot delete cursedObject ! Reason given by the server: ' + response.data.message;
+                                break;
+                        }
                     }
-                }
             );
-        }};
-    
+        }
+    };
+
 });
 
 hauntedHousesControllers.controller('CursedObjectCreateController', function ($scope, $routeParams, $http, $location, $rootScope) {
-    
+
     $http.get('/pa165/rest/houses').then(function (response) {
         $scope.houses = response.data;
     });
-    
+
     $scope.cursedObject = {
         'name': '',
         'description': '',
         'monsterAttractionFactor': '',
         'houseId': ''
     };
-    
+
     $scope.create = function (cursedObject) {
-            $http({
-                method: 'POST',
-                url: '/pa165/rest/cursedObjects/create',
-                data: cursedObject
-            }).then(function success(response) {
-                var createdCursedObject = response.data;
-                //display confirmation alert
-                console.log('created cursed object');
-                $rootScope.successAlert = 'A new cursedObject "' + createdCursedObject.name + '" was created';
-                //change view to list of cursedObjects
-                $location.path("/pa165/cursedObjects");
-            }, function error(response) {
-                //display error
-                console.log("error when creating cursedObject");
-                console.log(response);
-                switch (response.data.code) {
-                    case 'InvalidRequestException':
-                        $rootScope.errorAlert = 'Sent data were found to be invalid by server ! ';
-                        break;
-                    default:
-                        $rootScope.errorAlert = 'Cannot create product ! Reason given by the server: '+response.data.message;
-                        break;
-                }
-            });
-        };
+        $http({
+            method: 'POST',
+            url: '/pa165/rest/cursedObjects/create',
+            data: cursedObject
+        }).then(function success(response) {
+            var createdCursedObject = response.data;
+            //display confirmation alert
+            console.log('created cursed object');
+            $rootScope.successAlert = 'A new cursedObject "' + createdCursedObject.name + '" was created';
+            //change view to list of cursedObjects
+            $location.path("/pa165/cursedObjects");
+        }, function error(response) {
+            //display error
+            console.log("error when creating cursedObject");
+            console.log(response);
+            switch (response.data.code) {
+                case 'InvalidRequestException':
+                    $rootScope.errorAlert = 'Sent data were found to be invalid by server ! ';
+                    break;
+                default:
+                    $rootScope.errorAlert = 'Cannot create product ! Reason given by the server: ' + response.data.message;
+                    break;
+            }
+        });
+    };
 });
 
 // To do: add rest of the controllers

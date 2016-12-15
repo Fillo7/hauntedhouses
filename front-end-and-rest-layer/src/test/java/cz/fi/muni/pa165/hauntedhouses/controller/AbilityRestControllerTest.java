@@ -10,7 +10,6 @@ import cz.muni.fi.pa165.hauntedhouses.controller.AbilityRestController;
 import cz.muni.fi.pa165.hauntedhouses.dto.AbilityDTO;
 import cz.muni.fi.pa165.hauntedhouses.dto.MonsterDTO;
 import cz.muni.fi.pa165.hauntedhouses.facade.AbilityFacade;
-import java.time.LocalTime;
 import java.util.Arrays;
 import javax.inject.Inject;
 import org.mockito.InjectMocks;
