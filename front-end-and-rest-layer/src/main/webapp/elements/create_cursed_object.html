@@ -33,7 +33,7 @@
     <div class="form-group">
         <label for="houseId" class="col-sm-2 control-label">House</label>
         <div class="col-sm-10">
-            <select id="houseId" class="form-control" ng-model="cursedObject.houseId" convert-to-int>
+            <select id="houseId" class="form-control" ng-model="cursedObject.houseId" >
                 <option ng-repeat="house in houses" value="{{house.id}}">{{house.name}}</option>
             </select>
         </div>

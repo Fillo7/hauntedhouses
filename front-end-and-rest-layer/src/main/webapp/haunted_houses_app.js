@@ -11,7 +11,7 @@ hauntedHousesApp.config(['$routeProvider',
         when('/login', {templateUrl: 'elements/login.html', controller: 'LoginController'}).
         when('/abilities', {templateUrl: 'elements/abilities_view.html', controller: 'AbilitiesController'}).
         when('/cursedObjects', {templateUrl: 'elements/cursedObject_view.html', controller: 'CursedObjectController'}).
-        when('/createCursedObject', {templateUrl: 'elements/create_cursed_object.html', controller: 'CursedObjectController'}).
+        when('/createCursedObject', {templateUrl: 'elements/create_cursed_object.html', controller: 'CursedObjectCreateController'}).
         // to do: add rest of the (yet unimplemented) paths
         otherwise({redirectTo: '/'});
     }]);
@@ -121,16 +121,45 @@ hauntedHousesControllers.controller('CursedObjectController', function ($scope, 
     });
 });
 
-hauntedHousesControllers.controller('CursedObjectController', function ($scope, $routeParams, $http, $location, $rootScope) {
+hauntedHousesControllers.controller('CursedObjectCreateController', function ($scope, $routeParams, $http, $location, $rootScope) {
+    
     $http.get('/pa165/rest/houses').then(function (response) {
         $scope.houses = response.data;
     });
-
+    
     $scope.cursedObject = {
         'name': '',
         'description': '',
         'monsterAttractionFactor': '',
-        'houseId': '',
+        'houseId': ''
     };
+    
+    $scope.create = function (cursedObject) {
+            $http({
+                method: 'POST',
+                url: '/pa165/rest/cursedObjects/create',
+                data: cursedObject
+            }).then(function success(response) {
+                var createdCursedObject = response.data;
+                //display confirmation alert
+                console.log('created cursed object');
+                $rootScope.successAlert = 'A new cursedObject "' + createdCursedObject.name + '" was created';
+                //change view to list of cursedObjects
+                $location.path("/pa165/cursedObjects");
+            }, function error(response) {
+                //display error
+                console.log("error when creating cursedObject");
+                console.log(response);
+                switch (response.data.code) {
+                    case 'InvalidRequestException':
+                        $rootScope.errorAlert = 'Sent data were found to be invalid by server ! ';
+                        break;
+                    default:
+                        $rootScope.errorAlert = 'Cannot create product ! Reason given by the server: '+response.data.message;
+                        break;
+                }
+            });
+        };
 });
+
 // To do: add rest of the controllers
