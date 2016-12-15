@@ -125,7 +125,9 @@ function loadAllCursedObjects($http, $scope) {
 hauntedHousesControllers.controller('CursedObjectController', function ($scope, $rootScope, $routeParams, $http) {
     loadAllCursedObjects($http, $scope);
     
+    
     $scope.delete = function (cursedObject) {
+            if(confirm("are you sure you want to delete?")){
             console.log("deleting cursedObject with id=" + cursedObject.id);
             $http.delete('rest/cursedObjects/'+cursedObject.id).then(
                 function success(response) {
@@ -147,7 +149,8 @@ hauntedHousesControllers.controller('CursedObjectController', function ($scope, 
                     }
                 }
             );
-        };
+        }};
+    
 });
 
 hauntedHousesControllers.controller('CursedObjectCreateController', function ($scope, $routeParams, $http, $location, $rootScope) {
