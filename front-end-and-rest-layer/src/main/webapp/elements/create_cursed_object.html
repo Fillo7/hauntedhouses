@@ -1,0 +1,44 @@
+<h1>Create Cursed Object</h1>
+
+<form name="form"  novalidate class="form-horizontal">
+    <div class="form-group" ng-class="{'has-error': !(form.name.$valid)}">
+        <label for="name" class="col-sm-2 control-label">Name</label>
+        <div class="col-sm-10">
+            <input placeholder="Name" id="name" type="text" ng-minlength="1" name="name" class="form-control" ng-model="cursedObject.name" required/>
+            <p class="help-block" ng-show="form.name.$error.required">Name is required.</p>
+            <p class="help-block" ng-show="form.name.$error.minlength">Name must be at least 1 character long.</p>
+        </div>
+    </div>
+    
+    <div class="form-group" ng-class="{'has-error': !(form.description.$valid)}">
+        <label for="description" class="col-sm-2 control-label">Description</label>
+        <div class="col-sm-10">
+            <textarea placeholder="Description" ng-minlength="5" required cols="80" rows="10" id="description" name="description" class="form-control" ng-model="cursedObject.description"></textarea>
+            <p class="help-block" ng-show="form.description.$error.minlength">Description must be at least 5 characters long.</p>
+        </div>
+    </div>
+    
+    <div class="form-group">
+        <label for="monsterAttractionFactors" class="col-sm-2 control-label">Monster Attraction Factor</label>
+        <div class="col-sm-10">
+            <select id="abilities" name="monsterAttractionFactors" class="form-control" ng-model="cursedObject.monsterAttractionFactor">
+                <option value="{{monsterAttractionFactor.LOW}}">LOW</option>
+                <option value="{{monsterAttractionFactor.MEDIUM}}">MEDIUM</option>
+                <option value="{{monsterAttractionFactor.HIGH}}">HIGH</option>
+                <option value="{{monsterAttractionFactor.INSANE}}">INSANE</option>
+            </select>
+        </div>
+    </div>
+    
+    <div class="form-group">
+        <label for="houseId" class="col-sm-2 control-label">House</label>
+        <div class="col-sm-10">
+            <select id="houseId" class="form-control" ng-model="cursedObject.houseId" convert-to-int>
+                <option ng-repeat="house in houses" value="{{house.id}}">{{house.name}}</option>
+            </select>
+        </div>
+    </div>
+    
+
+    <button ng-disabled="!form.$valid" class="btn btn-primary" type="submit" ng-click="create(cursedObject)">Create Cursed Object</button>
+</form>

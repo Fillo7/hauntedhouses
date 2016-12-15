@@ -1,0 +1,29 @@
+<div id="cursedObjects">
+    <h1>Cursed Objects</h1>
+
+<a href="#/createCursedObject" class="btn btn-primary">
+    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+    New Cursed Object
+</a>
+    
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Monster attraction Factor</th>
+                <th>House name</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="cursedObject in cursedObjects">
+                <td>{{cursedObject.id}}</td>
+                <td>{{cursedObject.name}}</td>
+                <td>{{cursedObject.description}}</td>
+                <td>{{cursedObject.monsterAttractionFactor}}</td>
+                <td>{{cursedObject.houseId}}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
