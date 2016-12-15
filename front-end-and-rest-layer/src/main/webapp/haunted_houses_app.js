@@ -6,15 +6,20 @@ var hauntedHousesControllers = angular.module('hauntedHousesControllers', []);
 hauntedHousesApp.config(['$routeProvider',
     function ($routeProvider) {
         $routeProvider.
-                when('/monsters', {templateUrl: 'elements/monsters_view.html', controller: 'MonstersController'}).
+                when('/monsters/', {templateUrl: 'elements/monsters_view.html', controller: 'MonstersController'}).
                 when('/createMonster', {templateUrl: 'elements/create_monster.html', controller: 'MonsterCreateController'}).
                 when('/login', {templateUrl: 'elements/login.html', controller: 'LoginController'}).
-                when('/abilities', {templateUrl: 'elements/abilities_view.html', controller: 'AbilitiesController'}).
+                when('/abilities/', {templateUrl: 'elements/abilities_view.html', controller: 'AbilitiesController'}).
                 when('/createAbility', {templateUrl: 'elements/create_ability.html', controller: 'AbilityCreateController'}).
-                when('/cursedObjects', {templateUrl: 'elements/cursedObject_view.html', controller: 'CursedObjectController'}).
+                when('/cursedObjects/', {templateUrl: 'elements/cursedObject_view.html', controller: 'CursedObjectController'}).
                 when('/createCursedObject', {templateUrl: 'elements/create_cursed_object.html', controller: 'CursedObjectCreateController'}).
                 // to do: add rest of the (yet unimplemented) paths
                 otherwise({redirectTo: '/'});
+
+        // Note: The '/' after monsters/abilities/houses/cursedObjects is intentional.
+        // It ensures that whenever the page is redirected at the same page as the one the user is currently browsing,
+        // it reloads the content. Feels quicker than to reload via $window.location.reload().
+        // Reference: http://stackoverflow.com/a/35139326/4733847
     }]);
 
 hauntedHousesApp.run(function ($rootScope) {
@@ -112,7 +117,7 @@ hauntedHousesControllers.controller('MonsterCreateController', function ($scope,
 /**
  * Manipulates listing of all abilities and their deletion.
  */
-hauntedHousesControllers.controller('AbilitiesController', function ($scope, $http, $rootScope, $location) {
+hauntedHousesControllers.controller('AbilitiesController', function ($scope, $http, $rootScope, $location, $window) {
     $http.get('/pa165/rest/abilities').then(function (response) {
         $scope.abilities = response.data;
     });
@@ -125,6 +130,7 @@ hauntedHousesControllers.controller('AbilitiesController', function ($scope, $ht
                     // Display confirmation alert
                     $rootScope.successAlert = ("Deleted ability \"" + ability.name + "\"");
                     $location.path("/abilities");
+                    //$window.location.reload();
                 },
                 function error(response) {
                     console.log("Error when deleting ability with id \"" + ability.id + "\"");
