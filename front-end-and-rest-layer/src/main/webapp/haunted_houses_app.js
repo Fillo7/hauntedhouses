@@ -40,12 +40,6 @@ hauntedHousesApp.run(function ($rootScope) {
     };
 });
 
-hauntedHousesControllers.controller('MonstersController', function ($scope, $http) {
-    $http.get('/pa165/rest/monsters').then(function (response) {
-        $scope.monsters = response.data;
-    });
-});
-
 hauntedHousesControllers.controller('LoginController', function ($scope, $routeParams, $http, $location, $rootScope) {
     $scope.user = {
         'login': '',
@@ -58,12 +52,12 @@ hauntedHousesControllers.controller('LoginController', function ($scope, $routeP
             url: '/pa165/rest/users/authenticate',
             data: user
         }).then(function success(response) {
-            console.log('login was successful');
+            console.log('Login was successful.');
             var loggedUser = response.data;
-            $rootScope.successAlert = 'User "' + loggedUser.name + '" logged in.';
+            $rootScope.successAlert = 'User "' + loggedUser.login + '" logged in.';
             $location.path("/");
         }, function error(response) {
-            console.log("error when authenticating user");
+            console.log("Error when authenticating user.");
             console.log(response);
             switch (response.data.code) {
                 case 'InvalidRequestException':
@@ -75,6 +69,12 @@ hauntedHousesControllers.controller('LoginController', function ($scope, $routeP
             }
         });
     };
+});
+
+hauntedHousesControllers.controller('MonstersController', function ($scope, $http) {
+    $http.get('/pa165/rest/monsters').then(function (response) {
+        $scope.monsters = response.data;
+    });
 });
 
 hauntedHousesControllers.controller('MonsterCreateController', function ($scope, $routeParams, $http, $location, $rootScope) {
@@ -90,8 +90,8 @@ hauntedHousesControllers.controller('MonsterCreateController', function ($scope,
         'description': '',
         'hauntedIntervalStart': '',
         'hauntedIntervalEnd': '',
-        'houseId': '',
-        'abilityIds': ''
+        'houseId': [],
+        'abilityIds': []
     };
 
     // Function called when submit button is clicked, creates monster on server
@@ -344,5 +344,3 @@ hauntedHousesControllers.controller('CursedObjectCreateController', function ($s
         });
     };
 });
-
-// To do: add rest of the controllers
