@@ -3,6 +3,7 @@ package cz.muni.fi.pa165.hauntedhouses.facade;
 import cz.muni.fi.pa165.hauntedhouses.dto.UserAuthenticateDTO;
 import cz.muni.fi.pa165.hauntedhouses.dto.UserCreateDTO;
 import cz.muni.fi.pa165.hauntedhouses.dto.UserDTO;
+import cz.muni.fi.pa165.hauntedhouses.dto.UserTokenDTO;
 import java.util.List;
 
 /*
@@ -50,8 +51,8 @@ public interface UserFacade {
     /**
      * Authenticates a user. Return true if the passwords match.
      * @param userAuthenticateDTO User to be authenticated.
-     * @return True if authentication succeeds, false otherwise.
+     * @return Object with user info if authentication was successful, empty object otherwise
      * @throws IllegalArgumentException if userAuthenticateDTO is null.
      */
-    boolean authenticate(UserAuthenticateDTO userAuthenticateDTO);
+    UserTokenDTO authenticate(UserAuthenticateDTO userAuthenticateDTO);
 }

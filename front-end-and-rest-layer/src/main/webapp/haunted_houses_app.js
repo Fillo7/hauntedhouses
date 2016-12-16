@@ -40,7 +40,12 @@ hauntedHousesApp.run(function ($rootScope) {
     $rootScope.hideErrorAlert = function () {
         $rootScope.errorAlert = undefined;
     };
-});
+    $rootScope.initializeUserSession = function () {
+        $rootScope.isUser = false;
+        $rootScope.isAdmin = false;
+        $rootScope.userName = undefined;
+    };
+});    
 
 /*** Login controller ***/
 
@@ -56,10 +61,18 @@ hauntedHousesControllers.controller('LoginController', function ($scope, $routeP
             url: '/pa165/rest/users/authenticate',
             data: user
         }).then(function success(response) {
-            var success = response.data;
-            if(success) {
+            var token = response.data;
+            if(token.authenticationResult) {
                 console.log('Login was successful.');
                 $rootScope.successAlert = 'Login was successful.';
+                $rootScope.isUser = true;
+                $rootScope.userName = token.login;
+                if(token.userRole === 'ADMIN') {
+                    $rootScope.isAdmin = true;
+                } else {
+                    // Need this in case of two authentications in row
+                    $rootScope.isAdmin = false;
+                }
                 $location.path("/");
             } else {
                 console.log('Login failed.');

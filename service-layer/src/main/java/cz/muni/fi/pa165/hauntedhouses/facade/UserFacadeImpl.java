@@ -4,6 +4,7 @@ import cz.muni.fi.pa165.hauntedhouses.BeanMappingService;
 import cz.muni.fi.pa165.hauntedhouses.dto.UserAuthenticateDTO;
 import cz.muni.fi.pa165.hauntedhouses.dto.UserCreateDTO;
 import cz.muni.fi.pa165.hauntedhouses.dto.UserDTO;
+import cz.muni.fi.pa165.hauntedhouses.dto.UserTokenDTO;
 import cz.muni.fi.pa165.hauntedhouses.entity.User;
 import cz.muni.fi.pa165.hauntedhouses.service.UserService;
 import java.util.List;
@@ -78,11 +79,21 @@ public class UserFacadeImpl implements UserFacade {
     }
 
     @Override
-    public boolean authenticate(UserAuthenticateDTO userAuthenticateDTO) {
+    public UserTokenDTO authenticate(UserAuthenticateDTO userAuthenticateDTO) {
         if(userAuthenticateDTO == null) {
             throw new IllegalArgumentException("userAuthenticateDTO is null.");
         }
         
-        return userService.authenticate(userService.getByLogin(userAuthenticateDTO.getLogin()), userAuthenticateDTO.getPassword());
+        User user = userService.getByLogin(userAuthenticateDTO.getLogin());
+        UserTokenDTO token = new UserTokenDTO();
+        token.setAuthenticationResult(false);
+        
+        if(user != null) {
+            token.setLogin(user.getLogin());
+            token.setUserRole(user.getUserRole());
+            token.setAuthenticationResult(userService.authenticate(user, userAuthenticateDTO.getPassword()));
+        }
+        
+        return token;
     }
 }
