@@ -34,7 +34,7 @@ public class CursedObjectRestController {
     /**
      * Method creates CursedObject
      * 
-     * curl -X POST -i -H "Content-Type: application/json" --data '{"name":"default_name","description":"default_description","monsterAttractionFactor":"LOW","houseId":"1"}' http://localhost:8080/pa165/rest/cursedObjects
+     * curl -X POST -i -H "Content-Type: application/json" --data '{"name":"default_name","description":"default_description","monsterAttractionFactor":"LOW","houseId":"1"}' http://localhost:8080/pa165/rest/create/cursedObjects
      *
      * 
      * @param createDto
