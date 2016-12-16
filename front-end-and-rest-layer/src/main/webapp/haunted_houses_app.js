@@ -17,7 +17,7 @@ hauntedHousesApp.config(['$routeProvider',
                 when('/createMonster', {templateUrl: 'elements/create_monster.html', controller: 'MonsterCreateController'}).
                 when('/updateAbility/:ability', {templateUrl: 'elements/update_ability.html', controller: 'AbilityUpdateController'}).
                 when('/updateCursedObject/:cursedObjectId', {templateUrl: 'elements/update_cursed_object.html', controller: 'CursedObjectUpdateController'}).
-                //when('/updateHouse', {templateUrl: 'elements/update_house.html', controller: 'HouseUpdateController'}).
+                when('/updateHouse/:houseId', {templateUrl: 'elements/update_house.html', controller: 'HouseUpdateController'}).
                 //when('/updateMonster', {templateUrl: 'elements/update_monster.html', controller: 'MonsterUpdateController'}).
                 // to do: add rest of the (yet unimplemented) paths
                 otherwise({redirectTo: '/'});
@@ -480,7 +480,7 @@ hauntedHousesControllers.controller('HouseCreateController', function ($scope, $
         'monsterIds': [],
         'cursedObjectIds': []
     };
-
+    
     // Create button clicked
     $scope.create = function (house) {
         house.monsterIds = getMonsterIds($scope.monsters);
@@ -508,6 +508,62 @@ hauntedHousesControllers.controller('HouseCreateController', function ($scope, $
                     break;
                 default:
                     $rootScope.errorAlert = "Cannot create house! Reason given by the server: " + response.data.message;
+                    break;
+            }
+        });
+    };
+});
+
+hauntedHousesControllers.controller('HouseUpdateController', function ($scope, $http, $routeParams, $rootScope, $location) {
+    
+    $http.get('/pa165/rest/monsters').then(function (response) {
+        $scope.monsters = response.data;
+    });
+    
+    $http.get('/pa165/rest/cursedObjects').then(function (response) {
+        $scope.cursedObjects = response.data;
+    });
+
+    $scope.house = {
+        'name': '',
+        'address': '',
+        'monsterIds': [],
+        'cursedObjectIds': []
+    };
+    //get object that should be updated
+    var houseId = $routeParams.houseId;
+    $http.get('/pa165/rest/houses/id/'+ houseId).then(function (response) {
+        var house = response.data;
+        $scope.house = house;
+    });
+    
+    // Update button clicked
+    $scope.update = function (house) {
+        house.monsterIds = getMonsterIds($scope.monsters);
+        house.cursedObjectIds = getCursedObjectIds($scope.cursedObjects);
+
+        $http({
+            method: 'PUT',
+            url: '/pa165/rest/houses/' + $scope.house.id,
+            data: house
+        }).then(function success(response) {
+
+            var updatedHouse = response.data;
+            $rootScope.successAlert = "house \"" + updatedHouse.name + "\" was updated.";
+            console.log("house " + updatedHouse.name + " updated");
+            $location.path("/houses");
+
+        }, function error(response) {
+
+            console.log("Error when attempting to update house:");
+            console.log(house);
+            console.log(response);
+            switch (response.data.code) {
+                case 'InvalidRequestException':
+                    $rootScope.errorAlert = "Sent data were found to be invalid by server!";
+                    break;
+                default:
+                    $rootScope.errorAlert = "Cannot update house! Reason given by the server: " + response.data.message;
                     break;
             }
         });
