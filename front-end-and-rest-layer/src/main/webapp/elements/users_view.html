@@ -1,4 +1,4 @@
-<div ng-show="loggedIn" id="users">
+<div ng-show="isAdmin" id="users">
     <h1>Users</h1>
     
     <br><br>
@@ -16,4 +16,10 @@
             </tr>
         </tbody>
     </table>
+</div>
+
+<div ng-hide="isAdmin">
+    <h1>Access denied</h1>
+    
+    Only administrators can see user list.
 </div>

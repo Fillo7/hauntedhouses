@@ -62,7 +62,7 @@
         </div>
         <div ng-view></div>
         
-        <footer ng-show="loggedIn">
+        <footer ng-show="isUser">
             <p>Logged in as: {{userName}}</p>
         </footer>
     </div>
