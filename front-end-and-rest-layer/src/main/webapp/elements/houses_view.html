@@ -1,0 +1,63 @@
+<div id="abilities">
+    <h1>Houses</h1>
+    <br><br>
+    
+    <a href="#/createHouse" class="btn btn-primary">
+        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+        New House
+    </a>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Address</th>
+                <th>Monster IDs</th>
+                <th>Cursed Objects IDs</th>
+                <th>Update</th>
+                <th>Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="house in houses">
+                <td>{{house.id}}</td>
+                <td>{{house.name}}</td>
+                <td>{{house.address}}</td>
+                <td>
+                    <div ng-repeat="monsterId in house.monsterIds">{{monsterId}}</div>
+                    <div ng-show="house.monsterIds.length == 0">No assigned monster</div>
+                </td>
+                <td>
+                    <div ng-repeat="cursedObjectId in house.cursedObjectIds">{{cursedObjectId}}</div>
+                    <div ng-show="house.cursedObjectIds.length == 0">No assigned monster</div>
+                </td>
+                
+                
+                <!-- Update button -->
+                <td>
+                    <a href="#/updatehouse/{{house.id}}">
+                        <button class="glyphicon glyphicon-pencil"
+                                aria-hidden="true"
+                                accesskey="" style="color: black"
+                                autofocus="" style="text-decoration: none"
+                                style="background: none" />
+                    </a>
+                </td>
+                <!-- Delete button -->
+                <td>
+                    <button ng-click="delete(house)"
+                            type="submit"
+                            class="glyphicon glyphicon-remove"
+                            aria-hidden="true"
+                            accesskey="" style="color: red"
+                            autofocus="" style="text-decoration: none"
+                            style="background: none" />
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <div>
+        Number of houses: {{houses.length}}
+    </div>
+</div>

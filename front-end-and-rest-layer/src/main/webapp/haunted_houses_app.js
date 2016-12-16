@@ -9,11 +9,11 @@ hauntedHousesApp.config(['$routeProvider',
                 when('/login', {templateUrl: 'elements/login.html', controller: 'LoginController'}).
                 when('/abilities/', {templateUrl: 'elements/abilities_view.html', controller: 'AbilitiesController'}).
                 when('/cursedObjects/', {templateUrl: 'elements/cursedObject_view.html', controller: 'CursedObjectController'}).
-                //when('/houses/', {templateUrl: 'elements/housest_view.html', controller: 'HousesController'}).
+                when('/houses/', {templateUrl: 'elements/houses_view.html', controller: 'HousesController'}).
                 when('/monsters/', {templateUrl: 'elements/monsters_view.html', controller: 'MonstersController'}).
                 when('/createAbility', {templateUrl: 'elements/create_ability.html', controller: 'AbilityCreateController'}).
                 when('/createCursedObject', {templateUrl: 'elements/create_cursed_object.html', controller: 'CursedObjectCreateController'}).
-                //when('/createHouse', {templateUrl: 'elements/create_house.html', controller: 'HouseCreateController'}).
+                when('/createHouse', {templateUrl: 'elements/create_house.html', controller: 'HouseCreateController'}).
                 when('/createMonster', {templateUrl: 'elements/create_monster.html', controller: 'MonsterCreateController'}).
                 when('/updateAbility/:ability', {templateUrl: 'elements/update_ability.html', controller: 'AbilityUpdateController'}).
                 when('/updateCursedObject/:cursedObjectId', {templateUrl: 'elements/update_cursed_object.html', controller: 'CursedObjectUpdateController'}).
@@ -135,6 +135,18 @@ function getMonsterIds(selection) {
     }
 
     return monsterIds;
+}
+
+function getCursedObjectIds(selection) {
+    var cursedObjectsIds = [];
+
+    for (var i = 0; i < selection.length; i++) {
+        if (selection[i].checked === true) {
+            cursedObjectsIds.push(selection[i].id);
+        }
+    }
+
+    return cursedObjectsIds;
 }
 
 /**
@@ -371,7 +383,6 @@ hauntedHousesControllers.controller('CursedObjectCreateController', function ($s
 });
 
 hauntedHousesControllers.controller('CursedObjectUpdateController', function ($scope, $routeParams, $http, $location, $rootScope) {
-
     //show houses in select menu
     $http.get('/pa165/rest/houses').then(function (response) {
         $scope.houses = response.data;
@@ -407,6 +418,96 @@ hauntedHousesControllers.controller('CursedObjectUpdateController', function ($s
                     break;
                 default:
                     $rootScope.errorAlert = "Cannot update cursed object! Reason given by the server: " + response.data.message;
+                    break;
+            }
+        });
+    };
+});
+
+hauntedHousesControllers.controller('HousesController', function ($scope, $http, $rootScope, $location) {
+    $http.get('/pa165/rest/houses').then(function (response) {
+        $scope.houses = response.data;
+    });
+
+    $http.get('/pa165/rest/houses').then(function (response) {
+        $scope.houses = response.data;
+    });
+
+    $scope.filterByMonsterId = function (house) {
+        return function (house) {
+            return house.monsterIds.indexOf(monster.id) !== -1;
+        }
+    };
+
+    $scope.delete = function (house) {
+        console.log("Deleting house with id = " + house.id + " (" + house.name + ")");
+        $http.delete("rest/houses/" + house.id).then(
+                function success(response) {
+                    console.log("Succesfully deleted house " + house.id + " on the server");
+                    // Display confirmation alert
+                    $rootScope.successAlert = ("Deleted house \"" + house.name + "\"");
+                    $location.path("/houses");
+                },
+                function error(response) {
+                    console.log("Error when deleting house with id \"" + house.id + "\"");
+                    console.log(response);
+                    switch (response.data.code) {
+                        case 'ResourceNotFoundException':
+                            $rootScope.errorAlert = "Cannot delete non-existent ability!";
+                            break;
+                        default:
+                            $rootScope.errorAlert = "Cannot delete house! Reason given by the server: " + response.data.message;
+                            break;
+                    }
+                }
+        );
+    };
+});
+
+hauntedHousesControllers.controller('HouseCreateController', function ($scope, $http, $rootScope, $location) {
+    
+    $http.get('/pa165/rest/monsters').then(function (response) {
+        $scope.monsters = response.data;
+    });
+    
+    $http.get('/pa165/rest/cursedObjects').then(function (response) {
+        $scope.cursedObjects = response.data;
+    });
+
+    $scope.house = {
+        'name': '',
+        'address': '',
+        'monsterIds': [],
+        'cursedObjectIds': []
+    };
+
+    // Create button clicked
+    $scope.create = function (house) {
+        house.monsterIds = getMonsterIds($scope.monsters);
+        house.cursedObjectIds = getCursedObjectIds($scope.cursedObjects);
+
+        $http({
+            method: 'POST',
+            url: '/pa165/rest/houses/create',
+            data: house
+        }).then(function success(response) {
+
+            var createdHouse = response.data;
+            $rootScope.successAlert = "house \"" + createdHouse.name + "\" was created.";
+            console.log("house " + createdHouse.name + " created");
+            $location.path("/houses");
+
+        }, function error(response) {
+
+            console.log("Error when attempting to create house:");
+            console.log(house);
+            console.log(response);
+            switch (response.data.code) {
+                case 'InvalidRequestException':
+                    $rootScope.errorAlert = "Sent data were found to be invalid by server!";
+                    break;
+                default:
+                    $rootScope.errorAlert = "Cannot create house! Reason given by the server: " + response.data.message;
                     break;
             }
         });
