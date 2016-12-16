@@ -4,8 +4,11 @@ import cz.muni.fi.pa165.hauntedhouses.dto.CursedObjectCreateDTO;
 import cz.muni.fi.pa165.hauntedhouses.dto.CursedObjectDTO;
 import cz.muni.fi.pa165.hauntedhouses.BeanMappingService;
 import cz.muni.fi.pa165.hauntedhouses.entity.CursedObject;
+import cz.muni.fi.pa165.hauntedhouses.entity.House;
 import cz.muni.fi.pa165.hauntedhouses.enums.MonsterAttractionFactor;
 import cz.muni.fi.pa165.hauntedhouses.service.CursedObjectService;
+import cz.muni.fi.pa165.hauntedhouses.service.HouseService;
+import java.util.ArrayList;
 import java.util.List;
 import javax.inject.Inject;
 import javax.transaction.Transactional;
@@ -21,6 +24,9 @@ public class CursedObjectFacadeImpl implements CursedObjectFacade {
     private CursedObjectService cursedObjectService;
     
     @Inject
+    private HouseService houseService;
+    
+    @Inject
     private BeanMappingService beanMappingService;
     
     @Override
@@ -30,8 +36,14 @@ public class CursedObjectFacadeImpl implements CursedObjectFacade {
         }
         
         CursedObject cursedObject = beanMappingService.mapTo(cursedObjectCreateDTO, CursedObject.class);
-        cursedObjectService.create(cursedObject);
         
+        // Map associated entity
+        House house = houseService.getById(cursedObjectCreateDTO.getHouseId());
+        if(house != null) {
+            cursedObject.setHouse(house);
+        }
+        
+        cursedObjectService.create(cursedObject);
         return cursedObject.getId();
     }
     
@@ -42,6 +54,13 @@ public class CursedObjectFacadeImpl implements CursedObjectFacade {
         }
         
         CursedObject cursedObject = beanMappingService.mapTo(cursedObjectDTO, CursedObject.class);
+        
+        // Map associated entity
+        House house = houseService.getById(cursedObjectDTO.getHouseId());
+        if(house != null) {
+            cursedObject.setHouse(house);
+        }
+        
         cursedObjectService.update(cursedObject);
     }
     
@@ -64,13 +83,32 @@ public class CursedObjectFacadeImpl implements CursedObjectFacade {
         }
         
         CursedObject cursedObject = cursedObjectService.getById(id);
-        return beanMappingService.mapTo(cursedObject, CursedObjectDTO.class);
+        CursedObjectDTO cursedObjectDTO = beanMappingService.mapTo(cursedObject, CursedObjectDTO.class);
+        
+        // Map associated entity
+        if(cursedObject != null && cursedObject.getHouse() != null) {
+            cursedObjectDTO.setHouseId(cursedObject.getHouse().getId());
+        }
+        
+        return cursedObjectDTO;
     }
     
     @Override
     public List<CursedObjectDTO> getAllCursedObjects() {
         List<CursedObject> cursedObjects = cursedObjectService.getAll();
-        return beanMappingService.mapTo(cursedObjects, CursedObjectDTO.class);
+        List<CursedObjectDTO> cursedObjectDTOs = new ArrayList<>();
+        
+        for(CursedObject cursedObject : cursedObjects) {
+            CursedObjectDTO cursedObjectDTO = beanMappingService.mapTo(cursedObject, CursedObjectDTO.class);
+            
+            // Map associated entity
+            if(cursedObject.getHouse() != null) {
+                cursedObjectDTO.setHouseId(cursedObject.getHouse().getId());
+            }
+            
+            cursedObjectDTOs.add(cursedObjectDTO);
+        }
+        return cursedObjectDTOs;
     }
     
     @Override

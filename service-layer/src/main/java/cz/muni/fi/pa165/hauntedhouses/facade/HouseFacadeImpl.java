@@ -4,8 +4,13 @@ import cz.muni.fi.pa165.hauntedhouses.dto.HouseCreateDTO;
 import cz.muni.fi.pa165.hauntedhouses.dto.HouseDTO;
 import cz.muni.fi.pa165.hauntedhouses.exceptions.NoEntityException;
 import cz.muni.fi.pa165.hauntedhouses.BeanMappingService;
+import cz.muni.fi.pa165.hauntedhouses.entity.CursedObject;
 import cz.muni.fi.pa165.hauntedhouses.entity.House;
+import cz.muni.fi.pa165.hauntedhouses.entity.Monster;
+import cz.muni.fi.pa165.hauntedhouses.service.CursedObjectService;
 import cz.muni.fi.pa165.hauntedhouses.service.HouseService;
+import cz.muni.fi.pa165.hauntedhouses.service.MonsterService;
+import java.util.ArrayList;
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
@@ -23,6 +28,12 @@ public class HouseFacadeImpl implements HouseFacade {
 
     @Inject
     private HouseService houseService;
+    
+    @Inject
+    private MonsterService monsterService;
+    
+    @Inject
+    private CursedObjectService cursedObjectService;
 
     @Inject
     private BeanMappingService beanMappingService;
@@ -34,7 +45,22 @@ public class HouseFacadeImpl implements HouseFacade {
         }
 
         House house = beanMappingService.mapTo(houseCreateDTO, House.class);
-
+        
+        // Map associated entities
+        for(Long monsterId : houseCreateDTO.getMonsterIds()) {
+            Monster monster = monsterService.getById(monsterId);
+            if(monster != null){
+                house.addMonster(monster);
+            }
+        }
+        
+        for(Long cursedObjectId : houseCreateDTO.getCursedObjectIds()) {
+            CursedObject cursedObject = cursedObjectService.getById(cursedObjectId);
+            if (cursedObject != null){
+                house.addCursedObject(cursedObject);
+            }
+        }
+        
         houseService.create(house);
         return house.getId();
     }
@@ -49,13 +75,49 @@ public class HouseFacadeImpl implements HouseFacade {
         if(houseService.getById(house.getId()) == null){
             throw new NoEntityException("updating non existing house");
         }
-
+        
+        // Map associated entities
+        for(Long monsterId : houseDTO.getMonsterIds()) {
+            Monster monster = monsterService.getById(monsterId);
+            if(monster != null){
+                house.addMonster(monster);
+            }
+        }
+        
+        for(Long cursedObjectId : houseDTO.getCursedObjectIds()) {
+            CursedObject cursedObject = cursedObjectService.getById(cursedObjectId);
+            if (cursedObject != null){
+                house.addCursedObject(cursedObject);
+            }
+        }
+        
         houseService.update(house);
     }
 
     @Override
     public List<HouseDTO> getAllHouses() {
-        return beanMappingService.mapTo(houseService.getAll(), HouseDTO.class);
+        List<House> houses = houseService.getAll();
+        List<HouseDTO> houseDTOs = new ArrayList<>();
+        
+        for(House house : houses) {
+            HouseDTO houseDTO = beanMappingService.mapTo(house, HouseDTO.class);
+            
+            // Map associated entities
+            if(house.getMonsters() != null) {
+                for(Monster monster : house.getMonsters()) {
+                    houseDTO.addMonsterId(monster.getId());
+                }
+            }
+        
+            if(house.getCursedObjects() != null) {
+                for(CursedObject cursedObject : house.getCursedObjects()) {
+                    houseDTO.addCursedObjectId(cursedObject.getId());
+                }
+            }
+            
+            houseDTOs.add(houseDTO);
+        }
+        return houseDTOs;
     }
 
     @Override
@@ -68,8 +130,22 @@ public class HouseFacadeImpl implements HouseFacade {
         if(house == null){
             throw new NoEntityException("house with id=" + houseId + " does not exist");
         }
-
-        return beanMappingService.mapTo(house, HouseDTO.class);
+        HouseDTO houseDTO = beanMappingService.mapTo(house, HouseDTO.class);
+        
+        // Map associated entities
+        if(house.getMonsters() != null) {
+            for(Monster monster : house.getMonsters()) {
+                houseDTO.addMonsterId(monster.getId());
+            }
+        }
+        
+        if(house.getCursedObjects() != null) {
+            for(CursedObject cursedObject : house.getCursedObjects()) {
+                houseDTO.addCursedObjectId(cursedObject.getId());
+            }
+        }
+        
+        return houseDTO;
     }
 
     @Override
@@ -82,8 +158,22 @@ public class HouseFacadeImpl implements HouseFacade {
         if(house == null){
             throw new NoEntityException("house with name=" + houseName + " does not exist");
         }
-
-        return beanMappingService.mapTo(house, HouseDTO.class);
+        HouseDTO houseDTO = beanMappingService.mapTo(house, HouseDTO.class);
+        
+        // Map associated entities
+        if(house.getMonsters() != null) {
+            for(Monster monster : house.getMonsters()) {
+                houseDTO.addMonsterId(monster.getId());
+            }
+        }
+        
+        if(house.getCursedObjects() != null) {
+            for(CursedObject cursedObject : house.getCursedObjects()) {
+                houseDTO.addCursedObjectId(cursedObject.getId());
+            }
+        }
+        
+        return houseDTO;
     }
 
     @Override
