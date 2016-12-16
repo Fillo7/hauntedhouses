@@ -370,7 +370,7 @@ hauntedHousesControllers.controller('CursedObjectCreateController', function ($s
                 console.log('created cursed object');
                 $rootScope.successAlert = 'A new cursedObject "' + createdCursedObject.name + '" was created';
                 //change view to list of cursedObjects
-                $location.path("/pa165/cursedObjects");
+                 $location.path("/cursedObjects");
             }, function error(response) {
                 //display error
                 console.log("error when creating cursedObject");
@@ -521,12 +521,47 @@ hauntedHousesControllers.controller('HouseCreateController', function ($scope, $
 
 hauntedHousesControllers.controller('HouseUpdateController', function ($scope, $http, $routeParams, $rootScope, $location) {
     
-    $http.get('/pa165/rest/monsters').then(function (response) {
+    //get object that should be updated
+    var houseId = $routeParams.houseId;
+    $http.get('/pa165/rest/houses/id/'+ houseId).then(function (response) {
+        var house = response.data;
+        $scope.house = house;
+    });
+    
+   $http.get('/pa165/rest/monsters').then(function (response) {
         $scope.monsters = response.data;
+
+        // Clear checked status
+        $scope.monsters.forEach(function (monster) {
+            monster.checked = false;
+        });
+
+        // Check correct monsters
+        for (var i = 0; i < $scope.monsters.length; i++) {
+            for (var j = 0; j < $scope.house.monsterIds.length; j++) {
+                if ($scope.monsters[i].id === $scope.house.monsterIds[j]) {
+                    $scope.monsters[i].checked = true;
+                }
+            }
+        }
     });
     
     $http.get('/pa165/rest/cursedObjects').then(function (response) {
         $scope.cursedObjects = response.data;
+
+        // Clear checked status
+        $scope.cursedObjects.forEach(function (cursedObject) {
+            cursedObject.checked = false;
+        });
+
+        // Check correct monsters
+        for (var i = 0; i < $scope.cursedObjects.length; i++) {
+            for (var j = 0; j < $scope.house.cursedObjectIds.length; j++) {
+                if ($scope.cursedObjects[i].id === $scope.house.cursedObjectIds[j]) {
+                    $scope.cursedObjects[i].checked = true;
+                }
+            }
+        }
     });
 
     $scope.house = {
@@ -535,12 +570,6 @@ hauntedHousesControllers.controller('HouseUpdateController', function ($scope, $
         'monsterIds': [],
         'cursedObjectIds': []
     };
-    //get object that should be updated
-    var houseId = $routeParams.houseId;
-    $http.get('/pa165/rest/houses/id/'+ houseId).then(function (response) {
-        var house = response.data;
-        $scope.house = house;
-    });
     
     // Update button clicked
     $scope.update = function (house) {
