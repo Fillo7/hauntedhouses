@@ -434,17 +434,7 @@ hauntedHousesControllers.controller('HousesController', function ($scope, $http,
         $scope.houses = response.data;
     });
 
-    $http.get('/pa165/rest/houses').then(function (response) {
-        $scope.houses = response.data;
-    });
-
-    $scope.filterByMonsterId = function (house) {
-        return function (house) {
-            return house.monsterIds.indexOf(monster.id) !== -1;
-        }
-    };
-
-    $scope.delete = function (house) {
+    $scope.delete = function(house) {
         console.log("Deleting house with id = " + house.id + " (" + house.name + ")");
         $http.delete("rest/houses/" + house.id).then(
                 function success(response) {
