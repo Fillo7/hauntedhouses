@@ -58,9 +58,13 @@
         </div>
         <div ng-show="successAlert" class="alert alert-success alert-dismissible" role="alert">
             <button type="button" class="close" aria-label="Close" ng-click="hideSuccessAlert()"> <span aria-hidden="true">&times;</span></button>
-            <strong>Success !</strong> <span>{{successAlert}}</span>
+            <strong>Success!</strong> <span>{{successAlert}}</span>
         </div>
         <div ng-view></div>
+        
+        <footer ng-show="loggedIn">
+            <p>Logged in as: {{userName}}</p>
+        </footer>
     </div>
 </div>
 </body>

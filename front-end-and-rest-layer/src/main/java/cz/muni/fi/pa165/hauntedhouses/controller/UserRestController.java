@@ -3,6 +3,7 @@ package cz.muni.fi.pa165.hauntedhouses.controller;
 import cz.muni.fi.pa165.hauntedhouses.configuration.Uri;
 import cz.muni.fi.pa165.hauntedhouses.dto.UserAuthenticateDTO;
 import cz.muni.fi.pa165.hauntedhouses.dto.UserDTO;
+import cz.muni.fi.pa165.hauntedhouses.dto.UserTokenDTO;
 import cz.muni.fi.pa165.hauntedhouses.facade.UserFacade;
 import java.util.List;
 import javax.inject.Inject;
@@ -40,7 +41,7 @@ public class UserRestController {
      * @return true if authentication was successful, false otherwise
      */
     @RequestMapping(value = "/authenticate", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public final boolean authenticate(@RequestBody UserAuthenticateDTO user) {
+    public final UserTokenDTO authenticate(@RequestBody UserAuthenticateDTO user) {
         return userFacade.authenticate(user);
     }
 }

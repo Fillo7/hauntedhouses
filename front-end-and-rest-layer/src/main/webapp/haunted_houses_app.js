@@ -39,7 +39,12 @@ hauntedHousesApp.run(function ($rootScope) {
     $rootScope.hideErrorAlert = function () {
         $rootScope.errorAlert = undefined;
     };
-});
+    $rootScope.initializeUserSession = function () {
+        $rootScope.loggedIn = false;
+        $rootScope.userName = undefined;
+        $rootScope.userRole = undefined;
+    };
+});    
 
 hauntedHousesControllers.controller('LoginController', function ($scope, $routeParams, $http, $location, $rootScope) {
     $scope.user = {
@@ -53,10 +58,13 @@ hauntedHousesControllers.controller('LoginController', function ($scope, $routeP
             url: '/pa165/rest/users/authenticate',
             data: user
         }).then(function success(response) {
-            var success = response.data;
-            if(success) {
+            var token = response.data;
+            if(token.authenticationResult) {
                 console.log('Login was successful.');
                 $rootScope.successAlert = 'Login was successful.';
+                $rootScope.loggedIn = token.authenticationResult;
+                $rootScope.userName = token.login;
+                $rootScope.userRole = token.userRole;
                 $location.path("/");
             } else {
                 console.log('Login failed.');
