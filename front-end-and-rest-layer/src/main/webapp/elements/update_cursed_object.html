@@ -1,5 +1,5 @@
-<h1>Create Cursed Object</h1>
-
+<h1>update {{cursedObject.name}}</h1>
+<br><br>
 <form name="form"  novalidate class="form-horizontal">
     <div class="form-group" ng-class="{'has-error': !(form.name.$valid)}">
         <label for="name" class="col-sm-2 control-label">Name</label>
@@ -21,7 +21,7 @@
     <div class="form-group">
         <label for="monsterAttractionFactors" class="col-sm-2 control-label">Monster Attraction Factor</label>
         <div class="col-sm-10">
-            <select id="cursedObjects" name="monsterAttractionFactors" class="form-control" ng-model="cursedObject.monsterAttractionFactor">
+            <select name="monsterAttractionFactors" class="form-control" ng-model="cursedObject.monsterAttractionFactor">
                 <option value="LOW">LOW</option>
                 <option value="MEDIUM">MEDIUM</option>
                 <option value="HIGH">HIGH</option>
@@ -40,5 +40,5 @@
     </div>
     
 
-    <button ng-disabled="!form.$valid" class="btn btn-primary" type="submit" ng-click="create(cursedObject)">Create Cursed Object</button>
+    <button ng-disabled="!form.$valid" class="btn btn-primary" type="submit" ng-click="update(cursedObject)">update Cursed Object</button>
 </form>
