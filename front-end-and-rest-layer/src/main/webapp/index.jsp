@@ -37,6 +37,7 @@
                         <li><a href="#/monsters">Monsters</a></li>
                         <li><a href="#/abilities">Monster Abilities</a></li>
                         <li><a href="#/cursedObjects">Cursed Objects</a></li>
+                        <li><a href="#/users">Users</a></li>
                     </ul>
                 </li>
                 <li><a href="#/login">Login</a></li>

@@ -1,0 +1,19 @@
+<div id="users">
+    <h1>Users</h1>
+    
+    <br><br>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Access Level</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="user in users">
+                <td>{{user.login}}</td>
+                <td>{{user.userRole}}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>

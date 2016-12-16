@@ -6,7 +6,9 @@ var hauntedHousesControllers = angular.module('hauntedHousesControllers', []);
 hauntedHousesApp.config(['$routeProvider',
     function ($routeProvider) {
         $routeProvider.
+                when('/', {templateUrl: 'elements/main_view.html'}).
                 when('/login', {templateUrl: 'elements/login.html', controller: 'LoginController'}).
+                when('/users/', {templateUrl: 'elements/users_view.html', controller: 'UsersController'}).
                 when('/abilities/', {templateUrl: 'elements/abilities_view.html', controller: 'AbilitiesController'}).
                 when('/cursedObjects/', {templateUrl: 'elements/cursedObject_view.html', controller: 'CursedObjectController'}).
                 when('/houses/', {templateUrl: 'elements/houses_view.html', controller: 'HousesController'}).
@@ -19,7 +21,6 @@ hauntedHousesApp.config(['$routeProvider',
                 when('/updateCursedObject/:cursedObjectId', {templateUrl: 'elements/update_cursed_object.html', controller: 'CursedObjectUpdateController'}).
                 //when('/updateHouse', {templateUrl: 'elements/update_house.html', controller: 'HouseUpdateController'}).
                 //when('/updateMonster', {templateUrl: 'elements/update_monster.html', controller: 'MonsterUpdateController'}).
-                // to do: add rest of the (yet unimplemented) paths
                 otherwise({redirectTo: '/'});
 
         // Note: The '/' after monsters/abilities/houses/cursedObjects is intentional.
@@ -52,23 +53,27 @@ hauntedHousesControllers.controller('LoginController', function ($scope, $routeP
             url: '/pa165/rest/users/authenticate',
             data: user
         }).then(function success(response) {
-            console.log('Login was successful.');
-            var loggedUser = response.data;
-            $rootScope.successAlert = 'User "' + loggedUser.login + '" logged in.';
-            $location.path("/");
+            var success = response.data;
+            if(success) {
+                console.log('Login was successful.');
+                $rootScope.successAlert = 'Login was successful.';
+                $location.path("/");
+            } else {
+                console.log('Login failed.');
+                $rootScope.warningAlert = 'Invalid login credentials.';
+            }
         }, function error(response) {
             console.log("Error when authenticating user.");
             console.log(response);
-            switch (response.data.code) {
-                case 'InvalidRequestException':
-                    $rootScope.errorAlert = 'Sent data were found to be invalid by server!';
-                    break;
-                default:
-                    $rootScope.errorAlert = 'Cannot authenticate user! Reason given by the server: ' + response.data.message;
-                    break;
-            }
+            $rootScope.errorAlert = 'Cannot authenticate user! Reason given by the server: ' + response.data.message;
         });
     };
+});
+
+hauntedHousesControllers.controller('UsersController', function ($scope, $http) {
+    $http.get('/pa165/rest/users').then(function (response) {
+        $scope.users = response.data;
+    });
 });
 
 hauntedHousesControllers.controller('MonstersController', function ($scope, $http) {

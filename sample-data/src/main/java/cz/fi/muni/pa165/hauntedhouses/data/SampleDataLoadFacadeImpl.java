@@ -19,7 +19,7 @@ import javax.inject.Inject;
 import java.time.LocalTime;
 
 /**
- * @author Ondrej Oravcok, Filip Petrovic
+ * @author All team members
  */
 @Transactional
 @Component

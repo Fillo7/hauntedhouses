@@ -46,18 +46,14 @@ public class UserServiceImpl implements UserService {
     
     @Override
     public boolean authenticate(User user, String password) {
-        if(password == null) {
+        if(user == null || password == null) {
             return false;
-        }
-        
-        if(user == null) {
-            throw new IllegalArgumentException("user is null.");
         }
         
         String passwordHash = user.getPasswordHash();
         
         if(passwordHash == null) {
-            throw new IllegalArgumentException("password hash is null.");
+            throw new IllegalArgumentException("Password hash is null.");
         }
         
         String[] params = passwordHash.split(":");
