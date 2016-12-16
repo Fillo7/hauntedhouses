@@ -14,6 +14,7 @@ import cz.muni.fi.pa165.hauntedhouses.dto.CursedObjectCreateDTO;
 import cz.muni.fi.pa165.hauntedhouses.dto.CursedObjectDTO;
 import cz.muni.fi.pa165.hauntedhouses.dto.HouseDTO;
 import cz.muni.fi.pa165.hauntedhouses.enums.MonsterAttractionFactor;
+import cz.muni.fi.pa165.hauntedhouses.exceptions.UnprocessableEntityException;
 import cz.muni.fi.pa165.hauntedhouses.facade.CursedObjectFacade;
 import cz.muni.fi.pa165.hauntedhouses.facade.HouseFacade;
 import java.io.IOException;
@@ -33,7 +34,9 @@ import org.testng.annotations.Test;
 import javax.inject.Inject;
 import java.util.Arrays;
 import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
+import org.springframework.dao.DataAccessException;
 import org.springframework.http.MediaType;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -62,6 +65,7 @@ public class CursedObjectRestControllerTest extends AbstractTestNGSpringContextT
 
     private CursedObjectDTO doll;
     private CursedObjectDTO mirror;
+    private CursedObjectDTO testNonExisting;
     private HouseDTO house;
 
     @BeforeClass
@@ -90,6 +94,13 @@ public class CursedObjectRestControllerTest extends AbstractTestNGSpringContextT
         mirror.setDescription("causes hallucinations");
         mirror.setMonsterAttractionFactor(MonsterAttractionFactor.INSANE);
         mirror.setHouseId(house.getId());
+        
+        
+        testNonExisting = new CursedObjectDTO();
+        testNonExisting.setName("non existing object");
+        testNonExisting.setMonsterAttractionFactor(MonsterAttractionFactor.INSANE);
+        testNonExisting.setDescription("description");
+        testNonExisting.setHouseId(house.getId());
     }
 
     @BeforeMethod(dependsOnMethods = "initEntities")
@@ -119,7 +130,19 @@ public class CursedObjectRestControllerTest extends AbstractTestNGSpringContextT
                 .andExpect(jsonPath("$.[?(@.id==" + mirror.getId() + ")].monsterAttractionFactor").value(mirror.getMonsterAttractionFactor().toString()))
                 .andExpect(jsonPath("$.[?(@.id==" + mirror.getId() + ")].houseId").value(mirror.getHouseId().intValue()));
     }
+    
+    @Test
+    public void getNonExistingCursedObject() throws Exception {
+        
+        doThrow(new UnprocessableEntityException(new IllegalArgumentException("entity doesnt exist")))
+                .when(cursedObjectFacade).getCursedObjectWithId(testNonExisting.getId());
 
+        mockMvc.perform(
+                get(Uri.CURSED_OBJECTS + "/"+testNonExisting.getId()).contentType(MediaType.APPLICATION_JSON)
+                        .content(convertObjectToJsonBytes(testNonExisting)))
+                .andExpect(status().is4xxClientError());
+    }
+    
     @Test
     public void getAllCursedObjectsTest() throws Exception {
 
@@ -141,7 +164,19 @@ public class CursedObjectRestControllerTest extends AbstractTestNGSpringContextT
 
         mockMvc.perform(delete(Uri.CURSED_OBJECTS + "/1")).andExpect(status().isOk());
     }
+    
+    @Test
+    public void deleteNonExistingCursedObject() throws Exception {
+        
+        doThrow(new UnprocessableEntityException(new IllegalArgumentException("entity doesnt exist")))
+                .when(cursedObjectFacade).deleteCursedObject(testNonExisting.getId());
 
+        mockMvc.perform(
+                delete(Uri.CURSED_OBJECTS + "/"+testNonExisting.getId()).contentType(MediaType.APPLICATION_JSON)
+                        .content(convertObjectToJsonBytes(testNonExisting)))
+                .andExpect(status().is4xxClientError());
+    }
+    
     @Test
     public void createCursedObjectTest() throws Exception {
         CursedObjectCreateDTO chuckyCreateDTO = new CursedObjectCreateDTO();
@@ -167,6 +202,23 @@ public class CursedObjectRestControllerTest extends AbstractTestNGSpringContextT
                 .andExpect(jsonPath("$.monsterAttractionFactor").value(chuckyDTO.getMonsterAttractionFactor().toString()))
                 .andExpect(jsonPath("$.houseId").value(chuckyDTO.getHouseId().intValue()));
     }
+    
+    @Test
+    public void createNonValidCursedObject() throws Exception {
+        CursedObjectCreateDTO cursedObjectCreateDTO = new CursedObjectCreateDTO();
+        cursedObjectCreateDTO.setName("new Cursed Object");
+        cursedObjectCreateDTO.setDescription("this is cursed object that will never be created");
+        cursedObjectCreateDTO.setHouseId(house.getId());
+        
+        doThrow(new UnprocessableEntityException(new IllegalArgumentException("non valid")))
+                .when(cursedObjectFacade).createCursedObject(cursedObjectCreateDTO);
+
+
+        mockMvc.perform(
+                post(Uri.CURSED_OBJECTS + "/create").contentType(MediaType.APPLICATION_JSON)
+                        .content(convertObjectToJsonBytes(cursedObjectCreateDTO)))
+                .andExpect(status().is4xxClientError());
+    }
 
     @Test
     public void updateCursedObjectTest() throws Exception {
@@ -180,6 +232,17 @@ public class CursedObjectRestControllerTest extends AbstractTestNGSpringContextT
                 .andExpect(jsonPath("$.description").value(doll.getDescription()))
                 .andExpect(jsonPath("$.monsterAttractionFactor").value(doll.getMonsterAttractionFactor().toString()))
                 .andExpect(jsonPath("$.houseId").value(doll.getHouseId().intValue()));
+    }
+    
+    @Test
+    public void updateNonExistingCursedObject() throws Exception {
+        doThrow(new UnprocessableEntityException(new IllegalArgumentException("entity doesnt exist")))
+                .when(cursedObjectFacade).updateCursedObject(testNonExisting);
+
+        mockMvc.perform(
+                put(Uri.CURSED_OBJECTS + "/"+testNonExisting.getId()).contentType(MediaType.APPLICATION_JSON)
+                        .content(convertObjectToJsonBytes(testNonExisting)))
+                .andExpect(status().is4xxClientError());
     }
 
     private static String convertObjectToJsonBytes(Object object)
