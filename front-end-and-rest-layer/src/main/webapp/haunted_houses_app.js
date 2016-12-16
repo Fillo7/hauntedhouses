@@ -154,6 +154,23 @@ hauntedHousesControllers.controller('AbilitiesController', function ($scope, $ht
 });
 
 /**
+ * Helper method that returns array of monster IDs from array of monsters with optional checked property.
+ * @param {type} selection Array that has items with optional checked property.
+ * @return {Array|getMonstersId.monsterIds} Array of checked item IDs.
+ */
+function getMonsterIds(selection) {
+    var monsterIds = [];
+
+    for (var i = 0; i < selection.length; i++) {
+        if (selection[i].checked === true) {
+            monsterIds.push(selection[i].id);
+        }
+    }
+
+    return monsterIds;
+}
+
+/**
  * Manipulates ability creation.
  */
 hauntedHousesControllers.controller('AbilityCreateController', function ($scope, $http, $location, $rootScope) {
@@ -209,11 +226,6 @@ hauntedHousesControllers.controller('AbilityUpdateController', function ($scope,
     $http.get('/pa165/rest/monsters').then(function (response) {
         $scope.monsters = response.data;
 
-
-        /*$scope.filteredMonsters = $scope.monsters.filter(filterByIDs);
-         console.log("Filtered monsters:");
-         console.log($scope.filteredMonsters);*/
-
         // Clear checked status
         $scope.monsters.forEach(function (monster) {
             monster.checked = false;
@@ -223,7 +235,6 @@ hauntedHousesControllers.controller('AbilityUpdateController', function ($scope,
         for (var i = 0; i < $scope.monsters.length; i++) {
             for (var j = 0; j < $scope.ability.monsterIds.length; j++) {
                 if ($scope.monsters[i].id === $scope.ability.monsterIds[j]) {
-                    console.log("Detected the same monster id: " + $scope.ability.monsterIds[j]);
                     $scope.monsters[i].checked = true;
                 }
             }
@@ -244,16 +255,7 @@ hauntedHousesControllers.controller('AbilityUpdateController', function ($scope,
     console.log($scope.ability);
     console.log("Its ID: " + $scope.ability.id);
 
-    // Shows only
-    $scope.myFilterBy = function (monster) {
-        return $scope.ability.monsterIds.indexOf(monster.id) !== -1;
-    }
-
-    function filterByIDs(monster) {
-        return $scope.ability.monsterIds.indexOf(monster.id) !== -1;
-    }
-
-    // TODO: Check correct monsters from the start, figure out how to get update method in REST working
+    // TODO: Figure out how to get update method in REST working
 
     // Update button clicked
     $scope.update = function (ability) {
@@ -261,7 +263,7 @@ hauntedHousesControllers.controller('AbilityUpdateController', function ($scope,
 
         $http({
             method: 'PUT',
-            url: '/pa165/rest/abilities/' + $scope.originalAbility.id,
+            url: '/pa165/rest/abilities/' + $scope.ability.id,
             data: ability
         }).then(function success(response) {
 
@@ -287,27 +289,6 @@ hauntedHousesControllers.controller('AbilityUpdateController', function ($scope,
     };
 });
 
-/**
- * Helper method that returns array of monster IDs from array of monsters with optional checked property.
- * @param {type} selection Array that has items with optional checked property.
- * @return {Array|getMonstersId.monsterIds} Array of checked item IDs.
- */
-function monstersToMonsterIDs(selection) {
-    var monsterIds = [];
-
-    for (var i = 0; i < selection.length; i++) {
-        if (selection[i].checked === true) {
-            monsterIds.push(selection[i].id);
-        }
-    }
-
-    return monsterIds;
-}
-
-function monsterIDsToMonsters(monsterIDs, monsters) {
-    var resultMonsters = [];
-}
-
 //loads cursedObjects
 function loadAllCursedObjects($http, $scope) {
     $http.get('rest/cursedObjects').then(function (response) {
@@ -318,7 +299,7 @@ function loadAllCursedObjects($http, $scope) {
 
 hauntedHousesControllers.controller('CursedObjectController', function ($scope, $rootScope, $routeParams, $http) {
     loadAllCursedObjects($http, $scope);
-    
+
     $scope.delete = function (cursedObject) {
             if(confirm("are you sure you want to delete?")){
             console.log("deleting cursedObject with id=" + cursedObject.id);
@@ -343,22 +324,22 @@ hauntedHousesControllers.controller('CursedObjectController', function ($scope, 
                 }
             );
         }};
-    
+
 });
 
 hauntedHousesControllers.controller('CursedObjectCreateController', function ($scope, $routeParams, $http, $location, $rootScope) {
-    
+
      $http.get('/pa165/rest/houses').then(function (response) {
         $scope.houses = response.data;
     });
-    
+
     $scope.cursedObject = {
         'name': '',
         'description': '',
         'monsterAttractionFactor': '',
         'houseId': ''
     };
-    
+
     $scope.create = function (cursedObject) {
             $http({
                 method: 'POST',
@@ -388,19 +369,19 @@ hauntedHousesControllers.controller('CursedObjectCreateController', function ($s
 });
 
 hauntedHousesControllers.controller('CursedObjectUpdateController', function ($scope, $routeParams, $http, $location, $rootScope) {
-    
+
     //show houses in select menu
     $http.get('/pa165/rest/houses').then(function (response) {
         $scope.houses = response.data;
     });
-    
+
     //get object that should be updated
     var cursedObjectId = $routeParams.cursedObjectId;
     $http.get('/pa165/rest/cursedObjects/'+ cursedObjectId).then(function (response) {
         var cursedObject = response.data;
         $scope.cursedObject= cursedObject;
     });
-    
+
     //update cursedObject function
     $scope.update = function (cursedObject) {
         $http({
