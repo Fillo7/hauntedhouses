@@ -65,10 +65,13 @@ hauntedHousesControllers.controller('LoginController', function ($scope, $routeP
             if(token.authenticationResult) {
                 console.log('Login was successful.');
                 $rootScope.successAlert = 'Login was successful.';
-                $rootScope.isUser = token.authenticationResult;
+                $rootScope.isUser = true;
                 $rootScope.userName = token.login;
                 if(token.userRole === 'ADMIN') {
                     $rootScope.isAdmin = true;
+                } else {
+                    // Need this in case of two authentications in row
+                    $rootScope.isAdmin = false;
                 }
                 $location.path("/");
             } else {
