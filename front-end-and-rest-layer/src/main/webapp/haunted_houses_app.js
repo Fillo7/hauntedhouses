@@ -123,7 +123,7 @@ hauntedHousesControllers.controller('MonsterCreateController', function ($scope,
 /**
  * Manipulates listing of all abilities and their deletion.
  */
-hauntedHousesControllers.controller('AbilitiesController', function ($scope, $http, $rootScope, $location, $window) {
+hauntedHousesControllers.controller('AbilitiesController', function ($scope, $http, $rootScope, $location) {
     $http.get('/pa165/rest/abilities').then(function (response) {
         $scope.abilities = response.data;
     });
@@ -136,7 +136,6 @@ hauntedHousesControllers.controller('AbilitiesController', function ($scope, $ht
                     // Display confirmation alert
                     $rootScope.successAlert = ("Deleted ability \"" + ability.name + "\"");
                     $location.path("/abilities");
-                    //$window.location.reload();
                 },
                 function error(response) {
                     console.log("Error when deleting ability with id \"" + ability.id + "\"");
@@ -227,8 +226,16 @@ hauntedHousesControllers.controller('AbilityUpdateController', function ($scope,
         $scope.monsters = response.data;
     });
 
-    $scope.ability = $routeParams.ability;
-    console.log("Ability passed as parameter: " + $scope.ability);
+    $scope.ability = {
+        'name': 'Placeholder name',
+        'description': 'Placeholder description',
+        'monsterIds': []
+    };
+
+    $scope.ability = JSON.parse($routeParams.ability);
+    console.log("Ability passed as parameter:");
+    console.log($scope.ability);
+    console.log("Its ID: " + $scope.ability.id);
 
     // TODO: Link ability here and in update_ability, check correct monsters from the start, figure out how to get update method in REST working
 
@@ -238,7 +245,7 @@ hauntedHousesControllers.controller('AbilityUpdateController', function ($scope,
 
         $http({
             method: 'PUT',
-            url: '/pa165/rest/abilities/' + ability.id,
+            url: '/pa165/rest/abilities/' + $scope.originalAbility.id,
             data: ability
         }).then(function success(response) {
 
