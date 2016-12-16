@@ -6,7 +6,9 @@ var hauntedHousesControllers = angular.module('hauntedHousesControllers', []);
 hauntedHousesApp.config(['$routeProvider',
     function ($routeProvider) {
         $routeProvider.
+                when('/', {templateUrl: 'elements/main_view.html'}).
                 when('/login', {templateUrl: 'elements/login.html', controller: 'LoginController'}).
+                when('/users/', {templateUrl: 'elements/users_view.html', controller: 'UsersController'}).
                 when('/abilities/', {templateUrl: 'elements/abilities_view.html', controller: 'AbilitiesController'}).
                 when('/cursedObjects/', {templateUrl: 'elements/cursedObject_view.html', controller: 'CursedObjectController'}).
                 when('/houses/', {templateUrl: 'elements/houses_view.html', controller: 'HousesController'}).
@@ -54,23 +56,27 @@ hauntedHousesControllers.controller('LoginController', function ($scope, $routeP
             url: '/pa165/rest/users/authenticate',
             data: user
         }).then(function success(response) {
-            console.log('Login was successful.');
-            var loggedUser = response.data;
-            $rootScope.successAlert = 'User "' + loggedUser.login + '" logged in.';
-            $location.path("/");
+            var success = response.data;
+            if(success) {
+                console.log('Login was successful.');
+                $rootScope.successAlert = 'Login was successful.';
+                $location.path("/");
+            } else {
+                console.log('Login failed.');
+                $rootScope.warningAlert = 'Invalid login credentials.';
+            }
         }, function error(response) {
             console.log("Error when authenticating user.");
             console.log(response);
-            switch (response.data.code) {
-                case 'InvalidRequestException':
-                    $rootScope.errorAlert = 'Sent data were found to be invalid by server!';
-                    break;
-                default:
-                    $rootScope.errorAlert = 'Cannot authenticate user! Reason given by the server: ' + response.data.message;
-                    break;
-            }
+            $rootScope.errorAlert = 'Cannot authenticate user! Reason given by the server: ' + response.data.message;
         });
     };
+});
+
+hauntedHousesControllers.controller('UsersController', function ($scope, $http) {
+    $http.get('/pa165/rest/users').then(function (response) {
+        $scope.users = response.data;
+    });
 });
 
 /**
@@ -541,17 +547,7 @@ hauntedHousesControllers.controller('HousesController', function ($scope, $http,
         $scope.houses = response.data;
     });
 
-    $http.get('/pa165/rest/houses').then(function (response) {
-        $scope.houses = response.data;
-    });
-
-    $scope.filterByMonsterId = function (house) {
-        return function (house) {
-            return house.monsterIds.indexOf(monster.id) !== -1;
-        }
-    };
-
-    $scope.delete = function (house) {
+    $scope.delete = function(house) {
         console.log("Deleting house with id = " + house.id + " (" + house.name + ")");
         $http.delete("rest/houses/" + house.id).then(
                 function success(response) {
@@ -627,13 +623,40 @@ hauntedHousesControllers.controller('HouseCreateController', function ($scope, $
 });
 
 hauntedHousesControllers.controller('HouseUpdateController', function ($scope, $http, $routeParams, $rootScope, $location) {
-
     $http.get('/pa165/rest/monsters').then(function (response) {
         $scope.monsters = response.data;
+
+        // Clear checked status
+        $scope.monsters.forEach(function (monster) {
+            monster.checked = false;
+        });
+
+        // Check correct monsters
+        for (var i = 0; i < $scope.monsters.length; i++) {
+            for (var j = 0; j < $scope.house.monsterIds.length; j++) {
+                if ($scope.monsters[i].id === $scope.house.monsterIds[j]) {
+                    $scope.monsters[i].checked = true;
+                }
+            }
+        }
     });
 
     $http.get('/pa165/rest/cursedObjects').then(function (response) {
         $scope.cursedObjects = response.data;
+
+        // Clear checked status
+        $scope.cursedObjects.forEach(function (cursedObject) {
+            cursedObject.checked = false;
+        });
+
+        // Check correct monsters
+        for (var i = 0; i < $scope.cursedObjects.length; i++) {
+            for (var j = 0; j < $scope.house.cursedObjectIds.length; j++) {
+                if ($scope.cursedObjects[i].id === $scope.house.cursedObjectIds[j]) {
+                    $scope.cursedObjects[i].checked = true;
+                }
+            }
+        }
     });
 
     $scope.house = {
@@ -642,6 +665,7 @@ hauntedHousesControllers.controller('HouseUpdateController', function ($scope, $
         'monsterIds': [],
         'cursedObjectIds': []
     };
+
     //get object that should be updated
     var houseId = $routeParams.houseId;
     $http.get('/pa165/rest/houses/id/' + houseId).then(function (response) {

@@ -2,7 +2,9 @@ package cz.muni.fi.pa165.hauntedhouses.controller;
 
 import cz.muni.fi.pa165.hauntedhouses.configuration.Uri;
 import cz.muni.fi.pa165.hauntedhouses.dto.UserAuthenticateDTO;
+import cz.muni.fi.pa165.hauntedhouses.dto.UserDTO;
 import cz.muni.fi.pa165.hauntedhouses.facade.UserFacade;
+import java.util.List;
 import javax.inject.Inject;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,6 +20,17 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserRestController {
     @Inject
     private UserFacade userFacade;
+    
+    /**
+     * Returns list of users.
+     * Command: curl -i -X GET
+     * http://localhost:8080/pa165/rest/users
+     * @return list of users
+     */
+    @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public final List<UserDTO> getAllUsers() {
+        return userFacade.getAllUsers();
+    }
     
     /**
      * Authenticates given user.
