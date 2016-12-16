@@ -34,30 +34,37 @@
             </div>
         </div>
 
-        <div class="form-group" ng-class="{'has-error': !(form.description.$valid)}">
-        <label for="hauntedIntervalStart" class="col-sm-2 control-label">Haunting start (as HH:MM)</label>
+        <div class="form-group" ng-class="{'has-error': !(form.hauntedIntervalStart.$valid)}">
+        <label for="hauntedIntervalStart" class="col-sm-2 control-label">Haunting start</label>
         <div class="col-sm-10">
-            <textarea placeholder="{{monster.hauntedIntervalStart}}" ng-minlength="1" required cols="80" rows="1" id="hauntedIntervalStart" name="hauntedIntervalStart" class="form-control" ng-model="monster.hauntedIntervalStart" ng-pattern="^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$"></textarea>
-            <p class="help-block" ng-show="form.description.$error.minlength">Haunting start must be at least 1 character long.</p>
-            <p class="help-block" ng-show="form.description.$error.pattern">Wrong syntax. Must be in HH:MM format.</p>
+            <textarea placeholder="{{monster.hauntedIntervalStart}}" ng-minlength="1" required cols="80" rows="1" id="hauntedIntervalStart" name="hauntedIntervalStart" class="form-control" ng-model="monster.hauntedIntervalStart" ng-pattern="/^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/"></textarea>
+            <p class="help-block" ng-show="form.hauntedIntervalStart.$error.minlength">Haunting start must be at least 1 character long.</p>
+            <p class="help-block" ng-show="form.hauntedIntervalStart.$error.pattern">Wrong syntax. Must be in HH:MM format.</p>
         </div>
     </div>
 
-    <div class="form-group" ng-class="{'has-error': !(form.description.$valid)}">
-        <label for="hauntedIntervalEnd" class="col-sm-2 control-label">Haunting end (as HH:MM)</label>
+    <div class="form-group" ng-class="{'has-error': !(form.hauntedIntervalEnd.$valid)}">
+        <label for="hauntedIntervalEnd" class="col-sm-2 control-label">Haunting end</label>
         <div class="col-sm-10">
-            <textarea placeholder="{{monster.hauntedIntervalEnd}}" ng-minlength="1" required cols="80" rows="1" id="hauntedIntervalEnd" name="hauntedIntervalEnd" class="form-control" ng-model="monster.hauntedIntervalEnd" ng-pattern="^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$"></textarea>
-            <p class="help-block" ng-show="form.description.$error.minlength">Haunting end must be at least 1 character long.</p>
-            <p class="help-block" ng-show="form.description.$error.pattern">Wrong syntax. Must be in HH:MM format.</p>
+            <textarea placeholder="{{monster.hauntedIntervalEnd}}" ng-minlength="1" required cols="80" rows="1" id="hauntedIntervalEnd" name="hauntedIntervalEnd" class="form-control" ng-model="monster.hauntedIntervalEnd" ng-pattern="/^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/"></textarea>
+            <p class="help-block" ng-show="form.hauntedIntervalEnd.$error.minlength">Haunting end must be at least 1 character long.</p>
+            <p class="help-block" ng-show="form.hauntedIntervalEnd.$error.pattern">Wrong syntax. Must be in HH:MM format.</p>
         </div>
     </div>
 
     <div class="form-group">
         <label for="houseId" class="col-sm-2 control-label">House</label>
         <div class="col-sm-10">
-            <select id="houseId" class="form-control" ng-model="monster.houseId" convert-to-int>
-                <option ng-repeat="house in houses" value="{{house.id}}">{{house.name}}</option>
+            <select id="houseId"
+                    name="houseId"
+                    class="form-control"
+                    ng-model="monster.houseId"
+                    convert-to-int
+                    ng-options="house.id as house.name for house in houses"
+                    required>
+                <!--option ng-repeat="house in houses" value="{{house.id}}">{{house.name}}</option-->
             </select>
+            <p class="help-block" ng-show="form.houseId.$invalid || form.houseId.$error.required || form.houseId.$pristine">Select a house.</p>
         </div>
     </div>
 

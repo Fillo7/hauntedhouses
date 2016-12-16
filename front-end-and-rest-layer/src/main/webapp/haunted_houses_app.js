@@ -218,18 +218,18 @@ hauntedHousesControllers.controller('MonsterUpdateController', function ($scope,
         'description': '',
         'hauntedIntervalStart': '',
         'hauntedIntervalEnd': '',
-        'houseId': [],
+        'houseId': '',
         'abilityIds': []
     };
 
     $scope.monster = JSON.parse($routeParams.monster);
     console.log("Monster passed as parameter:");
     console.log($scope.monster);
-    console.log("Interval start:");
-    console.log($scope.monster.hauntedIntervalStart);
 
     // Update button clicked
     $scope.update = function (monster) {
+        console.log("Monster to be updated:");
+        console.log(monster);
         monster.abilityIds = getIdsFromSelection($scope.abilities);
 
         $http({
@@ -241,6 +241,7 @@ hauntedHousesControllers.controller('MonsterUpdateController', function ($scope,
             var updatedMonster = response.data;
             $rootScope.successAlert = "Monster \"" + updatedMonster.name + "\" was updated.";
             console.log("Monster " + updatedMonster.name + " updated");
+            console.log(updatedMonster);
             $location.path("/monsters");
 
         }, function error(response) {
