@@ -1,0 +1,80 @@
+<div class="updateMonster">
+    <h1>Update monster with id = {{monster.id}}</h1>
+
+    <form name="form" novalidate class="form-horizontal">
+
+        <!-- Name -->
+        <div class="form-group" ng-class="{'has-error': !(form.name.$valid)}">
+            <label for="name" class="col-sm-2 control-label">Name</label>
+            <div class="col-sm-10">
+                <input ng-attr-placeholder="{{monster.name}}"
+                       id="name"
+                       type="text"
+                       ng-minlength="1"
+                       name="name"
+                       class="form-control"
+                       ng-model="monster.name"
+                       required />
+                <p class="help-block" ng-show="form.name.$error.required">Name is required.</p>
+                <p class="help-block" ng-show="form.name.$error.minlength">Name must be at least 1 character long.</p>
+            </div>
+        </div>
+
+        <!-- Description -->
+        <div class="form-group">
+            <label for="description" class="col-sm-2 control-label">Description</label>
+            <div class="col-sm-10">
+                <textarea placeholder="{{monster.description}}"
+                          required cols="80"
+                          rows="5"
+                          id="description"
+                          name="description"
+                          class="form-control"
+                          ng-model="monster.description" />
+            </div>
+        </div>
+
+        <div class="form-group" ng-class="{'has-error': !(form.description.$valid)}">
+        <label for="hauntedIntervalStart" class="col-sm-2 control-label">Haunting start (as HH:MM)</label>
+        <div class="col-sm-10">
+            <textarea placeholder="{{monster.hauntedIntervalStart}}" ng-minlength="1" required cols="80" rows="1" id="hauntedIntervalStart" name="hauntedIntervalStart" class="form-control" ng-model="monster.hauntedIntervalStart" ng-pattern="^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$"></textarea>
+            <p class="help-block" ng-show="form.description.$error.minlength">Haunting start must be at least 1 character long.</p>
+            <p class="help-block" ng-show="form.description.$error.pattern">Wrong syntax. Must be in HH:MM format.</p>
+        </div>
+    </div>
+
+    <div class="form-group" ng-class="{'has-error': !(form.description.$valid)}">
+        <label for="hauntedIntervalEnd" class="col-sm-2 control-label">Haunting end (as HH:MM)</label>
+        <div class="col-sm-10">
+            <textarea placeholder="{{monster.hauntedIntervalEnd}}" ng-minlength="1" required cols="80" rows="1" id="hauntedIntervalEnd" name="hauntedIntervalEnd" class="form-control" ng-model="monster.hauntedIntervalEnd" ng-pattern="^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$"></textarea>
+            <p class="help-block" ng-show="form.description.$error.minlength">Haunting end must be at least 1 character long.</p>
+            <p class="help-block" ng-show="form.description.$error.pattern">Wrong syntax. Must be in HH:MM format.</p>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="houseId" class="col-sm-2 control-label">House</label>
+        <div class="col-sm-10">
+            <select id="houseId" class="form-control" ng-model="monster.houseId" convert-to-int>
+                <option ng-repeat="house in houses" value="{{house.id}}">{{house.name}}</option>
+            </select>
+        </div>
+    </div>
+
+        <!-- Abilities checkbox -->
+        <div class="form-group">
+            <label for="abilities" class="col-sm-2 control-label">Abilities</label>
+            <div class="col-sm-10">
+                <div ng-repeat="ability in abilities">
+                    <label>
+                        <!-- The monster needn't have the property checked, it is created automatically if needed. -->
+                        <input type="checkbox" ng-model="ability.checked" ng-checked="ability.checked==true" />
+                        {{ability.name}}
+                    </label><br/>
+                </div>
+            </div>
+        </div>
+
+        <button ng-disabled="!form.$valid" class="btn btn-primary" type="submit" ng-click="update(monster)">Update monster</button>
+    </form>
+</div>
