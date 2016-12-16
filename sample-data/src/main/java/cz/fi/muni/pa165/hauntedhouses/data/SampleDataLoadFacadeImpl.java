@@ -44,20 +44,25 @@ public class SampleDataLoadFacadeImpl implements SampleDataLoadFacade {
     public void loadData() {
         // Load houses
         House house = createHouse("Spooky", "Some address");
+        House whiteHouse = createHouse("White house", "Washington DC");
+        House oldCreeky = createHouse("Old creeky house", "Creepy avenue 14, Cakington");
+        House aperture = createHouse("Aperture", "Aperture laboratories");
 
         // Load monsters
         Monster kitty = createMonster("Little Kitty", "little sweet kitty", LocalTime.of(10, 20), LocalTime.of(13, 40), house);
         Monster huggy = createMonster("Huggy Bear", "Snoop Dogg Huggy Bear", LocalTime.of(4, 0), LocalTime.of(4, 5), house);
-        Monster grumpy = createMonster("Grumpy cat", "So grumpy it makes you cry. It doesn't even care.", LocalTime.of(5, 6), LocalTime.of(7, 3), house);
+        Monster grumpy = createMonster("Grumpy cat", "So grumpy it makes you cry. It doesn't even care.", LocalTime.of(5, 6), LocalTime.of(7, 3), oldCreeky);
+        Monster glados = createMonster("GLaDOS", "Promises tasty cake", LocalTime.of(12,0), LocalTime.of(18, 0), aperture);
 
         // Load abilities
         Ability rainbows = createAbility("Spawn rainbows", "Spawns rainbows all around the place, blinding anyone who dares to wander nearby.", kitty);
-        Ability monsterTestingAbility = createAbility("↑ Rainbow spawner testing monster",
-                rainbows.getMonsters().isEmpty() || rainbows.getMonsters() == null ? "Rainbow's monster list is empty" : "Rainbow has some assigned monster! This one should have two.",
-                huggy, grumpy);
+        Ability cakePromise = createAbility("Cake lust", "Causes unresistible lust after tasty cakes", glados);
+        Ability frog = createAbility("Spawn frogs", "Spawns thousands of frogs which do nothing" , huggy, grumpy);
 
         // Load cursed objects
-        CursedObject object = createCursedObject("object", "some description", MonsterAttractionFactor.MEDIUM, house);
+        CursedObject cursedObject = createCursedObject("object", "some description", MonsterAttractionFactor.MEDIUM, house);
+        CursedObject redButton = createCursedObject("Red button", "Kirov reporting", MonsterAttractionFactor.HIGH, whiteHouse);
+        CursedObject cake = createCursedObject("Cake", "... is a lie", MonsterAttractionFactor.LOW, aperture);
 
         // Load users
         User regular = createUser("regular", "regular", UserRole.REGULAR_USER);

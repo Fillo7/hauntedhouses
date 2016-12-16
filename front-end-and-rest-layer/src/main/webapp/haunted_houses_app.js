@@ -121,12 +121,39 @@ hauntedHousesControllers.controller('MonsterCreateController', function ($scope,
 });
 
 /**
+ * Helper method that returns array of monster IDs from array of monsters with optional checked property.
+ * @param {type} selection Array that has items with optional checked property.
+ * @return {Array|getMonstersId.monsterIds} Array of checked item IDs.
+ */
+function getMonsterIds(selection) {
+    var monsterIds = [];
+
+    for (var i = 0; i < selection.length; i++) {
+        if (selection[i].checked === true) {
+            monsterIds.push(selection[i].id);
+        }
+    }
+
+    return monsterIds;
+}
+
+/**
  * Manipulates listing of all abilities and their deletion.
  */
 hauntedHousesControllers.controller('AbilitiesController', function ($scope, $http, $rootScope, $location) {
     $http.get('/pa165/rest/abilities').then(function (response) {
         $scope.abilities = response.data;
     });
+
+    $http.get('/pa165/rest/monsters').then(function (response) {
+        $scope.monsters = response.data;
+    });
+
+    $scope.filterByMonsterId = function (ability) {
+        return function (monster) {
+            return ability.monsterIds.indexOf(monster.id) !== -1;
+        }
+    };
 
     $scope.delete = function (ability) {
         console.log("Deleting ability with id = " + ability.id + " (" + ability.name + ")");
@@ -152,23 +179,6 @@ hauntedHousesControllers.controller('AbilitiesController', function ($scope, $ht
         );
     };
 });
-
-/**
- * Helper method that returns array of monster IDs from array of monsters with optional checked property.
- * @param {type} selection Array that has items with optional checked property.
- * @return {Array|getMonstersId.monsterIds} Array of checked item IDs.
- */
-function getMonsterIds(selection) {
-    var monsterIds = [];
-
-    for (var i = 0; i < selection.length; i++) {
-        if (selection[i].checked === true) {
-            monsterIds.push(selection[i].id);
-        }
-    }
-
-    return monsterIds;
-}
 
 /**
  * Manipulates ability creation.
@@ -239,9 +249,6 @@ hauntedHousesControllers.controller('AbilityUpdateController', function ($scope,
                 }
             }
         }
-
-        console.log("Monsters: ");
-        console.log($scope.monsters);
     });
 
     $scope.ability = {
@@ -251,11 +258,6 @@ hauntedHousesControllers.controller('AbilityUpdateController', function ($scope,
     };
 
     $scope.ability = JSON.parse($routeParams.ability);
-    console.log("Ability passed as parameter:");
-    console.log($scope.ability);
-    console.log("Its ID: " + $scope.ability.id);
-
-    // TODO: Figure out how to get update method in REST working
 
     // Update button clicked
     $scope.update = function (ability) {

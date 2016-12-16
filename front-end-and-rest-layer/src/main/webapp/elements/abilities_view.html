@@ -12,7 +12,7 @@
                 <th>Id</th>
                 <th>Name</th>
                 <th>Description</th>
-                <th>Monster IDs</th>
+                <th>Monsters</th>
                 <th>Update</th>
                 <th>Delete</th>
             </tr>
@@ -23,7 +23,8 @@
                 <td>{{ability.name}}</td>
                 <td>{{ability.description}}</td>
                 <td>
-                    <div ng-repeat="monsterId in ability.monsterIds">{{monsterId}}</div>
+                    <!--<div ng-repeat="monsterId in ability.monsterIds">{{monsterId}}</div>-->
+                    <div ng-repeat="monster in monsters | filter: filterByMonsterId(ability)">{{monster.name}}</div>
                     <div ng-show="ability.monsterIds.length == 0">No assigned monster</div>
                 </td>
                 <!-- Update button -->
