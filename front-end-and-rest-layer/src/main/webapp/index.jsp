@@ -30,7 +30,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="#/">Haunted Houses Web Application</a>
+                <a class="navbar-brand" href="#/">Haunted Houses Home</a>
             </div>
             <div id="navbar" class="collapse navbar-collapse">
                 <ul class="nav navbar-nav">
@@ -41,6 +41,7 @@
                             <li><a href="#/monsters">Monsters</a></li>
                             <li><a href="#/abilities">Monster Abilities</a></li>
                             <li><a href="#/cursedObjects">Cursed Objects</a></li>
+                            <li role="separator" class="divider"></li>
                             <li><a href="#/users">Users</a></li>
                         </ul>
                     </li>
