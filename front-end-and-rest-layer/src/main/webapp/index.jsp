@@ -22,7 +22,7 @@
     <div ng-app="hauntedHousesApp">
         
         <nav class="navbar navbar-inverse navbar-static-top">
-        <div class="container">
+        <div class="container-fluid">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
                     <span class="sr-only">Toggle navigation</span>
@@ -35,7 +35,7 @@
             <div id="navbar" class="collapse navbar-collapse">
                 <ul class="nav navbar-nav">
                     <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Entities<b class="caret"></b></a>
+                        <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Entities <span class="caret"></span></a>
                         <ul class="dropdown-menu">
                             <li><a href="#/houses">Houses</a></li>
                             <li><a href="#/monsters">Monsters</a></li>
@@ -44,8 +44,11 @@
                             <li><a href="#/users">Users</a></li>
                         </ul>
                     </li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
                     <li><a ng-hide="isUser" href="#/login">Login</a></li>
-                    <li><a ng-show="isUser" href="#/login">Logged in as: {{userName}}</a></li>
+                    <p ng-show="isUser" class="navbar-text">Logged in as: {{userName}}</p>
+                    <li><a ng-show="isUser" href="#/logout">Logout</a></li>
                 </ul>
             </div>
         </div>
@@ -63,9 +66,11 @@
             <button type="button" class="close" aria-label="Close" ng-click="hideSuccessAlert()"> <span aria-hidden="true">&times;</span></button>
             <strong>Success!</strong> <span>{{successAlert}}</span>
         </div>
+        
         <div ng-view></div>
         
     </div>
 </div>
+
 </body>
 </html>

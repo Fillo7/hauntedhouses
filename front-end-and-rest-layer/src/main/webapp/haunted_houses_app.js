@@ -6,29 +6,30 @@ var hauntedHousesControllers = angular.module('hauntedHousesControllers', []);
 hauntedHousesApp.config(['$routeProvider',
     function ($routeProvider) {
         $routeProvider.
-                when('/', {templateUrl: 'elements/main_view.html'}).
-                when('/login', {templateUrl: 'elements/login.html', controller: 'LoginController'}).
-                when('/users/', {templateUrl: 'elements/users_view.html', controller: 'UsersController'}).
-                when('/abilities/', {templateUrl: 'elements/abilities_view.html', controller: 'AbilitiesController'}).
-                when('/cursedObjects/', {templateUrl: 'elements/cursedObject_view.html', controller: 'CursedObjectController'}).
-                when('/houses/', {templateUrl: 'elements/houses_view.html', controller: 'HousesController'}).
-                when('/monsters/', {templateUrl: 'elements/monsters_view.html', controller: 'MonstersController'}).
-                when('/createAbility', {templateUrl: 'elements/create_ability.html', controller: 'AbilityCreateController'}).
-                when('/createCursedObject', {templateUrl: 'elements/create_cursed_object.html', controller: 'CursedObjectCreateController'}).
-                when('/createHouse', {templateUrl: 'elements/create_house.html', controller: 'HouseCreateController'}).
-                when('/createMonster', {templateUrl: 'elements/create_monster.html', controller: 'MonsterCreateController'}).
-                when('/updateAbility/:ability', {templateUrl: 'elements/update_ability.html', controller: 'AbilityUpdateController'}).
-                when('/updateCursedObject/:cursedObjectId', {templateUrl: 'elements/update_cursed_object.html', controller: 'CursedObjectUpdateController'}).
-                when('/updateHouse/:houseId', {templateUrl: 'elements/update_house.html', controller: 'HouseUpdateController'}).
-                when('/updateMonster/:monster', {templateUrl: 'elements/update_monster.html', controller: 'MonsterUpdateController'}).
-                // to do: add rest of the (yet unimplemented) paths
-                otherwise({redirectTo: '/'});
-
-        // Note: The '/' after monsters/abilities/houses/cursedObjects is intentional.
-        // It ensures that whenever the page is redirected at the same page as the one the user is currently browsing,
-        // it reloads the content. Feels quicker than to reload via $window.location.reload().
-        // Reference: http://stackoverflow.com/a/35139326/4733847
-    }]);
+            when('/', {templateUrl: 'elements/main_view.html'}).
+            when('/login', {templateUrl: 'elements/login.html', controller: 'LoginController'}).
+            when('/logout', {templateUrl: 'elements/main_view.html', controller: 'LogoutController'}).
+            when('/users/', {templateUrl: 'elements/users_view.html', controller: 'UsersController'}).
+            when('/abilities/', {templateUrl: 'elements/abilities_view.html', controller: 'AbilitiesController'}).
+            when('/cursedObjects/', {templateUrl: 'elements/cursedObject_view.html', controller: 'CursedObjectController'}).
+            when('/houses/', {templateUrl: 'elements/houses_view.html', controller: 'HousesController'}).
+            when('/monsters/', {templateUrl: 'elements/monsters_view.html', controller: 'MonstersController'}).
+            when('/createAbility', {templateUrl: 'elements/create_ability.html', controller: 'AbilityCreateController'}).
+            when('/createCursedObject', {templateUrl: 'elements/create_cursed_object.html', controller: 'CursedObjectCreateController'}).
+            when('/createHouse', {templateUrl: 'elements/create_house.html', controller: 'HouseCreateController'}).
+            when('/createMonster', {templateUrl: 'elements/create_monster.html', controller: 'MonsterCreateController'}).
+            when('/updateAbility/:ability', {templateUrl: 'elements/update_ability.html', controller: 'AbilityUpdateController'}).
+            when('/updateCursedObject/:cursedObjectId', {templateUrl: 'elements/update_cursed_object.html', controller: 'CursedObjectUpdateController'}).
+            when('/updateHouse/:houseId', {templateUrl: 'elements/update_house.html', controller: 'HouseUpdateController'}).
+            when('/updateMonster/:monster', {templateUrl: 'elements/update_monster.html', controller: 'MonsterUpdateController'}).
+            otherwise({redirectTo: '/'});
+    
+            // Note: The '/' after monsters/abilities/houses/cursedObjects is intentional.
+            // It ensures that whenever the page is redirected at the same page as the one the user is currently browsing,
+            // it reloads the content. Feels quicker than to reload via $window.location.reload().
+            // Reference: http://stackoverflow.com/a/35139326/4733847
+    }
+]);
 
 hauntedHousesApp.run(function ($rootScope) {
     $rootScope.hideSuccessAlert = function () {
@@ -47,7 +48,7 @@ hauntedHousesApp.run(function ($rootScope) {
     };
 });    
 
-/*** Login controller ***/
+/*** User controllers ***/
 
 hauntedHousesControllers.controller('LoginController', function ($scope, $routeParams, $http, $location, $rootScope) {
     $scope.user = {
@@ -86,11 +87,21 @@ hauntedHousesControllers.controller('LoginController', function ($scope, $routeP
     };
 });
 
+hauntedHousesControllers.controller('LogoutController', function ($scope, $location, $rootScope) {
+    $rootScope.isUser = false;
+    $rootScope.isAdmin = false;
+    $rootScope.userName = undefined;
+    $rootScope.successAlert = 'Logout was successful.';
+    $location.path("/");
+});
+
 hauntedHousesControllers.controller('UsersController', function ($scope, $http) {
     $http.get('/pa165/rest/users').then(function (response) {
         $scope.users = response.data;
     });
 });
+
+/*** Monster controllers ***/
 
 /**
  * Helper method that returns array of monster IDs from array of monsters with optional checked property.
@@ -108,8 +119,6 @@ function getIdsFromSelection(selection) {
 
     return resultIds;
 }
-
-/*** Monster controllers ***/
 
 hauntedHousesControllers.controller('MonstersController', function ($scope, $http, $rootScope, $location) {
     $http.get('/pa165/rest/monsters').then(function (response) {
