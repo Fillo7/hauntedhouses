@@ -90,7 +90,7 @@ public class HouseRestControllerTest extends AbstractTestNGSpringContextTests {
         monster.setDescription("PERSISTENCE UNICORN IS BACK!!!!");
         monster.setHauntedIntervalStart(LocalTime.of(1, 15));
         monster.setHauntedIntervalEnd(LocalTime.of(5, 30));
-        monster.setHouseId(1l);
+        monster.setHouseName("Forlorn Rowe");
         
         cursedObject = new CursedObjectDTO();
         cursedObject.setId(1l);

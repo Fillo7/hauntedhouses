@@ -135,8 +135,8 @@ public class MonsterRestController {
         result.setDescription(toUpdate.getDescription() == null ? existing.getDescription() : toUpdate.getDescription());
         result.setHauntedIntervalStart(toUpdate.getHauntedIntervalStart() == null ? existing.getHauntedIntervalStart() : toUpdate.getHauntedIntervalStart());
         result.setHauntedIntervalEnd(toUpdate.getHauntedIntervalEnd() == null ? existing.getHauntedIntervalEnd() : toUpdate.getHauntedIntervalEnd());
-        result.setHouseId(toUpdate.getHouseId() == null ? existing.getHouseId() : toUpdate.getHouseId());
-        result.addAllAbilityIds(toUpdate.getAbilityIds() == null ? existing.getAbilityIds() : toUpdate.getAbilityIds());
+        result.setHouseName(toUpdate.getHouseName() == null ? existing.getHouseName() : toUpdate.getHouseName());
+        result.addAllAbilities(toUpdate.getAbilityNames() == null ? existing.getAbilityNames() : toUpdate.getAbilityNames());
 
         return result;
     }

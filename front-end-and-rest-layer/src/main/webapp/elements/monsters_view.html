@@ -29,10 +29,10 @@
             <td>{{monster.description}}</td>
             <td>{{monster.hauntedIntervalStart}}</td>
             <td>{{monster.hauntedIntervalEnd}}</td>
-            <td>{{monster.houseId}}</td>
+            <td>{{monster.houseName}}</td>
             <td>
-                <div ng-repeat="ability in abilities | filter: filterByAbilityId(monster)">{{ability.name}}</div>
-                <div ng-show="monster.abilityIds.length == 0">No ability</div>
+                <div ng-repeat="ability in monster.abilityNames">{{ability}}</div>
+                <div ng-show="monster.abilityNames.length == 0">No ability</div>
             </td>
             <!-- Update button -->
             <td>

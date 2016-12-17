@@ -94,8 +94,8 @@ public class MonsterRestControllerTest extends AbstractTestNGSpringContextTests 
         kitty.setDescription("little sweet kitty");
         kitty.setHauntedIntervalStart(LocalTime.of(10, 20));
         kitty.setHauntedIntervalEnd(LocalTime.of(13, 40));
-        kitty.setHouseId(houseFacade.getHouseById(1l).getId());
-        kitty.addAbilityId(abilityFacade.getAbilityById(1l).getId());
+        kitty.setHouseName(houseFacade.getHouseById(1l).getName());
+        kitty.addAbility(abilityFacade.getAbilityById(1l).getName());
 
         huggy = new MonsterDTO();
         huggy.setId(2l);
@@ -103,7 +103,7 @@ public class MonsterRestControllerTest extends AbstractTestNGSpringContextTests 
         huggy.setDescription("Snoop Dogg Huggy Bear");
         huggy.setHauntedIntervalStart(LocalTime.of(13, 20));
         huggy.setHauntedIntervalEnd(LocalTime.of(18, 40));
-        huggy.setHouseId(houseFacade.getHouseById(1l).getId());
+        huggy.setHouseName(houseFacade.getHouseById(1l).getName());
     }
 
     @BeforeMethod(dependsOnMethods = "initMonsters")
@@ -170,7 +170,7 @@ public class MonsterRestControllerTest extends AbstractTestNGSpringContextTests 
         returned.setDescription("Snoop Dogg Big Huggy Bear");
         returned.setHauntedIntervalStart(LocalTime.of(17, 20));
         returned.setHauntedIntervalEnd(LocalTime.of(20, 40));
-        returned.setHouseId(houseFacade.getHouseById(1l).getId());
+        returned.setHouseName(houseFacade.getHouseById(1l).getName());
 
         doReturn(3l).when(monsterFacade).createMonster(created);
         doReturn(returned).when(monsterFacade).getMonsterById(3l);

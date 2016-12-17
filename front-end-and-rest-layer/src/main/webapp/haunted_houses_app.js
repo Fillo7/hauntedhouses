@@ -125,10 +125,6 @@ hauntedHousesControllers.controller('MonstersController', function ($scope, $htt
         $scope.monsters = response.data;
     });
 
-    $http.get('/pa165/rest/abilities').then(function (response) {
-        $scope.abilities = response.data;
-    });
-
     $scope.filterByAbilityId = function (monster) {
         return function (ability) {
             return ability.monsterIds.indexOf(monster.id) !== -1;
