@@ -1,10 +1,10 @@
-<div id="abilities">
-    <h1>Monster abilities</h1>
+<div id="cursedObjects">
+    <h1>Cursed objects</h1>
 
     <div ng-show="isUser" style="padding-top: 20px; padding-bottom: 20px">
-        <a href="#/createAbility" class="btn btn-primary">
+        <a href="#/createCursedObject" class="btn btn-primary">
             <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-            New ability
+            New cursed object
         </a>
     </div>
 
@@ -14,23 +14,22 @@
                 <th>Id</th>
                 <th>Name</th>
                 <th>Description</th>
-                <th>Monsters</th>
+                <th>Monster attraction Factor</th>
+                <th>House</th>
                 <th></th>
                 <th></th>
             </tr>
         </thead>
         <tbody>
-            <tr ng-repeat="ability in abilities">
-                <td>{{ability.id}}</td>
-                <td>{{ability.name}}</td>
-                <td>{{ability.description}}</td>
-                <td>
-                    <div ng-repeat="monster in monsters | filter: filterByMonsterId(ability)">{{monster.name}}</div>
-                    <div ng-show="ability.monsterIds.length == 0">No assigned monsters</div>
-                </td>
+            <tr ng-repeat="cursedObject in cursedObjects">
+                <td>{{cursedObject.id}}</td>
+                <td>{{cursedObject.name}}</td>
+                <td>{{cursedObject.description}}</td>
+                <td>{{cursedObject.monsterAttractionFactor}}</td>
+                <td>{{cursedObject.houseId}}</td>
                 <!-- Update button -->
                 <td>
-                    <a ng-show="isUser" href="#/updateAbility/{{ability}}">
+                    <a ng-show="isUser" href="#/updateCursedObject/{{cursedObject.id}}">
                     <button
                         class="glyphicon glyphicon-pencil"
                         aria-hidden="true"
@@ -44,7 +43,7 @@
                 <td>
                     <button
                         ng-show="isAdmin"
-                        ng-click="delete(ability)"
+                        ng-click="delete(cursedObject)"
                         type="submit"
                         class="glyphicon glyphicon-remove"
                         aria-hidden="true"
@@ -56,7 +55,4 @@
             </tr>
         </tbody>
     </table>
-    <div>
-        Number of abilities: {{abilities.length}}
-    </div>
 </div>

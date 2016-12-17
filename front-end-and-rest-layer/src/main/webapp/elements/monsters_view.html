@@ -1,6 +1,7 @@
+<div id="monsters">
 <h1>Monsters</h1>
 
-<div style="padding-top: 20px; padding-bottom: 20px">
+<div ng-show="isUser" style="padding-top: 20px; padding-bottom: 20px">
     <a href="#/createMonster" class="btn btn-primary">
         <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
         New monster
@@ -17,8 +18,8 @@
             <th>Haunting end</th>
             <th>House</th>
             <th>Abilities</th>
-            <th>Update</th>
-            <th>Delete</th>
+            <th></th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
@@ -35,24 +36,30 @@
             </td>
             <!-- Update button -->
             <td>
-                <a href="#/updateMonster/{{monster}}">
-                    <button class="glyphicon glyphicon-pencil"
-                            aria-hidden="true"
-                            accesskey="" style="color: black"
-                            autofocus="" style="text-decoration: none"
-                            style="background: none" />
+                <a ng-show="isUser" href="#/updateMonster/{{monster}}">
+                <button
+                    class="glyphicon glyphicon-pencil"
+                    aria-hidden="true"
+                    accesskey=""
+                    style="color: black"
+                    autofocus="" />
+                </button>
                 </a>
             </td>
             <!-- Delete button -->
             <td>
-                <button ng-click="delete(monster)"
-                        type="submit"
-                        class="glyphicon glyphicon-remove"
-                        aria-hidden="true"
-                        accesskey="" style="color: red"
-                        autofocus="" style="text-decoration: none"
-                        style="background: none" />
+                <button
+                    ng-show="isAdmin"
+                    ng-click="delete(monster)"
+                    type="submit"
+                    class="glyphicon glyphicon-remove"
+                    aria-hidden="true"
+                    accesskey=""
+                    style="color: red"
+                    autofocus="" />
+                </button>
             </td>
         </tr>
     </tbody>
 </table>
+</div>

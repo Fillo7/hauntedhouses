@@ -11,7 +11,7 @@ hauntedHousesApp.config(['$routeProvider',
             when('/logout', {templateUrl: 'elements/main_view.html', controller: 'LogoutController'}).
             when('/users/', {templateUrl: 'elements/users_view.html', controller: 'UsersController'}).
             when('/abilities/', {templateUrl: 'elements/abilities_view.html', controller: 'AbilitiesController'}).
-            when('/cursedObjects/', {templateUrl: 'elements/cursedObject_view.html', controller: 'CursedObjectController'}).
+            when('/cursedObjects/', {templateUrl: 'elements/cursed_objects_view.html', controller: 'CursedObjectController'}).
             when('/houses/', {templateUrl: 'elements/houses_view.html', controller: 'HousesController'}).
             when('/monsters/', {templateUrl: 'elements/monsters_view.html', controller: 'MonstersController'}).
             when('/createAbility', {templateUrl: 'elements/create_ability.html', controller: 'AbilityCreateController'}).
