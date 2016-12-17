@@ -43,7 +43,7 @@ public class SampleDataLoadFacadeImpl implements SampleDataLoadFacade {
     @SuppressWarnings("unused")
     public void loadData() {
         // Load houses
-        House tower = createHouse("Xardas's Tower", "I don't even remember");
+        House tower = createHouse("Xardas' Tower", "I don't even remember");
         House whiteHouse = createHouse("White house", "Washington DC");
         House oldCreeky = createHouse("Old creeky house", "Creepy avenue 14, Cakington");
         House aperture = createHouse("Aperture", "Aperture laboratories");

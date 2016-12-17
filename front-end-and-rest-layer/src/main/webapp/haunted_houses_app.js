@@ -300,7 +300,7 @@ hauntedHousesControllers.controller('AbilitiesController', function ($scope, $ht
     $scope.filterByMonsterId = function (ability) {
         return function (monster) {
             return ability.monsterIds.indexOf(monster.id) !== -1;
-        }
+        };
     };
 
     $scope.delete = function (ability) {
@@ -441,47 +441,57 @@ hauntedHousesControllers.controller('AbilityUpdateController', function ($scope,
 
 /*** Cursed object controllers ***/
 
-//loads cursedObjects
+// Loads cursed objects
 function loadAllCursedObjects($http, $scope) {
     $http.get('rest/cursedObjects').then(function (response) {
         $scope.cursedObjects = response.data;
     });
 }
 
-
 hauntedHousesControllers.controller('CursedObjectController', function ($scope, $rootScope, $routeParams, $http) {
     loadAllCursedObjects($http, $scope);
-
-    $scope.delete = function (cursedObject) {
-        if (confirm("are you sure you want to delete?")) {
-            console.log("deleting cursedObject with id=" + cursedObject.id);
-            $http.delete('rest/cursedObjects/' + cursedObject.id).then(
-                    function success(response) {
-                        console.log('deleted cursedObject ' + cursedObject.id + ' on server');
-                        //display confirmation alert
-                        $rootScope.successAlert = 'Deleted cursedObject "' + cursedObject.name + '"';
-                        loadAllCursedObjects($http, $scope);
-                    },
-                    function error(response) {
-                        console.log("error when deleting cursedObject");
-                        console.log(response);
-                        switch (response.data.code) {
-                            case 'ResourceNotFoundException':
-                                $rootScope.errorAlert = 'Cannot delete non-existent cursedObject ! ';
-                                break;
-                            default:
-                                $rootScope.errorAlert = 'Cannot delete cursedObject ! Reason given by the server: ' + response.data.message;
-                                break;
-                        }
-                    }
-            );
-        }
+    
+    $http.get('rest/houses').then(function (response) {
+        $scope.houses = response.data;
+    });
+    
+    $scope.houseIdFilter = function (houseId) {
+        return function (house) {
+            return house.id === houseId;
+        };
     };
-
+    
+    $scope.delete = function (cursedObject) {
+        if (!confirm("Are you certain you want to delete chosen cursed object?")) {
+            return;
+        }
+        
+        console.log("Deleting cursedObject with id=" + cursedObject.id);
+        $http.delete('rest/cursedObjects/' + cursedObject.id).then(
+            function success(response) {
+                console.log('Deleted cursed object ' + cursedObject.id + ' on server');
+                //display confirmation alert
+                $rootScope.successAlert = 'Deleted cursed object: "' + cursedObject.name + '"';
+                loadAllCursedObjects($http, $scope);
+            },
+            
+            function error(response) {
+                console.log("Error when deleting cursed object");
+                console.log(response);
+                switch (response.data.code) {
+                    case 'ResourceNotFoundException':
+                        $rootScope.errorAlert = 'Cannot delete non-existent cursed object!';
+                        break;
+                    default:
+                        $rootScope.errorAlert = 'Cannot delete cursed object! Reason given by the server: ' + response.data.message;
+                        break;
+                }
+            }
+        );
+    };
 });
 
 hauntedHousesControllers.controller('CursedObjectCreateController', function ($scope, $routeParams, $http, $location, $rootScope) {
-
     $http.get('/pa165/rest/houses').then(function (response) {
         $scope.houses = response.data;
     });
@@ -500,21 +510,18 @@ hauntedHousesControllers.controller('CursedObjectCreateController', function ($s
             data: cursedObject
         }).then(function success(response) {
             var createdCursedObject = response.data;
-            //display confirmation alert
-            console.log('created cursed object');
-            $rootScope.successAlert = 'A new cursedObject "' + createdCursedObject.name + '" was created';
-            //change view to list of cursedObjects
-            $location.path("/pa165/cursedObjects");
+            console.log('Created cursed object');
+            $rootScope.successAlert = 'Cursed object with name "' + createdCursedObject.name + '" was created.';
+            $location.path("/cursedObjects/");
         }, function error(response) {
-            //display error
-            console.log("error when creating cursedObject");
+            console.log("Error when creating cursed object");
             console.log(response);
             switch (response.data.code) {
                 case 'InvalidRequestException':
-                    $rootScope.errorAlert = 'Sent data were found to be invalid by server ! ';
+                    $rootScope.errorAlert = 'Sent data were found to be invalid by server!';
                     break;
                 default:
-                    $rootScope.errorAlert = 'Cannot create product ! Reason given by the server: ' + response.data.message;
+                    $rootScope.errorAlert = 'Cannot create cursed object! Reason given by the server: ' + response.data.message;
                     break;
             }
         });
@@ -522,19 +529,19 @@ hauntedHousesControllers.controller('CursedObjectCreateController', function ($s
 });
 
 hauntedHousesControllers.controller('CursedObjectUpdateController', function ($scope, $routeParams, $http, $location, $rootScope) {
-    //show houses in select menu
+    // Load houses into select menu
     $http.get('/pa165/rest/houses').then(function (response) {
         $scope.houses = response.data;
     });
 
-    //get object that should be updated
+    // Get object that should be updated
     var cursedObjectId = $routeParams.cursedObjectId;
     $http.get('/pa165/rest/cursedObjects/' + cursedObjectId).then(function (response) {
         var cursedObject = response.data;
         $scope.cursedObject = cursedObject;
     });
 
-    //update cursedObject function
+    // Update cursedObject function
     $scope.update = function (cursedObject) {
         $http({
             method: 'PUT',
@@ -544,7 +551,7 @@ hauntedHousesControllers.controller('CursedObjectUpdateController', function ($s
             var updatedCursedObject = response.data;
             $rootScope.successAlert = "cursedObject \"" + updatedCursedObject.name + "\" was updated.";
             console.log("Cursed Object " + $scope.cursedObject.name + " updated");
-            $location.path("/cursedObjects");
+            $location.path("/cursedObjects/");
 
         }, function error(response) {
 

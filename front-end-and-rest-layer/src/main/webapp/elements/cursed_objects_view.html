@@ -26,7 +26,9 @@
                 <td>{{cursedObject.name}}</td>
                 <td>{{cursedObject.description}}</td>
                 <td>{{cursedObject.monsterAttractionFactor}}</td>
-                <td>{{cursedObject.houseId}}</td>
+                <td>
+                    <div ng-repeat="house in houses | filter: houseIdFilter(cursedObject.houseId)">{{house.name}}</div>
+                </td>
                 <!-- Update button -->
                 <td>
                     <a ng-show="isUser" href="#/updateCursedObject/{{cursedObject.id}}">
