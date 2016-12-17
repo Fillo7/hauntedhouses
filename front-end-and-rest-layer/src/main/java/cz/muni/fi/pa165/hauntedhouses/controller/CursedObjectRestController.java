@@ -8,6 +8,7 @@ package cz.muni.fi.pa165.hauntedhouses.controller;
 import cz.muni.fi.pa165.hauntedhouses.configuration.Uri;
 import cz.muni.fi.pa165.hauntedhouses.dto.CursedObjectCreateDTO;
 import cz.muni.fi.pa165.hauntedhouses.dto.CursedObjectDTO;
+import cz.muni.fi.pa165.hauntedhouses.enums.MonsterAttractionFactor;
 import cz.muni.fi.pa165.hauntedhouses.exceptions.DataManipulationException;
 import cz.muni.fi.pa165.hauntedhouses.exceptions.NoEntityException;
 import cz.muni.fi.pa165.hauntedhouses.exceptions.RequestedResourceNotModified;
@@ -20,10 +21,8 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 /**
- *
  * @author Marek Janco
  */
-
 @RestController
 @RequestMapping(Uri.CURSED_OBJECTS)
 public class CursedObjectRestController {
@@ -34,8 +33,7 @@ public class CursedObjectRestController {
     /**
      * Method creates CursedObject
      * 
-     * curl -X POST -i -H "Content-Type: application/json" --data '{"name":"default_name","description":"default_description","monsterAttractionFactor":"LOW","houseId":"1"}' http://localhost:8080/pa165/rest/create/cursedObjects
-     *
+     * curl -X POST -i -H "Content-Type: application/json" --data '{"name":"default_name","description":"default_description","monsterAttractionFactor":"LOW","houseId":"1"}' http://localhost:8080/pa165/rest/cursedObjects/create
      * 
      * @param createDto
      * @return created CursedObject
@@ -132,6 +130,17 @@ public class CursedObjectRestController {
         } catch (Exception ex) {
             throw new UnprocessableEntityException("problem appeared in finding all CursedObjects", ex);
         }
+    }
+    
+    /**
+     * Raises monster attraction factor of all cursed objects by one (up to treshold).
+     * Command: curl -X POST -i -H "Content-Type: application/json" --data '{"treshold":"MEDIUM"}'
+     * http://localhost:8080/pa165/rest/cursedObjects/increase
+     * @param treshold Treshold for increase
+     */
+    @RequestMapping(value = "/increase", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
+    public void massIncreaseMonsterAttractionFactor(@PathVariable("treshold") MonsterAttractionFactor treshold) {
+        cursedObjectFacade.massIncreaseMonsterAttractionFactor(treshold);
     }
 
     private CursedObjectDTO updateDTO(CursedObjectDTO cursedObjectDTO, CursedObjectDTO existing) {

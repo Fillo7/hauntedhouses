@@ -27,8 +27,7 @@ public class HouseRestController {
     
     /**
      * Creates a new house by POST method.
-     * Command: curl -X POST -i -H "Content-Type: application/json" --data 
-     * '{"name":"string","address":"string","monsterIds":[],"cursedObjectIds":[]}' 
+     * Command: curl -X POST -i -H "Content-Type: application/json" --data '{"name":"string","address":"string","monsterIds":[],"cursedObjectIds":[]}' 
      * http://localhost:8080/pa165/rest/houses/create
      * @param house HouseCreateDTO with required fields for creation
      * @return newly created house
@@ -46,7 +45,7 @@ public class HouseRestController {
     
     /**
      * Updates given house by PUT method.
-     * Command: curl -X PUT -i -H "Content-Type: application/json" --data '{"name":"string","address":"string","monsterIds":[1],"cursedObjectIds":[1]}'
+     * Command: curl -X PUT -i -H "Content-Type: application/json" --data '{"name":"string","address":"string","monsterIds":[{id}],"cursedObjectIds":[{id}]}'
      * http://localhost:8080/pa165/rest/houses/{id}
      * @param id identifier of a house
      * @param house updated house

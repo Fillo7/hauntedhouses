@@ -43,14 +43,14 @@ public class SampleDataLoadFacadeImpl implements SampleDataLoadFacade {
     @SuppressWarnings("unused")
     public void loadData() {
         // Load houses
-        House house = createHouse("Spooky", "Some address");
+        House tower = createHouse("Xardas's Tower", "I don't even remember");
         House whiteHouse = createHouse("White house", "Washington DC");
         House oldCreeky = createHouse("Old creeky house", "Creepy avenue 14, Cakington");
         House aperture = createHouse("Aperture", "Aperture laboratories");
 
         // Load monsters
-        Monster kitty = createMonster("Little Kitty", "little sweet kitty", LocalTime.of(10, 20), LocalTime.of(13, 40), house);
-        Monster huggy = createMonster("Huggy Bear", "Snoop Dogg Huggy Bear", LocalTime.of(4, 0), LocalTime.of(4, 5), house);
+        Monster kitty = createMonster("Little Kitty", "little sweet kitty", LocalTime.of(10, 20), LocalTime.of(13, 40), tower);
+        Monster huggy = createMonster("Huggy Bear", "Snoop Dogg Huggy Bear", LocalTime.of(4, 0), LocalTime.of(4, 5), tower);
         Monster grumpy = createMonster("Grumpy cat", "So grumpy it makes you cry. It doesn't even care.", LocalTime.of(5, 6), LocalTime.of(7, 3), oldCreeky);
         Monster glados = createMonster("GLaDOS", "Promises tasty cake", LocalTime.of(12,0), LocalTime.of(18, 0), aperture);
 
@@ -60,20 +60,21 @@ public class SampleDataLoadFacadeImpl implements SampleDataLoadFacade {
         Ability frog = createAbility("Spawn frogs", "Spawns thousands of frogs which do nothing" , huggy, grumpy);
 
         // Load cursed objects
-        CursedObject cursedObject = createCursedObject("object", "some description", MonsterAttractionFactor.MEDIUM, house);
+        CursedObject rubbish = createCursedObject("Pile of rubbish", "Seemingly harmless", MonsterAttractionFactor.MEDIUM, tower);
+        CursedObject theCoin = createCursedObject("The Coin", "Gain 1 mana crystal this turn only.", MonsterAttractionFactor.LOW, tower);
         CursedObject redButton = createCursedObject("Red button", "Kirov reporting", MonsterAttractionFactor.HIGH, whiteHouse);
         CursedObject cake = createCursedObject("Cake", "... is a lie", MonsterAttractionFactor.LOW, aperture);
 
         // Load users
-        User regular = createUser("regular", "regular", UserRole.REGULAR_USER);
-        User admin = createUser("admin", "admin", UserRole.ADMIN);
+        User regular = createUser("Ming", "Lee", UserRole.REGULAR_USER);
+        User admin = createUser("Opie", "OpieOP", UserRole.ADMIN);
     }
 
     private House createHouse(String name, String address) {
         House house = new House();
 
-        house.setAddress(name);
-        house.setName(address);
+        house.setName(name);
+        house.setAddress(address);
 
         houseService.create(house);
         return house;

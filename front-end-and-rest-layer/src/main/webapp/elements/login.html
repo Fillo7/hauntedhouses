@@ -15,7 +15,7 @@
     <div class="form-group" ng-class="{'has-error': !(form.password.$valid)}">
         <label for="password" class="col-sm-2 control-label">Password</label>
         <div class="col-sm-10">
-            <input placeholder="Password" id="password" type="text" ng-minlength="1" name="password" class="form-control" ng-model="user.password" required/>
+            <input placeholder="Password" id="password" type="password" ng-minlength="1" name="password" class="form-control" ng-model="user.password" required/>
             <p class="help-block" ng-show="form.password.$error.required">Password is required.</p>
             <p class="help-block" ng-show="form.password.$error.minlength">Password must not be empty.</p>
         </div>
