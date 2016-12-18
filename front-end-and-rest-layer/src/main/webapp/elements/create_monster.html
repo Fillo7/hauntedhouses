@@ -1,5 +1,5 @@
 <h1>Create new monster</h1>
-
+<br><br>
 <form name="form"  novalidate class="form-horizontal">
     <div class="form-group" ng-class="{'has-error': !(form.name.$valid)}">
         <label for="name" class="col-sm-2 control-label">Name</label>
@@ -17,7 +17,7 @@
             <p class="help-block" ng-show="form.description.$error.minlength">Description must be at least 5 characters long.</p>
         </div>
     </div>
-
+    
     <div class="form-group" ng-class="{'has-error': !(form.hauntedIntervalStart.$valid)}">
         <label for="hauntedIntervalStart" class="col-sm-2 control-label">Haunting start</label>
         <div class="col-sm-10">
@@ -35,33 +35,30 @@
             <p class="help-block" ng-show="form.hauntedIntervalEnd.$error.pattern">Wrong syntax. Must be in HH:MM format.</p>
         </div>
     </div>
-
-    <div class="form-group" ng-class="{'has-error': form.houseId.$invalid || form.houseId.$error.required || form.houseId.$pristine}">
-        <label for="houseId" class="col-sm-2 control-label">House</label>
+    
+    <div class="form-group">
+        <label class="col-sm-2 control-label">House</label>
         <div class="col-sm-10">
-            <select
-                id="houseId"
-                name="houseId"
-                class="form-control"
-                ng-model="monster.houseId"
-                convert-to-int
-                required
-                ng-options="house.id as house.name for house in houses">
-                <option selected disabled value="">-- Select house --</option>
-                <!--<option ng-repeat="house in houses" value="{{house.id}}">{{house.name}}</option>-->
+            <select required id="houseId" ng-model="monster.houseId">
+                <option value="" disabled selected hidden>Select house</option>
+                <option ng-repeat="house in houses" value="{{house.id}}">{{house.name}}</option>
             </select>
-            <p class="help-block" ng-show="form.houseId.$invalid || form.houseId.$error.required || form.houseId.$pristine">Select a house.</p>
         </div>
     </div>
-
+    
     <div class="form-group">
         <label for="abilities" class="col-sm-2 control-label">Abilities</label>
         <div class="col-sm-10">
-            <select id="abilities" name="abilities" class="form-control" ng-model="monster.abilityIds">
-                <option ng-repeat="ability in abilities" value="{{ability.id}}">{{ability.name}}</option>
-            </select>
+            <div ng-repeat="ability in abilities">
+                <label>
+                    <!-- The monster needn't have the property checked, it is created automatically if needed. -->
+                    <input type="checkbox" ng-model="ability.checked" />
+                    {{ability.name}}
+                </label><br/>
+            </div>
         </div>
     </div>
+    
 
-    <button ng-disabled="form.$invalid || form.houseId.$pristine" class="btn btn-primary" type="submit" ng-click="create(monster)">Create monster</button>
+    <button ng-disabled="!form.$valid" class="btn btn-primary" type="submit" ng-click="create(monster)">Create Monster</button>
 </form>

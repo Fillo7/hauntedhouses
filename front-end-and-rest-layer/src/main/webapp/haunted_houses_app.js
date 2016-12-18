@@ -182,6 +182,9 @@ hauntedHousesControllers.controller('MonsterCreateController', function ($scope,
 
     // Function called when submit button is clicked, creates monster on server
     $scope.create = function (monster) {
+        
+        monster.abilityIds = getIdsFromSelection($scope.abilities);
+        
         $http({
             method: 'POST',
             url: '/pa165/rest/monsters/create',
@@ -193,6 +196,7 @@ hauntedHousesControllers.controller('MonsterCreateController', function ($scope,
             $location.path("/monsters");
         }, function error(response) {
             console.log("error when creating monster");
+            console.log(monster);
             console.log(response);
             switch (response.data.code) {
                 case 'InvalidRequestException':
