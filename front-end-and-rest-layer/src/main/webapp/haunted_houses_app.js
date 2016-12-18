@@ -561,57 +561,57 @@ hauntedHousesControllers.controller('HousesController', function ($scope, $http,
             return house.monsterIds.indexOf(monster.id) !== -1;
         };
     };
-    
+
     $scope.filterByCursedObjectId = function (house) {
         return function (cursedObject) {
             return house.cursedObjectIds.indexOf(cursedObject.id) !== -1;
         };
     };
-    
-    $scope.delete = function(house) {
+
+    $scope.delete = function (house) {
         if (!confirm("Are you certain you want to delete selected house?")) {
             return;
         }
-        
+
         console.log("Deleting house with id: " + house.id);
         $http.delete("rest/houses/" + house.id).then(
-            function success(response) {
-                console.log("Succesfully deleted house " + house.id + " on the server.");
-                $rootScope.successAlert = 'Deleted house: "' + house.name + '"';
-                $location.path("/houses");
-            },
-            function error(response) {
-                console.log("Error when deleting house with id: " + house.id);
-                console.log(response);
-                switch (response.data.code) {
-                    case 'ResourceNotFoundException':
-                        $rootScope.errorAlert = "Cannot delete non-existent house!";
-                        break;
-                    default:
-                        $rootScope.errorAlert = "Cannot delete house with assigned monsters or cursed objects!";
-                        break;
+                function success(response) {
+                    console.log("Succesfully deleted house " + house.id + " on the server.");
+                    $rootScope.successAlert = 'Deleted house: "' + house.name + '"';
+                    $location.path("/houses");
+                },
+                function error(response) {
+                    console.log("Error when deleting house with id: " + house.id);
+                    console.log(response);
+                    switch (response.data.code) {
+                        case 'ResourceNotFoundException':
+                            $rootScope.errorAlert = "Cannot delete non-existent house!";
+                            break;
+                        default:
+                            $rootScope.errorAlert = "Cannot delete house with assigned monsters or cursed objects!";
+                            break;
+                    }
                 }
-            }
         );
     };
-    
-    $scope.purge = function(house) {
+
+    $scope.purge = function (house) {
         if (!confirm("Are you certain you want to purge selected house (delete all monsters and cursed objects residing in it)?")) {
             return;
         }
-        
+
         console.log("Purging house with id: " + house.id);
         $http.delete("rest/houses/purge/" + house.id).then(
-            function success(response) {
-                console.log("Succesfully purged house " + house.id + " on the server.");
-                $rootScope.successAlert = 'House with name: "' + house.name + '" was successfully purged.';
-                $location.path("/houses");
-            },
-            function error(response) {
-                console.log("Error when purging house with id: " + house.id);
-                console.log(response);
-                $rootScope.errorAlert = "Cannot purge selected house!";
-            }
+                function success(response) {
+                    console.log("Succesfully purged house " + house.id + " on the server.");
+                    $rootScope.successAlert = 'House with name: "' + house.name + '" was successfully purged.';
+                    $location.path("/houses");
+                },
+                function error(response) {
+                    console.log("Error when purging house with id: " + house.id);
+                    console.log(response);
+                    $rootScope.errorAlert = "Cannot purge selected house!";
+                }
         );
     };
 });
@@ -657,41 +657,6 @@ hauntedHousesControllers.controller('HouseCreateController', function ($scope, $
 });
 
 hauntedHousesControllers.controller('HouseUpdateController', function ($scope, $http, $routeParams, $rootScope, $location) {
-    $http.get('rest/monsters').then(function (response) {
-        $scope.monsters = response.data;
-
-        // Clear checked status
-        $scope.monsters.forEach(function (monster) {
-            monster.checked = false;
-        });
-
-        // Check correct monsters
-        for (var i = 0; i < $scope.monsters.length; i++) {
-            for (var j = 0; j < $scope.house.monsterIds.length; j++) {
-                if ($scope.monsters[i].id === $scope.house.monsterIds[j]) {
-                    $scope.monsters[i].checked = true;
-                }
-            }
-        }
-    });
-
-    $http.get('rest/cursedObjects').then(function (response) {
-        $scope.cursedObjects = response.data;
-
-        // Clear checked status
-        $scope.cursedObjects.forEach(function (cursedObject) {
-            cursedObject.checked = false;
-        });
-
-        // Check correct monsters
-        for (var i = 0; i < $scope.cursedObjects.length; i++) {
-            for (var j = 0; j < $scope.house.cursedObjectIds.length; j++) {
-                if ($scope.cursedObjects[i].id === $scope.house.cursedObjectIds[j]) {
-                    $scope.cursedObjects[i].checked = true;
-                }
-            }
-        }
-    });
 
     $scope.house = {
         'name': '',
@@ -705,7 +670,48 @@ hauntedHousesControllers.controller('HouseUpdateController', function ($scope, $
     $http.get('rest/houses/id/' + houseId).then(function (response) {
         var house = response.data;
         $scope.house = house;
-    });
+        console.log($scope.house);
+    })
+            // Load cursed objects after the house has been loaded
+            .then(function () {
+                $http.get('rest/cursedObjects').then(function (response) {
+                    $scope.cursedObjects = response.data;
+
+                    // Clear checked status
+                    $scope.cursedObjects.forEach(function (cursedObject) {
+                        cursedObject.checked = false;
+                    });
+
+                    // Check correct monsters
+                    for (var i = 0; i < $scope.cursedObjects.length; i++) {
+                        for (var j = 0; j < $scope.house.cursedObjectIds.length; j++) {
+                            if ($scope.cursedObjects[i].id === $scope.house.cursedObjectIds[j]) {
+                                $scope.cursedObjects[i].checked = true;
+                            }
+                        }
+                    }
+                });
+            })
+            // Load monsters after the house has been loaded
+            .then(function () {
+                $http.get('rest/monsters').then(function (response) {
+                    $scope.monsters = response.data;
+
+                    // Clear checked status
+                    $scope.monsters.forEach(function (monster) {
+                        monster.checked = false;
+                    });
+
+                    // Check correct monsters
+                    for (var i = 0; i < $scope.monsters.length; i++) {
+                        for (var j = 0; j < $scope.house.monsterIds.length; j++) {
+                            if ($scope.monsters[i].id === $scope.house.monsterIds[j]) {
+                                $scope.monsters[i].checked = true;
+                            }
+                        }
+                    }
+                });
+            });
 
     // Update button clicked
     $scope.update = function (house) {
