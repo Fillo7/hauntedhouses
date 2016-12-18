@@ -104,7 +104,7 @@ hauntedHousesControllers.controller('UsersController', function ($scope, $http) 
 /*** Monster controllers ***/
 
 /**
- * Helper method that returns array of monster IDs from array of monsters with optional checked property.
+ * Helper method that returns array of IDs from array with optional checked property.
  * @param {type} selection Array that has items with optional checked property.
  * @return {Array|getMonstersId.monsterIds} Array of checked item IDs.
  */
@@ -118,6 +118,23 @@ function getIdsFromSelection(selection) {
     }
 
     return resultIds;
+}
+
+/**
+ * Helper method that returns array of names from array with optional checked property.
+ * @param {type} selection Array that has items with optional checked property.
+ * @return {Array|getMonstersId.monsterIds} Array of checked item names.
+ */
+function getIdsFromSelection(selection) {
+    var resultNames = [];
+
+    for (var i = 0; i < selection.length; i++) {
+        if (selection[i].checked === true) {
+            resultNames.push(selection[i].name);
+        }
+    }
+
+    return resultNames;
 }
 
 hauntedHousesControllers.controller('MonstersController', function ($scope, $http, $rootScope, $location) {
@@ -177,19 +194,12 @@ hauntedHousesControllers.controller('MonsterCreateController', function ($scope,
         'abilityIds': []
     };
 
-    // Check if any house has been selected
-    /*$scope.houseSelected = function () {
-        if ($scope.house)
-            return false;
-        return true;
-    };*/
-
     console.log($scope.monster);
 
     // Function called when submit button is clicked, creates monster on server
     $scope.create = function (monster) {
 
-        monster.abilityIds = getIdsFromSelection($scope.abilities);
+        monster.abilityIds = getNamesFromSelection($scope.abilities);
 
         $http({
             method: 'POST',
@@ -240,7 +250,7 @@ hauntedHousesControllers.controller('MonsterUpdateController', function ($scope,
     $scope.update = function (monster) {
         console.log("Monster to be updated:");
         console.log(monster);
-        //monster.abilityIds = getIdsFromSelection($scope.abilities);
+        monster.abilityNames = getIdsFromSelection($scope.abilities);
 
         $http({
             method: 'PUT',
