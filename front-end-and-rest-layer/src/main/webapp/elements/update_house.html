@@ -18,32 +18,5 @@
         </div>
     </div>
 
-    <!-- Monsters checkbox -->
-    <div class="form-group">
-        <label for="monsters" class="col-sm-2 control-label">Monsters</label>
-        <div class="col-sm-10">
-            <div ng-repeat="monster in monsters">
-                <label>
-                    <!-- The monster needn't have the property checked, it is created automatically if needed. -->
-                    <input type="checkbox" ng-model="monster.checked" ng-checked="monster.checked == true" />
-                    {{monster.name}}
-                </label><br/>
-            </div>
-        </div>
-    </div>
-
-    <!-- Monsters checkbox -->
-    <div class="form-group">
-        <label for="cursedObjects" class="col-sm-2 control-label">Cursed Objects</label>
-        <div class="col-sm-10">
-            <div ng-repeat="cursedObject in cursedObjects">
-                <label>
-                    <input type="checkbox" ng-model="cursedObject.checked" ng-checked="cursedObject.checked == true"/>
-                    {{cursedObject.name}}
-                </label><br/>
-            </div>
-        </div>
-    </div>
-
     <button ng-disabled="!form.$valid" class="btn btn-primary" type="submit" ng-click="update(house)">Update house</button>
 </form>

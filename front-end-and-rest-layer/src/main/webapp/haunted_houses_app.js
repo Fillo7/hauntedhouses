@@ -515,7 +515,6 @@ hauntedHousesControllers.controller('CursedObjectUpdateController', function ($s
     $http.get('rest/cursedObjects/' + cursedObjectId).then(function (response) {
         var cursedObject = response.data;
         $scope.cursedObject = cursedObject;
-        console.log($scope.cursedObject);
     });
 
     // Update cursedObject function
