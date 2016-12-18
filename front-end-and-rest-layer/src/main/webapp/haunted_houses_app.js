@@ -132,6 +132,10 @@ hauntedHousesControllers.controller('MonstersController', function ($scope, $htt
     };
 
     $scope.delete = function (monster) {
+        if (!confirm("Are you certain you want to delete selected monster?")) {
+            return;
+        }
+        
         console.log("Deleting monster with id = " + monster.id + " (" + monster.name + ")");
         $http.delete("rest/monsters/" + monster.id).then(
                 function success(response) {
@@ -198,7 +202,7 @@ hauntedHousesControllers.controller('MonsterCreateController', function ($scope,
             console.log("error when creating monster");
             console.log(monster);
             console.log(response);
-            $rootScope.errorAlert = 'Cannot create monster! Reason given by the server: ' + response.data.message;
+            $rootScope.errorAlert = 'Cannot create monster! Input is invalid.';
         });
     };
 });
@@ -266,7 +270,7 @@ hauntedHousesControllers.controller('MonsterUpdateController', function ($scope,
             console.log("Error when attempting to update monster:");
             console.log(monster);
             console.log(response);
-            $rootScope.errorAlert = "Cannot update monster! Reason given by the server: " + response.data.message;
+            $rootScope.errorAlert = 'Cannot update monster! Input is invalid.';
         });
     };
 });
@@ -292,6 +296,10 @@ hauntedHousesControllers.controller('AbilitiesController', function ($scope, $ht
     };
 
     $scope.delete = function (ability) {
+        if (!confirm("Are you certain you want to delete selected ability?")) {
+            return;
+        }
+        
         console.log("Deleting ability with id = " + ability.id + " (" + ability.name + ")");
         $http.delete("rest/abilities/" + ability.id).then(
                 function success(response) {
