@@ -26,11 +26,11 @@
                 <td>{{house.name}}</td>
                 <td>{{house.address}}</td>
                 <td>
-                    <div ng-repeat="monsterId in house.monsterIds">{{monsterId}}</div>
+                    <div ng-repeat="monster in monsters | filter: filterByMonsterId(house)">{{monster.name}}</div>
                     <div ng-show="house.monsterIds.length == 0">No assigned monsters</div>
                 </td>
                 <td>
-                    <div ng-repeat="cursedObjectId in house.cursedObjectIds">{{cursedObjectId}}</div>
+                    <div ng-repeat="cursedObject in cursedObjects | filter: filterByCursedObjectId(house)">{{cursedObject.name}}</div>
                     <div ng-show="house.cursedObjectIds.length == 0">No assigned cursed objects</div>
                 </td>
                 <!-- Update button -->
@@ -61,6 +61,7 @@
             </tr>
         </tbody>
     </table>
+    
     <div>
         Number of houses: {{houses.length}}
     </div>
