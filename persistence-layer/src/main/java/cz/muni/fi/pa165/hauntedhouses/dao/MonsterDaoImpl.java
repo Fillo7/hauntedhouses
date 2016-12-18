@@ -37,12 +37,6 @@ public class MonsterDaoImpl implements MonsterDao {
             throw new IllegalArgumentException("Deleting null entity.");
         }
         
-        // Remove assigned abilities first
-        Set<Ability> abilities = monster.getAbilities();
-        for(Ability ability : abilities) {
-            monster.removeAbility(ability);
-        }
-        
         em.remove(getById(monster.getId()));
     }
 

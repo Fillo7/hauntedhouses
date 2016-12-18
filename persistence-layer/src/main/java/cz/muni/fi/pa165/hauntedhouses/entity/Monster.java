@@ -20,6 +20,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.PreRemove;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
@@ -133,11 +134,11 @@ public class Monster {
             return;
         }
 
-        // Remove the ability
-        this.abilities.remove(ability);
-
         // Remove this monster from the ability's monsters
         ability.removeMonster(this);
+        
+        // Remove the ability
+        this.abilities.remove(ability);
     }
 
     public void addAbility(Ability ability) {
@@ -187,5 +188,12 @@ public class Monster {
      */
     private boolean sameAsFormer(House newHouse) {
         return house == null ? newHouse == null : house.equals(newHouse);
+    }
+    
+    @PreRemove
+    private void removeAbilitiesFromMonster() {
+        for (Ability ability : abilities) {
+            ability.getMonsters().remove(this);
+        }
     }
 }

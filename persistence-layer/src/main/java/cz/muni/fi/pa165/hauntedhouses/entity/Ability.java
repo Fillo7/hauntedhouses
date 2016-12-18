@@ -67,7 +67,8 @@ public class Ability {
     }
 
     public Set<Monster> getMonsters() {
-        return Collections.unmodifiableSet(monsters);
+        //return Collections.unmodifiableSet(monsters);
+        return monsters;
     }
 
     public void addMonster(Monster monster) {
