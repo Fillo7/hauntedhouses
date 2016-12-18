@@ -99,11 +99,23 @@ public class MonsterRestController {
      * curl -i -X PUT -H "Content-Type: application/json" --data '{"name":"Novy nazov"}' http://localhost:8080/pa165/rest/monsters/2
      *
      * @param id of updating monster
-     * @param editedMonster with required fields
+     * @param monsterDTO with required fields
+     * @return updated monster
      * @throws RequestedResourceNotFound if monster does not exists
      * @throws RequestedResourceNotModified if cannot be updated
      */
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE,
+                    produces = MediaType.APPLICATION_JSON_VALUE)
+    public final MonsterDTO updateMonster(@PathVariable("id") long id, @RequestBody MonsterDTO monsterDTO) {
+        try {
+            monsterDTO.setId(id);
+            monsterFacade.updateMonster(monsterDTO);
+            return monsterFacade.getMonsterById(id);
+        } catch (Exception ex) {
+            throw new RequestedResourceNotFound("Monster with given id doesn't exist: " + id, ex);
+        }
+    }
+    /*@RequestMapping(value = "/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public final MonsterDTO updateMonster(@PathVariable("id") long id, @RequestBody MonsterDTO editedMonster) throws RequestedResourceNotFound, RequestedResourceNotModified {
         MonsterDTO existingMonster;
@@ -125,7 +137,7 @@ public class MonsterRestController {
         }
 
         return toUpdate;
-    }
+    }*/
 
     private MonsterDTO createUpdatingDTO(MonsterDTO existing, MonsterDTO toUpdate){
         MonsterDTO result = new MonsterDTO();
