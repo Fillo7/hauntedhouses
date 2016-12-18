@@ -17,7 +17,7 @@
             <p class="help-block" ng-show="form.description.$error.minlength">Description must be at least 5 characters long.</p>
         </div>
     </div>
-    
+
     <div class="form-group" ng-class="{'has-error': !(form.hauntedIntervalStart.$valid)}">
         <label for="hauntedIntervalStart" class="col-sm-2 control-label">Haunting start</label>
         <div class="col-sm-10">
@@ -35,17 +35,36 @@
             <p class="help-block" ng-show="form.hauntedIntervalEnd.$error.pattern">Wrong syntax. Must be in HH:MM format.</p>
         </div>
     </div>
-    
-    <div class="form-group">
+
+    <!-- House dropdown list -->
+    <!--div class="form-group">
         <label class="col-sm-2 control-label">House</label>
         <div class="col-sm-10">
-            <select required id="houseId" ng-model="monster.houseId">
+            <select required id="houseName" ng-model="monster.houseName">
                 <option value="" disabled selected hidden>Select house</option>
-                <option ng-repeat="house in houses" value="{{house.id}}">{{house.name}}</option>
+                <option ng-repeat="house in houses" value="{{house.name}}">{{house.name}}</option>
             </select>
         </div>
+    </div-->
+    <div class="form-group" ng-class="{'has-error': form.houseName.$invalid || form.houseName.$error.required || form.houseName.$pristine}">
+        <label for="houseName" class="col-sm-2 control-label">House</label>
+        <div class="col-sm-10">
+            <select
+                    id="houseName"
+                    name="houseName"
+                    class="form-control"
+                    ng-model="monster.houseName"
+                    convert-to-int
+                    required
+                    ng-options="house.name for house in houses track by house.id">
+                    <option selected disabled value="">-- Select house --</option>
+                    <!--option ng-repeat="house in houses" value="{{house.name}}">{{house.name}}</option-->
+                    <p class="help-block" ng-show="form.houseName.$invalid || form.houseName.$error.required || form.houseName.$pristine">Select a house.</p>
+                </select>
+        </div>
     </div>
-    
+
+    <!-- Abilities checkbox -->
     <div class="form-group">
         <label for="abilities" class="col-sm-2 control-label">Abilities</label>
         <div class="col-sm-10">
@@ -58,7 +77,7 @@
             </div>
         </div>
     </div>
-    
 
-    <button ng-disabled="!form.$valid" class="btn btn-primary" type="submit" ng-click="create(monster)">Create Monster</button>
+
+    <button ng-disabled="form.$invalid || form.houseName.$pristine" class="btn btn-primary" type="submit" ng-click="create(monster)">Create Monster</button>
 </form>

@@ -160,7 +160,7 @@ hauntedHousesControllers.controller('MonstersController', function ($scope, $htt
     };
 });
 
-hauntedHousesControllers.controller('MonsterCreateController', function ($scope, $routeParams, $http, $location, $rootScope) {
+hauntedHousesControllers.controller('MonsterCreateController', function ($scope, $http, $location, $rootScope) {
     $http.get('/pa165/rest/houses').then(function (response) {
         $scope.houses = response.data;
     });
@@ -173,16 +173,18 @@ hauntedHousesControllers.controller('MonsterCreateController', function ($scope,
         'description': '',
         'hauntedIntervalStart': '',
         'hauntedIntervalEnd': '',
-        'houseId': [],
+        'houseName': '',
         'abilityIds': []
     };
 
     // Check if any house has been selected
-    $scope.houseSelected = function () {
+    /*$scope.houseSelected = function () {
         if ($scope.house)
             return false;
         return true;
-    };
+    };*/
+
+    console.log($scope.monster);
 
     // Function called when submit button is clicked, creates monster on server
     $scope.create = function (monster) {
@@ -213,20 +215,7 @@ hauntedHousesControllers.controller('MonsterUpdateController', function ($scope,
         $scope.houses = response.data;
     });
 
-    /*$scope.monster = {
-     'name': 'Placeholder name',
-     'description': 'Placeholder description',
-     'hauntedIntervalStart': '',
-     'hauntedIntervalEnd': '',
-     'houseId': '',
-     'abilityIds': []
-     };*/
-
     $scope.monster = JSON.parse($routeParams.monster);
-    console.log("Monster passed as parameter:");
-    console.log($scope.monster);
-    console.log("Ability names:");
-    console.log($scope.monster.abilityNames);
 
     // Load abilities and add them a "checked" property
     $http.get('/pa165/rest/abilities').then(function (response) {
