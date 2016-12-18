@@ -50,17 +50,14 @@
 
         <!-- House dropdown list -->
         <div class="form-group">
-            <label for="houseId" class="col-sm-2 control-label">House</label>
+            <label for="houseName" class="col-sm-2 control-label">House</label>
             <div class="col-sm-10">
-                <select id="houseId"
-                        name="houseId"
+                <select id="houseName"
+                        name="houseName"
                         class="form-control"
-                        ng-model="monster.houseId"
-                        convert-to-int
-                        ng-options="house.id as house.name for house in houses"
+                        ng-model="monster.houseName"
                         required>
                 </select>
-                <p class="help-block" ng-show="form.houseId.$invalid || form.houseId.$error.required || form.houseId.$pristine">Select a house.</p>
             </div>
         </div>
 

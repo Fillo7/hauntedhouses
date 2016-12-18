@@ -226,6 +226,7 @@ hauntedHousesControllers.controller('MonsterUpdateController', function ($scope,
     });
 
     $scope.monster = JSON.parse($routeParams.monster);
+    console.log($scope.monster);
 
     // Load abilities and add them a "checked" property
     $http.get('/pa165/rest/abilities').then(function (response) {
@@ -250,7 +251,7 @@ hauntedHousesControllers.controller('MonsterUpdateController', function ($scope,
     $scope.update = function (monster) {
         console.log("Monster to be updated:");
         console.log(monster);
-        monster.abilityNames = getIdsFromSelection($scope.abilities);
+        monster.abilityNames = getNamesFromSelection($scope.abilities);
 
         $http({
             method: 'PUT',
