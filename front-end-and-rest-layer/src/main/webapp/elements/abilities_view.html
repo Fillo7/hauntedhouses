@@ -11,17 +11,17 @@
     <table class="table">
         <thead>
             <tr>
-                <th>Id</th>
+                <th ng-show="isAdmin">Id</th>
                 <th>Name</th>
                 <th>Description</th>
                 <th>Monsters</th>
-                <th></th>
-                <th></th>
+                <th ng-show="isUser">Update</th>
+                <th ng-show="isAdmin">Delete</th>
             </tr>
         </thead>
         <tbody>
             <tr ng-repeat="ability in abilities">
-                <td>{{ability.id}}</td>
+                <td ng-show="isAdmin">{{ability.id}}</td>
                 <td>{{ability.name}}</td>
                 <td>{{ability.description}}</td>
                 <td>

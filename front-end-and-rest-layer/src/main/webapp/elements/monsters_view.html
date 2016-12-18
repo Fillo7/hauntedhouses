@@ -11,20 +11,20 @@
 <table class="table">
     <thead>
         <tr>
-            <th>Id</th>
+            <th ng-show="isAdmin">Id</th>
             <th>Name</th>
             <th>Description</th>
             <th>Haunting start</th>
             <th>Haunting end</th>
             <th>House</th>
             <th>Abilities</th>
-            <th></th>
-            <th></th>
+            <th ng-show="isUser">Update</th>
+            <th ng-show="isAdmin">Delete</th>
         </tr>
     </thead>
     <tbody>
         <tr ng-repeat="monster in monsters">
-            <td>{{monster.id}}</td>
+            <td ng-show="isAdmin">{{monster.id}}</td>
             <td>{{monster.name}}</td>
             <td>{{monster.description}}</td>
             <td>{{monster.hauntedIntervalStart}}</td>

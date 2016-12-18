@@ -4,9 +4,9 @@
 *.iws
 *.ipr
 nb-configuration.xml
-nbproject/private/
-build/
-nbbuild/
-dist/
-nbdist/
-nbproject/
+./nbproject/private/
+./build/
+./nbbuild/
+./dist/
+./nbdist/
+./nbproject/

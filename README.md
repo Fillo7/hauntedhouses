@@ -24,4 +24,4 @@ This application has two parts:
 - AngularJS front-end running on /pa165
 
 1. run `mvn clean install` command in home directory
-2. run `mvn` in front-end-and-rest-layer directory
+2. run `mvn tomcat7:run` command in front-end-and-rest-layer directory

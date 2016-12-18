@@ -11,18 +11,18 @@
     <table class="table">
         <thead>
             <tr>
-                <th>Id</th>
+                <th ng-show="isAdmin">Id</th>
                 <th>Name</th>
                 <th>Address</th>
                 <th>Monsters</th>
                 <th>Cursed objects</th>
-                <th></th>
-                <th></th>
+                <th ng-show="isUser">Update</th>
+                <th ng-show="isAdmin">Delete</th>
             </tr>
         </thead>
         <tbody>
             <tr ng-repeat="house in houses">
-                <td>{{house.id}}</td>
+                <td ng-show="isAdmin">{{house.id}}</td>
                 <td>{{house.name}}</td>
                 <td>{{house.address}}</td>
                 <td>
