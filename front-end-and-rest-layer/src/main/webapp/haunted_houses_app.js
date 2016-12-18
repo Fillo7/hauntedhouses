@@ -125,7 +125,7 @@ function getIdsFromSelection(selection) {
  * @param {type} selection Array that has items with optional checked property.
  * @return {Array|getMonstersId.monsterIds} Array of checked item names.
  */
-function getIdsFromSelection(selection) {
+function getNamesFromSelection(selection) {
     var resultNames = [];
 
     for (var i = 0; i < selection.length; i++) {

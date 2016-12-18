@@ -41,20 +41,20 @@
     </div>
 
     <!-- House dropdown list -->
-    <div class="form-group" ng-class="{'has-error': form.houseName.$invalid || form.houseName.$error.required || form.houseName.$pristine}">
-        <label for="houseName" class="col-sm-2 control-label">House</label>
+    <div class="form-group" ng-class="{'has-error': form.houseId.$invalid || form.houseId.$error.required || form.houseId.$pristine}">
+        <label for="houseId" class="col-sm-2 control-label">House</label>
         <div class="col-sm-10">
             <select
-                    id="houseName"
-                    name="houseName"
+                    id="houseId"
+                    name="houseId"
                     class="form-control"
-                    ng-model="monster.houseName"
+                    ng-model="monster.houseId"
                     convert-to-int
                     required
-                    ng-options="house.name for house in houses track by house.id">
+                    ng-options="house.id as house.name for house in houses track by house.id">
                     <option selected disabled value="">-- Select house --</option>
                     <!--option ng-repeat="house in houses" value="{{house.name}}">{{house.name}}</option-->
-                    <p class="help-block" ng-show="form.houseName.$invalid || form.houseName.$error.required || form.houseName.$pristine">Select a house.</p>
+                    <p class="help-block" ng-show="form.houseId.$invalid || form.houseId.$error.required || form.houseId.$pristine">Select a house.</p>
                 </select>
         </div>
     </div>
