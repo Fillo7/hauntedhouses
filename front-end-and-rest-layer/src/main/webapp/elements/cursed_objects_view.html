@@ -25,7 +25,7 @@
                 <td>{{cursedObject.id}}</td>
                 <td>{{cursedObject.name}}</td>
                 <td>{{cursedObject.description}}</td>
-                <td>{{cursedObject.monsterAttractionFactor}}</td>
+                <td>{{cursedObject.monsterAttractionFactor.toLowerCase()}}</td>
                 <td>
                     <div ng-repeat="house in houses | filter: houseIdFilter(cursedObject.houseId)">{{house.name}}</div>
                 </td>
@@ -57,4 +57,19 @@
             </tr>
         </tbody>
     </table>
+    
+    <form class="form-inline">
+    <select required id="treshold" ng-model="treshold">
+        <option value="" disabled selected hidden>Select treshold</option>
+        <option value="LOW">Low</option>
+        <option value="MEDIUM">Medium</option>
+        <option value="HIGH">High</option>
+        <option value="INSANE">Insane</option>
+    </select>
+    <button type="submit" class="btn btn-primary" ng-click="increaseFactor(treshold)">Mass increase monster attraction factor</button>
+    </form>
+    
+    <div style="padding-top: 20px">
+        Number of cursed objects: {{cursedObjects.length}}
+    </div>
 </div>
