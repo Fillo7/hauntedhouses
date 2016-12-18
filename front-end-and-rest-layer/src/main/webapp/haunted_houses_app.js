@@ -50,7 +50,7 @@ hauntedHousesApp.run(function ($rootScope) {
 
 /*** User controllers ***/
 
-hauntedHousesControllers.controller('LoginController', function ($scope, $routeParams, $http, $location, $rootScope) {
+hauntedHousesControllers.controller('LoginController', function ($scope, $http, $location, $rootScope) {
     $scope.user = {
         'login': '',
         'password': ''
@@ -87,7 +87,7 @@ hauntedHousesControllers.controller('LoginController', function ($scope, $routeP
     };
 });
 
-hauntedHousesControllers.controller('LogoutController', function ($scope, $location, $rootScope) {
+hauntedHousesControllers.controller('LogoutController', function ($location, $rootScope) {
     $rootScope.isUser = false;
     $rootScope.isAdmin = false;
     $rootScope.userName = undefined;
@@ -219,14 +219,11 @@ hauntedHousesControllers.controller('MonsterCreateController', function ($scope,
     };
 });
 
-hauntedHousesControllers.controller('MonsterUpdateController', function ($scope, $http, $routeParams, $location, $rootScope/*, monsterLoadService*/) {
+hauntedHousesControllers.controller('MonsterUpdateController', function ($scope, $http, $routeParams, $location, $rootScope) {
 
     $http.get('/pa165/rest/houses').then(function (response) {
         $scope.houses = response.data;
     });
-
-    $scope.monster = JSON.parse($routeParams.monster);
-    console.log($scope.monster);
 
     // Load abilities and add them a "checked" property
     $http.get('/pa165/rest/abilities').then(function (response) {
@@ -246,6 +243,9 @@ hauntedHousesControllers.controller('MonsterUpdateController', function ($scope,
             }
         }
     });
+
+    $scope.monster = JSON.parse($routeParams.monster);
+    console.log($scope.monster);
 
     // Update button clicked
     $scope.update = function (monster) {
@@ -423,7 +423,7 @@ hauntedHousesControllers.controller('AbilityUpdateController', function ($scope,
 
 /*** Cursed object controllers ***/
 
-hauntedHousesControllers.controller('CursedObjectController', function ($scope, $rootScope, $location, $routeParams, $http) {
+hauntedHousesControllers.controller('CursedObjectController', function ($scope, $rootScope, $location, $http) {
     $http.get('rest/cursedObjects').then(function (response) {
         $scope.cursedObjects = response.data;
     });
@@ -485,7 +485,7 @@ hauntedHousesControllers.controller('CursedObjectController', function ($scope, 
     };
 });
 
-hauntedHousesControllers.controller('CursedObjectCreateController', function ($scope, $routeParams, $http, $location, $rootScope) {
+hauntedHousesControllers.controller('CursedObjectCreateController', function ($scope, $http, $location, $rootScope) {
     $http.get('rest/houses').then(function (response) {
         $scope.houses = response.data;
     });
