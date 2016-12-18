@@ -37,15 +37,6 @@
     </div>
 
     <!-- House dropdown list -->
-    <!--div class="form-group">
-        <label class="col-sm-2 control-label">House</label>
-        <div class="col-sm-10">
-            <select required id="houseName" ng-model="monster.houseName">
-                <option value="" disabled selected hidden>Select house</option>
-                <option ng-repeat="house in houses" value="{{house.name}}">{{house.name}}</option>
-            </select>
-        </div>
-    </div-->
     <div class="form-group" ng-class="{'has-error': form.houseName.$invalid || form.houseName.$error.required || form.houseName.$pristine}">
         <label for="houseName" class="col-sm-2 control-label">House</label>
         <div class="col-sm-10">

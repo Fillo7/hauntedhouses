@@ -135,7 +135,7 @@ hauntedHousesControllers.controller('MonstersController', function ($scope, $htt
         if (!confirm("Are you certain you want to delete selected monster?")) {
             return;
         }
-        
+
         console.log("Deleting monster with id = " + monster.id + " (" + monster.name + ")");
         $http.delete("rest/monsters/" + monster.id).then(
                 function success(response) {
@@ -288,7 +288,7 @@ hauntedHousesControllers.controller('AbilitiesController', function ($scope, $ht
         if (!confirm("Are you certain you want to delete selected ability?")) {
             return;
         }
-        
+
         console.log("Deleting ability with id = " + ability.id + " (" + ability.name + ")");
         $http.delete("rest/abilities/" + ability.id).then(
                 function success(response) {
@@ -515,6 +515,7 @@ hauntedHousesControllers.controller('CursedObjectUpdateController', function ($s
     $http.get('rest/cursedObjects/' + cursedObjectId).then(function (response) {
         var cursedObject = response.data;
         $scope.cursedObject = cursedObject;
+        console.log($scope.cursedObject);
     });
 
     // Update cursedObject function
