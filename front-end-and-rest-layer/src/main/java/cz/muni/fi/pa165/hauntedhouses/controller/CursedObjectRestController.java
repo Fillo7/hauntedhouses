@@ -8,6 +8,7 @@ package cz.muni.fi.pa165.hauntedhouses.controller;
 import cz.muni.fi.pa165.hauntedhouses.configuration.Uri;
 import cz.muni.fi.pa165.hauntedhouses.dto.CursedObjectCreateDTO;
 import cz.muni.fi.pa165.hauntedhouses.dto.CursedObjectDTO;
+import cz.muni.fi.pa165.hauntedhouses.dto.CursedObjectIncreaseFactorDTO;
 import cz.muni.fi.pa165.hauntedhouses.enums.MonsterAttractionFactor;
 import cz.muni.fi.pa165.hauntedhouses.exceptions.DataManipulationException;
 import cz.muni.fi.pa165.hauntedhouses.exceptions.NoEntityException;
@@ -38,8 +39,8 @@ public class CursedObjectRestController {
      * @param createDto
      * @return created CursedObject
      */
-    @RequestMapping(value = "/create",method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE,
-            produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/create", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE,
+                    produces = MediaType.APPLICATION_JSON_VALUE)
     public CursedObjectDTO createCursedObject(@RequestBody CursedObjectCreateDTO createDto) {
         try {
             Long id = cursedObjectFacade.createCursedObject(createDto);
@@ -61,7 +62,7 @@ public class CursedObjectRestController {
      * @return updated cursed object
      */
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE,
-            produces = MediaType.APPLICATION_JSON_VALUE)
+                    produces = MediaType.APPLICATION_JSON_VALUE)
     public final CursedObjectDTO updateCursedObject(@RequestBody CursedObjectDTO cursedObjectDTO, @PathVariable("id") long id) {
         CursedObjectDTO existing = null;
         try {
@@ -90,7 +91,7 @@ public class CursedObjectRestController {
      * 
      * @param id of CursedObject that should be deleted
      */
-    @RequestMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.DELETE)
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
     public final void deleteCursedObject(@PathVariable("id") long id) {
         try {
             cursedObjectFacade.deleteCursedObject(id);
@@ -107,7 +108,7 @@ public class CursedObjectRestController {
      * @param id
      * @return CursedObject with given id
      */
-    @RequestMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public CursedObjectDTO getCursedObjectById(@PathVariable("id") long id) {
         try {
             return cursedObjectFacade.getCursedObjectWithId(id);
@@ -123,7 +124,7 @@ public class CursedObjectRestController {
      * 
      * @return list of all CursedObjects
      */
-    @RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
+    @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public List<CursedObjectDTO> getAllCursedObjects() {
         try {
             return Collections.unmodifiableList( cursedObjectFacade.getAllCursedObjects() );
@@ -133,14 +134,15 @@ public class CursedObjectRestController {
     }
     
     /**
-     * Raises monster attraction factor of all cursed objects by one (up to treshold).
-     * Command: curl -X POST -i -H "Content-Type: application/json" --data '{"treshold":"MEDIUM"}'
+     * Raises monster attraction factor of all cursed objects by one (up to threshold).
+     * Command: curl -X POST -i -H "Content-Type: application/json" --data '{"threshold":"MEDIUM"}'
      * http://localhost:8080/pa165/rest/cursedObjects/increase
-     * @param treshold Treshold for increase
+     * @param dto Object with needed data
      */
-    @RequestMapping(value = "/increase", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
-    public void massIncreaseMonsterAttractionFactor(@PathVariable("treshold") MonsterAttractionFactor treshold) {
-        cursedObjectFacade.massIncreaseMonsterAttractionFactor(treshold);
+    @RequestMapping(value = "/increase", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE,
+                    produces = MediaType.APPLICATION_JSON_VALUE)
+    public void massIncreaseMonsterAttractionFactor(@RequestBody CursedObjectIncreaseFactorDTO dto) {
+        cursedObjectFacade.massIncreaseMonsterAttractionFactor(dto.getThreshold());
     }
 
     private CursedObjectDTO updateDTO(CursedObjectDTO cursedObjectDTO, CursedObjectDTO existing) {

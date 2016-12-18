@@ -48,8 +48,8 @@ public interface CursedObjectFacade {
     
     /**
      * Increases monster attraction factor of specified cursed objects by one (up to insane).
-     * @param treshold Increase will only be applied to cursed objects with attraction factor <= treshold
+     * @param threshold Increase will only be applied to cursed objects with attraction factor <= threshold
      * @throws IllegalArgumentException if treshold is null.
      */
-    void massIncreaseMonsterAttractionFactor(MonsterAttractionFactor treshold);
+    void massIncreaseMonsterAttractionFactor(MonsterAttractionFactor threshold);
 }

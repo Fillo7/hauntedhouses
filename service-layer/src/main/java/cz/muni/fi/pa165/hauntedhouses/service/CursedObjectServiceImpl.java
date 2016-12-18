@@ -41,11 +41,11 @@ public class CursedObjectServiceImpl implements CursedObjectService {
     }
     
     @Override
-    public void massIncreaseMonsterAttractionFactor(MonsterAttractionFactor treshold) {
+    public void massIncreaseMonsterAttractionFactor(MonsterAttractionFactor threshold) {
         List<CursedObject> cursedObjects = cursedObjectDao.getAll();
         
         for(CursedObject cursedObject : cursedObjects) {
-            if(cursedObject.getMonsterAttractionFactor().ordinal() <= treshold.ordinal()) {
+            if(cursedObject.getMonsterAttractionFactor().ordinal() < threshold.ordinal()) {
                 cursedObject.setMonsterAttractionFactor(cursedObject.getMonsterAttractionFactor().next());
                 cursedObjectDao.update(cursedObject);
             }

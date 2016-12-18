@@ -444,7 +444,7 @@ function loadAllCursedObjects($http, $scope) {
     });
 }
 
-hauntedHousesControllers.controller('CursedObjectController', function ($scope, $rootScope, $routeParams, $http) {
+hauntedHousesControllers.controller('CursedObjectController', function ($scope, $rootScope, $location, $routeParams, $http) {
     loadAllCursedObjects($http, $scope);
     
     $http.get('rest/houses').then(function (response) {
@@ -457,18 +457,36 @@ hauntedHousesControllers.controller('CursedObjectController', function ($scope, 
         };
     };
     
+    $scope.threshold = {
+        'threshold': ''
+    };
+    
+    $scope.increaseFactor = function (threshold) {
+        $http({
+            method: 'POST',
+            url: 'rest/cursedObjects/increase',
+            data: threshold
+        }).then(function success() {
+            $rootScope.successAlert = 'Monster attraction factor was successfully increased on specified cursed objects.';
+            $location.path("/cursedObjects");
+        }, function error(response) {
+            console.log("Error when increasing monster attraction factor.");
+            console.log(response);
+            $rootScope.errorAlert = 'Cannot increase monster attraction factor! Reason given by server: ' + response.data.message;
+        });
+    };
+    
     $scope.delete = function (cursedObject) {
         if (!confirm("Are you certain you want to delete chosen cursed object?")) {
             return;
         }
         
-        console.log("Deleting cursedObject with id=" + cursedObject.id);
+        console.log("Deleting cursed object with id: " + cursedObject.id);
         $http.delete('rest/cursedObjects/' + cursedObject.id).then(
             function success(response) {
                 console.log('Deleted cursed object ' + cursedObject.id + ' on server');
-                //display confirmation alert
                 $rootScope.successAlert = 'Deleted cursed object: "' + cursedObject.name + '"';
-                loadAllCursedObjects($http, $scope);
+                $location.path("/cursedObjects");
             },
             
             function error(response) {
@@ -488,7 +506,7 @@ hauntedHousesControllers.controller('CursedObjectController', function ($scope, 
 });
 
 hauntedHousesControllers.controller('CursedObjectCreateController', function ($scope, $routeParams, $http, $location, $rootScope) {
-    $http.get('/pa165/rest/houses').then(function (response) {
+    $http.get('rest/houses').then(function (response) {
         $scope.houses = response.data;
     });
 
@@ -502,13 +520,13 @@ hauntedHousesControllers.controller('CursedObjectCreateController', function ($s
     $scope.create = function (cursedObject) {
         $http({
             method: 'POST',
-            url: '/pa165/rest/cursedObjects/create',
+            url: 'rest/cursedObjects/create',
             data: cursedObject
         }).then(function success(response) {
             var createdCursedObject = response.data;
             console.log('Created cursed object');
             $rootScope.successAlert = 'Cursed object with name "' + createdCursedObject.name + '" was created.';
-            $location.path("/cursedObjects/");
+            $location.path("/cursedObjects");
         }, function error(response) {
             console.log("Error when creating cursed object");
             console.log(response);
@@ -526,13 +544,13 @@ hauntedHousesControllers.controller('CursedObjectCreateController', function ($s
 
 hauntedHousesControllers.controller('CursedObjectUpdateController', function ($scope, $routeParams, $http, $location, $rootScope) {
     // Load houses into select menu
-    $http.get('/pa165/rest/houses').then(function (response) {
+    $http.get('rest/houses').then(function (response) {
         $scope.houses = response.data;
     });
 
     // Get object that should be updated
     var cursedObjectId = $routeParams.cursedObjectId;
-    $http.get('/pa165/rest/cursedObjects/' + cursedObjectId).then(function (response) {
+    $http.get('rest/cursedObjects/' + cursedObjectId).then(function (response) {
         var cursedObject = response.data;
         $scope.cursedObject = cursedObject;
     });
@@ -541,13 +559,13 @@ hauntedHousesControllers.controller('CursedObjectUpdateController', function ($s
     $scope.update = function (cursedObject) {
         $http({
             method: 'PUT',
-            url: '/pa165/rest/cursedObjects/' + $scope.cursedObject.id,
+            url: 'rest/cursedObjects/' + $scope.cursedObject.id,
             data: $scope.cursedObject
         }).then(function success(response) {
             var updatedCursedObject = response.data;
-            $rootScope.successAlert = "cursedObject \"" + updatedCursedObject.name + "\" was updated.";
+            $rootScope.successAlert = 'Cursed object with name "' + updatedCursedObject.name + '" was updated.';
             console.log("Cursed Object " + $scope.cursedObject.name + " updated");
-            $location.path("/cursedObjects/");
+            $location.path("/cursedObjects");
 
         }, function error(response) {
 

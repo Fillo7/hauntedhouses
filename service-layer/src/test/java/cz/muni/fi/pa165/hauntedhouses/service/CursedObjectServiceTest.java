@@ -141,7 +141,7 @@ public class CursedObjectServiceTest extends AbstractTestNGSpringContextTests {
         cursedObjectService.massIncreaseMonsterAttractionFactor(MonsterAttractionFactor.MEDIUM);
 
         Assert.assertEquals(cursedObject.getMonsterAttractionFactor(), MonsterAttractionFactor.HIGH);
-        Assert.assertEquals(cursedObject2.getMonsterAttractionFactor(), MonsterAttractionFactor.HIGH);
+        Assert.assertEquals(cursedObject2.getMonsterAttractionFactor(), MonsterAttractionFactor.MEDIUM);
     }
     
     /**

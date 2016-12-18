@@ -42,7 +42,7 @@ public interface CursedObjectService {
     
     /**
      * Increases monster attraction factor of specified cursed objects by one (up to insane).
-     * @param treshold Increase will only be applied to cursed objects with attraction factor <= treshold
+     * @param threshold Increase will only be applied to cursed objects with attraction factor <= threshold
      */
-    void massIncreaseMonsterAttractionFactor(MonsterAttractionFactor treshold);
+    void massIncreaseMonsterAttractionFactor(MonsterAttractionFactor threshold);
 }

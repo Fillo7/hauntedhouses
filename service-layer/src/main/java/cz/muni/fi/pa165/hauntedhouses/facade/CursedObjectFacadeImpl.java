@@ -112,11 +112,11 @@ public class CursedObjectFacadeImpl implements CursedObjectFacade {
     }
     
     @Override
-    public void massIncreaseMonsterAttractionFactor(MonsterAttractionFactor treshold) {
-        if(treshold == null) {
-            throw new IllegalArgumentException("Treshold is null.");
+    public void massIncreaseMonsterAttractionFactor(MonsterAttractionFactor threshold) {
+        if(threshold == null) {
+            throw new IllegalArgumentException("Threshold is null.");
         }
         
-        cursedObjectService.massIncreaseMonsterAttractionFactor(treshold);
+        cursedObjectService.massIncreaseMonsterAttractionFactor(threshold);
     }
 }

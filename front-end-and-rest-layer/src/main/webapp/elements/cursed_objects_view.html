@@ -58,18 +58,20 @@
         </tbody>
     </table>
     
-    <form class="form-inline">
-    <select required id="treshold" ng-model="treshold">
-        <option value="" disabled selected hidden>Select treshold</option>
-        <option value="LOW">Low</option>
-        <option value="MEDIUM">Medium</option>
-        <option value="HIGH">High</option>
-        <option value="INSANE">Insane</option>
-    </select>
-    <button type="submit" class="btn btn-primary" ng-click="increaseFactor(treshold)">Mass increase monster attraction factor</button>
+    <div ng-show="isUser" style="padding-bottom: 20px">
+    <form name="form" class="form-inline">
+        <select required id="threshold" ng-model="threshold.threshold">
+            <option value="" disabled selected hidden>Select threshold</option>
+            <option value="LOW">Low</option>
+            <option value="MEDIUM">Medium</option>
+            <option value="HIGH">High</option>
+            <option value="INSANE">Insane</option>
+        </select>
+        <button ng-disabled="!form.$valid" type="submit" class="btn btn-primary" ng-click="increaseFactor(threshold)">Mass increase monster attraction factor</button>
     </form>
+    </div>
     
-    <div style="padding-top: 20px">
+    <div>
         Number of cursed objects: {{cursedObjects.length}}
     </div>
 </div>
