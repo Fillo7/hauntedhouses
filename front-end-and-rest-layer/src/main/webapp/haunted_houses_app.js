@@ -190,7 +190,7 @@ hauntedHousesControllers.controller('MonsterCreateController', function ($scope,
         'description': '',
         'hauntedIntervalStart': '',
         'hauntedIntervalEnd': '',
-        'houseName': '',
+        'houseId': '',
         'abilityIds': []
     };
 
@@ -199,7 +199,7 @@ hauntedHousesControllers.controller('MonsterCreateController', function ($scope,
     // Function called when submit button is clicked, creates monster on server
     $scope.create = function (monster) {
 
-        monster.abilityIds = getNamesFromSelection($scope.abilities);
+        monster.abilityIds = getIdsFromSelection($scope.abilities);
 
         $http({
             method: 'POST',
