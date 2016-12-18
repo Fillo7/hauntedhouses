@@ -198,14 +198,7 @@ hauntedHousesControllers.controller('MonsterCreateController', function ($scope,
             console.log("error when creating monster");
             console.log(monster);
             console.log(response);
-            switch (response.data.code) {
-                case 'InvalidRequestException':
-                    $rootScope.errorAlert = 'Sent data were found to be invalid by server!';
-                    break;
-                default:
-                    $rootScope.errorAlert = 'Cannot create monster! Reason given by the server: ' + response.data.message;
-                    break;
-            }
+            $rootScope.errorAlert = 'Cannot create monster! Reason given by the server: ' + response.data.message;
         });
     };
 });
@@ -273,14 +266,7 @@ hauntedHousesControllers.controller('MonsterUpdateController', function ($scope,
             console.log("Error when attempting to update monster:");
             console.log(monster);
             console.log(response);
-            switch (response.data.code) {
-                case 'InvalidRequestException':
-                    $rootScope.errorAlert = "Sent data were found to be invalid by server!";
-                    break;
-                default:
-                    $rootScope.errorAlert = "Cannot update monster! Reason given by the server: " + response.data.message;
-                    break;
-            }
+            $rootScope.errorAlert = "Cannot update monster! Reason given by the server: " + response.data.message;
         });
     };
 });
@@ -365,14 +351,7 @@ hauntedHousesControllers.controller('AbilityCreateController', function ($scope,
             console.log("Error when attempting to create ability:");
             console.log(ability);
             console.log(response);
-            switch (response.data.code) {
-                case 'InvalidRequestException':
-                    $rootScope.errorAlert = "Sent data were found to be invalid by server!";
-                    break;
-                default:
-                    $rootScope.errorAlert = "Cannot create ability! Reason given by the server: " + response.data.message;
-                    break;
-            }
+            $rootScope.errorAlert = "Cannot create ability! Reason given by the server: " + response.data.message;
         });
     };
 });
@@ -429,14 +408,7 @@ hauntedHousesControllers.controller('AbilityUpdateController', function ($scope,
             console.log("Error when attempting to update ability:");
             console.log(ability);
             console.log(response);
-            switch (response.data.code) {
-                case 'InvalidRequestException':
-                    $rootScope.errorAlert = "Sent data were found to be invalid by server!";
-                    break;
-                default:
-                    $rootScope.errorAlert = "Cannot update ability! Reason given by the server: " + response.data.message;
-                    break;
-            }
+            $rootScope.errorAlert = "Cannot update ability! Reason given by the server: " + response.data.message;
         });
     };
 });
@@ -484,23 +456,23 @@ hauntedHousesControllers.controller('CursedObjectController', function ($scope, 
 
         console.log("Deleting cursed object with id: " + cursedObject.id);
         $http.delete('rest/cursedObjects/' + cursedObject.id).then(
-                function success(response) {
-                    console.log('Deleted cursed object ' + cursedObject.id + ' on server');
-                    $rootScope.successAlert = 'Deleted cursed object: "' + cursedObject.name + '"';
-                    $location.path("/cursedObjects");
-                },
-                function error(response) {
-                    console.log("Error when deleting cursed object");
-                    console.log(response);
-                    switch (response.data.code) {
-                        case 'ResourceNotFoundException':
-                            $rootScope.errorAlert = 'Cannot delete non-existent cursed object!';
-                            break;
-                        default:
-                            $rootScope.errorAlert = 'Cannot delete cursed object! Reason given by the server: ' + response.data.message;
-                            break;
-                    }
+            function success(response) {
+                console.log('Deleted cursed object ' + cursedObject.id + ' on server');
+                $rootScope.successAlert = 'Deleted cursed object: "' + cursedObject.name + '"';
+                $location.path("/cursedObjects");
+            },
+            function error(response) {
+                console.log("Error when deleting cursed object");
+                console.log(response);
+                switch (response.data.code) {
+                    case 'ResourceNotFoundException':
+                        $rootScope.errorAlert = 'Cannot delete non-existent cursed object!';
+                        break;
+                    default:
+                        $rootScope.errorAlert = 'Cannot delete cursed object! Reason given by the server: ' + response.data.message;
+                        break;
                 }
+            }
         );
     };
 });
