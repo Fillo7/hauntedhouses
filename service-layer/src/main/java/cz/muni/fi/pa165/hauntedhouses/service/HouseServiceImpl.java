@@ -1,6 +1,9 @@
 package cz.muni.fi.pa165.hauntedhouses.service;
 
+import cz.muni.fi.pa165.hauntedhouses.dao.CursedObjectDao;
 import cz.muni.fi.pa165.hauntedhouses.dao.HouseDao;
+import cz.muni.fi.pa165.hauntedhouses.dao.MonsterDao;
+import cz.muni.fi.pa165.hauntedhouses.entity.Ability;
 import cz.muni.fi.pa165.hauntedhouses.entity.CursedObject;
 import cz.muni.fi.pa165.hauntedhouses.entity.House;
 import cz.muni.fi.pa165.hauntedhouses.entity.Monster;
@@ -23,6 +26,12 @@ public class HouseServiceImpl implements HouseService {
 
     @Inject
     private HouseDao houseDao;
+    
+    @Inject
+    private MonsterDao monsterDao;
+    
+    @Inject
+    private CursedObjectDao cursedObjectDao;
 
     @Override
     public void create(House house) {
@@ -67,9 +76,9 @@ public class HouseServiceImpl implements HouseService {
         // New HashSets to allow removal via .forEach()
         Set<Monster> monsters = new HashSet<>(house.getMonsters());
         Set<CursedObject> cursedObjects = new HashSet<>(house.getCursedObjects());
-
-        monsters.forEach(monster -> house.removeMonster(monster));
-        cursedObjects.forEach(cursedObject -> house.removeCursedObject(cursedObject));
+        
+        monsters.forEach(monster -> monsterDao.delete(monster));
+        cursedObjects.forEach(cursedObject -> cursedObjectDao.delete(cursedObject));
 
         houseDao.update(house);
     }

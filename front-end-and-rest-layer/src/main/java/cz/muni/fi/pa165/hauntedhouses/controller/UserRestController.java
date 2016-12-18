@@ -24,8 +24,7 @@ public class UserRestController {
     
     /**
      * Returns list of users.
-     * Command: curl -i -X GET
-     * http://localhost:8080/pa165/rest/users
+     * Command: curl -i -X GET http://localhost:8080/pa165/rest/users
      * @return list of users
      */
     @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -35,8 +34,7 @@ public class UserRestController {
     
     /**
      * Authenticates given user.
-     * Command: curl -X POST -i -H "Content-Type: application/json" --data '{"login":"string","password":"string"}'
-     * http://localhost:8080/pa165/rest/users/authenticate
+     * Command: curl -X POST -i -H "Content-Type: application/json" --data '{"login":"string","password":"string"}' http://localhost:8080/pa165/rest/users/authenticate
      * @param user to be authenticated
      * @return true if authentication was successful, false otherwise
      */

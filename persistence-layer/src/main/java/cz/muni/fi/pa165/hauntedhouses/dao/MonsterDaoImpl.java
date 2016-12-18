@@ -1,7 +1,9 @@
 package cz.muni.fi.pa165.hauntedhouses.dao;
 
+import cz.muni.fi.pa165.hauntedhouses.entity.Ability;
 import cz.muni.fi.pa165.hauntedhouses.entity.Monster;
 import java.util.List;
+import java.util.Set;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
@@ -34,6 +36,13 @@ public class MonsterDaoImpl implements MonsterDao {
         if(monster == null){
             throw new IllegalArgumentException("Deleting null entity.");
         }
+        
+        // Remove assigned abilities first
+        Set<Ability> abilities = monster.getAbilities();
+        for(Ability ability : abilities) {
+            monster.removeAbility(ability);
+        }
+        
         em.remove(getById(monster.getId()));
     }
 

@@ -191,13 +191,28 @@ public class HouseFacadeImpl implements HouseFacade {
     }
 
     @Override
-    public void purge(HouseDTO house) {
-        if (house == null) {
-            throw new IllegalArgumentException("House is null.");
+    public void purge(HouseDTO houseDTO) {
+        if (houseDTO == null) {
+            throw new IllegalArgumentException("HouseDTO is null.");
         }
 
-        House houseEntity = beanMappingService.mapTo(house, House.class);
+        House house = beanMappingService.mapTo(houseDTO, House.class);
+        
+        // Map associated entities
+        for(Long monsterId : houseDTO.getMonsterIds()) {
+            Monster monster = monsterService.getById(monsterId);
+            if(monster != null){
+                house.addMonster(monster);
+            }
+        }
+        
+        for(Long cursedObjectId : houseDTO.getCursedObjectIds()) {
+            CursedObject cursedObject = cursedObjectService.getById(cursedObjectId);
+            if (cursedObject != null){
+                house.addCursedObject(cursedObject);
+            }
+        }
 
-        houseService.purge(houseEntity);
+        houseService.purge(house);
     }
 }

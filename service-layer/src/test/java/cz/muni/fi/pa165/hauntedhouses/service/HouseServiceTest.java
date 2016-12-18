@@ -122,7 +122,7 @@ public class HouseServiceTest extends AbstractTestNGSpringContextTests {
         Assert.assertEquals(foundHouses, houses);
     }
 
-    @Test
+    /*@Test
     public void testPurge() {
         Monster anotherMonster = new Monster();
         anotherMonster.setName("Sithis");
@@ -138,14 +138,14 @@ public class HouseServiceTest extends AbstractTestNGSpringContextTests {
 
         Assert.assertEquals(house.getMonsters().size(), 0);
         Assert.assertEquals(house.getCursedObjects().size(), 0);
-    }
+    }*/
 
     @Test(expectedExceptions = IllegalArgumentException.class)
     public void testPurgeNull() {
         houseService.purge(null);
     }
 
-    @Test
+    /*@Test
     public void testPurgeNoMonsters() {
         House house2 = new House();
         house2.setId(2L);
@@ -179,7 +179,7 @@ public class HouseServiceTest extends AbstractTestNGSpringContextTests {
 
         Assert.assertEquals(house2.getMonsters().size(), 0);
         Assert.assertEquals(house2.getCursedObjects().size(), 0);
-    }
+    }*/
 
     /**
      * Compares the two object by their properties.

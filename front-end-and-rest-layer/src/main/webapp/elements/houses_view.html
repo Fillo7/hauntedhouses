@@ -18,6 +18,7 @@
                 <th>Cursed objects</th>
                 <th ng-show="isUser">Update</th>
                 <th ng-show="isAdmin">Delete</th>
+                <th ng-show="isAdmin">Purge</th>
             </tr>
         </thead>
         <tbody>
@@ -57,6 +58,10 @@
                         style="color: red"
                         autofocus="" />
                     </button>
+                </td>
+                <td>
+                    <button ng-show="isAdmin" ng-click="purge(house)" type="submit" class="btn btn-primary">
+                    <span class="glyphicon glyphicon-flash" aria-hidden="true" style="color: yellow"></span></button>
                 </td>
             </tr>
         </tbody>

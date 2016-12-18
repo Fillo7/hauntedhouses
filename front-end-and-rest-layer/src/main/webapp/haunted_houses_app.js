@@ -462,7 +462,7 @@ hauntedHousesControllers.controller('CursedObjectController', function ($scope, 
             url: 'rest/cursedObjects/increase',
             data: threshold
         }).then(function success() {
-            $rootScope.successAlert = 'Monster attraction factor was successfully increased on cursed objects below threshold.';
+            $rootScope.successAlert = 'Monster attraction factor was successfully increased on cursed objects below selected threshold.';
             $location.path("/cursedObjects");
         }, function error(response) {
             console.log("Error when increasing monster attraction factor.");
@@ -472,7 +472,7 @@ hauntedHousesControllers.controller('CursedObjectController', function ($scope, 
     };
     
     $scope.delete = function (cursedObject) {
-        if (!confirm("Are you certain you want to delete chosen cursed object?")) {
+        if (!confirm("Are you certain you want to delete selected cursed object?")) {
             return;
         }
         
@@ -525,14 +525,7 @@ hauntedHousesControllers.controller('CursedObjectCreateController', function ($s
         }, function error(response) {
             console.log("Error when creating cursed object");
             console.log(response);
-            switch (response.data.code) {
-                case 'InvalidRequestException':
-                    $rootScope.errorAlert = 'Sent data were found to be invalid by server!';
-                    break;
-                default:
-                    $rootScope.errorAlert = 'Cannot create cursed object! Reason given by the server: ' + response.data.message;
-                    break;
-            }
+            $rootScope.errorAlert = 'Cannot create cursed object! Reason given by the server: ' + response.data.message;
         });
     };
 });
@@ -563,18 +556,10 @@ hauntedHousesControllers.controller('CursedObjectUpdateController', function ($s
             $location.path("/cursedObjects");
 
         }, function error(response) {
-
             console.log("Error when attempting to update cursed object:");
             console.log($scope.cursedObject);
             console.log(response);
-            switch (response.data.code) {
-                case 'InvalidRequestException':
-                    $rootScope.errorAlert = "Sent data were found to be invalid by server!";
-                    break;
-                default:
-                    $rootScope.errorAlert = "Cannot update cursed object! Reason given by the server: " + response.data.message;
-                    break;
-            }
+            $rootScope.errorAlert = "Cannot update cursed object! Reason given by the server: " + response.data.message;
         });
     };
 });
@@ -607,29 +592,49 @@ hauntedHousesControllers.controller('HousesController', function ($scope, $http,
     };
     
     $scope.delete = function(house) {
-        if (!confirm("Are you certain you want to delete chosen house?")) {
+        if (!confirm("Are you certain you want to delete selected house?")) {
             return;
         }
         
         console.log("Deleting house with id: " + house.id);
         $http.delete("rest/houses/" + house.id).then(
-                function success(response) {
-                    console.log("Succesfully deleted house " + house.id + " on the server.");
-                    $rootScope.successAlert = 'Deleted house: "' + house.name + '"';
-                    $location.path("/houses");
-                },
-                function error(response) {
-                    console.log("Error when deleting house with id: " + house.id);
-                    console.log(response);
-                    switch (response.data.code) {
-                        case 'ResourceNotFoundException':
-                            $rootScope.errorAlert = "Cannot delete non-existent house!";
-                            break;
-                        default:
-                            $rootScope.errorAlert = "Cannot delete house with assigned monsters or cursed objects!";
-                            break;
-                    }
+            function success(response) {
+                console.log("Succesfully deleted house " + house.id + " on the server.");
+                $rootScope.successAlert = 'Deleted house: "' + house.name + '"';
+                $location.path("/houses");
+            },
+            function error(response) {
+                console.log("Error when deleting house with id: " + house.id);
+                console.log(response);
+                switch (response.data.code) {
+                    case 'ResourceNotFoundException':
+                        $rootScope.errorAlert = "Cannot delete non-existent house!";
+                        break;
+                    default:
+                        $rootScope.errorAlert = "Cannot delete house with assigned monsters or cursed objects!";
+                        break;
                 }
+            }
+        );
+    };
+    
+    $scope.purge = function(house) {
+        if (!confirm("Are you certain you want to purge selected house (delete all monsters and cursed objects residing in it)?")) {
+            return;
+        }
+        
+        console.log("Purging house with id: " + house.id);
+        $http.delete("rest/houses/purge/" + house.id).then(
+            function success(response) {
+                console.log("Succesfully purged house " + house.id + " on the server.");
+                $rootScope.successAlert = 'House with name: "' + house.name + '" was successfully purged.';
+                $location.path("/houses");
+            },
+            function error(response) {
+                console.log("Error when purging house with id: " + house.id);
+                console.log(response);
+                $rootScope.errorAlert = "Cannot purge selected house!";
+            }
         );
     };
 });
@@ -669,14 +674,7 @@ hauntedHousesControllers.controller('HouseCreateController', function ($scope, $
             console.log("Error when attempting to create house:");
             console.log(house);
             console.log(response);
-            switch (response.data.code) {
-                case 'InvalidRequestException':
-                    $rootScope.errorAlert = "Sent data were found to be invalid by server!";
-                    break;
-                default:
-                    $rootScope.errorAlert = "Cannot create house! Reason given by the server: " + response.data.message;
-                    break;
-            }
+            $rootScope.errorAlert = "Cannot create house! Reason given by the server: " + response.data.message;
         });
     };
 });
@@ -748,18 +746,10 @@ hauntedHousesControllers.controller('HouseUpdateController', function ($scope, $
             $location.path("/houses");
 
         }, function error(response) {
-
             console.log("Error when attempting to update house:");
             console.log(house);
             console.log(response);
-            switch (response.data.code) {
-                case 'InvalidRequestException':
-                    $rootScope.errorAlert = "Sent data were found to be invalid by server!";
-                    break;
-                default:
-                    $rootScope.errorAlert = "Cannot update house! Reason given by the server: " + response.data.message;
-                    break;
-            }
+            $rootScope.errorAlert = "Cannot update house! Reason given by the server: " + response.data.message;
         });
     };
 });

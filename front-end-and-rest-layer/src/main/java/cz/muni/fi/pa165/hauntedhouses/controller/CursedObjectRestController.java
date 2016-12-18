@@ -33,9 +33,8 @@ public class CursedObjectRestController {
 
     /**
      * Method creates CursedObject
-     * 
-     * curl -X POST -i -H "Content-Type: application/json" --data '{"name":"default_name","description":"default_description","monsterAttractionFactor":"LOW","houseId":"1"}' http://localhost:8080/pa165/rest/cursedObjects/create
-     * 
+     * Example: curl -X POST -i -H "Content-Type: application/json" --data '{"name":"some_name","description":"some_description","monsterAttractionFactor":"LOW","houseId":"1"}'
+     * http://localhost:8080/pa165/rest/cursedObjects/create
      * @param createDto
      * @return created CursedObject
      */
@@ -54,9 +53,8 @@ public class CursedObjectRestController {
 
     /**
      * Updates already created CursedObject
-     * 
-     * curl -X PUT -i -H "Content-Type: application/json" --data '{"name":"new_name"}' http://localhost:8080/pa165/rest/cursedObjects/1
-     * 
+     * Example: curl -X PUT -i -H "Content-Type: application/json" --data '{"name":"some_name","description":"some_description","monsterAttractionFactor":"LOW","houseId":"1"}'
+     * http://localhost:8080/pa165/rest/cursedObjects/1
      * @param cursedObjectDTO contains new values of attributes
      * @param id of cursedObject in db
      * @return updated cursed object
@@ -86,9 +84,7 @@ public class CursedObjectRestController {
 
     /**
      * Deletes CursedObject
-     * 
-     * e.g. curl -i -X DELETE http://localhost:8080/pa165/rest/cursedObjects/1
-     * 
+     * Example: curl -i -X DELETE http://localhost:8080/pa165/rest/cursedObjects/1
      * @param id of CursedObject that should be deleted
      */
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -101,10 +97,8 @@ public class CursedObjectRestController {
     }
 
     /**
-     * Finds CursedObject with given id
-     * 
-     * e.g. curl -i -X GET http://localhost:8080/pa165/rest/cursedObjects/1
-     * 
+     * Finds CursedObject with given id.
+     * Example: curl -i -X GET http://localhost:8080/pa165/rest/cursedObjects/1
      * @param id
      * @return CursedObject with given id
      */
@@ -119,9 +113,7 @@ public class CursedObjectRestController {
 
     /**
      * Finds all CursedObjects
-     * 
-     * e.g. curl -i -X GET http://localhost:8080/pa165/rest/cursedObjects
-     * 
+     * Example: curl -i -X GET http://localhost:8080/pa165/rest/cursedObjects
      * @return list of all CursedObjects
      */
     @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -135,14 +127,14 @@ public class CursedObjectRestController {
     
     /**
      * Raises monster attraction factor of all cursed objects by one (up to threshold).
-     * Command: curl -X POST -i -H "Content-Type: application/json" --data '{"threshold":"MEDIUM"}'
+     * Example: curl -X POST -i -H "Content-Type: application/json" --data '{"threshold":"MEDIUM"}'
      * http://localhost:8080/pa165/rest/cursedObjects/increase
-     * @param dto Object with needed data
+     * @param cursedObjectIncreaseFactorDTO DTO with needed data
      */
     @RequestMapping(value = "/increase", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE,
                     produces = MediaType.APPLICATION_JSON_VALUE)
-    public void massIncreaseMonsterAttractionFactor(@RequestBody CursedObjectIncreaseFactorDTO dto) {
-        cursedObjectFacade.massIncreaseMonsterAttractionFactor(dto.getThreshold());
+    public void massIncreaseMonsterAttractionFactor(@RequestBody CursedObjectIncreaseFactorDTO cursedObjectIncreaseFactorDTO) {
+        cursedObjectFacade.massIncreaseMonsterAttractionFactor(cursedObjectIncreaseFactorDTO.getThreshold());
     }
 
     private CursedObjectDTO updateDTO(CursedObjectDTO cursedObjectDTO, CursedObjectDTO existing) {
@@ -163,5 +155,4 @@ public class CursedObjectRestController {
 
         return cursedObjectDTO;
     }
-
 }

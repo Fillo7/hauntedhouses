@@ -27,7 +27,7 @@ public class HouseRestController {
     
     /**
      * Creates a new house by POST method.
-     * Command: curl -X POST -i -H "Content-Type: application/json" --data '{"name":"string","address":"string","monsterIds":[],"cursedObjectIds":[]}' 
+     * Example curl -X POST -i -H "Content-Type: application/json" --data '{"name":"some_name","address":"some_address","monsterIds":[1],"cursedObjectIds":[1]}' 
      * http://localhost:8080/pa165/rest/houses/create
      * @param house HouseCreateDTO with required fields for creation
      * @return newly created house
@@ -45,8 +45,8 @@ public class HouseRestController {
     
     /**
      * Updates given house by PUT method.
-     * Command: curl -X PUT -i -H "Content-Type: application/json" --data '{"name":"string","address":"string","monsterIds":[{id}],"cursedObjectIds":[{id}]}'
-     * http://localhost:8080/pa165/rest/houses/{id}
+     * Example: curl -X PUT -i -H "Content-Type: application/json" --data '{"name":"some_name","address":"some_address","monsterIds":[1],"cursedObjectIds":[1]}' 
+     * http://localhost:8080/pa165/rest/houses/1
      * @param id identifier of a house
      * @param house updated house
      * @return updated house
@@ -65,8 +65,7 @@ public class HouseRestController {
     
     /**
      * Returns house with given id.
-     * Command: curl -i -X GET
-     * http://localhost:8080/pa165/rest/houses/id/{id}
+     * Example: curl -i -X GET http://localhost:8080/pa165/rest/houses/id/1
      * @param id identifier of a house
      * @return house with given id
      * @throws RequestedResourceNotFound when given house is not found.
@@ -82,8 +81,7 @@ public class HouseRestController {
     
     /**
      * Returns house with given name.
-     * Command: curl -i -X GET
-     * http://localhost:8080/pa165/rest/houses/name/{name}
+     * Example: curl -i -X GET http://localhost:8080/pa165/rest/houses/name/Aperture
      * @param name name of a house
      * @return house with given name
      * @throws RequestedResourceNotFound when given house is not found.
@@ -99,8 +97,7 @@ public class HouseRestController {
     
     /**
      * Deletes house with given id.
-     * Command: curl -i -X DELETE
-     * http://localhost:8080/pa165/rest/houses/{id}
+     * Example: curl -i -X DELETE http://localhost:8080/pa165/rest/houses/1
      * @param id identifier of a house
      * @throws RequestedResourceNotFound when given house is not found.
      */
@@ -115,8 +112,7 @@ public class HouseRestController {
     
     /**
      * Returns list of houses.
-     * Command: curl -i -X GET
-     * http://localhost:8080/pa165/rest/houses
+     * Example: curl -i -X GET http://localhost:8080/pa165/rest/houses
      * @return list of houses
      */
     @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -126,7 +122,7 @@ public class HouseRestController {
     
     /**
      * Purges all monsters and cursed objects in given house.
-     * http://localhost:8080/pa165/rest/houses/purge/{id}
+     * Example: curl -i -X DELETE http://localhost:8080/pa165/rest/houses/purge/1
      * @param id identifier of a house
      */
     @RequestMapping(value = "/purge/{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
