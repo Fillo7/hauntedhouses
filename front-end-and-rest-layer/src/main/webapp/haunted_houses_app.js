@@ -6,28 +6,28 @@ var hauntedHousesControllers = angular.module('hauntedHousesControllers', []);
 hauntedHousesApp.config(['$routeProvider',
     function ($routeProvider) {
         $routeProvider.
-            when('/', {templateUrl: 'elements/main_view.html'}).
-            when('/login', {templateUrl: 'elements/login.html', controller: 'LoginController'}).
-            when('/logout', {templateUrl: 'elements/main_view.html', controller: 'LogoutController'}).
-            when('/users/', {templateUrl: 'elements/users_view.html', controller: 'UsersController'}).
-            when('/abilities/', {templateUrl: 'elements/abilities_view.html', controller: 'AbilitiesController'}).
-            when('/cursedObjects/', {templateUrl: 'elements/cursed_objects_view.html', controller: 'CursedObjectController'}).
-            when('/houses/', {templateUrl: 'elements/houses_view.html', controller: 'HousesController'}).
-            when('/monsters/', {templateUrl: 'elements/monsters_view.html', controller: 'MonstersController'}).
-            when('/createAbility', {templateUrl: 'elements/create_ability.html', controller: 'AbilityCreateController'}).
-            when('/createCursedObject', {templateUrl: 'elements/create_cursed_object.html', controller: 'CursedObjectCreateController'}).
-            when('/createHouse', {templateUrl: 'elements/create_house.html', controller: 'HouseCreateController'}).
-            when('/createMonster', {templateUrl: 'elements/create_monster.html', controller: 'MonsterCreateController'}).
-            when('/updateAbility/:ability', {templateUrl: 'elements/update_ability.html', controller: 'AbilityUpdateController'}).
-            when('/updateCursedObject/:cursedObjectId', {templateUrl: 'elements/update_cursed_object.html', controller: 'CursedObjectUpdateController'}).
-            when('/updateHouse/:houseId', {templateUrl: 'elements/update_house.html', controller: 'HouseUpdateController'}).
-            when('/updateMonster/:monster', {templateUrl: 'elements/update_monster.html', controller: 'MonsterUpdateController'}).
-            otherwise({redirectTo: '/'});
-    
-            // Note: The '/' after monsters/abilities/houses/cursedObjects is intentional.
-            // It ensures that whenever the page is redirected at the same page as the one the user is currently browsing,
-            // it reloads the content. Feels quicker than to reload via $window.location.reload().
-            // Reference: http://stackoverflow.com/a/35139326/4733847
+                when('/', {templateUrl: 'elements/main_view.html'}).
+                when('/login', {templateUrl: 'elements/login.html', controller: 'LoginController'}).
+                when('/logout', {templateUrl: 'elements/main_view.html', controller: 'LogoutController'}).
+                when('/users/', {templateUrl: 'elements/users_view.html', controller: 'UsersController'}).
+                when('/abilities/', {templateUrl: 'elements/abilities_view.html', controller: 'AbilitiesController'}).
+                when('/cursedObjects/', {templateUrl: 'elements/cursed_objects_view.html', controller: 'CursedObjectController'}).
+                when('/houses/', {templateUrl: 'elements/houses_view.html', controller: 'HousesController'}).
+                when('/monsters/', {templateUrl: 'elements/monsters_view.html', controller: 'MonstersController'}).
+                when('/createAbility', {templateUrl: 'elements/create_ability.html', controller: 'AbilityCreateController'}).
+                when('/createCursedObject', {templateUrl: 'elements/create_cursed_object.html', controller: 'CursedObjectCreateController'}).
+                when('/createHouse', {templateUrl: 'elements/create_house.html', controller: 'HouseCreateController'}).
+                when('/createMonster', {templateUrl: 'elements/create_monster.html', controller: 'MonsterCreateController'}).
+                when('/updateAbility/:ability', {templateUrl: 'elements/update_ability.html', controller: 'AbilityUpdateController'}).
+                when('/updateCursedObject/:cursedObjectId', {templateUrl: 'elements/update_cursed_object.html', controller: 'CursedObjectUpdateController'}).
+                when('/updateHouse/:houseId', {templateUrl: 'elements/update_house.html', controller: 'HouseUpdateController'}).
+                when('/updateMonster/:monster', {templateUrl: 'elements/update_monster.html', controller: 'MonsterUpdateController'}).
+                otherwise({redirectTo: '/'});
+
+        // Note: The '/' after monsters/abilities/houses/cursedObjects is intentional.
+        // It ensures that whenever the page is redirected at the same page as the one the user is currently browsing,
+        // it reloads the content. Feels quicker than to reload via $window.location.reload().
+        // Reference: http://stackoverflow.com/a/35139326/4733847
     }
 ]);
 
@@ -46,7 +46,7 @@ hauntedHousesApp.run(function ($rootScope) {
         $rootScope.isAdmin = false;
         $rootScope.userName = undefined;
     };
-});    
+});
 
 /*** User controllers ***/
 
@@ -63,12 +63,12 @@ hauntedHousesControllers.controller('LoginController', function ($scope, $routeP
             data: user
         }).then(function success(response) {
             var token = response.data;
-            if(token.authenticationResult) {
+            if (token.authenticationResult) {
                 console.log('Login was successful.');
                 $rootScope.successAlert = 'Login was successful.';
                 $rootScope.isUser = true;
                 $rootScope.userName = token.login;
-                if(token.userRole === 'ADMIN') {
+                if (token.userRole === 'ADMIN') {
                     $rootScope.isAdmin = true;
                 } else {
                     // Need this in case of two authentications in row
@@ -182,6 +182,9 @@ hauntedHousesControllers.controller('MonsterCreateController', function ($scope,
 
     // Function called when submit button is clicked, creates monster on server
     $scope.create = function (monster) {
+
+        monster.abilityIds = getIdsFromSelection($scope.abilities);
+
         $http({
             method: 'POST',
             url: '/pa165/rest/monsters/create',
@@ -193,6 +196,7 @@ hauntedHousesControllers.controller('MonsterCreateController', function ($scope,
             $location.path("/monsters");
         }, function error(response) {
             console.log("error when creating monster");
+            console.log(monster);
             console.log(response);
             switch (response.data.code) {
                 case 'InvalidRequestException':
@@ -206,11 +210,26 @@ hauntedHousesControllers.controller('MonsterCreateController', function ($scope,
     };
 });
 
-hauntedHousesControllers.controller('MonsterUpdateController', function ($scope, $http, $routeParams, $location, $rootScope) {
+hauntedHousesControllers.controller('MonsterUpdateController', function ($scope, $http, $routeParams, $location, $rootScope/*, monsterLoadService*/) {
 
     $http.get('/pa165/rest/houses').then(function (response) {
         $scope.houses = response.data;
     });
+
+    /*$scope.monster = {
+     'name': 'Placeholder name',
+     'description': 'Placeholder description',
+     'hauntedIntervalStart': '',
+     'hauntedIntervalEnd': '',
+     'houseId': '',
+     'abilityIds': []
+     };*/
+
+    $scope.monster = JSON.parse($routeParams.monster);
+    console.log("Monster passed as parameter:");
+    console.log($scope.monster);
+    console.log("Ability names:");
+    console.log($scope.monster.abilityNames);
 
     // Load abilities and add them a "checked" property
     $http.get('/pa165/rest/abilities').then(function (response) {
@@ -223,32 +242,19 @@ hauntedHousesControllers.controller('MonsterUpdateController', function ($scope,
 
         // Check correct monsters
         for (var i = 0; i < $scope.abilities.length; i++) {
-            for (var j = 0; j < $scope.monster.abilityIds.length; j++) {
-                if ($scope.abilities[i].id === $scope.monster.abilityIds[j]) {
+            for (var j = 0; j < $scope.monster.abilityNames.length; j++) {
+                if ($scope.abilities[i].name === $scope.monster.abilityNames[j]) {
                     $scope.abilities[i].checked = true;
                 }
             }
         }
     });
 
-    $scope.monster = {
-        'name': '',
-        'description': '',
-        'hauntedIntervalStart': '',
-        'hauntedIntervalEnd': '',
-        'houseId': '',
-        'abilityIds': []
-    };
-
-    $scope.monster = JSON.parse($routeParams.monster);
-    console.log("Monster passed as parameter:");
-    console.log($scope.monster);
-
     // Update button clicked
     $scope.update = function (monster) {
         console.log("Monster to be updated:");
         console.log(monster);
-        monster.abilityIds = getIdsFromSelection($scope.abilities);
+        //monster.abilityIds = getIdsFromSelection($scope.abilities);
 
         $http({
             method: 'PUT',
@@ -441,21 +447,21 @@ hauntedHousesControllers.controller('CursedObjectController', function ($scope, 
     $http.get('rest/cursedObjects').then(function (response) {
         $scope.cursedObjects = response.data;
     });
-    
+
     $http.get('rest/houses').then(function (response) {
         $scope.houses = response.data;
     });
-    
+
     $scope.houseIdFilter = function (houseId) {
         return function (house) {
             return house.id === houseId;
         };
     };
-    
+
     $scope.threshold = {
         'threshold': ''
     };
-    
+
     $scope.increaseFactor = function (threshold) {
         $http({
             method: 'POST',
@@ -470,32 +476,31 @@ hauntedHousesControllers.controller('CursedObjectController', function ($scope, 
             $rootScope.errorAlert = 'Cannot increase monster attraction factor! Reason given by server: ' + response.data.message;
         });
     };
-    
+
     $scope.delete = function (cursedObject) {
         if (!confirm("Are you certain you want to delete selected cursed object?")) {
             return;
         }
-        
+
         console.log("Deleting cursed object with id: " + cursedObject.id);
         $http.delete('rest/cursedObjects/' + cursedObject.id).then(
-            function success(response) {
-                console.log('Deleted cursed object ' + cursedObject.id + ' on server');
-                $rootScope.successAlert = 'Deleted cursed object: "' + cursedObject.name + '"';
-                $location.path("/cursedObjects");
-            },
-            
-            function error(response) {
-                console.log("Error when deleting cursed object");
-                console.log(response);
-                switch (response.data.code) {
-                    case 'ResourceNotFoundException':
-                        $rootScope.errorAlert = 'Cannot delete non-existent cursed object!';
-                        break;
-                    default:
-                        $rootScope.errorAlert = 'Cannot delete cursed object! Reason given by the server: ' + response.data.message;
-                        break;
+                function success(response) {
+                    console.log('Deleted cursed object ' + cursedObject.id + ' on server');
+                    $rootScope.successAlert = 'Deleted cursed object: "' + cursedObject.name + '"';
+                    $location.path("/cursedObjects");
+                },
+                function error(response) {
+                    console.log("Error when deleting cursed object");
+                    console.log(response);
+                    switch (response.data.code) {
+                        case 'ResourceNotFoundException':
+                            $rootScope.errorAlert = 'Cannot delete non-existent cursed object!';
+                            break;
+                        default:
+                            $rootScope.errorAlert = 'Cannot delete cursed object! Reason given by the server: ' + response.data.message;
+                            break;
+                    }
                 }
-            }
         );
     };
 });
@@ -570,11 +575,11 @@ hauntedHousesControllers.controller('HousesController', function ($scope, $http,
     $http.get('rest/houses').then(function (response) {
         $scope.houses = response.data;
     });
-    
+
     $http.get('rest/monsters').then(function (response) {
         $scope.monsters = response.data;
     });
-    
+
     $http.get('rest/cursedObjects').then(function (response) {
         $scope.cursedObjects = response.data;
     });

@@ -53,18 +53,18 @@
     </div>
 
     <div class="form-group">
-        <label for="houseId" class="col-sm-2 control-label">House</label>
+        <label for="houseName" class="col-sm-2 control-label">House</label>
         <div class="col-sm-10">
             <select id="houseId"
-                    name="houseId"
+                    name="houseName"
                     class="form-control"
-                    ng-model="monster.houseId"
+                    ng-model="monster.houseName"
                     convert-to-int
-                    ng-options="house.id as house.name for house in houses"
+                    ng-options="house.name as house.name for house in houses"
                     required>
                 <!--option ng-repeat="house in houses" value="{{house.id}}">{{house.name}}</option-->
             </select>
-            <p class="help-block" ng-show="form.houseId.$invalid || form.houseId.$error.required || form.houseId.$pristine">Select a house.</p>
+            <p class="help-block" ng-show="form.houseName.$invalid || form.houseName.$error.required || form.houseName.$pristine">Select a house.</p>
         </div>
     </div>
 
@@ -77,7 +77,8 @@
                         <!-- The monster needn't have the property checked, it is created automatically if needed. -->
                         <input type="checkbox" ng-model="ability.checked" ng-checked="ability.checked==true" />
                         {{ability.name}}
-                    </label><br/>
+                    </label>
+                    <br/>
                 </div>
             </div>
         </div>
