@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/piskula/hauntedhouses.svg?branch=master)](https://travis-ci.org/piskula/hauntedhouses)
 
-This application acts as a database of haunted houses and monsters that haunt these hauses.
+This application acts as a database of haunted houses and monsters that haunt these houses.
 
 The house is defined by its name, address (not an entity), the date it became haunted and its concise history.
 Each monster has its abilities, which can be shared with other monsters and haunts a single house.
