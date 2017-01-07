@@ -115,29 +115,6 @@ public class MonsterRestController {
             throw new RequestedResourceNotFound("Monster with given id doesn't exist: " + id, ex);
         }
     }
-    /*@RequestMapping(value = "/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE,
-            produces = MediaType.APPLICATION_JSON_VALUE)
-    public final MonsterDTO updateMonster(@PathVariable("id") long id, @RequestBody MonsterDTO editedMonster) throws RequestedResourceNotFound, RequestedResourceNotModified {
-        MonsterDTO existingMonster;
-        try{
-            existingMonster = monsterFacade.getMonsterById(id);
-        } catch(Exception e) {
-            throw new RequestedResourceNotFound("Cannot update. Monster with id=" + id + " does not exist in system.", e);
-        }
-
-        MonsterDTO toUpdate = createUpdatingDTO(existingMonster, editedMonster);
-        if(existingMonster.equals(toUpdate)){
-            return existingMonster;
-        }
-
-        try{
-            monsterFacade.updateMonster(toUpdate);
-        } catch (Exception e) {
-            throw new RequestedResourceNotModified(e);
-        }
-
-        return toUpdate;
-    }*/
 
     private MonsterDTO createUpdatingDTO(MonsterDTO existing, MonsterDTO toUpdate){
         MonsterDTO result = new MonsterDTO();

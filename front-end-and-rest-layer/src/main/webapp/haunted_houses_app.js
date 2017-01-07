@@ -1,6 +1,6 @@
 'use strict';
 
-var hauntedHousesApp = angular.module('hauntedHousesApp', ["ngCookies", 'ngRoute', 'hauntedHousesControllers']);
+var hauntedHousesApp = angular.module('hauntedHousesApp', ['ngCookies', 'ngRoute', 'hauntedHousesControllers']);
 var hauntedHousesControllers = angular.module('hauntedHousesControllers', []);
 
 hauntedHousesApp.config(['$routeProvider',
@@ -31,7 +31,7 @@ hauntedHousesApp.config(['$routeProvider',
     }
 ]);
 
-hauntedHousesApp.run(function ($rootScope, $cookies) {
+hauntedHousesApp.run(function ($rootScope, $cookies, $timeout) {
     $rootScope.hideSuccessAlert = function () {
         $rootScope.successAlert = undefined;
     };
@@ -40,6 +40,21 @@ hauntedHousesApp.run(function ($rootScope, $cookies) {
     };
     $rootScope.hideErrorAlert = function () {
         $rootScope.errorAlert = undefined;
+    };
+    
+    $rootScope.showSuccess = function (message) {
+         $rootScope.successAlert = message;
+         $timeout(function () { $rootScope.successAlert = undefined; }, 5000);   
+    };
+    
+    $rootScope.showWarning = function (message) {
+         $rootScope.warningAlert = message;
+         $timeout(function () { $rootScope.warningAlert = undefined; }, 5000);   
+    };
+    
+    $rootScope.showError = function (message) {
+         $rootScope.errorAlert = message;
+         $timeout(function () { $rootScope.errorAlert = undefined; }, 5000);   
     };
     
     $rootScope.userName = $cookies.get('userName');
@@ -77,16 +92,16 @@ hauntedHousesControllers.controller('LoginController', function ($scope, $http, 
                 }
                 
                 console.log('Login was successful.');
-                $rootScope.successAlert = 'Login was successful.';
+                $rootScope.showSuccess('Login was successful.');
                 $location.path("/");
             } else {
                 console.log('Login failed.');
-                $rootScope.warningAlert = 'Invalid login credentials.';
+                $rootScope.showWarning('Invalid login credentials.');
             }
         }, function error(response) {
             console.log("Error when authenticating user.");
             console.log(response);
-            $rootScope.errorAlert = 'Cannot authenticate user! Reason given by the server: ' + response.data.message;
+            $rootScope.showError('Cannot authenticate user! Reason given by the server: ' + response.data.message);
         });
     };
 });
@@ -98,7 +113,7 @@ hauntedHousesControllers.controller('LogoutController', function ($location, $ro
     $rootScope.isUser = false;
     $rootScope.isAdmin = false;
     $rootScope.userName = undefined;
-    $rootScope.successAlert = 'Logout was successful.';
+    $rootScope.showSuccess('Logout was successful.');
     $location.path("/");
 });
 
@@ -164,8 +179,7 @@ hauntedHousesControllers.controller('MonstersController', function ($scope, $htt
         $http.delete("rest/monsters/" + monster.id).then(
                 function success(response) {
                     console.log("Succesfully deleted monster " + monster.id + " on the server");
-                    // Display confirmation alert
-                    $rootScope.successAlert = ("Deleted monster \"" + monster.name + "\"");
+                    $rootScope.showSuccess("Deleted monster \"" + monster.name + "\"");
                     $location.path("/monsters");
                 },
                 function error(response) {
@@ -173,10 +187,10 @@ hauntedHousesControllers.controller('MonstersController', function ($scope, $htt
                     console.log(response);
                     switch (response.data.code) {
                         case 'ResourceNotFoundException':
-                            $rootScope.errorAlert = "Cannot delete non-existent monster!";
+                            $rootScope.showError("Cannot delete non-existent monster!");
                             break;
                         default:
-                            $rootScope.errorAlert = "Cannot delete the monster! Reason given by the server: " + response.data.message;
+                            $rootScope.showError("Cannot delete the monster! Reason given by the server: " + response.data.message);
                             break;
                     }
                 }
@@ -215,13 +229,12 @@ hauntedHousesControllers.controller('MonsterCreateController', function ($scope,
         }).then(function success(response) {
             console.log('created monster');
             var createdMonster = response.data;
-            $rootScope.successAlert = 'A new monster "' + createdMonster.name + '" was created';
+            $rootScope.showSuccess('A new monster "' + createdMonster.name + '" was created');
             $location.path("/monsters");
         }, function error(response) {
-            console.log("error when creating monster");
-            console.log(monster);
+            console.log("Error when creating monster: " + monster);
             console.log(response);
-            $rootScope.errorAlert = 'Cannot create monster! Input is invalid.';
+            $rootScope.showError('Cannot create monster! Input is invalid.');
         });
     };
 });
@@ -267,17 +280,15 @@ hauntedHousesControllers.controller('MonsterUpdateController', function ($scope,
         }).then(function success(response) {
 
             var updatedMonster = response.data;
-            $rootScope.successAlert = "Monster \"" + updatedMonster.name + "\" was updated.";
+            $rootScope.showSuccess("Monster \"" + updatedMonster.name + "\" was updated.");
             console.log("Monster " + updatedMonster.name + " updated");
             console.log(updatedMonster);
             $location.path("/monsters");
 
         }, function error(response) {
-
-            console.log("Error when attempting to update monster:");
-            console.log(monster);
+            console.log("Error when attempting to update monster: " + monster);
             console.log(response);
-            $rootScope.errorAlert = 'Cannot update monster! Input is invalid.';
+            $rootScope.showError('Cannot update monster! Input is invalid.');
         });
     };
 });
@@ -311,8 +322,7 @@ hauntedHousesControllers.controller('AbilitiesController', function ($scope, $ht
         $http.delete("rest/abilities/" + ability.id).then(
                 function success(response) {
                     console.log("Succesfully deleted ability " + ability.id + " on the server");
-                    // Display confirmation alert
-                    $rootScope.successAlert = ("Deleted ability \"" + ability.name + "\"");
+                    $rootScope.showSuccess("Deleted ability \"" + ability.name + "\"");
                     $location.path("/abilities");
                 },
                 function error(response) {
@@ -320,10 +330,10 @@ hauntedHousesControllers.controller('AbilitiesController', function ($scope, $ht
                     console.log(response);
                     switch (response.data.code) {
                         case 'ResourceNotFoundException':
-                            $rootScope.errorAlert = "Cannot delete non-existent ability!";
+                            $rootScope.showError("Cannot delete non-existent ability!");
                             break;
                         default:
-                            $rootScope.errorAlert = "Cannot delete the ability! Reason given by the server: " + response.data.message;
+                            $rootScope.showError("Cannot delete the ability! Reason given by the server: " + response.data.message);
                             break;
                     }
                 }
@@ -357,16 +367,14 @@ hauntedHousesControllers.controller('AbilityCreateController', function ($scope,
         }).then(function success(response) {
 
             var createdAbility = response.data;
-            $rootScope.successAlert = "Ability \"" + createdAbility.name + "\" was created.";
+            $rootScope.showSuccess("Ability \"" + createdAbility.name + "\" was created.");
             console.log("Ability " + createdAbility.name + " created");
             $location.path("/abilities");
 
         }, function error(response) {
-
-            console.log("Error when attempting to create ability:");
-            console.log(ability);
+            console.log("Error when attempting to create ability: " + ability);
             console.log(response);
-            $rootScope.errorAlert = "Cannot create ability! Reason given by the server: " + response.data.message;
+            $rootScope.showError("Cannot create ability! Reason given by the server: " + response.data.message);
         });
     };
 });
@@ -414,16 +422,14 @@ hauntedHousesControllers.controller('AbilityUpdateController', function ($scope,
         }).then(function success(response) {
 
             var updatedAbility = response.data;
-            $rootScope.successAlert = "Ability \"" + updatedAbility.name + "\" was updated.";
+            $rootScope.showSuccess("Ability \"" + updatedAbility.name + "\" was updated.");
             console.log("Ability " + updatedAbility.name + " updated");
             $location.path("/abilities");
 
         }, function error(response) {
-
-            console.log("Error when attempting to update ability:");
-            console.log(ability);
+            console.log("Error when attempting to update ability: " + ability);
             console.log(response);
-            $rootScope.errorAlert = "Cannot update ability! Reason given by the server: " + response.data.message;
+            $rootScope.showError("Cannot update ability! Reason given by the server: " + response.data.message);
         });
     };
 });
@@ -455,12 +461,12 @@ hauntedHousesControllers.controller('CursedObjectController', function ($scope, 
             url: 'rest/cursedObjects/increase',
             data: threshold
         }).then(function success() {
-            $rootScope.successAlert = 'Monster attraction factor was successfully increased on cursed objects below selected threshold.';
+            $rootScope.showSuccess('Monster attraction factor was successfully increased on cursed objects below selected threshold.');
             $location.path("/cursedObjects");
         }, function error(response) {
             console.log("Error when increasing monster attraction factor.");
             console.log(response);
-            $rootScope.errorAlert = 'Cannot increase monster attraction factor! Reason given by server: ' + response.data.message;
+            $rootScope.showError('Cannot increase monster attraction factor! Reason given by server: ' + response.data.message);
         });
     };
 
@@ -473,7 +479,7 @@ hauntedHousesControllers.controller('CursedObjectController', function ($scope, 
         $http.delete('rest/cursedObjects/' + cursedObject.id).then(
             function success(response) {
                 console.log('Deleted cursed object ' + cursedObject.id + ' on server');
-                $rootScope.successAlert = 'Deleted cursed object: "' + cursedObject.name + '"';
+                $rootScope.showSuccess('Deleted cursed object: "' + cursedObject.name + '"');
                 $location.path("/cursedObjects");
             },
             function error(response) {
@@ -481,10 +487,10 @@ hauntedHousesControllers.controller('CursedObjectController', function ($scope, 
                 console.log(response);
                 switch (response.data.code) {
                     case 'ResourceNotFoundException':
-                        $rootScope.errorAlert = 'Cannot delete non-existent cursed object!';
+                        $rootScope.showError('Cannot delete non-existent cursed object!');
                         break;
                     default:
-                        $rootScope.errorAlert = 'Cannot delete cursed object! Reason given by the server: ' + response.data.message;
+                        $rootScope.showError('Cannot delete cursed object! Reason given by the server: ' + response.data.message);
                         break;
                 }
             }
@@ -512,12 +518,12 @@ hauntedHousesControllers.controller('CursedObjectCreateController', function ($s
         }).then(function success(response) {
             var createdCursedObject = response.data;
             console.log('Created cursed object');
-            $rootScope.successAlert = 'Cursed object with name "' + createdCursedObject.name + '" was created.';
+            $rootScope.showSuccess('Cursed object with name "' + createdCursedObject.name + '" was created.');
             $location.path("/cursedObjects");
         }, function error(response) {
             console.log("Error when creating cursed object");
             console.log(response);
-            $rootScope.errorAlert = 'Cannot create cursed object! Reason given by the server: ' + response.data.message;
+            $rootScope.showError('Cannot create cursed object! Reason given by the server: ' + response.data.message);
         });
     };
 });
@@ -543,7 +549,7 @@ hauntedHousesControllers.controller('CursedObjectUpdateController', function ($s
             data: $scope.cursedObject
         }).then(function success(response) {
             var updatedCursedObject = response.data;
-            $rootScope.successAlert = 'Cursed object with name "' + updatedCursedObject.name + '" was updated.';
+            $rootScope.showSuccess('Cursed object with name "' + updatedCursedObject.name + '" was updated.');
             console.log("Cursed Object " + $scope.cursedObject.name + " updated");
             $location.path("/cursedObjects");
 
@@ -551,7 +557,7 @@ hauntedHousesControllers.controller('CursedObjectUpdateController', function ($s
             console.log("Error when attempting to update cursed object:");
             console.log($scope.cursedObject);
             console.log(response);
-            $rootScope.errorAlert = "Cannot update cursed object! Reason given by the server: " + response.data.message;
+            $rootScope.showError("Cannot update cursed object! Reason given by the server: " + response.data.message);
         });
     };
 });
@@ -592,7 +598,7 @@ hauntedHousesControllers.controller('HousesController', function ($scope, $http,
         $http.delete("rest/houses/" + house.id).then(
                 function success(response) {
                     console.log("Succesfully deleted house " + house.id + " on the server.");
-                    $rootScope.successAlert = 'Deleted house: "' + house.name + '"';
+                    $rootScope.showSuccess('Deleted house: "' + house.name + '"');
                     $location.path("/houses");
                 },
                 function error(response) {
@@ -600,10 +606,10 @@ hauntedHousesControllers.controller('HousesController', function ($scope, $http,
                     console.log(response);
                     switch (response.data.code) {
                         case 'ResourceNotFoundException':
-                            $rootScope.errorAlert = "Cannot delete non-existent house!";
+                            $rootScope.showError("Cannot delete non-existent house!");
                             break;
                         default:
-                            $rootScope.errorAlert = "Cannot delete house with assigned monsters or cursed objects!";
+                            $rootScope.showError("Cannot delete house with assigned monsters or cursed objects!");
                             break;
                     }
                 }
@@ -619,13 +625,13 @@ hauntedHousesControllers.controller('HousesController', function ($scope, $http,
         $http.delete("rest/houses/purge/" + house.id).then(
                 function success(response) {
                     console.log("Succesfully purged house " + house.id + " on the server.");
-                    $rootScope.successAlert = 'House with name: "' + house.name + '" was successfully purged.';
+                    $rootScope.showSuccess('House with name: "' + house.name + '" was successfully purged.');
                     $location.path("/houses");
                 },
                 function error(response) {
                     console.log("Error when purging house with id: " + house.id);
                     console.log(response);
-                    $rootScope.errorAlert = "Cannot purge selected house!";
+                    $rootScope.showError("Cannot purge selected house!");
                 }
         );
     };
@@ -658,15 +664,14 @@ hauntedHousesControllers.controller('HouseCreateController', function ($scope, $
             data: house
         }).then(function success(response) {
             var createdHouse = response.data;
-            $rootScope.successAlert = 'House with name "' + createdHouse.name + '" was created.';
+            $rootScope.showSuccess('House with name "' + createdHouse.name + '" was created.');
             console.log("house " + createdHouse.name + " created");
             $location.path("/houses");
 
         }, function error(response) {
-            console.log("Error when attempting to create house:");
-            console.log(house);
+            console.log("Error when attempting to create house: " + house);
             console.log(response);
-            $rootScope.errorAlert = "Cannot create house! Reason given by the server: " + response.data.message;
+            $rootScope.showError("Cannot create house! Reason given by the server: " + response.data.message);
         });
     };
 });
@@ -697,7 +702,7 @@ hauntedHousesControllers.controller('HouseUpdateController', function ($scope, $
             data: house
         }).then(function success(response) {
             var updatedHouse = response.data;
-            $rootScope.successAlert = 'House with name "' + updatedHouse.name + '" was updated.';
+            $rootScope.showSuccess('House with name "' + updatedHouse.name + '" was updated.');
             console.log("house " + updatedHouse.name + " updated");
             $location.path("/houses");
 
@@ -705,7 +710,7 @@ hauntedHousesControllers.controller('HouseUpdateController', function ($scope, $
             console.log("Error when attempting to update house:");
             console.log(house);
             console.log(response);
-            $rootScope.errorAlert = "Cannot update house! Reason given by the server: " + response.data.message;
+            $rootScope.showError("Cannot update house! Reason given by the server: " + response.data.message);
         });
     };
 });
