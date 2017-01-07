@@ -1,6 +1,6 @@
 'use strict';
 
-var hauntedHousesApp = angular.module('hauntedHousesApp', ['ngRoute', 'hauntedHousesControllers']);
+var hauntedHousesApp = angular.module('hauntedHousesApp', ["ngCookies", 'ngRoute', 'hauntedHousesControllers']);
 var hauntedHousesControllers = angular.module('hauntedHousesControllers', []);
 
 hauntedHousesApp.config(['$routeProvider',
@@ -31,7 +31,7 @@ hauntedHousesApp.config(['$routeProvider',
     }
 ]);
 
-hauntedHousesApp.run(function ($rootScope) {
+hauntedHousesApp.run(function ($rootScope, $cookies) {
     $rootScope.hideSuccessAlert = function () {
         $rootScope.successAlert = undefined;
     };
@@ -41,16 +41,15 @@ hauntedHousesApp.run(function ($rootScope) {
     $rootScope.hideErrorAlert = function () {
         $rootScope.errorAlert = undefined;
     };
-    $rootScope.initializeUserSession = function () {
-        $rootScope.isUser = false;
-        $rootScope.isAdmin = false;
-        $rootScope.userName = undefined;
-    };
+    
+    $rootScope.userName = $cookies.get('userName');
+    $rootScope.isUser = ($cookies.get('isUser') === 'true');
+    $rootScope.isAdmin = ($cookies.get('isAdmin') === 'true');
 });
 
 /*** User controllers ***/
 
-hauntedHousesControllers.controller('LoginController', function ($scope, $http, $location, $rootScope) {
+hauntedHousesControllers.controller('LoginController', function ($scope, $http, $location, $rootScope, $cookies) {
     $scope.user = {
         'login': '',
         'password': ''
@@ -59,21 +58,26 @@ hauntedHousesControllers.controller('LoginController', function ($scope, $http, 
     $scope.login = function (user) {
         $http({
             method: 'POST',
-            url: '/pa165/rest/users/authenticate',
+            url: 'rest/users/authenticate',
             data: user
         }).then(function success(response) {
             var token = response.data;
             if (token.authenticationResult) {
-                console.log('Login was successful.');
-                $rootScope.successAlert = 'Login was successful.';
+                $cookies.put('userName', token.login);
+                $cookies.put('isUser', 'true');
+                
                 $rootScope.isUser = true;
                 $rootScope.userName = token.login;
                 if (token.userRole === 'ADMIN') {
+                    $cookies.put('isAdmin', 'true');
                     $rootScope.isAdmin = true;
                 } else {
-                    // Need this in case of two authentications in row
+                    $cookies.put('isAdmin', 'false');
                     $rootScope.isAdmin = false;
                 }
+                
+                console.log('Login was successful.');
+                $rootScope.successAlert = 'Login was successful.';
                 $location.path("/");
             } else {
                 console.log('Login failed.');
@@ -87,7 +91,10 @@ hauntedHousesControllers.controller('LoginController', function ($scope, $http, 
     };
 });
 
-hauntedHousesControllers.controller('LogoutController', function ($location, $rootScope) {
+hauntedHousesControllers.controller('LogoutController', function ($location, $rootScope, $cookies) {
+    $cookies.remove('userName');
+    $cookies.remove('isUser');
+    $cookies.remove('isAdmin');
     $rootScope.isUser = false;
     $rootScope.isAdmin = false;
     $rootScope.userName = undefined;
@@ -96,7 +103,7 @@ hauntedHousesControllers.controller('LogoutController', function ($location, $ro
 });
 
 hauntedHousesControllers.controller('UsersController', function ($scope, $http) {
-    $http.get('/pa165/rest/users').then(function (response) {
+    $http.get('rest/users').then(function (response) {
         $scope.users = response.data;
     });
 });
