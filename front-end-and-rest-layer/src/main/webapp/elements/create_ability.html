@@ -16,7 +16,7 @@
                        ng-model="ability.name"
                        required />
                 <p class="help-block" ng-show="form.name.$error.required">Name is required.</p>
-                <p class="help-block" ng-show="form.name.$error.minlength">Name must be at least 1 character long.</p>
+                <p class="help-block" ng-show="form.name.$error.minlength">Name must not be empty.</p>
             </div>
         </div>
 
@@ -30,7 +30,8 @@
                           id="description"
                           name="description"
                           class="form-control"
-                          ng-model="ability.description" />
+                          ng-model="ability.description">
+                </textarea>
             </div>
         </div>
 
@@ -49,5 +50,6 @@
         </div>
 
         <button ng-disabled="!form.$valid" class="btn btn-primary" type="submit" ng-click="create(ability)">Create ability</button>
+        <a href="#/abilities" class="btn btn-primary">Cancel</a>
     </form>
 </div>
