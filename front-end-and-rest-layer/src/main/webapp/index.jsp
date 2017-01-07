@@ -34,17 +34,11 @@
             </div>
             <div id="navbar" class="collapse navbar-collapse">
                 <ul class="nav navbar-nav">
-                    <li class="dropdown">
-                        <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Entities <span class="caret"></span></a>
-                        <ul class="dropdown-menu">
-                            <li><a href="#/houses">Houses</a></li>
-                            <li><a href="#/monsters">Monsters</a></li>
-                            <li><a href="#/abilities">Monster Abilities</a></li>
-                            <li><a href="#/cursedObjects">Cursed Objects</a></li>
-                            <li role="separator" class="divider"></li>
-                            <li><a href="#/users">Users</a></li>
-                        </ul>
-                    </li>
+                    <li><a href="#/houses">Houses</a></li>
+                    <li><a href="#/monsters">Monsters</a></li>
+                    <li><a href="#/abilities">Monster Abilities</a></li>
+                    <li><a href="#/cursedObjects">Cursed Objects</a></li>
+                    <li><a ng-show="isAdmin" href="#/users">Users</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     <li><a ng-hide="isUser" href="#/login">Login</a></li>
