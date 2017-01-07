@@ -38,7 +38,7 @@ public class AbilityRestController {
     /**
      * Creates new ability via POST method.
      *
-     * curl -X POST -i -H "Content-Type: application/json" --data '{"name":"defaultName","description":"defaultDescription","monsterIds":[]}' http://localhost:8080/pa165/rest/abilities/create
+     * curl -X POST -i -H "Content-Type: application/json" --data '{"name":"defaultName","description":"defaultDescription","monsterIds":"[]"}' http://localhost:8080/pa165/rest/abilities/create
      *
      * @param ability AbilityCreateDTO to create an ability from
      * @return Newly created ability
@@ -61,7 +61,7 @@ public class AbilityRestController {
     /**
      * Updates the ability via PUT method.
      *
-     * curl -X PUT -i -H "Content-Type: application/json" --data '{"name":"defaultName","description":"defaultDescription","monsterIds":[1]}' http://localhost:8080/pa165/rest/abilities/{id}
+     * curl -X PUT -i -H "Content-Type: application/json" --data '{"name":"defaultName","description":"defaultDescription","monsterIds":"[1]"}' http://localhost:8080/pa165/rest/abilities/{id}
      *
      * @param id Ability identifier
      * @param ability Ability to be updated

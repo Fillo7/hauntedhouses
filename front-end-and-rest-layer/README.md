@@ -67,5 +67,5 @@ curl -X POST -i -H "Content-Type: application/json" --data '{"threshold":"MEDIUM
 ## Note
 
 On Windows operating systems, default syntax for submitting JSON data with curl doesn't work, use following syntax instead:
-"{\"title\":\"Title\",\"author\":\"Author\",\"isbn\":\"978-3-16-148410-0\"}"
+"{\"name\":\"some_name\",\"description\":\"some_description\",\"monsterAttractionFactor\":\"LOW\",\"houseId\":\"1\"}"
 (data enclosed in quotation marks instead of apostrophes, escaped quotation marks inside curly braces)

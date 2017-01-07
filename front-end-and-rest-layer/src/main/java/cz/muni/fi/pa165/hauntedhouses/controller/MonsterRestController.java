@@ -74,7 +74,7 @@ public class MonsterRestController {
     /**
      * Create a new monster by POST method.
      *
-     * curl -X POST -i -H "Content-Type: application/json" --data '{"name":"Homer Simpson","description":"Massive big yellow mmonster","hauntedIntervalStart":[6,15],"hauntedIntervalEnd":[16,50],"houseId":"1","abilityIds":[]}' http://localhost:8080/pa165/rest/monsters
+     * curl -X POST -i -H "Content-Type: application/json" --data '{"name":"Homer Simpson","description":"Massive big yellow mmonster","hauntedIntervalStart":"[6,15]","hauntedIntervalEnd":"[16,50]","houseId":"1","abilityIds":"[]"}' http://localhost:8080/pa165/rest/monsters
      *
      * @param monster MonsterCreateDTO with required fields for creation
      * @return the newly created DTO of monster

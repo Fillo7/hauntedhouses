@@ -34,7 +34,7 @@ public class UserRestController {
     
     /**
      * Authenticates given user.
-     * Example: curl -X POST -i -H "Content-Type: application/json" --data '{"login":"string","password":"string"}' http://localhost:8080/pa165/rest/users/authenticate
+     * Example: curl -X POST -i -H "Content-Type: application/json" --data '{"login":"some_login","password":"some_password"}' http://localhost:8080/pa165/rest/users/authenticate
      * @param user to be authenticated
      * @return true if authentication was successful, false otherwise
      */
