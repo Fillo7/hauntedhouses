@@ -1,28 +1,23 @@
-<div class="login">
+<div class="col-md-6 col-md-offset-3">
     
-<h1>Login</h1>
-
-<form name="form"  novalidate class="form-horizontal">
-    <div class="form-group" ng-class="{'has-error': !(form.login.$valid)}">
-        <label for="login" class="col-sm-2 control-label">Login</label>
-        <div class="col-sm-10">
-            <input placeholder="Login" id="login" type="text" ng-minlength="1" name="login" class="form-control" ng-model="user.login" required/>
-            <p class="help-block" ng-show="form.login.$error.required">Login is required.</p>
-            <p class="help-block" ng-show="form.login.$error.minlength">Login must not be empty.</p>
-        </div>
+<h2>Login</h2>
+<form name="form" ng-submit="login(user)" role="form">
+    <div class="form-group" ng-class="{ 'has-error': form.login.$touched && form.login.$error.required }">
+        <label for="login">Username</label>
+        <input type="text" name="login" id="login" class="form-control" ng-model="user.login" required />
+        <span ng-show="form.login.$touched && form.login.$error.required" class="help-block">Username is required.</span>
     </div>
     
-    <div class="form-group" ng-class="{'has-error': !(form.password.$valid)}">
-        <label for="password" class="col-sm-2 control-label">Password</label>
-        <div class="col-sm-10">
-            <input placeholder="Password" id="password" type="password" ng-minlength="1" name="password" class="form-control" ng-model="user.password" required/>
-            <p class="help-block" ng-show="form.password.$error.required">Password is required.</p>
-            <p class="help-block" ng-show="form.password.$error.minlength">Password must not be empty.</p>
-        </div>
+    <div class="form-group" ng-class="{ 'has-error': form.password.$touched && form.password.$error.required }">
+        <label for="password">Password</label>
+        <input type="password" name="password" id="password" class="form-control" ng-model="user.password" required />
+        <span ng-show="form.password.$touched && form.password.$error.required" class="help-block">Password is required.</span>
     </div>
-
-    <button ng-disabled="!form.$valid" class="btn btn-primary" type="submit" ng-click="login(user)">Log in</button>
-    <a href="#/" class="btn btn-primary">Cancel</a>
+    
+    <div class="form-actions">
+        <button type="submit" ng-disabled="form.$invalid" class="btn btn-primary">Login</button>
+        <a href="#/" class="btn btn-primary">Cancel</a>
+    </div>
 </form>
 
 </div>
