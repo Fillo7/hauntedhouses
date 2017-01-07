@@ -3,12 +3,13 @@
 Front-end is available at <http://localhost:8080/pa165/>.
 
 You can use following credentials to login (name / password):
-Regular user access level: ming / lee
-Admin access level: admin / opieop
+* Regular user access level: ming / lee
+* Admin access level: admin / opieop
 
-Anyone can view entities.
-Logged in users can create and update entities.
-Admin can delete entities and view users page. 
+Access privileges:
+* Anyone can view entities.
+* Logged in users can create and update entities.
+* Admin can delete entities and view users page. 
 
 # hauntedhouses REST API
 
