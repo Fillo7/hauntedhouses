@@ -81,9 +81,6 @@ public class MonsterFacadeTest extends AbstractTestNGSpringContextTests {
         when(houseService.getById(1l)).thenReturn(house1);
         when(houseService.getById(2l)).thenReturn(house2);
 
-        when(houseService.getByName("House")).thenReturn(house1);
-        when(houseService.getByName("House Bad")).thenReturn(house2);
-
         ability = new Ability();
         ability.setId(1l);
         ability.setName("Ability Super");
@@ -138,7 +135,7 @@ public class MonsterFacadeTest extends AbstractTestNGSpringContextTests {
         jack.setDescription("sweet little kitty");
         jack.setHauntedIntervalStart(LocalTime.of(12, 20));
         jack.setHauntedIntervalEnd(LocalTime.of(13, 40));
-        jack.setHouseName(houseService.getById(2l).getName());
+        jack.setHouseId(2L);
 
         monsterFacade.updateMonster(jack);
         verify(monsterService).update(argumentCaptor.capture());

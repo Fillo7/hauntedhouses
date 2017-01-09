@@ -9,7 +9,6 @@ import cz.muni.fi.pa165.hauntedhouses.configuration.Uri;
 import cz.muni.fi.pa165.hauntedhouses.dto.CursedObjectCreateDTO;
 import cz.muni.fi.pa165.hauntedhouses.dto.CursedObjectDTO;
 import cz.muni.fi.pa165.hauntedhouses.dto.CursedObjectIncreaseFactorDTO;
-import cz.muni.fi.pa165.hauntedhouses.enums.MonsterAttractionFactor;
 import cz.muni.fi.pa165.hauntedhouses.exceptions.DataManipulationException;
 import cz.muni.fi.pa165.hauntedhouses.exceptions.NoEntityException;
 import cz.muni.fi.pa165.hauntedhouses.exceptions.RequestedResourceNotModified;

@@ -76,14 +76,14 @@ public class MonsterFacadeImpl implements MonsterFacade {
             throw new NoEntityException("updating not existing monster");
         }
         //IDs to entities
-        for(String abilityName : monsterDTO.getAbilityNames()){
-            Ability ability = abilityService.getByName(abilityName);
+        for(Long abilityId : monsterDTO.getAbilityIds()){
+            Ability ability = abilityService.getById(abilityId);
             if(ability != null){
                 monster.addAbility(ability);
             }
         }
-        if(monsterDTO.getHouseName() != null){
-            House house = houseService.getByName(monsterDTO.getHouseName());
+        if(monsterDTO.getHouseId() != null){
+            House house = houseService.getById(monsterDTO.getHouseId());
             if(house != null){
                 monster.setHouse(house);
             }
@@ -120,11 +120,11 @@ public class MonsterFacadeImpl implements MonsterFacade {
         MonsterDTO result = beanMappingService.mapTo(monster, MonsterDTO.class);
         //entities to IDs
         if(monster.getHouse() != null){
-            result.setHouseName(monster.getHouse().getName());
+            result.setHouseId(monster.getHouse().getId());
         }
         if(monster.getAbilities() != null){
             for(Ability current : monster.getAbilities()){
-                result.addAbility(current.getName());
+                result.addAbilityId(current.getId());
             }
         }
 
@@ -138,11 +138,11 @@ public class MonsterFacadeImpl implements MonsterFacade {
         for(MonsterDTO current : result){
             House house = monsterService.getById(current.getId()).getHouse();
             if(house != null){
-                current.setHouseName(house.getName());
+                current.setHouseId(house.getId());
             }
             Set<Ability> abilities = monsterService.getById(current.getId()).getAbilities();
             for(Ability ability : abilities){
-                current.addAbility(ability.getName());
+                current.addAbilityId(ability.getId());
             }
         }
         return result;

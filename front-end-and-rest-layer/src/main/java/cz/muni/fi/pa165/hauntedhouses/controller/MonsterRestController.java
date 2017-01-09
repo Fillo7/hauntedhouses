@@ -106,7 +106,7 @@ public class MonsterRestController {
      */
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE,
                     produces = MediaType.APPLICATION_JSON_VALUE)
-    public final MonsterDTO updateMonster(@PathVariable("id") long id, @RequestBody MonsterDTO monsterDTO) {
+    public final MonsterDTO updateMonster(@PathVariable("id") long id, @RequestBody MonsterDTO monsterDTO) throws RequestedResourceNotFound {
         try {
             monsterDTO.setId(id);
             monsterFacade.updateMonster(monsterDTO);
@@ -124,8 +124,8 @@ public class MonsterRestController {
         result.setDescription(toUpdate.getDescription() == null ? existing.getDescription() : toUpdate.getDescription());
         result.setHauntedIntervalStart(toUpdate.getHauntedIntervalStart() == null ? existing.getHauntedIntervalStart() : toUpdate.getHauntedIntervalStart());
         result.setHauntedIntervalEnd(toUpdate.getHauntedIntervalEnd() == null ? existing.getHauntedIntervalEnd() : toUpdate.getHauntedIntervalEnd());
-        result.setHouseName(toUpdate.getHouseName() == null ? existing.getHouseName() : toUpdate.getHouseName());
-        result.addAllAbilities(toUpdate.getAbilityNames() == null ? existing.getAbilityNames() : toUpdate.getAbilityNames());
+        result.setHouseId(toUpdate.getHouseId() == null ? existing.getHouseId() : toUpdate.getHouseId());
+        result.addAllAbilityIds(toUpdate.getAbilityIds() == null ? existing.getAbilityIds() : toUpdate.getAbilityIds());
 
         return result;
     }

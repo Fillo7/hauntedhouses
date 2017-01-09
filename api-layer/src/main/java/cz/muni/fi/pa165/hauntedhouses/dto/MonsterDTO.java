@@ -27,9 +27,9 @@ public class MonsterDTO {
     private LocalTime hauntedIntervalEnd;
     
     @NotNull
-    private String houseName;
+    private Long houseId;
 
-    private Set<String> abilityNames = new HashSet<>();
+    private Set<Long> abilityIds = new HashSet<>();
 
     //getters and setters
 
@@ -73,56 +73,46 @@ public class MonsterDTO {
         this.hauntedIntervalEnd = hauntedIntervalEnd;
     }
 
-    public String getHouseName() {
-        return houseName;
+    public Long getHouseId() {
+        return houseId;
     }
 
-    public void setHouseName(String houseName) {
-        this.houseName = houseName;
+    public void setHouseId(Long houseId) {
+        this.houseId = houseId;
     }
 
-    public Set<String> getAbilityNames() {
-        return abilityNames;
+    public Set<Long> getAbilityIds() {
+        return abilityIds;
     }
 
-    public void setAbilityNames(Set<String> abilityNames) {
-        this.abilityNames = abilityNames;
+    public void addAbilityId(Long abilityId) {
+        this.abilityIds.add(id);
+    }
+    
+    public void addAllAbilityIds(Set<Long> abilities) {
+        this.abilityIds.addAll(abilities);
     }
 
-    public void addAbility(String name) {
-        this.abilityNames.add(name);
-    }
-
-    public void addAllAbilities(Set<String> names) {
-        this.abilityNames.addAll(names);
-    }
-
-    public void removeAbility(String name) {
-        this.abilityNames.remove(name);
+    public void removeAbilityId(Long abilityId) {
+        this.abilityIds.remove(abilityId);
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (obj == this) {
-            return true;
-        }
-        if (!(obj instanceof MonsterDTO)) {
+    public boolean equals(Object other) {
+        if(!(other instanceof MonsterDTO)) {
             return false;
         }
 
-        final MonsterDTO monster = (MonsterDTO) obj;
-        if (getName() != null ? !getName().equals(monster.getName()) : monster.getName() != null) {
+        if(name == null && ((MonsterDTO) other).getName() != null) {
             return false;
         }
 
-        return true;
+        return name.equals(((MonsterDTO) other).getName());
     }
 
     @Override
     public int hashCode() {
-        int hash = 5;
-        hash = 29 * hash + Objects.hashCode(this.name);
-        return hash;
+        return Objects.hash(name);
     }
 
     @Override

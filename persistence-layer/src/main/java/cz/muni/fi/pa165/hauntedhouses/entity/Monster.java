@@ -155,22 +155,21 @@ public class Monster {
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if(obj == this) return true;
-        if(!(obj instanceof Monster)) return false;
-
-        final Monster monster = (Monster) obj;
-        if (getName() != null ? !getName().equals(monster.getName()) : monster.getName() != null)
+    public boolean equals(Object other) {
+        if(!(other instanceof Monster)) {
             return false;
+        }
 
-        return true;
+        if(name == null && ((Monster) other).getName() != null) {
+            return false;
+        }
+
+        return name.equals(((Monster) other).getName());
     }
 
     @Override
     public int hashCode() {
-        int hash = 5;
-        hash = 29 * hash + Objects.hashCode(this.name);
-        return hash;
+        return Objects.hash(name);
     }
 
     @Override

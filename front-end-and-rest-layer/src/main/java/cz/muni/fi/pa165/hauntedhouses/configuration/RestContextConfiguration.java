@@ -7,7 +7,6 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import cz.fi.muni.pa165.hauntedhouses.SampleDataConfiguration;
 import cz.muni.fi.pa165.hauntedhouses.ServiceConfiguration;
 
-import cz.muni.fi.pa165.hauntedhouses.controller.MonsterRestController;
 import org.springframework.context.annotation.*;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;

@@ -163,13 +163,26 @@ hauntedHousesControllers.controller('MonstersController', function ($scope, $htt
     $http.get('/pa165/rest/monsters').then(function (response) {
         $scope.monsters = response.data;
     });
+    
+    $http.get('/pa165/rest/houses').then(function (response) {
+        $scope.houses = response.data;
+    });
+    $http.get('/pa165/rest/abilities').then(function (response) {
+        $scope.abilities = response.data;
+    });
 
     $scope.filterByAbilityId = function (monster) {
         return function (ability) {
             return ability.monsterIds.indexOf(monster.id) !== -1;
-        }
+        };
     };
 
+    $scope.houseIdFilter = function (houseId) {
+        return function (house) {
+            return house.id === houseId;
+        };
+    };
+    
     $scope.delete = function (monster) {
         if (!confirm("Are you certain you want to delete selected monster?")) {
             return;
@@ -240,11 +253,11 @@ hauntedHousesControllers.controller('MonsterCreateController', function ($scope,
 });
 
 hauntedHousesControllers.controller('MonsterUpdateController', function ($scope, $http, $routeParams, $location, $rootScope) {
-
+    
     $http.get('/pa165/rest/houses').then(function (response) {
         $scope.houses = response.data;
     });
-
+    
     // Load abilities and add them a "checked" property
     $http.get('/pa165/rest/abilities').then(function (response) {
         $scope.abilities = response.data;
@@ -254,10 +267,10 @@ hauntedHousesControllers.controller('MonsterUpdateController', function ($scope,
             ability.checked = false;
         });
 
-        // Check correct monsters
+        // Check correct abilities
         for (var i = 0; i < $scope.abilities.length; i++) {
-            for (var j = 0; j < $scope.monster.abilityNames.length; j++) {
-                if ($scope.abilities[i].name === $scope.monster.abilityNames[j]) {
+            for (var j = 0; j < $scope.monster.abilityIds.length; j++) {
+                if ($scope.abilities[i].id === $scope.monster.abilityIds[j]) {
                     $scope.abilities[i].checked = true;
                 }
             }
@@ -266,12 +279,15 @@ hauntedHousesControllers.controller('MonsterUpdateController', function ($scope,
 
     $scope.monster = JSON.parse($routeParams.monster);
     console.log($scope.monster);
-
+    
     // Update button clicked
     $scope.update = function (monster) {
         console.log("Monster to be updated:");
         console.log(monster);
-        monster.abilityNames = getNamesFromSelection($scope.abilities);
+        
+        // Ability selection is ignored
+        monster.abilityIds = [];
+        //monster.abilityIds = getIdsFromSelection($scope.abilities);
 
         $http({
             method: 'PUT',

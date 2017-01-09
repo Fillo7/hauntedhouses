@@ -50,15 +50,16 @@
 
         <!-- House dropdown list -->
         <div class="form-group">
-            <label for="houseName" class="col-sm-2 control-label">House</label>
+            <label for="houseId" class="col-sm-2 control-label">House</label>
             <div class="col-sm-10">
-                <select id="houseName"
-                        name="houseName"
+                <select id="houseId"
+                        name="houseId"
                         class="form-control"
-                        ng-model="monster.houseName"
-                        ng-options="house.name as house.name for house in houses"
+                        ng-model="monster.houseId"
+                        ng-options="house.id as house.name for house in houses"
                         required>
                 </select>
+                <p class="help-block" ng-show="form.houseId.$invalid || form.houseId.$error.required || form.houseId.$pristine">Select a house.</p>
             </div>
         </div>
 
@@ -68,7 +69,6 @@
             <div class="col-sm-10">
                 <div ng-repeat="ability in abilities">
                     <label>
-                        <!-- The monster needn't have the property checked, it is created automatically if needed. -->
                         <input type="checkbox" ng-model="ability.checked" ng-checked="ability.checked==true" />
                         {{ability.name}}
                     </label>
